@@ -27,6 +27,7 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include <stdlib.h>
+#include <avr/pgmspace.h>
 
 
 #define BEGIN_ATOMAR unsigned char _sreg = SREG; cli();

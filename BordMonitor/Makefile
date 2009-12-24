@@ -84,7 +84,7 @@ PROJECTNAME=bmwMonitor
 # (list all files to compile, e.g. 'a.c b.cpp as.S'):
 # Use .cc, .cpp or .C suffix for C++ files, use .S
 # (NOT .s !!!) for assembly source code files.
-PRJSRC=main.c
+PRJSRC=main.c uart0.cpp
 
 # additional includes (e.g. -I/path/to/mydir)
 INC=-I./include
@@ -164,6 +164,7 @@ LDFLAGS=-Wl,-Map,$(TRG).map -mmcu=$(MCU) \
 
 ##### executables ####
 CC=avr-gcc
+CPP=avr-g++
 OBJCOPY=avr-objcopy
 OBJDUMP=avr-objdump
 SIZE=avr-size
@@ -252,7 +253,7 @@ $(TRG): $(OBJDEPS)
 
 # asm from C++
 .cpp.s .cc.s .C.s :
-	$(CC) -S $(CFLAGS) $(CPPFLAGS) $< -o $@
+	$(CPP) -S $(CFLAGS) $(CPPFLAGS) $< -o $@
 
 
 
@@ -264,7 +265,7 @@ $(TRG): $(OBJDEPS)
 
 # object from C++ (.cc, .cpp, .C files)
 .cc.o .cpp.o .C.o :
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+	$(CPP) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 # object from asm
 .S.o :
