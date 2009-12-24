@@ -12,14 +12,14 @@ MKDIR=mkdir
 CP=cp
 CCADMIN=CCadmin
 RANLIB=ranlib
-CC=gcc
-CCC=g++
-CXX=g++
+CC=avr-gcc
+CCC=avr-g++
+CXX=avr-g++
 FC=
-AS=as
+AS=avr-as
 
 # Macros
-CND_PLATFORM=GNU-Linux-x86
+CND_PLATFORM=AVR-Linux-x86
 CND_CONF=Debug
 CND_DISTDIR=dist
 
@@ -51,16 +51,16 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	${MAKE}  -f nbproject/Makefile-Debug.mk dist/Debug/GNU-Linux-x86/bordmonitor
+	${MAKE}  -f nbproject/Makefile-Debug.mk dist/Debug/AVR-Linux-x86/bordmonitor
 
-dist/Debug/GNU-Linux-x86/bordmonitor: ${OBJECTFILES}
-	${MKDIR} -p dist/Debug/GNU-Linux-x86
+dist/Debug/AVR-Linux-x86/bordmonitor: ${OBJECTFILES}
+	${MKDIR} -p dist/Debug/AVR-Linux-x86
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bordmonitor ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/main.o: nbproject/Makefile-${CND_CONF}.mk main.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.c) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.c
+	$(COMPILE.c) -g -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.c
 
 # Subprojects
 .build-subprojects:
@@ -68,7 +68,7 @@ ${OBJECTDIR}/main.o: nbproject/Makefile-${CND_CONF}.mk main.c
 # Clean Targets
 .clean-conf:
 	${RM} -r build/Debug
-	${RM} dist/Debug/GNU-Linux-x86/bordmonitor
+	${RM} dist/Debug/AVR-Linux-x86/bordmonitor
 
 # Subprojects
 .clean-subprojects:

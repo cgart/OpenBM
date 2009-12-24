@@ -1,109 +1,317 @@
+#########  AVR Project Makefile Template   #########
+######                                        ######
+######    Copyright (C) 2003-2005,Pat Deegan, ######
+######            Psychogenic Inc             ######
+######          All Rights Reserved           ######
+######                                        ######
+###### You are free to use this code as part  ######
+###### of your own applications provided      ######
+###### you keep this copyright notice intact  ######
+###### and acknowledge its authorship with    ######
+###### the words:                             ######
+######                                        ######
+###### "Contains software by Pat Deegan of    ######
+###### Psychogenic Inc (www.psychogenic.com)" ######
+######                                        ######
+###### If you use it as part of a web site    ######
+###### please include a link to our site,     ######
+###### http://electrons.psychogenic.com  or   ######
+###### http://www.psychogenic.com             ######
+######                                        ######
+####################################################
+
+
+##### This Makefile will make compiling Atmel AVR
+##### micro controller projects simple with Linux
+##### or other Unix workstations and the AVR-GCC
+##### tools.
+#####
+##### It supports C, C++ and Assembly source files.
+#####
+##### Customize the values as indicated below and :
+##### make
+##### make disasm
+##### make stats
+##### make hex
+##### make writeflash
+##### make gdbinit
+##### or make clean
+#####
+##### See the http://electrons.psychogenic.com/
+##### website for detailed instructions
+
+
+####################################################
+#####                                          #####
+#####              Configuration               #####
+#####                                          #####
+##### Customize the values in this section for #####
+##### your project. MCU, PROJECTNAME and       #####
+##### PRJSRC must be setup for all projects,   #####
+##### the remaining variables are only         #####
+##### relevant to those needing additional     #####
+##### include dirs or libraries and those      #####
+##### who wish to use the avrdude programmer   #####
+#####                                          #####
+##### See http://electrons.psychogenic.com/    #####
+##### for further details.                     #####
+#####                                          #####
+####################################################
+
+
+#####         Target Specific Details          #####
+#####     Customize these for your project     #####
+
+# Name of target controller
+# (e.g. 'at90s8515', see the available avr-gcc mmcu
+# options for possible values)
+MCU=atmega32
+
+# id to use with programmer
+# default: PROGRAMMER_MCU=$(MCU)
+# In case the programer used, e.g avrdude, doesn't
+# accept the same MCU name as avr-gcc (for example
+# for ATmega8s, avr-gcc expects 'atmega8' and
+# avrdude requires 'm8')
+PROGRAMMER_MCU=m32
+
+# Name of our project
+# (use a single word, e.g. 'myproject')
+PROJECTNAME=bmwMonitor
+
+# Source files
+# List C/C++/Assembly source files:
+# (list all files to compile, e.g. 'a.c b.cpp as.S'):
+# Use .cc, .cpp or .C suffix for C++ files, use .S
+# (NOT .s !!!) for assembly source code files.
+PRJSRC=main.c
+
+# additional includes (e.g. -I/path/to/mydir)
+INC=-I./include
+
+# libraries to link in (e.g. -lmylib)
+LIBS=
+
+# Optimization level,
+# use s (size opt), 1, 2, 3 or 0 (off)
+OPTLEVEL=s
+
+
+#####      AVR Dude 'writeflash' options       #####
+#####  If you are using the avrdude program
+#####  (http://www.bsdhome.com/avrdude/) to write
+#####  to the MCU, you can set the following config
+#####  options and use 'make writeflash' to program
+#####  the device.
+
+
+# programmer id--check the avrdude for complete list
+# of available opts.  These should include stk500,
+# avr910, avrisp, bsd, pony and more.  Set this to
+# one of the valid "-c PROGRAMMER-ID" values
+# described in the avrdude info page.
 #
-#  There exist several targets which are by default empty and which can be 
-#  used for execution of your targets. These targets are usually executed 
-#  before and after some main targets. They are: 
+AVRDUDE_PROGRAMMERID=usbasp
+
+# port--serial or parallel port to which your
+# hardware programmer is attached
 #
-#     .build-pre:              called before 'build' target
-#     .build-post:             called after 'build' target
-#     .clean-pre:              called before 'clean' target
-#     .clean-post:             called after 'clean' target
-#     .clobber-pre:            called before 'clobber' target
-#     .clobber-post:           called after 'clobber' target
-#     .all-pre:                called before 'all' target
-#     .all-post:               called after 'all' target
-#     .help-pre:               called before 'help' target
-#     .help-post:              called after 'help' target
-#
-#  Targets beginning with '.' are not intended to be called on their own.
-#
-#  Main targets can be executed directly, and they are:
-#  
-#     build                    build a specific configuration
-#     clean                    remove built files from a configuration
-#     clobber                  remove all built files
-#     all                      build all configurations
-#     help                     print help mesage
-#  
-#  Targets .build-impl, .clean-impl, .clobber-impl, .all-impl, and
-#  .help-impl are implemented in nbproject/makefile-impl.mk.
-#
-#  Available make variables:
-#
-#     CND_BASEDIR                base directory for relative paths
-#     CND_DISTDIR                default top distribution directory (build artifacts)
-#     CND_BUILDDIR               default top build directory (object files, ...)
-#     CONF                       name of current configuration
-#     CND_PLATFORM_${CONF}       platform name (current configuration)
-#     CND_ARTIFACT_DIR_${CONF}   directory of build artifact (current configuration)
-#     CND_ARTIFACT_NAME_${CONF}  name of build artifact (current configuration)
-#     CND_ARTIFACT_PATH_${CONF}  path to build artifact (current configuration)
-#     CND_PACKAGE_DIR_${CONF}    directory of package (current configuration)
-#     CND_PACKAGE_NAME_${CONF}   name of package (current configuration)
-#     CND_PACKAGE_PATH_${CONF}   path to package (current configuration)
-#
-# NOCDDL
+AVRDUDE_PORT=
+#/dev/ttyS1
 
 
-# Environment 
-MKDIR=mkdir
-CP=cp
-CCADMIN=CCadmin
-RANLIB=ranlib
+####################################################
+#####                Config Done               #####
+#####                                          #####
+##### You shouldn't need to edit anything      #####
+##### below to use the makefile but may wish   #####
+##### to override a few of the flags           #####
+##### nonetheless                              #####
+#####                                          #####
+####################################################
 
 
-# build
-build: .build-post
+##### Flags ####
 
-.build-pre:
-# Add your pre 'build' code here...
+# HEXFORMAT -- format for .hex file output
+HEXFORMAT=ihex
 
-.build-post: .build-impl
-# Add your post 'build' code here...
+# compiler
+CFLAGS=-I. $(INC) -g -mmcu=$(MCU) -O$(OPTLEVEL) \
+	-fpack-struct -fshort-enums             \
+	-funsigned-bitfields -funsigned-char    \
+	-Wall -Wstrict-prototypes               \
+	-Wa,-ahlms=$(firstword                  \
+	$(filter %.lst, $(<:.c=.lst)))
 
+# c++ specific flags
+CPPFLAGS=-fno-exceptions               \
+	-Wa,-ahlms=$(firstword         \
+	$(filter %.lst, $(<:.cpp=.lst))\
+	$(filter %.lst, $(<:.cc=.lst)) \
+	$(filter %.lst, $(<:.C=.lst)))
 
-# clean
-clean: .clean-post
-
-.clean-pre:
-# Add your pre 'clean' code here...
-
-.clean-post: .clean-impl
-# Add your post 'clean' code here...
-
-
-# clobber
-clobber: .clobber-post
-
-.clobber-pre:
-# Add your pre 'clobber' code here...
-
-.clobber-post: .clobber-impl
-# Add your post 'clobber' code here...
+# assembler
+ASMFLAGS =-I. $(INC) -mmcu=$(MCU)        \
+	-x assembler-with-cpp            \
+	-Wa,-gstabs,-ahlms=$(firstword   \
+		$(<:.S=.lst) $(<.s=.lst))
 
 
-# all
-all: .all-post
+# linker
+LDFLAGS=-Wl,-Map,$(TRG).map -mmcu=$(MCU) \
+	-lm $(LIBS)
 
-.all-pre:
-# Add your pre 'all' code here...
+##### executables ####
+CC=avr-gcc
+OBJCOPY=avr-objcopy
+OBJDUMP=avr-objdump
+SIZE=avr-size
+AVRDUDE=avrdude
+REMOVE=rm -f
 
-.all-post: .all-impl
-# Add your post 'all' code here...
+##### automatic target names ####
+TRG=$(PROJECTNAME).out
+DUMPTRG=$(PROJECTNAME).s
+
+HEXROMTRG=$(PROJECTNAME).hex
+HEXTRG=$(HEXROMTRG) $(PROJECTNAME).ee.hex
+GDBINITFILE=gdbinit-$(PROJECTNAME)
+
+# Define all object files.
+
+# Start by splitting source files by type
+#  C++
+CPPFILES=$(filter %.cpp, $(PRJSRC))
+CCFILES=$(filter %.cc, $(PRJSRC))
+BIGCFILES=$(filter %.C, $(PRJSRC))
+#  C
+CFILES=$(filter %.c, $(PRJSRC))
+#  Assembly
+ASMFILES=$(filter %.S, $(PRJSRC))
 
 
-# help
-help: .help-post
+# List all object files we need to create
+OBJDEPS=$(CFILES:.c=.o)    \
+	$(CPPFILES:.cpp=.o)\
+	$(BIGCFILES:.C=.o) \
+	$(CCFILES:.cc=.o)  \
+	$(ASMFILES:.S=.o)
 
-.help-pre:
-# Add your pre 'help' code here...
+# Define all lst files.
+LST=$(filter %.lst, $(OBJDEPS:.o=.lst))
 
-.help-post: .help-impl
-# Add your post 'help' code here...
+# All the possible generated assembly
+# files (.s files)
+GENASMFILES=$(filter %.s, $(OBJDEPS:.o=.s))
+
+
+.SUFFIXES : .c .cc .cpp .C .o .out .s .S \
+	.hex .ee.hex .h .hh .hpp
+
+
+.PHONY: writeflash clean stats gdbinit stats
+
+# Make targets:
+# all, disasm, stats, hex, writeflash/install, clean
+all: $(TRG)
+
+disasm: $(DUMPTRG) stats
+
+stats: $(TRG)
+	$(OBJDUMP) -h $(TRG)
+	$(SIZE) $(TRG)
+
+hex: $(HEXTRG)
+
+
+writeflash: hex
+	$(AVRDUDE) -c $(AVRDUDE_PROGRAMMERID)   \
+	 -p $(PROGRAMMER_MCU) -P $(AVRDUDE_PORT) -e        \
+	 -U flash:w:$(HEXROMTRG)
+
+install: writeflash
+
+$(DUMPTRG): $(TRG)
+	$(OBJDUMP) -S  $< > $@
+
+
+$(TRG): $(OBJDEPS)
+	$(CC) $(LDFLAGS) -o $(TRG) $(OBJDEPS)
+
+
+#### Generating assembly ####
+# asm from C
+%.s: %.c
+	$(CC) -S $(CFLAGS) $< -o $@
+
+# asm from (hand coded) asm
+%.s: %.S
+	$(CC) -S $(ASMFLAGS) $< > $@
+
+
+# asm from C++
+.cpp.s .cc.s .C.s :
+	$(CC) -S $(CFLAGS) $(CPPFLAGS) $< -o $@
 
 
 
-# include project implementation makefile
-include nbproject/Makefile-impl.mk
+#### Generating object files ####
+# object from C
+.c.o:
+	$(CC) $(CFLAGS) -c $< -o $@
 
-# include project make variables
-include nbproject/Makefile-variables.mk
+
+# object from C++ (.cc, .cpp, .C files)
+.cc.o .cpp.o .C.o :
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+
+# object from asm
+.S.o :
+	$(CC) $(ASMFLAGS) -c $< -o $@
+
+
+#### Generating hex files ####
+# hex files from elf
+#####  Generating a gdb initialisation file    #####
+.out.hex:
+	$(OBJCOPY) -j .text                    \
+		-j .data                       \
+		-O $(HEXFORMAT) $< $@
+
+.out.ee.hex:
+	$(OBJCOPY) -j .eeprom                  \
+		--change-section-lma .eeprom=0 \
+		-O $(HEXFORMAT) $< $@
+
+
+#####  Generating a gdb initialisation file    #####
+##### Use by launching simulavr and avr-gdb:   #####
+#####   avr-gdb -x gdbinit-myproject           #####
+gdbinit: $(GDBINITFILE)
+
+$(GDBINITFILE): $(TRG)
+	@echo "file $(TRG)" > $(GDBINITFILE)
+
+	@echo "target remote localhost:1212" \
+		                >> $(GDBINITFILE)
+
+	@echo "load"        >> $(GDBINITFILE)
+	@echo "break main"  >> $(GDBINITFILE)
+	@echo "continue"    >> $(GDBINITFILE)
+	@echo
+	@echo "Use 'avr-gdb -x $(GDBINITFILE)'"
+
+
+#### Cleanup ####
+clean:
+	$(REMOVE) $(TRG) $(TRG).map $(DUMPTRG)
+	$(REMOVE) $(OBJDEPS)
+	$(REMOVE) $(LST) $(GDBINITFILE)
+	$(REMOVE) $(GENASMFILES)
+	$(REMOVE) $(HEXTRG)
+
+
+
+#####                    EOF                   #####
+

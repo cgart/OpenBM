@@ -1,0 +1,69 @@
+/***************************************************************************
+ *                                                                         *
+ *   (c) Art Tevs, MPI Informatik Saarbruecken                             *
+ *       mailto: <tevs@mpi-sb.mpg.de>                                      *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+#ifndef BASE_H
+#define BASE_H
+
+//--------------------------------------------------------------------------
+// Define basic macros
+//--------------------------------------------------------------------------
+#ifndef F_CPU
+	#define F_CPU 4433619UL
+#endif
+
+//--------------------------------------------------------------------------
+// Include basic headers
+//--------------------------------------------------------------------------
+#include <avr/io.h>
+#include <inttypes.h>
+#include <util/delay.h>
+#include <avr/interrupt.h>
+#include <stdlib.h>
+
+
+#define BEGIN_ATOMAR unsigned char _sreg = SREG; cli();
+#define END_ATOMAR SREG = _sreg;
+#define parity_odd_bit(v) parity_even_bit(v)^0x01
+
+//--------------------------------------------------------------------------
+// Definitions for different MCUs
+//--------------------------------------------------------------------------
+#ifdef __AVR_ATmega8__
+	#define MCU_IVSELREG GICR
+	#define MCU_COUNTERTYPE uint8_t
+#endif
+
+#ifdef __AVR_ATmega32__
+	#define MCU_IVSELREG GICR
+	#define MCU_COUNTERTYPE uint8_t
+#endif
+
+#ifdef __AVR_ATmega128__
+	#define MCU_IVSELREG       MCUCR
+	#define MCU_COUNTERTYPE    uint16_t
+#endif
+
+#ifdef __AVR_AT90CAN128__
+	#define MCU_IVSELREG MCUCR
+	#define MCU_COUNTERTYPE uint16_t
+#endif
+
+#ifdef __AVR_ATmega168__
+	#define MCU_IVSELREG MCUCR
+	#define MCU_COUNTERTYPE uint8_t
+#endif
+
+#ifdef __AVR_ATmega644__
+	#define MCU_USART_RXC_vect USART0_RX_vect
+	#define MCU_COUNTERTYPE uint8_t
+#endif
+
+#endif
