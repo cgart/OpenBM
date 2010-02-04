@@ -21,8 +21,15 @@
  * c++ class to be able to combine all useful function in some module.
  *
  **/
-class Uart {
-public:
+class Uart
+{
+    public:
+        typedef enum
+        {
+                NO_PARITY,
+                EVEN_PARITY,
+                ODD_PARITY
+        }UartParity;
 
 	/**
 	 * Set uart baudrate. The according
@@ -40,6 +47,13 @@ public:
 	 **/
 	inline void setBaud(uint16_t baud);
 
+        /**
+         * Set format used for the transmission
+         * @param wordLength number of bits
+         * @param numStopBits Number of stop bits (1 or 2)
+         * @param parity Pairty of the message
+         **/
+        inline void setFormat(uint8_t wordLength, uint8_t numStopBits, UartParity parity);
 	/**
 	 * Set callback function to be called when an input is there.
 	 * Using the callback method you do not have to poll the uart
@@ -192,6 +206,40 @@ void Uart::setBaud(uint16_t baud)
 	*mUBRRH = baud >> 8;
 }
 
+//--------------------------------------------------------------------------
+void Uart::setFormat(uint8_t wordLength, uint8_t numStopBits, Uart::UartParity parity)
+{
+    *mUCSRC = 0;
+
+    // setup format according to given parameters
+    switch (wordLength)
+    {
+        case 9:
+                *mUCSRC |= (1 << UCSZ2) | (1 << UCSZ1) | (1 << UCSZ0);
+                break;
+        case 8:
+                *mUCSRC |= (1 << UCSZ1) | (1 << UCSZ0);
+                break;
+        case 7:
+                *mUCSRC |= (1 << UCSZ1);
+                break;
+        case 6:
+                *mUCSRC |= (1 << UCSZ0);
+                break;
+        default:
+            break;
+    }
+
+    if (numStopBits == 2)
+        *mUCSRC |= (1 << USBS);
+
+    if (parity == EVEN_PARITY)
+        *mUCSRC |= (1 << UPM1);
+    else if (parity == ODD_PARITY)
+        *mUCSRC |= (1 << UPM1) | (1 << UPM0);
+
+
+}
 
 //--------------------------------------------------------------------------
 uint8_t Uart::getByte()

@@ -6,6 +6,7 @@
  */
 
 #include "base.h"
+#include <i2cmaster.h>
 
 typedef struct _ButtonState
 {
@@ -29,15 +30,30 @@ typedef struct _ButtonState
     char bFF;
     char bREW;
     char bSELECT;
-    char bMENU_L;
-    char bMENU_R;
+    char bMENU_LR;
+    //char bMENU_R;
     char bTONE;
     char bPRG;
-    char bEJECT;
+    //char bEJECT;
+
+    // BMBT-Encoder
+    char bmbt_bButton;
+    char bmbt_bCW;
+    char bmbt_bCCW;
+
+    // Radio-Encoder
+    char radio_bButton;
+    char radio_bRotate;
+    char radio_bCW;
+
 }ButtonState;
 
-ButtonState g_ButtonState;
+volatile ButtonState g_ButtonState;
 ButtonState g_oldState;
+
+#define SCL_CLOCK 20000 // 20kHz for the I2C Bus
+#define PORT_EXPANDER_ADD 0x40
+
 
 #define SETUP_BG_LED(a) {DDRA |= (1 << DDA0); PORTA &= ~(1 << 0); }
 #define SETUP_R_LED(a)  {DDRA |= (1 << DDA1); PORTA &= ~(1 << 1); }
@@ -70,6 +86,120 @@ ButtonState g_oldState;
 #define RADIO_LED_OFF() {PORTD &= ~(1 << 7);}
 #define RADIO_LED(a) {if(a){ RADIO_LED_ON(); }else{ RADIO_LED_OFF();}}
 
+//volatile char gRadioEncoder_PinA = 0;
+
+volatile char state = 0;
+
+//------------------------------------------------------------------------------
+// Interrupt routine to react on PCF8574 interrupts
+// PCF8574 is acting inbetween both encoders of the board and mc
+//------------------------------------------------------------------------------
+ISR(INT0_vect)
+{
+    if (state) state = 0;
+    else state = 1;
+
+    BG_LED(state);
+
+    // clear bit now, so that it get not reset when get back from atomar mode
+    TWCR = (1 << TWINT);
+
+    BEGIN_ATOMAR;
+    {
+        i2c_start_wait(0x40 + I2C_READ);
+        register unsigned char portState = i2c_readNak();
+        i2c_stop();
+
+        // bmbt encoder
+        if (portState & (1 << 3)) g_ButtonState.bmbt_bButton = 0;
+        else g_ButtonState.bmbt_bButton = 1;
+
+
+        // radio encoder
+        if (portState & (1 << 4)) g_ButtonState.radio_bButton = 0;
+        else g_ButtonState.radio_bButton = 1;
+
+        /*if (portState & (1 << 5)) g_ButtonState.radio_bRotate = 0;
+        else g_ButtonState.radio_bRotate = 1;
+
+        if (portState & (1 << 6))
+        {
+            if (g_ButtonState.radio_bRotate)
+                g_ButtonState.radio_bCW = 1;
+            else
+                g_ButtonState.radio_bCW = 0;
+        }*/
+
+        // bmbt P2, P1 (rotary), P3 (button)
+        // radio P5, P6 (rotary), P4 (button)
+    }
+    END_ATOMAR;
+
+}
+
+
+//------------------------------------------------------------------------------
+// Init all hardware parts needed for the project
+//------------------------------------------------------------------------------
+void initHardware(void)
+{
+    // init I2C, port expander
+    TWSR = 0;
+    TWBR = ((F_CPU/SCL_CLOCK)-16)/2;
+    MCUCR |= (1 << ISC01); // react on falling edge
+    MCUCR &= ~(1 << ISC00);
+    GICR |= (1 << INT0);
+
+    
+    // enable interrupts
+    sei();
+}
+
+// state of twi actions
+typedef enum _TWIstate
+{
+    IDLE = 0,
+    START,
+    READ,
+    STOP
+}TWIstate;
+volatile TWIstate g_TWIstate;
+
+//------------------------------------------------------------------------------
+// React on interrupts while I2C transfer
+//------------------------------------------------------------------------------
+ISR(TWI_vect)
+{
+
+}
+
+//------------------------------------------------------------------------------
+// Check current state of the PCF8574 port expander responsible for the both
+// encoders (return state of the 8 pins, 0 if error)
+// Returned 0 means an error, so make sure that at least one PIN of the port
+// expander pulled-up to 1 to make sure that 0 do never happens
+//------------------------------------------------------------------------------
+uint8_t getEncoderState(void)
+{
+    if (g_TWIstate != IDLE) return 0;
+
+    // first send start condition
+    switch (g_TWIstate)
+    {
+    case IDLE:
+        g_TWIstate = START;
+        TWCR = (1 << TWINT) | (1 << TWSTA) | (1 << TWEN);        
+        break;
+    case START:
+        break;
+    case READ:
+        break;
+    case STOP:
+        break;
+    }
+    
+}
+
 //------------------------------------------------------------------------------
 // Set FUSES correctrly ( http://www.engbedded.com/fusecalc/):
 // avrdude -U lfuse:w:0xcf:m -U hfuse:w:0xd9:m  (ext crystal, disable jtag)
@@ -101,7 +231,18 @@ int main(void)
     PORTB = 0xFF; // pull-ups on port B
     DDRD &= ~(1 << 3) & ~(1 << 4);
     PORTD |= (1 << 3) | (1 << 4);
+    DDRA &= ~(1 << 6); // input on portA.5
+    PORTA |= (1 << 6); // pull-up on portA.5
 
+    DDRD &= ~(1 << 2);
+    PORTD |= (1 << 2);
+    //DDRC &= ~(1 << 0) & ~(1 << 1);
+    PORTC &= ~(1 << 0) & ~(1 << 1); // disable pull-ups on prortC.0/1
+
+    // display button output
+    DDRA |= (1 << DDA7);
+    PORTA |= (1 << 7);
+    
     // init default values
     g_ButtonState.b1 = 0;
     g_ButtonState.b2 = 0;
@@ -120,17 +261,26 @@ int main(void)
     g_ButtonState.bFF = 0;
     g_ButtonState.bREW = 0;
     g_ButtonState.bSELECT = 0;
-    g_ButtonState.bMENU_L = 0;
-    g_ButtonState.bMENU_R = 0;
+    g_ButtonState.bMENU_LR = 0;
+    //g_ButtonState.bMENU_R = 0;
     g_ButtonState.bTONE = 0;
     g_ButtonState.bPRG = 0;
-    g_ButtonState.bEJECT = 0;
+    //g_ButtonState.bEJECT = 0;
 
     _delay_ms(100);
 
-    const unsigned char FIRST_ON = (0xFF & (~(1 << 6))) | (1 << 7);
-    const unsigned char SECOND_ON = (0xFF & (~(1 << 7))) | (1 << 6);
+    //const unsigned char FIRST_ON = ((~(1 << 6))) | (1 << 7);
+    //const unsigned char SECOND_ON = ((~(1 << 7))) | (1 << 6);
+
+    // init PCF8574
+    i2c_init();
+    //i2c_start_wait(0x40 + I2C_WRITE);
+    //i2c_write(0xFF);
+    //i2c_stop();
     
+    sei();
+    GICR |= (1<<INT0);
+
     for(;;)
     {
 
@@ -138,21 +288,25 @@ int main(void)
         
         // get current state of all the buttons on the right
         {
-            PORTC = FIRST_ON;
+            //PORTC = FIRST_ON;
+            PORTC &= ~(1 << 6);
+            PORTC |= (1 << 7);
             _delay_ms(1);
             
-            g_ButtonState.bDISP = bit_is_clear(PINC, 0);
-            g_ButtonState.b6 = bit_is_clear(PINC, 1);
+            g_ButtonState.bDISP = bit_is_clear(PINB, 0);
+            g_ButtonState.b6 = bit_is_clear(PINB, 1);
             g_ButtonState.b4 =  bit_is_clear(PINC, 2);
             g_ButtonState.bAM =  bit_is_clear(PINC, 3);
             g_ButtonState.b5 =  bit_is_clear(PINC, 4);
             g_ButtonState.bINFO_R =  bit_is_clear(PINC, 5);
             
-            PORTC = SECOND_ON;
+            //PORTC = SECOND_ON;
+            PORTC &= ~(1 << 7);
+            PORTC |= (1 << 6);
             _delay_ms(1);
             
-            g_ButtonState.bMODE = bit_is_clear(PINC, 0);
-            g_ButtonState.b3 = bit_is_clear(PINC, 1);
+            g_ButtonState.bMODE = bit_is_clear(PINB, 0);
+            g_ButtonState.b3 = bit_is_clear(PINB, 1);
             g_ButtonState.b1 = bit_is_clear(PINC, 2);
             g_ButtonState.bFM = bit_is_clear(PINC, 3);
             g_ButtonState.b2 = bit_is_clear(PINC, 4);
@@ -161,16 +315,16 @@ int main(void)
 
         // now check the buttons on the right side
         {
-            g_ButtonState.bEJECT = bit_is_clear(PINB, 0);
-            g_ButtonState.bMENU_L = bit_is_clear(PINB, 1);
+            //g_ButtonState.bEJECT = bit_is_clear(PINB, 0);
+            //g_ButtonState.bMENU_L = bit_is_clear(PINB, 1);
             g_ButtonState.bSELECT = bit_is_clear(PINB, 2);
             g_ButtonState.bFF = bit_is_clear(PINB, 3);
             g_ButtonState.bUHR = bit_is_clear(PINB, 4);
             g_ButtonState.bTEL = bit_is_clear(PINB, 5);
             g_ButtonState.bPRG = bit_is_clear(PINB, 6);
             g_ButtonState.bTONE = bit_is_clear(PINB, 7);
-            g_ButtonState.bREW = bit_is_clear(PIND, 3);
-            g_ButtonState.bMENU_R = bit_is_clear(PIND, 4);
+            g_ButtonState.bREW = bit_is_clear(PINA, 6);
+            g_ButtonState.bMENU_LR = bit_is_clear(PIND, 4);
         }
 
         // react on the state change accordingly
@@ -199,8 +353,40 @@ int main(void)
             BG_LED(g_ButtonState.bREW);
         }
 
+        // push display button (toggle between video inputs)
+        if (g_ButtonState.bDISP)
+            PORTA &= ~(1 << 7);
+        else
+            PORTA |= (1 << 7);
+
+
+        if (g_oldState.bmbt_bButton != g_ButtonState.bmbt_bButton)
+        {
+            R_LED(g_ButtonState.bmbt_bButton)
+        }
+
+        if (g_oldState.radio_bButton != g_ButtonState.radio_bButton)
+        {
+            G_LED(g_ButtonState.radio_bButton)
+        }
+
+
+        /*if (g_oldState.radio_bRotate != g_ButtonState.radio_bRotate)
+        {
+            if (g_ButtonState.radio_bCW)
+            {
+                R_LED_ON();
+                Y_LED_OFF();
+            }else
+            {
+                R_LED_OFF();
+                Y_LED_ON();
+            }
+        }*/
     }
 
+    cli();
+    
     return 0;
 }
 
