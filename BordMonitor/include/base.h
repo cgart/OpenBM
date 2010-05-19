@@ -16,8 +16,10 @@
 // Define basic macros
 //--------------------------------------------------------------------------
 #ifndef F_CPU
-	#define F_CPU 4433619UL
+	#define F_CPU 14745650UL
 #endif
+#define SCL_CLOCK 100000 // 20kHz for the I2C Bus
+
 
 //--------------------------------------------------------------------------
 // Include basic headers
