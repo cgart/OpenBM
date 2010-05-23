@@ -40,17 +40,25 @@ typedef struct _ButtonState
     char bmbt_bButton;
     char bmbt_bCW;
     char bmbt_bCCW;
+    char bmbt_encoderOut1;
+    char bmbt_encoderOut2;
 
     // Radio-Encoder
     char radio_bButton;
     char radio_bRotate;
     char radio_bCW;
+    char radio_bCCW;
+    char radio_encoderOut1;
+    char radio_encoderOut2;
 }ButtonState;
 
 // button states
 volatile ButtonState g_ButtonState;
 ButtonState g_oldButtonState;
-#define BUTTON_STATE_CHANGED(a) (g_oldButtonState.a != g_ButtonState.a)
+
+// current photo sensor value
+volatile unsigned char g_PhotoSensorValue;
+
 
 #define PORT_EXPANDER_ENCODER_ADD 0b01000000
 #define PORT_EXPANDER_RADIO_ADD   0b01000010
@@ -65,6 +73,7 @@ ButtonState g_oldButtonState;
 #define SETUP_DISPLAY_POWER(a) {DDRC |= (1 << DDC3); PORTC |= (1 << 3); }
 #define SETUP_DISPLAY_TOGGLE(a) {DDRC |= (1 << DDC4); PORTC |= (1 << 4); }
 #define SETUP_EJECT_BUTTON(a) {DDRD &= ~(1 << 4); PORTD |= (1 << 4);}
+#define SETUP_RADIO_BUTTON_SWITCH(a) {DDRC |= (1 << 6) | (1 << 7); }
 
 //#define BG_LED_ON() {PORTA |= (1 << 0);}
 //#define BG_LED_OFF() {PORTA &= ~(1 << 0);}
@@ -95,59 +104,13 @@ ButtonState g_oldButtonState;
 
 #define EJECT_BUTTON_STATE() bit_is_clear(PIND,4)
 
+#define BUTTON_STATE_CHANGED(a) (g_oldButtonState.a != g_ButtonState.a)
 
-//volatile char gRadioEncoder_PinA = 0;
+#define ENABLE_RADIO_BUTTON_LEFT_PART() {PORTC &= ~(1 << 6); PORTC |= (1 << 7);}
+#define ENABLE_RADIO_BUTTON_RIGHT_PART() {PORTC &= ~(1 << 7); PORTC |= (1 << 6);}
 
-volatile char state = 0;
-
-#if 0
-//------------------------------------------------------------------------------
-// Interrupt routine to react on PCF8574 interrupts
-// PCF8574 is acting inbetween both encoders of the board and mc
-//------------------------------------------------------------------------------
-ISR(INT0_vect)
-{
-    if (state) state = 0;
-    else state = 1;
-
-    BG_LED(state);
-
-    // clear bit now, so that it get not reset when get back from atomar mode
-    TWCR = (1 << TWINT);
-
-    BEGIN_ATOMAR;
-    {
-        i2c_start_wait(0x40 + I2C_READ);
-        register unsigned char portState = i2c_readNak();
-        i2c_stop();
-
-        // bmbt encoder
-        if (portState & (1 << 3)) g_ButtonState.bmbt_bButton = 0;
-        else g_ButtonState.bmbt_bButton = 1;
-
-
-        // radio encoder
-        if (portState & (1 << 4)) g_ButtonState.radio_bButton = 0;
-        else g_ButtonState.radio_bButton = 1;
-
-        /*if (portState & (1 << 5)) g_ButtonState.radio_bRotate = 0;
-        else g_ButtonState.radio_bRotate = 1;
-
-        if (portState & (1 << 6))
-        {
-            if (g_ButtonState.radio_bRotate)
-                g_ButtonState.radio_bCW = 1;
-            else
-                g_ButtonState.radio_bCW = 0;
-        }*/
-
-        // bmbt P2, P1 (rotary), P3 (button)
-        // radio P5, P6 (rotary), P4 (button)
-    }
-    END_ATOMAR;
-
-}
-#endif
+#define PHOTOSENSOR_START_READ() { ADCSRA |= (1 << ADSC); }
+#define PHOTOSENSOR_VALUE ADCH
 
 //------------------------------------------------------------------------------
 // Init all hardware parts needed for the project
@@ -158,7 +121,16 @@ void initHardware(void)
     i2c_init();
     //MCUCR |= (1 << ISC01); // react on falling edge
     //MCUCR &= ~(1 << ISC00);
-    //GICR |= (1 << INT0);
+    //GICR |= (1 << INT1);
+
+    // enable PhotoSensor ADC reader
+    ADCSRA |= (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0); // Set ADC prescaler to 128 - 109KHz sample rate @ 14MHz
+    ADMUX = (1 << REFS0); // Set ADC reference to AVCC
+    ADMUX |= (1 << ADLAR); // Left adjust ADC result to allow easy 8 bit reading
+    ADMUX |= (1 << MUX0) | (1 << MUX1) | (1 << MUX2); // enable reading on ADC7
+    SFIOR &= ~(1 << ADTS2) & ~(1 << ADTS1) & ~(1 << ADTS0);  // Set ADC to Free-Running Mode
+    ADCSRA |= (1 << ADIE);  // Enable ADC Interrupt
+    ADCSRA |= (1 << ADEN);  // Enable ADC
 
     // setup all ports to some default value
     DDRA = 0;
@@ -179,57 +151,16 @@ void initHardware(void)
     SETUP_DISPLAY_POWER();
     SETUP_DISPLAY_TOGGLE();
     SETUP_EJECT_BUTTON();
+    SETUP_RADIO_BUTTON_SWITCH();
 
+    // switch display mode 2 times, because after the start of avr
+    // display goes on and swith one time the mode
+    DISPLAY_INPUT_TOGGLE();
+    DISPLAY_INPUT_TOGGLE();
+    
     // enable interrupts
     sei();
 }
-
-#if 0
-// state of twi actions
-typedef enum _TWIstate
-{
-    IDLE = 0,
-    START,
-    READ,
-    STOP
-}TWIstate;
-volatile TWIstate g_TWIstate;
-
-//------------------------------------------------------------------------------
-// React on interrupts while I2C transfer
-//------------------------------------------------------------------------------
-ISR(TWI_vect)
-{
-
-}
-
-//------------------------------------------------------------------------------
-// Check current state of the PCF8574 port expander responsible for the both
-// encoders (return state of the 8 pins, 0 if error)
-// Returned 0 means an error, so make sure that at least one PIN of the port
-// expander pulled-up to 1 to make sure that 0 do never happens
-//------------------------------------------------------------------------------
-uint8_t getEncoderState(void)
-{
-    if (g_TWIstate != IDLE) return 0;
-
-    // first send start condition
-    switch (g_TWIstate)
-    {
-    case IDLE:
-        g_TWIstate = START;
-        TWCR = (1 << TWINT) | (1 << TWSTA) | (1 << TWEN);        
-        break;
-    case START:
-        break;
-    case READ:
-        break;
-    case STOP:
-        break;
-    }
-    
-}
-#endif
 
 //------------------------------------------------------------------------------
 // Set FUSES correctrly ( http://www.engbedded.com/fusecalc/):
@@ -237,6 +168,10 @@ uint8_t getEncoderState(void)
 //------------------------------------------------------------------------------
 int main(void)
 {
+    // init hardware and do small delay after init
+    initHardware();
+    _delay_ms(100);
+
     // init default values
     g_ButtonState.b1 = 0;
     g_ButtonState.b2 = 0;
@@ -262,15 +197,18 @@ int main(void)
     g_ButtonState.bmbt_bButton = 0;
     g_ButtonState.bmbt_bCW = 0;
     g_ButtonState.bmbt_bCCW = 0;
+    g_ButtonState.bmbt_encoderOut1 = 0;
+    g_ButtonState.bmbt_encoderOut2 = 0;
     g_ButtonState.radio_bButton = 0;
     g_ButtonState.radio_bRotate = 0;
     g_ButtonState.radio_bCW = 0;
+    g_ButtonState.radio_bCCW = 0;
+    g_ButtonState.radio_encoderOut1 = 0;
+    g_ButtonState.radio_encoderOut2 = 0;
     g_ButtonState.bRadioLeftPart = 0;
+
+    PHOTOSENSOR_START_READ();
     
-    initHardware();
-
-    _delay_ms(100);
-
     for(;;)
     {
         // set old state
@@ -279,33 +217,31 @@ int main(void)
         // ----- First read the Radio Part -----
         if (i2c_start(PORT_EXPANDER_RADIO_ADD + I2C_READ) == 0)
         {
-            unsigned char state = i2c_readAck();
+            unsigned char state = i2c_readNak();
             i2c_stop();
 
             // setup buttons according to the state
             if (g_ButtonState.bRadioLeftPart)
             {
-                g_ButtonState.bINFO_R = bit_is_set(state, 4);
-                g_ButtonState.b4      = bit_is_set(state, 7);
-                g_ButtonState.b5      = bit_is_set(state, 2);
-                g_ButtonState.b6      = bit_is_set(state, 6);
-                g_ButtonState.bAM     = bit_is_set(state, 3);
-                g_ButtonState.bDISP   = bit_is_set(state, 5);
+                g_ButtonState.bINFO_R = bit_is_clear(state, 7);
+                g_ButtonState.b4      = bit_is_clear(state, 4);
+                g_ButtonState.b5      = bit_is_clear(state, 6);
+                g_ButtonState.b6      = bit_is_clear(state, 2);
+                g_ButtonState.bAM     = bit_is_clear(state, 5);
+                g_ButtonState.bDISP   = bit_is_clear(state, 3);
 
-                PORTC &= ~(1 << 6);
-                PORTC |= (1 << 7);
+                ENABLE_RADIO_BUTTON_RIGHT_PART();
                 g_ButtonState.bRadioLeftPart = 0;
             }else
             {
-                g_ButtonState.bINFO_L = bit_is_set(state, 4);
-                g_ButtonState.b1      = bit_is_set(state, 7);
-                g_ButtonState.b2      = bit_is_set(state, 2);
-                g_ButtonState.b3      = bit_is_set(state, 6);
-                g_ButtonState.bFM     = bit_is_set(state, 3);
-                g_ButtonState.bMODE   = bit_is_set(state, 5);
+                g_ButtonState.bINFO_L = bit_is_clear(state, 7);
+                g_ButtonState.b1      = bit_is_clear(state, 4);
+                g_ButtonState.b2      = bit_is_clear(state, 6);
+                g_ButtonState.b3      = bit_is_clear(state, 2);
+                g_ButtonState.bFM     = bit_is_clear(state, 5);
+                g_ButtonState.bMODE   = bit_is_clear(state, 3);
 
-                PORTC &= ~(1 << 7);
-                PORTC |= (1 << 6);
+                ENABLE_RADIO_BUTTON_LEFT_PART();
                 g_ButtonState.bRadioLeftPart = 1;
             }
         }
@@ -313,208 +249,126 @@ int main(void)
         // ----- Second read the BMBT Buttons -----
         if (i2c_start(PORT_EXPANDER_BMBT_ADD + I2C_READ) == 0)
         {
-            unsigned char state = i2c_readAck();
+            unsigned char state = i2c_readNak();
             i2c_stop();
 
-            g_ButtonState.bTEL     = bit_is_set(state, 0);
-            g_ButtonState.bSELECT  = bit_is_set(state, 1);
-            g_ButtonState.bFF      = bit_is_set(state, 2);
-            g_ButtonState.bUHR     = bit_is_set(state, 3);
-            g_ButtonState.bMENU_LR = bit_is_set(state, 4);
-            g_ButtonState.bREW     = bit_is_set(state, 5);
-            g_ButtonState.bTONE    = bit_is_set(state, 6);
-            g_ButtonState.bPRG     = bit_is_set(state, 7);
+            g_ButtonState.bTEL     = bit_is_clear(state, 0);
+            g_ButtonState.bSELECT  = bit_is_clear(state, 1);
+            g_ButtonState.bFF      = bit_is_clear(state, 2);
+            g_ButtonState.bUHR     = bit_is_clear(state, 3);
+            g_ButtonState.bMENU_LR = bit_is_clear(state, 4);
+            g_ButtonState.bREW     = bit_is_clear(state, 5);
+            g_ButtonState.bTONE    = bit_is_clear(state, 6);
+            g_ButtonState.bPRG     = bit_is_clear(state, 7);
+        }
+
+        // ----- Thirs ask both encoders -----
+        if (i2c_start(PORT_EXPANDER_ENCODER_ADD + I2C_READ) == 0)
+        {
+            unsigned char state = i2c_readNak();
+            i2c_stop();
+
+            g_ButtonState.bmbt_bButton = bit_is_clear(state, 0);
+            g_ButtonState.radio_bButton = bit_is_clear(state, 7);
+
+            // check BMBT-Encoders
+            {
+                register char oldEncoder1 = g_ButtonState.bmbt_encoderOut1;
+                register char oldEncoder2 = g_ButtonState.bmbt_encoderOut2;
+                register char clearBit1 = bit_is_clear(state, 1);
+                register char clearBit2 = bit_is_clear(state, 2);
+                register char setBit1 = bit_is_set(state, 1);
+                register char setBit2 = bit_is_set(state, 2);
+
+                if ((oldEncoder1 && !oldEncoder2 && clearBit2)
+                    || (!oldEncoder1 && oldEncoder2 && setBit2)
+                    || (oldEncoder2 && oldEncoder1 && setBit1)
+                    || (!oldEncoder2 && !oldEncoder1 && clearBit1))
+                {
+                    g_ButtonState.bmbt_bCCW = 1;
+                    g_ButtonState.bmbt_bCW = 0;
+                }else
+                if ((!oldEncoder1 && !oldEncoder2 && clearBit2)
+                      || (oldEncoder1 && oldEncoder2 && setBit2)
+                      || (!oldEncoder2 && oldEncoder1 && setBit1)
+                      || (oldEncoder2 && !oldEncoder1 && clearBit1))
+                {
+                    g_ButtonState.bmbt_bCCW = 0;
+                    g_ButtonState.bmbt_bCW = 1;
+                }else
+                {
+                    g_ButtonState.bmbt_bCCW = 0;
+                    g_ButtonState.bmbt_bCW = 0;
+                }
+            }
+
+            // check RADIO-Encoders
+            {
+                register char oldEncoder1 = g_ButtonState.radio_encoderOut1;
+                register char oldEncoder2 = g_ButtonState.radio_encoderOut2;
+                register char clearBit1 = bit_is_clear(state, 5);
+                register char clearBit2 = bit_is_clear(state, 6);
+                register char setBit1 = bit_is_set(state, 5);
+                register char setBit2 = bit_is_set(state, 6);
+
+                if ((oldEncoder1 && !oldEncoder2 && clearBit2)
+                    || (!oldEncoder1 && oldEncoder2 && setBit2)
+                    || (oldEncoder2 && oldEncoder1 && setBit1)
+                    || (!oldEncoder2 && !oldEncoder1 && clearBit1))
+                {
+                    g_ButtonState.radio_bCCW = 1;
+                    g_ButtonState.radio_bCW = 0;
+                }else
+                if ((!oldEncoder1 && !oldEncoder2 && clearBit2)
+                      || (oldEncoder1 && oldEncoder2 && setBit2)
+                      || (!oldEncoder2 && oldEncoder1 && setBit1)
+                      || (oldEncoder2 && !oldEncoder1 && clearBit1))
+                {
+                    g_ButtonState.radio_bCCW = 0;
+                    g_ButtonState.radio_bCW = 1;
+                }else
+                {
+                    g_ButtonState.radio_bCCW = 0;
+                    g_ButtonState.radio_bCW = 0;
+                }
+            }
+            
+            // set current state
+            g_ButtonState.bmbt_encoderOut1 = bit_is_clear(state, 1);
+            g_ButtonState.bmbt_encoderOut2 = bit_is_clear(state, 2);
+            g_ButtonState.radio_encoderOut1 = bit_is_clear(state, 5);
+            g_ButtonState.radio_encoderOut2 = bit_is_clear(state, 6);
         }
 
         // ----- Read Eject Button -----
         g_ButtonState.bEJECT = EJECT_BUTTON_STATE();
 
+        // switch display on/off and switch the input mode
+        if (BUTTON_STATE_CHANGED(bDISP)) DISPLAY_POWER_TOGGLE();
+        if (BUTTON_STATE_CHANGED(bMODE)) DISPLAY_INPUT_TOGGLE();
 
-        //if (g_ButtonState.bTEL)
+        // debugging
         {
-            R_LED(g_ButtonState.bTEL);
-            G_LED(g_ButtonState.bSELECT);
-            Y_LED(g_ButtonState.bFF);
-            FAN_LED(g_ButtonState.bUHR);
+            R_LED(g_ButtonState.bmbt_bButton);
+            G_LED(g_ButtonState.radio_bCCW);
+            Y_LED(g_ButtonState.radio_bCW);
+            FAN_LED(g_ButtonState.radio_bButton);
             RADIO_LED(g_ButtonState.bMENU_LR);
         }
 
-        if (BUTTON_STATE_CHANGED(bDISP))
-        {
-            DISPLAY_POWER_TOGGLE();
-        }
-        if (BUTTON_STATE_CHANGED(bMODE))
-        {
-            DISPLAY_POWER_TOGGLE();
-        }
-
     }
 
-    #if 0
-    // This are the check lines for the one part of the buttons
-    DDRC = (1 << DDC6) | (1 << DDC7);  // full C port as input, only pin 6 and 7 as outputs
-    PORTC = 0xFF;   // enable pull-up on all inputs
-    DDRB = 0; // port B as input
-    PORTB = 0xFF; // pull-ups on port B
-    DDRD &= ~(1 << 3) & ~(1 << 4);
-    PORTD |= (1 << 3) | (1 << 4);
-    DDRA &= ~(1 << 6); // input on portA.5
-    PORTA |= (1 << 6); // pull-up on portA.5
-
-    DDRD &= ~(1 << 2);
-    PORTD |= (1 << 2);
-    //DDRC &= ~(1 << 0) & ~(1 << 1);
-    PORTC &= ~(1 << 0) & ~(1 << 1); // disable pull-ups on prortC.0/1
-
-    // display button output
-    DDRA |= (1 << DDA7);
-    PORTA |= (1 << 7);
-    
-    // init default values
-    g_ButtonState.b1 = 0;
-    g_ButtonState.b2 = 0;
-    g_ButtonState.b3 = 0;
-    g_ButtonState.b4 = 0;
-    g_ButtonState.b5 = 0;
-    g_ButtonState.b6 = 0;
-    g_ButtonState.bAM = 0;
-    g_ButtonState.bDISP = 0;
-    g_ButtonState.bFM = 0;
-    g_ButtonState.bINFO_L = 0;
-    g_ButtonState.bINFO_R = 0;
-    g_ButtonState.bMODE = 0;
-    g_ButtonState.bUHR = 0;
-    g_ButtonState.bTEL = 0;
-    g_ButtonState.bFF = 0;
-    g_ButtonState.bREW = 0;
-    g_ButtonState.bSELECT = 0;
-    g_ButtonState.bMENU_LR = 0;
-    //g_ButtonState.bMENU_R = 0;
-    g_ButtonState.bTONE = 0;
-    g_ButtonState.bPRG = 0;
-    //g_ButtonState.bEJECT = 0;
-
-    _delay_ms(100);
-
-    //const unsigned char FIRST_ON = ((~(1 << 6))) | (1 << 7);
-    //const unsigned char SECOND_ON = ((~(1 << 7))) | (1 << 6);
-
-    // init PCF8574
-    i2c_init();
-    //i2c_start_wait(0x40 + I2C_WRITE);
-    //i2c_write(0xFF);
-    //i2c_stop();
-    
-    sei();
-    GICR |= (1<<INT0);
-
-    for(;;)
-    {
-
-        g_oldState = g_ButtonState;
-        
-        // get current state of all the buttons on the right
-        {
-            //PORTC = FIRST_ON;
-            PORTC &= ~(1 << 6);
-            PORTC |= (1 << 7);
-            _delay_ms(1);
-            
-            g_ButtonState.bDISP = bit_is_clear(PINB, 0);
-            g_ButtonState.b6 = bit_is_clear(PINB, 1);
-            g_ButtonState.b4 =  bit_is_clear(PINC, 2);
-            g_ButtonState.bAM =  bit_is_clear(PINC, 3);
-            g_ButtonState.b5 =  bit_is_clear(PINC, 4);
-            g_ButtonState.bINFO_R =  bit_is_clear(PINC, 5);
-            
-            //PORTC = SECOND_ON;
-            PORTC &= ~(1 << 7);
-            PORTC |= (1 << 6);
-            _delay_ms(1);
-            
-            g_ButtonState.bMODE = bit_is_clear(PINB, 0);
-            g_ButtonState.b3 = bit_is_clear(PINB, 1);
-            g_ButtonState.b1 = bit_is_clear(PINC, 2);
-            g_ButtonState.bFM = bit_is_clear(PINC, 3);
-            g_ButtonState.b2 = bit_is_clear(PINC, 4);
-            g_ButtonState.bINFO_L = bit_is_clear(PINC, 5);
-        }
-
-        // now check the buttons on the right side
-        {
-            //g_ButtonState.bEJECT = bit_is_clear(PINB, 0);
-            //g_ButtonState.bMENU_L = bit_is_clear(PINB, 1);
-            g_ButtonState.bSELECT = bit_is_clear(PINB, 2);
-            g_ButtonState.bFF = bit_is_clear(PINB, 3);
-            g_ButtonState.bUHR = bit_is_clear(PINB, 4);
-            g_ButtonState.bTEL = bit_is_clear(PINB, 5);
-            g_ButtonState.bPRG = bit_is_clear(PINB, 6);
-            g_ButtonState.bTONE = bit_is_clear(PINB, 7);
-            g_ButtonState.bREW = bit_is_clear(PINA, 6);
-            g_ButtonState.bMENU_LR = bit_is_clear(PIND, 4);
-        }
-
-        // react on the state change accordingly
-        if (g_oldState.bUHR != g_ButtonState.bUHR)
-        {
-            R_LED(g_ButtonState.bUHR);
-        }
-        if (g_oldState.bTEL != g_ButtonState.bTEL)
-        {
-            G_LED(g_ButtonState.bTEL);
-        }
-        if (g_oldState.bPRG != g_ButtonState.bPRG)
-        {
-            Y_LED(g_ButtonState.bPRG);
-        }
-        if (g_oldState.bTONE != g_ButtonState.bTONE)
-        {
-            FAN_LED(g_ButtonState.bTONE);
-        }
-        if (g_oldState.bFF != g_ButtonState.bFF)
-        {
-            RADIO_LED(g_ButtonState.bFF);
-        }
-        if (g_oldState.bREW != g_ButtonState.bREW)
-        {
-            BG_LED(g_ButtonState.bREW);
-        }
-
-        // push display button (toggle between video inputs)
-        if (g_ButtonState.bDISP)
-            PORTA &= ~(1 << 7);
-        else
-            PORTA |= (1 << 7);
-
-
-        if (g_oldState.bmbt_bButton != g_ButtonState.bmbt_bButton)
-        {
-            R_LED(g_ButtonState.bmbt_bButton)
-        }
-
-        if (g_oldState.radio_bButton != g_ButtonState.radio_bButton)
-        {
-            G_LED(g_ButtonState.radio_bButton)
-        }
-
-
-        /*if (g_oldState.radio_bRotate != g_ButtonState.radio_bRotate)
-        {
-            if (g_ButtonState.radio_bCW)
-            {
-                R_LED_ON();
-                Y_LED_OFF();
-            }else
-            {
-                R_LED_OFF();
-                Y_LED_ON();
-            }
-        }*/
-    }
-
-    #endif
     cli();
     
     return 0;
 }
 
+//------------------------------------------------------------------------------
+// React on ADC interrupts, so PhotoSensor value is readed
+// and conversion is started again
+//------------------------------------------------------------------------------
+ISR(ADC_vect)
+{
+    g_PhotoSensorValue = PHOTOSENSOR_VALUE;
+    PHOTOSENSOR_START_READ();
+}

@@ -189,7 +189,6 @@ unsigned char i2c_readAck(void)
 
 }/* i2c_readAck */
 
-#if 0
 /*************************************************************************
  Read one byte from the I2C device, read is followed by a stop condition 
  
@@ -203,4 +202,3 @@ unsigned char i2c_readNak(void)
     return TWDR;
 
 }/* i2c_readNak */
-#endif
