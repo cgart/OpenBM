@@ -20,6 +20,9 @@
 #endif
 #define SCL_CLOCK 100000 // 20kHz for the I2C Bus
 
+#define PORT_EXPANDER_ENCODER_ADD 0b01000000
+#define PORT_EXPANDER_RADIO_ADD   0b01000010
+#define PORT_EXPANDER_BMBT_ADD    0b01000100
 
 //--------------------------------------------------------------------------
 // Include basic headers

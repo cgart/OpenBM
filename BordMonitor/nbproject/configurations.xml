@@ -19,7 +19,7 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/ibus.cpp</itemPath>
-      <itemPath>main.c</itemPath>
+      <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/main.cpp</itemPath>
       <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/twimaster.c</itemPath>
       <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/uart0.cpp</itemPath>
     </logicalFolder>

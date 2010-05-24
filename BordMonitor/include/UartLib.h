@@ -25,12 +25,12 @@
 //--------------------------------------------------------------------------
 /** Size of the circular receive buffer, must be power of 2 */
 #ifndef UART_RX_BUFFER_SIZE
-#define UART_RX_BUFFER_SIZE 256
+#define UART_RX_BUFFER_SIZE 512
 #endif
 
 /** Size of the circular transmit buffer, must be power of 2 */
 #ifndef UART_TX_BUFFER_SIZE
-#define UART_TX_BUFFER_SIZE 256
+#define UART_TX_BUFFER_SIZE 512
 #endif
 
 /** If we use external ram for the uart buffer **/
@@ -225,53 +225,5 @@
 #if (UART_USE_INTERFACE_0 == 0) && (UART_USE_INTERFACE_1 == 0)
 #	error "Non compatible settings in UART_USE_INTERFACE_0 and UART_USE_INTERFACE_1"
 #endif
-
-#include "uart.h"
-
-//--------------------------------------------------------------------------
-// Global function definitions
-//--------------------------------------------------------------------------
-#ifdef UART_SUPPORT_MULTIPLE_INTERFACE
-	class Uart0;
-	class Uart1;
-
-	#if UART_USE_INTERFACE_0 == 1
-		#include "uart0.h"
-		//! Initialize interface 0 (@see UART_init() )
-		extern Uart0* UART_init0(void);
-	#endif
-
-	#if UART_USE_INTERFACE_1 == 1
-		#include "uart1.h"
-		//! Initialize interface 1 (@see UART_init() )
-		extern Uart1* UART_init1(void);
-	#endif
-
-		//! Just inline to be optimized
-		//extern inline Uart0* UART_init(void) { return UART_init0(); }
-
-#else
-	class Uart0;
-
-	#if UART_USE_INTERFACE_0 == 1
-		#include "uart0.h"
-		//! Initialize interface 0 (@see UART_init() )
-		extern Uart0* UART_init0(void);
-	#endif
-
-	#include "uart.h"
-
-	/**
-	 * Initialize uart interface and return pointer to
-	 * the class to drive the uart. The port is set per default
-	 * to 9600 8N1 mode and RX/TX bits are active.
-	 * @note Some avr does support more than one uart interface,
-	 * so calling appropriate function (_init0, init1, ...)
-	 * will force the class to use according uart ports.
-	**/
-	//extern Uart* UART_init(void);
-
-#endif
-
 
 #endif

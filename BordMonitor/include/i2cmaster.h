@@ -94,6 +94,11 @@
 #define I2C_WRITE   0
 
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif /* ifdef __cplusplus */
+
 /**
  @brief initialize the I2C master interace. Need to be called only once 
  @param  void
@@ -173,6 +178,10 @@ extern unsigned char i2c_readNak(void);
 //extern unsigned char i2c_read(unsigned char ack);
 //#define i2c_read(ack)  (ack) ? i2c_readAck() : i2c_readNak();
 
+
+#ifdef __cplusplus
+}
+#endif /* ifdef __cplusplus */
 
 /**@}*/
 #endif

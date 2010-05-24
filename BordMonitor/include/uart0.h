@@ -12,7 +12,7 @@
 #ifndef UART_CLASS_0_H
 #define UART_CLASS_0_H
 
-#include "UartLib.h"
+#include "uart.h"
 
 #if UART_USE_INTERFACE_0 == 1
 

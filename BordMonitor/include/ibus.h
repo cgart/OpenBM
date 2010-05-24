@@ -106,6 +106,11 @@ class IBus
          **/
         inline void setMessageCallback(MessageCallback f);
 
+        /**
+         * Tick - perform updates, send messages from queue, submit recieved msgs
+         **/
+        void tick();
+        
     private:
 
         //! uart interface which is connected to the ibus
