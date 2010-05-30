@@ -68,6 +68,24 @@
 #define IBUS_MSG_LAMP_STATE         0x5B    // Lamp state
 #define IBUS_MSG_VEHICLE_CTRL       0x0C    // Vehicle Control (mostly used from diagnose)
 
+//*** iBus Settings ***
+#define IBUS_MSG_TX_BUFFER_SIZE       256
+#define IBUS_MSG_TX_BUFFER_SIZE_MASK  255
+#define IBUS_MSG_RX_BUFFER_SIZE       256
+#define IBUS_MSG_RX_BUFFER_SIZE_MASK  255
+#define IBUS_SENSTA_VALUE()             bit_is_set(PIND,2)
+#define IBUS_SENSTA_SETUP()           { DDRD &= ~(1 << DDD2); }
+#define IBUS_SENSTA_INT_VECT          INT0_vect
+#define IBUS_SENSTA_ENABLE_INTERRUPT()  { MCUCR = (1 << ISC01) | (1 << ISC00); GICR |= (1 << INT0); }
+#define IBUS_SENSTA_DISABLE_INTERRUPT()  { GICR &= ~(1 << INT0); }
+#define IBUS_TIMER_SETUP() {TCCR1B = (1 << CS12) | (1 << CS10);}
+#define IBUS_TIMER_100MS() {TIMSK |= (1 << TOIE1); TCNT1 = 1440;}
+#define IBUS_TIMER_75MS() {TIMSK |= (1 << TOIE1); TCNT1 = 1080;}
+#define IBUS_TIMER_50MS() {TIMSK |= (1 << TOIE1); TCNT1 = 720;}
+#define IBUS_TIMER_30MS() {TIMSK |= (1 << TOIE1); TCNT1 = 432;}
+#define IBUS_TIMER_DISABLE_INTERRUPT() {TIMSK &= ~(1 << TOIE1);}
+#define IBUS_TIMER_INTERRUPT TIMER1_OVF_vect
+#define IBUS_TRANSMIT_TRIES 3
 
 /**
  * Class to handle IBus messages. The I-Bus must be conencted
@@ -79,6 +97,15 @@ class IBus
 {
 	public:
 
+        enum State
+        {
+            IDLE,
+            RECIEVE,
+            TRANSMIT
+        };
+
+        State mState;
+        
         /**
          * Initialize singleton pointer to the IBus
         **/
@@ -95,11 +122,10 @@ class IBus
          * the ibus is found.
          * @param src ID of the sender
          * @param dst ID of the receiver
-         * @param len Length of the message string
          * @param msg String containing the full message
-         * @return Type of the message
+         * @param msglen Length of the message string
          **/
-        typedef uint8_t(* MessageCallback)(uint8_t src, uint8_t dst, uint8_t len, uint8_t* msg);
+        typedef void(* MessageCallback)(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen);
 
         /**
          * Set callback function which will be called on a new message
@@ -111,7 +137,18 @@ class IBus
          **/
         void tick();
         
-    private:
+        /**
+         * Calculate checksum of the message
+         **/
+        uint8_t calcChecksum(uint8_t* pBuffer);
+
+        /**
+         * Send message over the ibus. You can speify how much tries
+         * there will be if message could not be send.
+         **/
+        void sendMessage(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msgLength);//, uint8_t numberOfTries);
+
+    public:
 
         //! uart interface which is connected to the ibus
         Uart* mBusUart;
@@ -121,7 +158,23 @@ class IBus
 
         //! Function to use as callback for the uart interface
         static void uartReceiveCallback(uint8_t c);
+        static void uartTransmittedCallback(void);
+        void recieveCallback(uint8_t c);
+        void transmitCallback();
+        void startTransmission();
+        
+        //! transimt buffer where to hold messages to be transmitted
+        static uint8_t mTxBuffer[];
 
+        //! recieve buffer
+        static uint8_t mRxBuffer[];
+        
+        //! current read position from the tx buffer
+        uint16_t mTxReadPos_old;
+        uint16_t mTxReadPos;
+        uint16_t mTxWritePos;
+        uint16_t mRxPos;
+        uint8_t mRxLen;
 };
 
 //--------------------------------------------------------------------------
@@ -130,7 +183,7 @@ void IBus::setUart(Uart* uart)
     mBusUart = uart;
     if (uart != NULL)
     {
-        mBusUart->setBaud(UART_COMPUTE_BAUD(F_CPU, 9600));
+        mBusUart->setBaud(95);//UART_COMPUTE_BAUD(F_CPU, 9600));
         mBusUart->setFormat(8,1,Uart::EVEN_PARITY);
         mBusUart->setReceiveCallback(uartReceiveCallback);
     }
