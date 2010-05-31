@@ -84,7 +84,8 @@ PROJECTNAME=bmwMonitor
 # (list all files to compile, e.g. 'a.c b.cpp as.S'):
 # Use .cc, .cpp or .C suffix for C++ files, use .S
 # (NOT .s !!!) for assembly source code files.
-PRJSRC=main.cpp uart0.cpp ibus.cpp twimaster.c
+PRJSRC=main.cpp uart.c ibus.cpp twimaster.c 
+#ibusstack.S
 
 # additional includes (e.g. -I/path/to/mydir)
 INC=-I./include
@@ -145,14 +146,15 @@ CFLAGS=-I. $(INC) -g -mmcu=$(MCU) -O$(OPTLEVEL) \
 	$(filter %.lst, $(<:.c=.lst)))
 
 # c++ specific flags
-CPPFLAGS=-fno-exceptions               \
+CPPFLAGS=-I. $(INC) -g -mmcu=$(MCU) -O$(OPTLEVEL) \
+    -fno-exceptions               \
 	-Wa,-ahlms=$(firstword         \
 	$(filter %.lst, $(<:.cpp=.lst))\
 	$(filter %.lst, $(<:.cc=.lst)) \
 	$(filter %.lst, $(<:.C=.lst)))
 
 # assembler
-ASMFLAGS =-I. $(INC) -mmcu=$(MCU)        \
+ASMFLAGS =-I. $(INC) -g -mmcu=$(MCU)        \
 	-x assembler-with-cpp            \
 	-Wa,-gstabs,-ahlms=$(firstword   \
 		$(<:.S=.lst) $(<.s=.lst))
@@ -170,6 +172,9 @@ OBJDUMP=avr-objdump
 SIZE=avr-size
 AVRDUDE=avrdude
 REMOVE=rm -f
+ELFCOFF = objtool
+HEXSIZE = avr-size --target=$(FORMAT) $(TARGET).hex
+ELFSIZE = avr-size -A $(TARGET).elf
 
 ##### automatic target names ####
 TRG=$(PROJECTNAME).out
@@ -211,7 +216,7 @@ GENASMFILES=$(filter %.s, $(OBJDEPS:.o=.s))
 	.hex .ee.hex .h .hh .hpp
 
 
-.PHONY: writeflash clean stats gdbinit stats
+.PHONY: writeflash clean stats gdbinit stats coff
 
 # Make targets:
 # all, disasm, stats, hex, writeflash/install, clean
@@ -240,7 +245,6 @@ $(DUMPTRG): $(TRG)
 $(TRG): $(OBJDEPS)
 	$(CC) $(LDFLAGS) -o $(TRG) $(OBJDEPS)
 
-
 #### Generating assembly ####
 # asm from C
 %.s: %.c
@@ -255,6 +259,21 @@ $(TRG): $(OBJDEPS)
 .cpp.s .cc.s .C.s :
 	$(CPP) -S $(CFLAGS) $(CPPFLAGS) $< -o $@
 
+
+# Convert ELF to COFF for use in debugging / simulating in AVR Studio or VMLAB.
+COFFCONVERT=$(OBJCOPY) --debugging \
+--change-section-address .data-0x800000 \
+--change-section-address .bss-0x800000 \
+--change-section-address .noinit-0x800000 \
+--change-section-address .eeprom-0x810000
+ 
+ 
+coff: $(TRG)
+	$(COFFCONVERT) -O coff-avr $< $(TRG).cof
+ 
+ 
+extcoff: $(TRG)
+	$(COFFCONVERT) -O coff-ext-avr $< $(TRG).cof
 
 
 #### Generating object files ####

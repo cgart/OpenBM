@@ -15,8 +15,7 @@
 //--------------------------------------------------------------------------
 // Include basic headers
 //--------------------------------------------------------------------------
-#include "UartLib.h"
-#include "uart.h"
+#include "base.h"
 #include <string.h>
 
 //*** Device Codes ***
@@ -70,22 +69,29 @@
 
 //*** iBus Settings ***
 #define IBUS_MSG_TX_BUFFER_SIZE       256
-#define IBUS_MSG_TX_BUFFER_SIZE_MASK  255
+#define IBUS_MSG_TX_BUFFER_SIZE_MASK  (IBUS_MSG_TX_BUFFER_SIZE - 1)
 #define IBUS_MSG_RX_BUFFER_SIZE       256
-#define IBUS_MSG_RX_BUFFER_SIZE_MASK  255
-#define IBUS_SENSTA_VALUE()             bit_is_set(PIND,2)
-#define IBUS_SENSTA_SETUP()           { DDRD &= ~(1 << DDD2); }
+#define IBUS_MSG_RX_BUFFER_SIZE_MASK  (IBUS_MSG_RX_BUFFER_SIZE - 1)
+#define IBUS_SENSTA_VALUE()           bit_is_set(PIND,2)
+#define IBUS_SENSTA_SETUP()           { DDRD &= ~(1 << DDD2); PORTD |= (1 << 2);}
 #define IBUS_SENSTA_INT_VECT          INT0_vect
-#define IBUS_SENSTA_ENABLE_INTERRUPT()  { MCUCR = (1 << ISC01) | (1 << ISC00); GICR |= (1 << INT0); }
+#define IBUS_SENSTA_ENABLE_INTERRUPT()  { MCUCR |= (1 << ISC00) | (1 << ISC01); GICR |= (1 << INT0); }
 #define IBUS_SENSTA_DISABLE_INTERRUPT()  { GICR &= ~(1 << INT0); }
-#define IBUS_TIMER_SETUP() {TCCR1B = (1 << CS12) | (1 << CS10);}
-#define IBUS_TIMER_100MS() {TIMSK |= (1 << TOIE1); TCNT1 = 1440;}
-#define IBUS_TIMER_75MS() {TIMSK |= (1 << TOIE1); TCNT1 = 1080;}
-#define IBUS_TIMER_50MS() {TIMSK |= (1 << TOIE1); TCNT1 = 720;}
-#define IBUS_TIMER_30MS() {TIMSK |= (1 << TOIE1); TCNT1 = 432;}
+#define IBUS_TIMER_SETUP() {TCCR1B = (1 << CS11) | (1 << CS10);}
+#define IBUS_TIMER_100MS() { BEGIN_ATOMAR; TIMSK |= (1 << TOIE1); TCNT1 = 42496; END_ATOMAR;}
+#define IBUS_TIMER_75MS()  { BEGIN_ATOMAR; TIMSK |= (1 << TOIE1); TCNT1 = 48256; END_ATOMAR;}
+#define IBUS_TIMER_50MS()  { BEGIN_ATOMAR; TIMSK |= (1 << TOIE1); TCNT1 = 54016; END_ATOMAR;}
+#define IBUS_TIMER_30MS()  { BEGIN_ATOMAR; TIMSK |= (1 << TOIE1); TCNT1 = 58624; END_ATOMAR;}
 #define IBUS_TIMER_DISABLE_INTERRUPT() {TIMSK &= ~(1 << TOIE1);}
 #define IBUS_TIMER_INTERRUPT TIMER1_OVF_vect
 #define IBUS_TRANSMIT_TRIES 3
+
+
+// default constants
+#define IBUS_STATE_IDLE 0
+#define IBUS_STATE_WAIT_FREE_BUS  (1 << 0)
+#define IBUS_STATE_RECIEVE  (1 << 1)
+#define IBUS_STATE_TRANSMIT  (1 << 2)
 
 /**
  * Class to handle IBus messages. The I-Bus must be conencted
@@ -97,13 +103,8 @@ class IBus
 {
 	public:
 
-        enum State
-        {
-            IDLE,
-            RECIEVE,
-            TRANSMIT
-        };
 
+        typedef unsigned char State;
         State mState;
         
         /**
@@ -113,10 +114,7 @@ class IBus
 
         //! Singleton storing the interface
         static IBus mSingleton;
-
-        //! Set uart interface to use for comunication
-        inline void setUart(Uart* uart);
-
+        
         /**
          * Callback function which will be used if a message on
          * the ibus is found.
@@ -133,6 +131,12 @@ class IBus
         inline void setMessageCallback(MessageCallback f);
 
         /**
+         * Callback to be used to send byte over uart interface
+         **/
+        typedef void(* UartSendByteCallback)(uint8_t byte);
+        inline void setUartSendByteCallback(UartSendByteCallback f) { mSendByteCallback=f; }
+        
+        /**
          * Tick - perform updates, send messages from queue, submit recieved msgs
          **/
         void tick();
@@ -146,20 +150,18 @@ class IBus
          * Send message over the ibus. You can speify how much tries
          * there will be if message could not be send.
          **/
-        void sendMessage(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msgLength);//, uint8_t numberOfTries);
+        void sendMessage(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msgLength, uint8_t numberOfTries);
 
     public:
 
-        //! uart interface which is connected to the ibus
-        Uart* mBusUart;
-
 	//! Callback function for new messages
         MessageCallback mMsgCallback;
-
+        UartSendByteCallback mSendByteCallback;
+        
         //! Function to use as callback for the uart interface
-        static void uartReceiveCallback(uint8_t c);
+        static void uartReceiveCallback(void);
         static void uartTransmittedCallback(void);
-        void recieveCallback(uint8_t c);
+        void recieveCallback(uint8_t c, uint16_t error);
         void transmitCallback();
         void startTransmission();
         
@@ -174,20 +176,9 @@ class IBus
         uint16_t mTxReadPos;
         uint16_t mTxWritePos;
         uint16_t mRxPos;
-        uint8_t mRxLen;
+        uint8_t  mRxLen;
 };
 
-//--------------------------------------------------------------------------
-void IBus::setUart(Uart* uart)
-{
-    mBusUart = uart;
-    if (uart != NULL)
-    {
-        mBusUart->setBaud(95);//UART_COMPUTE_BAUD(F_CPU, 9600));
-        mBusUart->setFormat(8,1,Uart::EVEN_PARITY);
-        mBusUart->setReceiveCallback(uartReceiveCallback);
-    }
-}
 
 //--------------------------------------------------------------------------
 void IBus::setMessageCallback(MessageCallback f)
