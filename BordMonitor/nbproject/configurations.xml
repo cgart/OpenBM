@@ -16,8 +16,8 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/ibus.cpp</itemPath>
-      <itemPath>main.cpp</itemPath>
+      <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/ibus.c</itemPath>
+      <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/main.c</itemPath>
       <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/twimaster.c</itemPath>
       <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/uart.c</itemPath>
     </logicalFolder>

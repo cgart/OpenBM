@@ -18,6 +18,10 @@
 #include "base.h"
 #include <string.h>
 
+ #ifdef __cplusplus
+ extern "C" {
+ #endif
+
 //*** Device Codes ***
 #define IBUS_DEV_GM      0X00    // Body Module
 #define IBUS_DEV_CDC     0x18    // CD Changer
@@ -68,26 +72,22 @@
 #define IBUS_MSG_VEHICLE_CTRL       0x0C    // Vehicle Control (mostly used from diagnose)
 
 //*** iBus Settings ***
-#define IBUS_MSG_TX_BUFFER_SIZE       256
-#define IBUS_MSG_TX_BUFFER_SIZE_MASK  (IBUS_MSG_TX_BUFFER_SIZE - 1)
-#define IBUS_MSG_RX_BUFFER_SIZE       256
-#define IBUS_MSG_RX_BUFFER_SIZE_MASK  (IBUS_MSG_RX_BUFFER_SIZE - 1)
 #define IBUS_SENSTA_VALUE()           bit_is_set(PIND,2)
-#define IBUS_SENSTA_SETUP()           { DDRD &= ~(1 << DDD2); PORTD |= (1 << 2);}
+#define IBUS_SENSTA_SETUP()           { DDRD &= ~(1 << DDD2); PORTD |= (1 << 2); MCUCR |= (1 << ISC00) | (1 << ISC01); }
 #define IBUS_SENSTA_INT_VECT          INT0_vect
-#define IBUS_SENSTA_ENABLE_INTERRUPT()  { MCUCR |= (1 << ISC00) | (1 << ISC01); GICR |= (1 << INT0); }
+#define IBUS_SENSTA_ENABLE_INTERRUPT()   { GICR |= (1 << INT0); }
 #define IBUS_SENSTA_DISABLE_INTERRUPT()  { GICR &= ~(1 << INT0); }
-#define IBUS_TIMER_SETUP() {TCCR1B = (1 << CS11) | (1 << CS10);}
-#define IBUS_TIMER_100MS() { BEGIN_ATOMAR; TIMSK |= (1 << TOIE1); TCNT1 = 42496; END_ATOMAR;}
-#define IBUS_TIMER_75MS()  { BEGIN_ATOMAR; TIMSK |= (1 << TOIE1); TCNT1 = 48256; END_ATOMAR;}
-#define IBUS_TIMER_50MS()  { BEGIN_ATOMAR; TIMSK |= (1 << TOIE1); TCNT1 = 54016; END_ATOMAR;}
-#define IBUS_TIMER_30MS()  { BEGIN_ATOMAR; TIMSK |= (1 << TOIE1); TCNT1 = 58624; END_ATOMAR;}
-#define IBUS_TIMER_DISABLE_INTERRUPT() {TIMSK &= ~(1 << TOIE1);}
+#define IBUS_TIMER_SETUP() { TCCR1B = (1 << CS11) | (1 << CS10); }
+#define IBUS_TIMER_100MS() { TCNT1 = 42496; TIMSK |= (1 << TOIE1); }
+//#define IBUS_TIMER_100MS() { TCNT1 = 0; TIMSK |= (1 << TOIE1); }
+#define IBUS_TIMER_75MS()  { TCNT1 = 48256; TIMSK |= (1 << TOIE1); }
+#define IBUS_TIMER_50MS()  { TCNT1 = 54016; TIMSK |= (1 << TOIE1); }
+#define IBUS_TIMER_30MS()  { TCNT1 = 58624; TIMSK |= (1 << TOIE1); }
+#define IBUS_TIMER_DISABLE_INTERRUPT() { TIMSK &= ~(1 << TOIE1); }
 #define IBUS_TIMER_INTERRUPT TIMER1_OVF_vect
 #define IBUS_TRANSMIT_TRIES 3
 
-
-// default constants
+//******* default constants **********
 #define IBUS_STATE_IDLE 0
 #define IBUS_STATE_WAIT_FREE_BUS  (1 << 0)
 #define IBUS_STATE_RECIEVE  (1 << 1)
@@ -99,92 +99,37 @@
  * This device must handle the bus specific communication.
  * The logic is handled in this class blah blah blah :-)
  **/
-class IBus
-{
-	public:
+
+/**
+ * Init ibus interface. This will also initialise the used uart interface.
+ */
+extern void ibus_init(void);
+
+/**
+ * Set callback function, called when message arived.
+ * the ibus is found.
+ * @param src ID of the sender
+ * @param dst ID of the receiver
+ * @param msg String containing the full message
+ * @param msglen Length of the message string
+ **/
+extern void ibus_setMessageCallback(void(*cb)(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen));
+
+/**
+ * Update ibus instance.
+ **/
+extern void ibus_tick(void);
+
+/**
+ * Send message over the ibus. You can speify how much tries
+ * there will be if message could not be send.
+ **/
+extern void ibus_sendMessage(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msgLength, uint8_t numberOfTries);
 
 
-        typedef unsigned char State;
-        State mState;
-        
-        /**
-         * Initialize singleton pointer to the IBus
-        **/
-        static IBus* initialize();
-
-        //! Singleton storing the interface
-        static IBus mSingleton;
-        
-        /**
-         * Callback function which will be used if a message on
-         * the ibus is found.
-         * @param src ID of the sender
-         * @param dst ID of the receiver
-         * @param msg String containing the full message
-         * @param msglen Length of the message string
-         **/
-        typedef void(* MessageCallback)(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen);
-
-        /**
-         * Set callback function which will be called on a new message
-         **/
-        inline void setMessageCallback(MessageCallback f);
-
-        /**
-         * Callback to be used to send byte over uart interface
-         **/
-        typedef void(* UartSendByteCallback)(uint8_t byte);
-        inline void setUartSendByteCallback(UartSendByteCallback f) { mSendByteCallback=f; }
-        
-        /**
-         * Tick - perform updates, send messages from queue, submit recieved msgs
-         **/
-        void tick();
-        
-        /**
-         * Calculate checksum of the message
-         **/
-        uint8_t calcChecksum(uint8_t* pBuffer);
-
-        /**
-         * Send message over the ibus. You can speify how much tries
-         * there will be if message could not be send.
-         **/
-        void sendMessage(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msgLength, uint8_t numberOfTries);
-
-    public:
-
-	//! Callback function for new messages
-        MessageCallback mMsgCallback;
-        UartSendByteCallback mSendByteCallback;
-        
-        //! Function to use as callback for the uart interface
-        static void uartReceiveCallback(void);
-        static void uartTransmittedCallback(void);
-        void recieveCallback(uint8_t c, uint16_t error);
-        void transmitCallback();
-        void startTransmission();
-        
-        //! transimt buffer where to hold messages to be transmitted
-        static uint8_t mTxBuffer[];
-
-        //! recieve buffer
-        static uint8_t mRxBuffer[];
-        
-        //! current read position from the tx buffer
-        uint16_t mTxReadPos_old;
-        uint16_t mTxReadPos;
-        uint16_t mTxWritePos;
-        uint16_t mRxPos;
-        uint8_t  mRxLen;
-};
-
-
-//--------------------------------------------------------------------------
-void IBus::setMessageCallback(MessageCallback f)
-{
-    mMsgCallback = f;
-}
+ #ifdef __cplusplus
+ }
+ #endif
 
 
 #endif

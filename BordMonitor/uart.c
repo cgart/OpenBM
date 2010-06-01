@@ -583,7 +583,14 @@ Returns:  None
 **************************************************************************/
 void uart_flush(void)
 {
-        UART_RxHead = UART_RxTail;
+    UART_RxHead = UART_RxTail;
+
+    // flush readed data from internal fifo
+    while ((UART0_STATUS & (1<<RXC)))
+    {
+        UDR;
+    }
+
 }/* uart_flush */
 
 //--------------------------------------------------------------------------
@@ -621,7 +628,6 @@ void uart_setFormat(uint8_t wordLength, uint8_t numStopBits, uint8_t parity)
     #ifdef URSEL
     UCSRC = (1<<URSEL) | set;
     #else
-    //    #error "This part is not programmed well for other uCs"
     UCSRC = set;
     #endif
 
@@ -632,8 +638,15 @@ void uart_setFormat(uint8_t wordLength, uint8_t numStopBits, uint8_t parity)
 //--------------------------------------------------------------------------
 void uart_setTxRx(unsigned char tx, unsigned char rx)
 {
-    if (tx) UART0_CONTROL |= (1<<TXEN); else UART0_CONTROL &= ~(1<<TXEN);
-    if (rx) UART0_CONTROL |= (1<<RXEN) | (1 << RXCIE); else UART0_CONTROL &= ~(1<<RXEN) & ~(1<<RXCIE);
+    if (tx) 
+        UART0_CONTROL |= (1<<TXEN);
+    else
+        UART0_CONTROL &= ~(1<<TXEN);
+
+    if (rx)
+        UART0_CONTROL |= (1<<RXEN) | (1 << RXCIE);
+    else
+        UART0_CONTROL &= ~(1<<RXEN) & ~(1<<RXCIE);
 }
 
 //--------------------------------------------------------------------------

@@ -32,9 +32,9 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/ibus.o \
+	${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/main.o \
 	${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/uart.o \
-	${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/twimaster.o \
-	${OBJECTDIR}/main.o
+	${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/twimaster.o
 
 # C Compiler Flags
 CFLAGS=
@@ -58,12 +58,17 @@ LDLIBSOPTIONS=
 
 dist/Debug/AVR-Linux-x86/bordmonitor: ${OBJECTFILES}
 	${MKDIR} -p dist/Debug/AVR-Linux-x86
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bordmonitor ${OBJECTFILES} ${LDLIBSOPTIONS} 
+	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bordmonitor ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
-${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/ibus.o: nbproject/Makefile-${CND_CONF}.mk /media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/ibus.cpp 
+${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/ibus.o: nbproject/Makefile-${CND_CONF}.mk /media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/ibus.c 
 	${MKDIR} -p ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor
 	${RM} $@.d
-	$(COMPILE.cc) -g -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/ibus.o /media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/ibus.cpp
+	$(COMPILE.c) -g -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/ibus.o /media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/ibus.c
+
+${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/main.o: nbproject/Makefile-${CND_CONF}.mk /media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/main.c 
+	${MKDIR} -p ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor
+	${RM} $@.d
+	$(COMPILE.c) -g -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/main.o /media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/main.c
 
 ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/uart.o: nbproject/Makefile-${CND_CONF}.mk /media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/uart.c 
 	${MKDIR} -p ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor
@@ -74,11 +79,6 @@ ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/twimaste
 	${MKDIR} -p ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor
 	${RM} $@.d
 	$(COMPILE.c) -g -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/twimaster.o /media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/twimaster.c
-
-${OBJECTDIR}/main.o: nbproject/Makefile-${CND_CONF}.mk main.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -g -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
 
 # Subprojects
 .build-subprojects:
