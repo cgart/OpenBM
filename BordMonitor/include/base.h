@@ -20,9 +20,6 @@
 #endif
 #define SCL_CLOCK 100000 // 20kHz for the I2C Bus
 
-#define PORT_EXPANDER_ENCODER_ADD 0b01000000
-#define PORT_EXPANDER_RADIO_ADD   0b01000010
-#define PORT_EXPANDER_BMBT_ADD    0b01000100
 
 //--------------------------------------------------------------------------
 // Include basic headers
@@ -38,6 +35,32 @@
 #define BEGIN_ATOMAR unsigned char _sreg = SREG; cli();
 #define END_ATOMAR SREG = _sreg;
 #define parity_odd_bit(v) parity_even_bit(v)^0x01
+#define is_bit_set(a,b) ((a >> b) & 1)
+
+//--------------------------------------------------------------------------
+// Global ticks
+//--------------------------------------------------------------------------
+//#define ONE_TICK() 180  // length of one tick in by 14MHz/1024 prescaler = 1/80s
+#define TICKS_PER_SECOND() 80  // length of task ticks for one second
+//#define TICK_INTERRUPT TIMER2_COMP_vect
+
+// current number of ticks since last reset
+typedef uint32_t ticks_t;
+extern ticks_t g_tickNumber;
+
+// init tick counter
+//#define tick_init() {TIMSK |= (1 << OCIE2); TCCR2 = (1 << CS22) | (1 << CS21) | (1 << CS20);}
+#define tick_init() {TCCR2 = (1 << CS22) | (1 << CS21) | (1 << CS20);}
+
+// get current number of ticks
+#define tick_get() g_tickNumber
+
+// do ticking
+//#define tick() {g_tickNumber++; TCNT2 = 0; OCR2 = 180;}
+#define tick() {g_tickNumber++; TCNT2 = 0;}
+
+// check if there is a tick
+#define tick_event() (TCNT2 >= 180)
 
 //--------------------------------------------------------------------------
 // Definitions for different MCUs
