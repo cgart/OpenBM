@@ -1,0 +1,1683 @@
+GAS LISTING /tmp/ccm1vQro.s 			page 1
+
+
+   1               		.file	"ibus.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  10               		.stabs	"/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/",100,0,2,.Ltext0
+  11               		.stabs	"ibus.c",100,0,2,.Ltext0
+  12               		.text
+  13               	.Ltext0:
+  14               		.stabs	"gcc2_compiled.",60,0,0,0
+  15               		.stabs	"int:t(0,1)=r(0,1);-32768;32767;",128,0,1,0
+  16               		.stabs	"char:t(0,2)=@s8;r(0,2);0;255;",128,0,1,0
+  17               		.stabs	"long int:t(0,3)=@s32;r(0,3);020000000000;017777777777;",128,0,1,0
+  18               		.stabs	"unsigned int:t(0,4)=r(0,4);0;0177777;",128,0,1,0
+  19               		.stabs	"long unsigned int:t(0,5)=@s32;r(0,5);0;037777777777;",128,0,1,0
+  20               		.stabs	"long long int:t(0,6)=@s64;r(0,6);01000000000000000000000;0777777777777777777777;",128,0,1,
+  21               		.stabs	"long long unsigned int:t(0,7)=@s64;r(0,7);0;01777777777777777777777;",128,0,1,0
+  22               		.stabs	"short int:t(0,8)=r(0,8);-32768;32767;",128,0,1,0
+  23               		.stabs	"short unsigned int:t(0,9)=r(0,9);0;0177777;",128,0,1,0
+  24               		.stabs	"signed char:t(0,10)=@s8;r(0,10);-128;127;",128,0,1,0
+  25               		.stabs	"unsigned char:t(0,11)=@s8;r(0,11);0;255;",128,0,1,0
+  26               		.stabs	"float:t(0,12)=r(0,1);4;0;",128,0,1,0
+  27               		.stabs	"double:t(0,13)=r(0,1);4;0;",128,0,1,0
+  28               		.stabs	"long double:t(0,14)=r(0,1);4;0;",128,0,1,0
+  29               		.stabs	"void:t(0,15)=(0,15)",128,0,1,0
+  30               		.stabs	"./include/ibus.h",130,0,0,0
+  31               		.stabs	"./include/base.h",130,0,0,0
+  32               		.stabs	"/usr/lib/gcc/avr/4.3.4/../../../avr/include/avr/io.h",130,0,0,0
+  33               		.stabs	"/usr/lib/gcc/avr/4.3.4/../../../avr/include/avr/sfr_defs.h",130,0,0,0
+  34               		.stabs	"/usr/lib/gcc/avr/4.3.4/../../../avr/include/inttypes.h",130,0,0,0
+  35               		.stabs	"/usr/lib/gcc/avr/4.3.4/../../../avr/include/stdint.h",130,0,0,0
+  36               		.stabs	"int8_t:t(6,1)=(0,10)",128,0,121,0
+  37               		.stabs	"uint8_t:t(6,2)=(0,11)",128,0,122,0
+  38               		.stabs	"int16_t:t(6,3)=(0,1)",128,0,123,0
+  39               		.stabs	"uint16_t:t(6,4)=(0,4)",128,0,124,0
+  40               		.stabs	"int32_t:t(6,5)=(0,3)",128,0,125,0
+  41               		.stabs	"uint32_t:t(6,6)=(0,5)",128,0,126,0
+  42               		.stabs	"int64_t:t(6,7)=(0,6)",128,0,128,0
+  43               		.stabs	"uint64_t:t(6,8)=(0,7)",128,0,129,0
+  44               		.stabs	"intptr_t:t(6,9)=(6,3)",128,0,142,0
+  45               		.stabs	"uintptr_t:t(6,10)=(6,4)",128,0,147,0
+  46               		.stabs	"int_least8_t:t(6,11)=(6,1)",128,0,159,0
+  47               		.stabs	"uint_least8_t:t(6,12)=(6,2)",128,0,164,0
+  48               		.stabs	"int_least16_t:t(6,13)=(6,3)",128,0,169,0
+  49               		.stabs	"uint_least16_t:t(6,14)=(6,4)",128,0,174,0
+  50               		.stabs	"int_least32_t:t(6,15)=(6,5)",128,0,179,0
+  51               		.stabs	"uint_least32_t:t(6,16)=(6,6)",128,0,184,0
+  52               		.stabs	"int_least64_t:t(6,17)=(6,7)",128,0,192,0
+  53               		.stabs	"uint_least64_t:t(6,18)=(6,8)",128,0,199,0
+  54               		.stabs	"int_fast8_t:t(6,19)=(6,1)",128,0,213,0
+  55               		.stabs	"uint_fast8_t:t(6,20)=(6,2)",128,0,218,0
+  56               		.stabs	"int_fast16_t:t(6,21)=(6,3)",128,0,223,0
+  57               		.stabs	"uint_fast16_t:t(6,22)=(6,4)",128,0,228,0
+GAS LISTING /tmp/ccm1vQro.s 			page 2
+
+
+  58               		.stabs	"int_fast32_t:t(6,23)=(6,5)",128,0,233,0
+  59               		.stabs	"uint_fast32_t:t(6,24)=(6,6)",128,0,238,0
+  60               		.stabs	"int_fast64_t:t(6,25)=(6,7)",128,0,246,0
+  61               		.stabs	"uint_fast64_t:t(6,26)=(6,8)",128,0,253,0
+  62               		.stabs	"intmax_t:t(6,27)=(6,7)",128,0,273,0
+  63               		.stabs	"uintmax_t:t(6,28)=(6,8)",128,0,278,0
+  64               		.stabn	162,0,0,0
+  65               		.stabs	"int_farptr_t:t(5,1)=(6,5)",128,0,77,0
+  66               		.stabs	"uint_farptr_t:t(5,2)=(6,6)",128,0,81,0
+  67               		.stabn	162,0,0,0
+  68               		.stabn	162,0,0,0
+  69               		.stabs	"/usr/lib/gcc/avr/4.3.4/../../../avr/include/avr/fuse.h",130,0,0,0
+  70               		.stabs	"__fuse_t:t(7,1)=(7,2)=s2low:(0,11),0,8;high:(0,11),8,8;;",128,0,247,0
+  71               		.stabn	162,0,0,0
+  72               		.stabn	162,0,0,0
+  73               		.stabs	"/usr/lib/gcc/avr/4.3.4/../../../avr/include/stdlib.h",130,0,0,0
+  74               		.stabs	"/usr/lib/gcc/avr/4.3.4/include/stddef.h",130,0,0,0
+  75               		.stabs	"size_t:t(9,1)=(0,4)",128,0,214,0
+  76               		.stabs	"wchar_t:t(9,2)=(0,1)",128,0,326,0
+  77               		.stabn	162,0,0,0
+  78               		.stabs	"div_t:t(8,1)=(8,2)=s4quot:(0,1),0,16;rem:(0,1),16,16;;",128,0,71,0
+  79               		.stabs	"ldiv_t:t(8,3)=(8,4)=s8quot:(0,3),0,32;rem:(0,3),32,32;;",128,0,77,0
+  80               		.stabs	"__compar_fn_t:t(8,5)=(8,6)=*(8,7)=f(0,1)",128,0,80,0
+  81               		.stabn	162,0,0,0
+  82               		.stabs	"/usr/lib/gcc/avr/4.3.4/../../../avr/include/avr/pgmspace.h",130,0,0,0
+  83               		.stabs	"prog_void:t(10,1)=(10,2)=(10,2)",128,0,211,0
+  84               		.stabs	"prog_char:t(10,3)=(10,4)=@s8;r(10,4);0;255;",128,0,212,0
+  85               		.stabs	"prog_uchar:t(10,5)=(10,4)",128,0,213,0
+  86               		.stabs	"prog_int8_t:t(10,6)=(10,7)=(0,10)",128,0,215,0
+  87               		.stabs	"prog_uint8_t:t(10,8)=(10,4)",128,0,216,0
+  88               		.stabs	"prog_int16_t:t(10,9)=(10,10)=(0,1)",128,0,217,0
+  89               		.stabs	"prog_uint16_t:t(10,11)=(10,12)=(0,4)",128,0,218,0
+  90               		.stabs	"prog_int32_t:t(10,13)=(10,14)=(0,3)",128,0,219,0
+  91               		.stabs	"prog_uint32_t:t(10,15)=(10,16)=(0,5)",128,0,220,0
+  92               		.stabs	"prog_int64_t:t(10,17)=(10,18)=(0,6)",128,0,222,0
+  93               		.stabs	"prog_uint64_t:t(10,19)=(10,20)=(0,7)",128,0,223,0
+  94               		.stabn	162,0,0,0
+  95               		.stabs	"ticks_t:t(2,1)=(6,6)",128,0,48,0
+  96               		.stabn	162,0,0,0
+  97               		.stabn	162,0,0,0
+  98               		.stabs	"posptr_t:t(0,16)=(6,2)",128,0,21,0
+  99               		.stabs	"ibus_setMessageCallback:F(0,15)",36,0,52,ibus_setMessageCallback
+ 100               		.stabs	"cb:P(0,17)=*(0,18)=f(0,15)",64,0,51,24
+ 101               	.global	ibus_setMessageCallback
+ 102               		.type	ibus_setMessageCallback, @function
+ 103               	ibus_setMessageCallback:
+ 104               		.stabd	46,0,0
+   0:ibus.c        **** /***************************************************************************
+   1:ibus.c        ****  *                                                                         *
+   2:ibus.c        ****  *   (c) Art Tevs, MPI Informatik Saarbruecken                             *
+   3:ibus.c        ****  *       mailto: <tevs@mpi-sb.mpg.de>                                      *
+   4:ibus.c        ****  *                                                                         *
+   5:ibus.c        ****  *   This program is free software; you can redistribute it and/or modify  *
+   6:ibus.c        ****  *   it under the terms of the GNU General Public License as published by  *
+   7:ibus.c        ****  *   the Free Software Foundation; either version 2 of the License, or     *
+   8:ibus.c        ****  *   (at your option) any later version.                                   *
+   9:ibus.c        ****  *                                                                         *
+GAS LISTING /tmp/ccm1vQro.s 			page 3
+
+
+  10:ibus.c        ****  ***************************************************************************/
+  11:ibus.c        **** #include "ibus.h"
+  12:ibus.c        **** #include "uart.h"
+  13:ibus.c        **** 
+  14:ibus.c        **** #define IBUS_USE_SHORT_BUFFER
+  15:ibus.c        **** 
+  16:ibus.c        **** #ifdef IBUS_USE_SHORT_BUFFER
+  17:ibus.c        ****     #define IBUS_MSG_TX_BUFFER_SIZE       256
+  18:ibus.c        ****     #define IBUS_MSG_RX_BUFFER_SIZE       256
+  19:ibus.c        **** 
+  20:ibus.c        ****     typedef uint8_t posptr_t;
+  21:ibus.c        ****     #define inc_posptr(ptr, mask) ptr++;
+  22:ibus.c        ****     #define inc_posptr_rx(ptr) ptr++;
+  23:ibus.c        ****     #define inc_posptr_tx(ptr) ptr++;
+  24:ibus.c        **** #else
+  25:ibus.c        ****     #define IBUS_MSG_TX_BUFFER_SIZE       256
+  26:ibus.c        ****     #define IBUS_MSG_RX_BUFFER_SIZE       256
+  27:ibus.c        **** 
+  28:ibus.c        ****     typedef uint16_t posptr_t;
+  29:ibus.c        ****     #define inc_posptr(ptr, mask) (ptr + 1) & mask;
+  30:ibus.c        ****     #define inc_posptr_rx(ptr) (ptr + 1) & IBUS_MSG_RX_BUFFER_SIZE_MASK;
+  31:ibus.c        ****     #define inc_posptr_tx(ptr) (ptr + 1) & IBUS_MSG_TX_BUFFER_SIZE_MASK;
+  32:ibus.c        **** #endif
+  33:ibus.c        **** 
+  34:ibus.c        **** #define IBUS_MSG_TX_BUFFER_SIZE_MASK  (IBUS_MSG_TX_BUFFER_SIZE - 1)
+  35:ibus.c        **** #define IBUS_MSG_RX_BUFFER_SIZE_MASK  (IBUS_MSG_RX_BUFFER_SIZE - 1)
+  36:ibus.c        **** 
+  37:ibus.c        **** uint8_t g_ibus_TxBuffer[IBUS_MSG_TX_BUFFER_SIZE];
+  38:ibus.c        **** uint8_t g_ibus_RxBuffer[IBUS_MSG_RX_BUFFER_SIZE];
+  39:ibus.c        **** 
+  40:ibus.c        **** void(*g_ibus_MsgCallback)(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen);
+  41:ibus.c        **** 
+  42:ibus.c        **** uint8_t  g_ibus_State = IBUS_STATE_IDLE;
+  43:ibus.c        **** posptr_t g_ibus_TxReadPos_old = 0;
+  44:ibus.c        **** posptr_t g_ibus_TxReadPos = 0;
+  45:ibus.c        **** posptr_t g_ibus_TxWritePos = 0;
+  46:ibus.c        **** posptr_t g_ibus_RxPos = 0;
+  47:ibus.c        **** posptr_t  g_ibus_RxLen = 0;
+  48:ibus.c        **** 
+  49:ibus.c        **** //--------------------------------------------------------------------------
+  50:ibus.c        **** void ibus_setMessageCallback(void(*cb)(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen))
+  51:ibus.c        **** {
+ 105               		.stabn	68,0,52,.LM0-.LFBB1
+ 106               	.LM0:
+ 107               	.LFBB1:
+ 108               	/* prologue: function */
+ 109               	/* frame size = 0 */
+  52:ibus.c        ****     g_ibus_MsgCallback = cb;
+ 110               		.stabn	68,0,53,.LM1-.LFBB1
+ 111               	.LM1:
+ 112 0000 9093 0000 		sts (g_ibus_MsgCallback)+1,r25
+ 113 0004 8093 0000 		sts g_ibus_MsgCallback,r24
+ 114               	/* epilogue start */
+  53:ibus.c        **** }
+ 115               		.stabn	68,0,54,.LM2-.LFBB1
+ 116               	.LM2:
+ 117 0008 0895      		ret
+GAS LISTING /tmp/ccm1vQro.s 			page 4
+
+
+ 118               		.size	ibus_setMessageCallback, .-ibus_setMessageCallback
+ 119               	.Lscope1:
+ 120               		.stabs	"",36,0,0,.Lscope1-.LFBB1
+ 121               		.stabd	78,0,0
+ 122               		.stabs	"ibus_calcChecksum:F(6,2)",36,0,58,ibus_calcChecksum
+ 123               		.stabs	"pBuffer:P(0,19)=*(6,2)",64,0,57,30
+ 124               	.global	ibus_calcChecksum
+ 125               		.type	ibus_calcChecksum, @function
+ 126               	ibus_calcChecksum:
+ 127               		.stabd	46,0,0
+  54:ibus.c        **** 
+  55:ibus.c        **** //--------------------------------------------------------------------------
+  56:ibus.c        **** uint8_t ibus_calcChecksum(uint8_t* pBuffer)
+  57:ibus.c        **** {
+ 128               		.stabn	68,0,58,.LM3-.LFBB2
+ 129               	.LM3:
+ 130               	.LFBB2:
+ 131               	/* prologue: function */
+ 132               	/* frame size = 0 */
+ 133 000a FC01      		movw r30,r24
+  58:ibus.c        ****   if(pBuffer == NULL)
+ 134               		.stabn	68,0,59,.LM4-.LFBB2
+ 135               	.LM4:
+ 136 000c 0097      		sbiw r24,0
+ 137 000e 01F4      		brne .L4
+ 138 0010 90E0      		ldi r25,lo8(0)
+ 139 0012 00C0      		rjmp .L5
+ 140               	.L4:
+  59:ibus.c        ****     return 0;
+  60:ibus.c        **** 
+  61:ibus.c        ****   posptr_t i;
+  62:ibus.c        ****   posptr_t len;
+  63:ibus.c        ****   uint8_t checksum;
+  64:ibus.c        **** 
+  65:ibus.c        ****   checksum = 0;
+  66:ibus.c        ****   len = pBuffer[1] + 1;
+ 141               		.stabn	68,0,67,.LM5-.LFBB2
+ 142               	.LM5:
+ 143 0014 3181      		ldd r19,Z+1
+ 144 0016 3F5F      		subi r19,lo8(-(1))
+ 145 0018 20E0      		ldi r18,lo8(0)
+ 146 001a 90E0      		ldi r25,lo8(0)
+ 147 001c 00C0      		rjmp .L6
+ 148               	.L7:
+  67:ibus.c        **** 
+  68:ibus.c        ****   for(i = 0; i < len;)
+  69:ibus.c        ****   {
+  70:ibus.c        ****       checksum ^= pBuffer[i];
+ 149               		.stabn	68,0,71,.LM6-.LFBB2
+ 150               	.LM6:
+ 151 001e 8191      		ld r24,Z+
+ 152 0020 9827      		eor r25,r24
+  71:ibus.c        ****       inc_posptr_tx(i);
+ 153               		.stabn	68,0,72,.LM7-.LFBB2
+ 154               	.LM7:
+ 155 0022 2F5F      		subi r18,lo8(-(1))
+ 156               	.L6:
+GAS LISTING /tmp/ccm1vQro.s 			page 5
+
+
+  69:ibus.c        ****   for(i = 0; i < len;)
+ 157               		.stabn	68,0,69,.LM8-.LFBB2
+ 158               	.LM8:
+ 159 0024 2317      		cp r18,r19
+ 160 0026 00F0      		brlo .L7
+ 161               	.L5:
+  72:ibus.c        ****   }
+  73:ibus.c        **** 
+  74:ibus.c        ****   return checksum;
+  75:ibus.c        **** }
+ 162               		.stabn	68,0,76,.LM9-.LFBB2
+ 163               	.LM9:
+ 164 0028 892F      		mov r24,r25
+ 165               	/* epilogue start */
+ 166 002a 0895      		ret
+ 167               		.size	ibus_calcChecksum, .-ibus_calcChecksum
+ 168               		.stabs	"i:r(0,16)",64,0,62,18
+ 169               		.stabs	"len:r(0,16)",64,0,63,19
+ 170               		.stabs	"checksum:r(6,2)",64,0,64,25
+ 171               		.stabn	192,0,0,.LFBB2-.LFBB2
+ 172               		.stabn	224,0,0,.Lscope2-.LFBB2
+ 173               	.Lscope2:
+ 174               		.stabs	"",36,0,0,.Lscope2-.LFBB2
+ 175               		.stabd	78,0,0
+ 176               		.stabs	"ibus_recieveCallback:F(0,15)",36,0,98,ibus_recieveCallback
+ 177               		.stabs	"c:P(6,2)",64,0,97,20
+ 178               		.stabs	"error:P(6,4)",64,0,97,22
+ 179               	.global	ibus_recieveCallback
+ 180               		.type	ibus_recieveCallback, @function
+ 181               	ibus_recieveCallback:
+ 182               		.stabd	46,0,0
+  76:ibus.c        **** 
+  77:ibus.c        **** //--------------------------------------------------------------------------
+  78:ibus.c        **** void ibus_transmitCallback(void)
+  79:ibus.c        **** {
+  80:ibus.c        ****     PORTD &= ~(1 << 6);
+  81:ibus.c        **** 
+  82:ibus.c        ****     BEGIN_ATOMAR;
+  83:ibus.c        ****     {
+  84:ibus.c        ****         // disable collision interrupt and
+  85:ibus.c        ****         IBUS_SENSTA_DISABLE_INTERRUPT();
+  86:ibus.c        ****         uart_setTransmitDoneCallback(NULL);
+  87:ibus.c        ****         
+  88:ibus.c        ****         // start to wait for free bus, this will introduce small delay between msgs
+  89:ibus.c        ****         g_ibus_State = IBUS_STATE_WAIT_FREE_BUS;
+  90:ibus.c        ****         IBUS_TIMEOUT_AFTER_TRANSMIT();
+  91:ibus.c        ****     }
+  92:ibus.c        ****     END_ATOMAR;
+  93:ibus.c        **** }
+  94:ibus.c        **** 
+  95:ibus.c        **** //--------------------------------------------------------------------------
+  96:ibus.c        **** void ibus_recieveCallback(uint8_t c, uint16_t error)
+  97:ibus.c        **** {
+ 183               		.stabn	68,0,98,.LM10-.LFBB3
+ 184               	.LM10:
+ 185               	.LFBB3:
+ 186               	/* prologue: function */
+GAS LISTING /tmp/ccm1vQro.s 			page 6
+
+
+ 187               	/* frame size = 0 */
+ 188 002c 482F      		mov r20,r24
+  98:ibus.c        ****     /*static uint8_t on = 0;
+  99:ibus.c        ****     if (on)
+ 100:ibus.c        ****         PORTC &= ~(1 << 2);
+ 101:ibus.c        ****     else
+ 102:ibus.c        ****         PORTC |= (1 << 2);
+ 103:ibus.c        ****     on = !on;*/
+ 104:ibus.c        **** 
+ 105:ibus.c        ****     // check if there was an error, then reset state and wait until bus get free
+ 106:ibus.c        ****     if (error != 0)
+ 189               		.stabn	68,0,107,.LM11-.LFBB3
+ 190               	.LM11:
+ 191 002e 672B      		or r22,r23
+ 192 0030 01F0      		breq .L10
+ 107:ibus.c        ****     {
+ 108:ibus.c        ****         /*static uint8_t onb = 0;
+ 109:ibus.c        ****         if (onb)
+ 110:ibus.c        ****             PORTC &= ~(1 << 5);
+ 111:ibus.c        ****         else
+ 112:ibus.c        ****             PORTC |= (1 << 5);
+ 113:ibus.c        ****         onb = !onb;*/
+ 114:ibus.c        **** 
+ 115:ibus.c        ****         g_ibus_State = IBUS_STATE_WAIT_FREE_BUS;
+ 193               		.stabn	68,0,116,.LM12-.LFBB3
+ 194               	.LM12:
+ 195 0032 81E0      		ldi r24,lo8(1)
+ 196 0034 8093 0000 		sts g_ibus_State,r24
+ 116:ibus.c        ****         IBUS_TIMEOUT_RECEIVE_ERROR();
+ 197               		.stabn	68,0,117,.LM13-.LFBB3
+ 198               	.LM13:
+ 199 0038 8BE9      		ldi r24,lo8(-101)
+ 200 003a 9FEF      		ldi r25,hi8(-101)
+ 201 003c 9DBD      		out (76)+1-32,r25
+ 202 003e 8CBD      		out 76-32,r24
+ 203 0040 89B7      		in r24,89-32
+ 204 0042 8460      		ori r24,lo8(4)
+ 205 0044 89BF      		out 89-32,r24
+ 206 0046 0895      		ret
+ 207               	.L10:
+ 117:ibus.c        ****         return;
+ 118:ibus.c        ****     }
+ 119:ibus.c        **** 
+ 120:ibus.c        ****     BEGIN_ATOMAR;
+ 208               		.stabn	68,0,121,.LM14-.LFBB3
+ 209               	.LM14:
+ 210 0048 5FB7      		in r21,__SREG__
+ 211               	/* #APP */
+ 212               	 ;  121 "ibus.c" 1
+ 213 004a F894      		cli
+ 214               	 ;  0 "" 2
+ 121:ibus.c        ****     {
+ 122:ibus.c        ****         // go to recieve state and start timer which check for timeout
+ 123:ibus.c        ****         g_ibus_State = IBUS_STATE_RECIEVE;
+ 215               		.stabn	68,0,124,.LM15-.LFBB3
+ 216               	.LM15:
+ 217               	/* #NOAPP */
+GAS LISTING /tmp/ccm1vQro.s 			page 7
+
+
+ 218 004c 82E0      		ldi r24,lo8(2)
+ 219 004e 8093 0000 		sts g_ibus_State,r24
+ 124:ibus.c        **** 
+ 125:ibus.c        ****         // put recieved byte into buffer
+ 126:ibus.c        ****         g_ibus_RxBuffer[g_ibus_RxPos] = c; inc_posptr_rx(g_ibus_RxPos);
+ 220               		.stabn	68,0,127,.LM16-.LFBB3
+ 221               	.LM16:
+ 222 0052 8091 0000 		lds r24,g_ibus_RxPos
+ 223 0056 E82F      		mov r30,r24
+ 224 0058 F0E0      		ldi r31,lo8(0)
+ 225 005a E050      		subi r30,lo8(-(g_ibus_RxBuffer))
+ 226 005c F040      		sbci r31,hi8(-(g_ibus_RxBuffer))
+ 227 005e 4083      		st Z,r20
+ 228 0060 282F      		mov r18,r24
+ 229 0062 2F5F      		subi r18,lo8(-(1))
+ 230 0064 2093 0000 		sts g_ibus_RxPos,r18
+ 127:ibus.c        **** 
+ 128:ibus.c        ****         // notice length of the message
+ 129:ibus.c        ****         if (g_ibus_RxPos == 2)
+ 231               		.stabn	68,0,130,.LM17-.LFBB3
+ 232               	.LM17:
+ 233 0068 2230      		cpi r18,lo8(2)
+ 234 006a 01F4      		brne .L12
+ 130:ibus.c        ****             g_ibus_RxLen = c;
+ 235               		.stabn	68,0,131,.LM18-.LFBB3
+ 236               	.LM18:
+ 237 006c 4093 0000 		sts g_ibus_RxLen,r20
+ 238 0070 00C0      		rjmp .L13
+ 239               	.L12:
+ 131:ibus.c        **** 
+ 132:ibus.c        ****         // if there were enough bytes recieved, then compare checksum
+ 133:ibus.c        ****         else if (g_ibus_RxPos > 2 && (g_ibus_RxLen + 2 - g_ibus_RxPos) == 0)
+ 240               		.stabn	68,0,134,.LM19-.LFBB3
+ 241               	.LM19:
+ 242 0072 2330      		cpi r18,lo8(3)
+ 243 0074 00F0      		brlo .L13
+ 244 0076 8091 0000 		lds r24,g_ibus_RxLen
+ 245 007a 90E0      		ldi r25,lo8(0)
+ 246 007c 0296      		adiw r24,2
+ 247 007e 30E0      		ldi r19,lo8(0)
+ 248 0080 8217      		cp r24,r18
+ 249 0082 9307      		cpc r25,r19
+ 250 0084 01F4      		brne .L13
+ 251               	.LBB7:
+ 134:ibus.c        ****         {
+ 135:ibus.c        ****             IBUS_TIMER_DISABLE_INTERRUPT();
+ 252               		.stabn	68,0,136,.LM20-.LFBB3
+ 253               	.LM20:
+ 254 0086 89B7      		in r24,89-32
+ 255 0088 8B7F      		andi r24,lo8(-5)
+ 256 008a 89BF      		out 89-32,r24
+ 136:ibus.c        **** 
+ 137:ibus.c        ****             g_ibus_RxPos = 0;
+ 257               		.stabn	68,0,138,.LM21-.LFBB3
+ 258               	.LM21:
+ 259 008c 1092 0000 		sts g_ibus_RxPos,__zero_reg__
+ 138:ibus.c        ****             g_ibus_RxLen = 0;
+GAS LISTING /tmp/ccm1vQro.s 			page 8
+
+
+ 260               		.stabn	68,0,139,.LM22-.LFBB3
+ 261               	.LM22:
+ 262 0090 1092 0000 		sts g_ibus_RxLen,__zero_reg__
+ 263               	.LBB8:
+ 264               	.LBB9:
+  67:ibus.c        ****   len = pBuffer[1] + 1;
+ 265               		.stabn	68,0,67,.LM23-.LFBB3
+ 266               	.LM23:
+ 267 0094 3091 0000 		lds r19,g_ibus_RxBuffer+1
+ 268 0098 3F5F      		subi r19,lo8(-(1))
+ 269 009a E0E0      		ldi r30,lo8(g_ibus_RxBuffer)
+ 270 009c F0E0      		ldi r31,hi8(g_ibus_RxBuffer)
+ 271 009e 20E0      		ldi r18,lo8(0)
+ 272 00a0 90E0      		ldi r25,lo8(0)
+ 273 00a2 00C0      		rjmp .L14
+ 274               	.L15:
+  71:ibus.c        ****       checksum ^= pBuffer[i];
+ 275               		.stabn	68,0,71,.LM24-.LFBB3
+ 276               	.LM24:
+ 277 00a4 8191      		ld r24,Z+
+ 278 00a6 2827      		eor r18,r24
+  72:ibus.c        ****       inc_posptr_tx(i);
+ 279               		.stabn	68,0,72,.LM25-.LFBB3
+ 280               	.LM25:
+ 281 00a8 9F5F      		subi r25,lo8(-(1))
+ 282               	.L14:
+  69:ibus.c        ****   for(i = 0; i < len;)
+ 283               		.stabn	68,0,69,.LM26-.LFBB3
+ 284               	.LM26:
+ 285 00aa 9317      		cp r25,r19
+ 286 00ac 00F0      		brlo .L15
+ 287               	.LBE9:
+ 288               	.LBE8:
+ 139:ibus.c        **** 
+ 140:ibus.c        ****             uint8_t chk = ibus_calcChecksum(&g_ibus_RxBuffer[0]);
+ 141:ibus.c        ****             if (chk != c) return;
+ 289               		.stabn	68,0,142,.LM27-.LFBB3
+ 290               	.LM27:
+ 291 00ae 2417      		cp r18,r20
+ 292 00b0 01F4      		brne .L16
+ 293               	.L13:
+ 294               	.LBE7:
+ 142:ibus.c        ****         }
+ 143:ibus.c        ****     }
+ 144:ibus.c        ****     END_ATOMAR;
+ 295               		.stabn	68,0,145,.LM28-.LFBB3
+ 296               	.LM28:
+ 297 00b2 5FBF      		out __SREG__,r21
+ 145:ibus.c        **** 
+ 146:ibus.c        ****     // set timer for receive timeout
+ 147:ibus.c        ****     IBUS_TIMEOUT_RECEIVE();
+ 298               		.stabn	68,0,148,.LM29-.LFBB3
+ 299               	.LM29:
+ 300 00b4 87E0      		ldi r24,lo8(-4601)
+ 301 00b6 9EEE      		ldi r25,hi8(-4601)
+ 302 00b8 9DBD      		out (76)+1-32,r25
+ 303 00ba 8CBD      		out 76-32,r24
+GAS LISTING /tmp/ccm1vQro.s 			page 9
+
+
+ 304 00bc 89B7      		in r24,89-32
+ 305 00be 8460      		ori r24,lo8(4)
+ 306 00c0 89BF      		out 89-32,r24
+ 148:ibus.c        **** 
+ 149:ibus.c        ****     if (g_ibus_MsgCallback)
+ 307               		.stabn	68,0,150,.LM30-.LFBB3
+ 308               	.LM30:
+ 309 00c2 E091 0000 		lds r30,g_ibus_MsgCallback
+ 310 00c6 F091 0000 		lds r31,(g_ibus_MsgCallback)+1
+ 311 00ca 3097      		sbiw r30,0
+ 312 00cc 01F0      		breq .L16
+ 150:ibus.c        ****         g_ibus_MsgCallback(g_ibus_RxBuffer[0], g_ibus_RxBuffer[2], &g_ibus_RxBuffer[3], g_ibus_RxBu
+ 313               		.stabn	68,0,151,.LM31-.LFBB3
+ 314               	.LM31:
+ 315 00ce 2091 0000 		lds r18,g_ibus_RxBuffer+1
+ 316 00d2 2250      		subi r18,lo8(-(-2))
+ 317 00d4 8091 0000 		lds r24,g_ibus_RxBuffer
+ 318 00d8 6091 0000 		lds r22,g_ibus_RxBuffer+2
+ 319 00dc 40E0      		ldi r20,lo8(g_ibus_RxBuffer+3)
+ 320 00de 50E0      		ldi r21,hi8(g_ibus_RxBuffer+3)
+ 321 00e0 0995      		icall
+ 322               	.L16:
+ 323 00e2 0895      		ret
+ 324               		.size	ibus_recieveCallback, .-ibus_recieveCallback
+ 325               		.stabs	"_sreg:r(0,11)",64,0,121,21
+ 326               		.stabn	192,0,0,.LFBB3-.LFBB3
+ 327               		.stabs	"chk:r(6,2)",64,0,141,18
+ 328               		.stabn	192,0,0,.LBB7-.LFBB3
+ 329               		.stabs	"i:r(0,16)",64,0,62,25
+ 330               		.stabs	"len:r(0,16)",64,0,63,19
+ 331               		.stabn	192,0,0,.LBB9-.LFBB3
+ 332               		.stabn	224,0,0,.LBE9-.LFBB3
+ 333               		.stabn	224,0,0,.LBE7-.LFBB3
+ 334               		.stabn	224,0,0,.Lscope3-.LFBB3
+ 335               	.Lscope3:
+ 336               		.stabs	"",36,0,0,.Lscope3-.LFBB3
+ 337               		.stabd	78,0,0
+ 338               		.stabs	"ibus_sendMessage:F(0,15)",36,0,166,ibus_sendMessage
+ 339               		.stabs	"src:P(6,2)",64,0,165,15
+ 340               		.stabs	"dst:P(6,2)",64,0,165,14
+ 341               		.stabs	"msgLength:P(6,2)",64,0,165,20
+ 342               		.stabs	"numberOfTries:P(6,2)",64,0,165,16
+ 343               	.global	ibus_sendMessage
+ 344               		.type	ibus_sendMessage, @function
+ 345               	ibus_sendMessage:
+ 346               		.stabd	46,0,0
+ 151:ibus.c        **** }
+ 152:ibus.c        **** 
+ 153:ibus.c        **** //--------------------------------------------------------------------------
+ 154:ibus.c        **** void ibus_uartReceiveCallback(void)
+ 155:ibus.c        **** {
+ 156:ibus.c        ****     if (g_ibus_State == IBUS_STATE_RECIEVE || g_ibus_State == IBUS_STATE_IDLE)
+ 157:ibus.c        ****     {
+ 158:ibus.c        ****         unsigned int data = uart_getc();
+ 159:ibus.c        ****         ibus_recieveCallback(data & 0xFF, data & 0xFF00);
+ 160:ibus.c        ****     }
+ 161:ibus.c        **** }
+GAS LISTING /tmp/ccm1vQro.s 			page 10
+
+
+ 162:ibus.c        **** 
+ 163:ibus.c        **** //--------------------------------------------------------------------------
+ 164:ibus.c        **** void ibus_sendMessage(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msgLength, uint8_t numberOfTr
+ 165:ibus.c        **** {
+ 347               		.stabn	68,0,166,.LM32-.LFBB4
+ 348               	.LM32:
+ 349               	.LFBB4:
+ 350 00e4 CF92      		push r12
+ 351 00e6 DF92      		push r13
+ 352 00e8 EF92      		push r14
+ 353 00ea FF92      		push r15
+ 354 00ec 0F93      		push r16
+ 355 00ee 1F93      		push r17
+ 356 00f0 CF93      		push r28
+ 357 00f2 DF93      		push r29
+ 358               	/* prologue: function */
+ 359               	/* frame size = 0 */
+ 360 00f4 F82E      		mov r15,r24
+ 361 00f6 E62E      		mov r14,r22
+ 362 00f8 D42E      		mov r13,r20
+ 363 00fa C52E      		mov r12,r21
+ 364 00fc 422F      		mov r20,r18
+ 166:ibus.c        ****     uint16_t oldWritePos = g_ibus_TxWritePos;
+ 365               		.stabn	68,0,167,.LM33-.LFBB4
+ 366               	.LM33:
+ 367 00fe 1091 0000 		lds r17,g_ibus_TxWritePos
+ 167:ibus.c        ****     uint8_t i;
+ 168:ibus.c        **** 
+ 169:ibus.c        ****     // check if we have enough space in the buffer, if not then don't take this msg
+ 170:ibus.c        ****     int free = IBUS_MSG_TX_BUFFER_SIZE - (IBUS_MSG_TX_BUFFER_SIZE_MASK + g_ibus_TxWritePos - g_ibus
+ 368               		.stabn	68,0,171,.LM34-.LFBB4
+ 369               	.LM34:
+ 370 0102 C12F      		mov r28,r17
+ 371 0104 D0E0      		ldi r29,lo8(0)
+ 171:ibus.c        ****     if (free < msgLength+4) return;
+ 372               		.stabn	68,0,172,.LM35-.LFBB4
+ 373               	.LM35:
+ 374 0106 E22F      		mov r30,r18
+ 375 0108 F0E0      		ldi r31,lo8(0)
+ 376 010a 3396      		adiw r30,3
+ 377 010c CE01      		movw r24,r28
+ 378 010e 8150      		subi r24,lo8(-(255))
+ 379 0110 9F4F      		sbci r25,hi8(-(255))
+ 380 0112 2091 0000 		lds r18,g_ibus_TxReadPos
+ 381 0116 821B      		sub r24,r18
+ 382 0118 9109      		sbc r25,__zero_reg__
+ 383 011a 6FEF      		ldi r22,lo8(255)
+ 384 011c 70E0      		ldi r23,hi8(255)
+ 385 011e 0E94 0000 		call __divmodhi4
+ 386 0122 20E0      		ldi r18,lo8(256)
+ 387 0124 31E0      		ldi r19,hi8(256)
+ 388 0126 281B      		sub r18,r24
+ 389 0128 390B      		sbc r19,r25
+ 390 012a E217      		cp r30,r18
+ 391 012c F307      		cpc r31,r19
+ 392 012e 04F0      		brlt .+2
+ 393 0130 00C0      		rjmp .L25
+GAS LISTING /tmp/ccm1vQro.s 			page 11
+
+
+ 172:ibus.c        **** 
+ 173:ibus.c        ****     BEGIN_ATOMAR;
+ 394               		.stabn	68,0,174,.LM36-.LFBB4
+ 395               	.LM36:
+ 396 0132 6FB7      		in r22,__SREG__
+ 397               	/* #APP */
+ 398               	 ;  174 "ibus.c" 1
+ 399 0134 F894      		cli
+ 400               	 ;  0 "" 2
+ 174:ibus.c        ****     {
+ 175:ibus.c        ****         // put message into queue
+ 176:ibus.c        ****         g_ibus_TxBuffer[g_ibus_TxWritePos] = src; inc_posptr_tx(g_ibus_TxWritePos);
+ 401               		.stabn	68,0,177,.LM37-.LFBB4
+ 402               	.LM37:
+ 403               	/* #NOAPP */
+ 404 0136 C050      		subi r28,lo8(-(g_ibus_TxBuffer))
+ 405 0138 D040      		sbci r29,hi8(-(g_ibus_TxBuffer))
+ 406 013a F882      		st Y,r15
+ 407 013c 812F      		mov r24,r17
+ 408 013e 8F5F      		subi r24,lo8(-(1))
+ 177:ibus.c        ****         g_ibus_TxBuffer[g_ibus_TxWritePos] = msgLength + 2; inc_posptr_tx(g_ibus_TxWritePos);
+ 409               		.stabn	68,0,178,.LM38-.LFBB4
+ 410               	.LM38:
+ 411 0140 E82F      		mov r30,r24
+ 412 0142 F0E0      		ldi r31,lo8(0)
+ 413 0144 E050      		subi r30,lo8(-(g_ibus_TxBuffer))
+ 414 0146 F040      		sbci r31,hi8(-(g_ibus_TxBuffer))
+ 415 0148 4E5F      		subi r20,lo8(-(2))
+ 416 014a 4083      		st Z,r20
+ 417 014c 4250      		subi r20,lo8(-(-2))
+ 418 014e 8F5F      		subi r24,lo8(-(1))
+ 178:ibus.c        ****         g_ibus_TxBuffer[g_ibus_TxWritePos] = dst; inc_posptr_tx(g_ibus_TxWritePos);
+ 419               		.stabn	68,0,179,.LM39-.LFBB4
+ 420               	.LM39:
+ 421 0150 E82F      		mov r30,r24
+ 422 0152 F0E0      		ldi r31,lo8(0)
+ 423 0154 E050      		subi r30,lo8(-(g_ibus_TxBuffer))
+ 424 0156 F040      		sbci r31,hi8(-(g_ibus_TxBuffer))
+ 425 0158 E082      		st Z,r14
+ 426 015a 8F5F      		subi r24,lo8(-(1))
+ 427 015c 8093 0000 		sts g_ibus_TxWritePos,r24
+ 428 0160 2D2D      		mov r18,r13
+ 429 0162 3C2D      		mov r19,r12
+ 430 0164 C901      		movw r24,r18
+ 431 0166 DC01      		movw r26,r24
+ 432 0168 90E0      		ldi r25,lo8(0)
+ 433 016a 00C0      		rjmp .L19
+ 434               	.L20:
+ 179:ibus.c        ****         for (i=0; i < msgLength; i++)
+ 180:ibus.c        ****         {
+ 181:ibus.c        ****             g_ibus_TxBuffer[g_ibus_TxWritePos] = msg[i]; inc_posptr_tx(g_ibus_TxWritePos);
+ 435               		.stabn	68,0,182,.LM40-.LFBB4
+ 436               	.LM40:
+ 437 016c E52F      		mov r30,r21
+ 438 016e F0E0      		ldi r31,lo8(0)
+ 439 0170 E050      		subi r30,lo8(-(g_ibus_TxBuffer))
+ 440 0172 F040      		sbci r31,hi8(-(g_ibus_TxBuffer))
+GAS LISTING /tmp/ccm1vQro.s 			page 12
+
+
+ 441 0174 8D91      		ld r24,X+
+ 442 0176 8083      		st Z,r24
+ 443 0178 5F5F      		subi r21,lo8(-(1))
+ 444 017a 5093 0000 		sts g_ibus_TxWritePos,r21
+ 180:ibus.c        ****         for (i=0; i < msgLength; i++)
+ 445               		.stabn	68,0,180,.LM41-.LFBB4
+ 446               	.LM41:
+ 447 017e 9F5F      		subi r25,lo8(-(1))
+ 448               	.L19:
+ 449 0180 5091 0000 		lds r21,g_ibus_TxWritePos
+ 450 0184 9417      		cp r25,r20
+ 451 0186 00F0      		brlo .L20
+ 182:ibus.c        ****         }
+ 183:ibus.c        ****         g_ibus_TxBuffer[g_ibus_TxWritePos] = ibus_calcChecksum(&g_ibus_TxBuffer[oldWritePos]); inc_
+ 452               		.stabn	68,0,184,.LM42-.LFBB4
+ 453               	.LM42:
+ 454 0188 E12F      		mov r30,r17
+ 455 018a F0E0      		ldi r31,lo8(0)
+ 456 018c E050      		subi r30,lo8(-(g_ibus_TxBuffer))
+ 457 018e F040      		sbci r31,hi8(-(g_ibus_TxBuffer))
+ 458               	.LBB10:
+ 459               	.LBB11:
+  59:ibus.c        ****   if(pBuffer == NULL)
+ 460               		.stabn	68,0,59,.LM43-.LFBB4
+ 461               	.LM43:
+ 462 0190 01F4      		brne .L21
+ 463 0192 20E0      		ldi r18,lo8(0)
+ 464 0194 00C0      		rjmp .L22
+ 465               	.L21:
+  67:ibus.c        ****   len = pBuffer[1] + 1;
+ 466               		.stabn	68,0,67,.LM44-.LFBB4
+ 467               	.LM44:
+ 468 0196 3181      		ldd r19,Z+1
+ 469 0198 3F5F      		subi r19,lo8(-(1))
+ 470 019a 20E0      		ldi r18,lo8(0)
+ 471 019c 90E0      		ldi r25,lo8(0)
+ 472 019e 00C0      		rjmp .L23
+ 473               	.L24:
+  71:ibus.c        ****       checksum ^= pBuffer[i];
+ 474               		.stabn	68,0,71,.LM45-.LFBB4
+ 475               	.LM45:
+ 476 01a0 8191      		ld r24,Z+
+ 477 01a2 2827      		eor r18,r24
+  72:ibus.c        ****       inc_posptr_tx(i);
+ 478               		.stabn	68,0,72,.LM46-.LFBB4
+ 479               	.LM46:
+ 480 01a4 9F5F      		subi r25,lo8(-(1))
+ 481               	.L23:
+  69:ibus.c        ****   for(i = 0; i < len;)
+ 482               		.stabn	68,0,69,.LM47-.LFBB4
+ 483               	.LM47:
+ 484 01a6 9317      		cp r25,r19
+ 485 01a8 00F0      		brlo .L24
+ 486               	.L22:
+ 487               	.LBE11:
+ 488               	.LBE10:
+ 489               		.stabn	68,0,184,.LM48-.LFBB4
+GAS LISTING /tmp/ccm1vQro.s 			page 13
+
+
+ 490               	.LM48:
+ 491 01aa E52F      		mov r30,r21
+ 492 01ac F0E0      		ldi r31,lo8(0)
+ 493 01ae E050      		subi r30,lo8(-(g_ibus_TxBuffer))
+ 494 01b0 F040      		sbci r31,hi8(-(g_ibus_TxBuffer))
+ 495 01b2 2083      		st Z,r18
+ 496 01b4 852F      		mov r24,r21
+ 497 01b6 8F5F      		subi r24,lo8(-(1))
+ 184:ibus.c        ****         g_ibus_TxBuffer[g_ibus_TxWritePos] = numberOfTries; inc_posptr_tx(g_ibus_TxWritePos);
+ 498               		.stabn	68,0,185,.LM49-.LFBB4
+ 499               	.LM49:
+ 500 01b8 E82F      		mov r30,r24
+ 501 01ba F0E0      		ldi r31,lo8(0)
+ 502 01bc E050      		subi r30,lo8(-(g_ibus_TxBuffer))
+ 503 01be F040      		sbci r31,hi8(-(g_ibus_TxBuffer))
+ 504 01c0 0083      		st Z,r16
+ 505 01c2 8F5F      		subi r24,lo8(-(1))
+ 506 01c4 8093 0000 		sts g_ibus_TxWritePos,r24
+ 185:ibus.c        ****     }
+ 186:ibus.c        ****     END_ATOMAR;
+ 507               		.stabn	68,0,187,.LM50-.LFBB4
+ 508               	.LM50:
+ 509 01c8 6FBF      		out __SREG__,r22
+ 510               	.L25:
+ 511               	/* epilogue start */
+ 187:ibus.c        **** }
+ 512               		.stabn	68,0,188,.LM51-.LFBB4
+ 513               	.LM51:
+ 514 01ca DF91      		pop r29
+ 515 01cc CF91      		pop r28
+ 516 01ce 1F91      		pop r17
+ 517 01d0 0F91      		pop r16
+ 518 01d2 FF90      		pop r15
+ 519 01d4 EF90      		pop r14
+ 520 01d6 DF90      		pop r13
+ 521 01d8 CF90      		pop r12
+ 522 01da 0895      		ret
+ 523               		.size	ibus_sendMessage, .-ibus_sendMessage
+ 524               		.stabs	"i:r(6,2)",64,0,168,25
+ 525               		.stabs	"_sreg:r(0,11)",64,0,174,22
+ 526               		.stabn	192,0,0,.LFBB4-.LFBB4
+ 527               		.stabs	"i:r(0,16)",64,0,62,25
+ 528               		.stabs	"len:r(0,16)",64,0,63,19
+ 529               		.stabs	"checksum:r(6,2)",64,0,64,18
+ 530               		.stabn	192,0,0,.LBB11-.LFBB4
+ 531               		.stabn	224,0,0,.LBE11-.LFBB4
+ 532               		.stabn	224,0,0,.Lscope4-.LFBB4
+ 533               	.Lscope4:
+ 534               		.stabs	"",36,0,0,.Lscope4-.LFBB4
+ 535               		.stabd	78,0,0
+ 536               		.stabs	"ibus_transmitCallback:F(0,15)",36,0,80,ibus_transmitCallback
+ 537               	.global	ibus_transmitCallback
+ 538               		.type	ibus_transmitCallback, @function
+ 539               	ibus_transmitCallback:
+ 540               		.stabd	46,0,0
+  80:ibus.c        **** {
+ 541               		.stabn	68,0,80,.LM52-.LFBB5
+GAS LISTING /tmp/ccm1vQro.s 			page 14
+
+
+ 542               	.LM52:
+ 543               	.LFBB5:
+ 544 01dc 1F93      		push r17
+ 545               	/* prologue: function */
+ 546               	/* frame size = 0 */
+  81:ibus.c        ****     PORTD &= ~(1 << 6);
+ 547               		.stabn	68,0,81,.LM53-.LFBB5
+ 548               	.LM53:
+ 549 01de 9698      		cbi 50-32,6
+  83:ibus.c        ****     BEGIN_ATOMAR;
+ 550               		.stabn	68,0,83,.LM54-.LFBB5
+ 551               	.LM54:
+ 552 01e0 1FB7      		in r17,__SREG__
+ 553               	/* #APP */
+ 554               	 ;  83 "ibus.c" 1
+ 555 01e2 F894      		cli
+ 556               	 ;  0 "" 2
+  86:ibus.c        ****         IBUS_SENSTA_DISABLE_INTERRUPT();
+ 557               		.stabn	68,0,86,.LM55-.LFBB5
+ 558               	.LM55:
+ 559               	/* #NOAPP */
+ 560 01e4 8BB7      		in r24,91-32
+ 561 01e6 8F7B      		andi r24,lo8(-65)
+ 562 01e8 8BBF      		out 91-32,r24
+  87:ibus.c        ****         uart_setTransmitDoneCallback(NULL);
+ 563               		.stabn	68,0,87,.LM56-.LFBB5
+ 564               	.LM56:
+ 565 01ea 80E0      		ldi r24,lo8(0)
+ 566 01ec 90E0      		ldi r25,hi8(0)
+ 567 01ee 0E94 0000 		call uart_setTransmitDoneCallback
+  90:ibus.c        ****         g_ibus_State = IBUS_STATE_WAIT_FREE_BUS;
+ 568               		.stabn	68,0,90,.LM57-.LFBB5
+ 569               	.LM57:
+ 570 01f2 81E0      		ldi r24,lo8(1)
+ 571 01f4 8093 0000 		sts g_ibus_State,r24
+  91:ibus.c        ****         IBUS_TIMEOUT_AFTER_TRANSMIT();
+ 572               		.stabn	68,0,91,.LM58-.LFBB5
+ 573               	.LM58:
+ 574 01f8 83E4      		ldi r24,lo8(-701)
+ 575 01fa 9DEF      		ldi r25,hi8(-701)
+ 576 01fc 9DBD      		out (76)+1-32,r25
+ 577 01fe 8CBD      		out 76-32,r24
+ 578 0200 89B7      		in r24,89-32
+ 579 0202 8460      		ori r24,lo8(4)
+ 580 0204 89BF      		out 89-32,r24
+  93:ibus.c        ****     END_ATOMAR;
+ 581               		.stabn	68,0,93,.LM59-.LFBB5
+ 582               	.LM59:
+ 583 0206 1FBF      		out __SREG__,r17
+ 584               	/* epilogue start */
+  94:ibus.c        **** }
+ 585               		.stabn	68,0,94,.LM60-.LFBB5
+ 586               	.LM60:
+ 587 0208 1F91      		pop r17
+ 588 020a 0895      		ret
+ 589               		.size	ibus_transmitCallback, .-ibus_transmitCallback
+ 590               		.stabs	"_sreg:r(0,11)",64,0,83,17
+GAS LISTING /tmp/ccm1vQro.s 			page 15
+
+
+ 591               		.stabn	192,0,0,.LFBB5-.LFBB5
+ 592               		.stabn	224,0,0,.Lscope5-.LFBB5
+ 593               	.Lscope5:
+ 594               		.stabs	"",36,0,0,.Lscope5-.LFBB5
+ 595               		.stabd	78,0,0
+ 596               		.stabs	"__vector_9:F(0,15)",36,0,315,__vector_9
+ 597               	.global	__vector_9
+ 598               		.type	__vector_9, @function
+ 599               	__vector_9:
+ 600               		.stabd	46,0,0
+ 188:ibus.c        **** 
+ 189:ibus.c        **** //--------------------------------------------------------------------------
+ 190:ibus.c        **** void ibus_tick()
+ 191:ibus.c        **** {
+ 192:ibus.c        ****     // if we are currently waiting for free bus, then just do nothing
+ 193:ibus.c        ****     if (g_ibus_TxReadPos == g_ibus_TxWritePos || g_ibus_State == IBUS_STATE_WAIT_FREE_BUS) return;
+ 194:ibus.c        **** 
+ 195:ibus.c        ****     // if there is currently a collision on the bus, then start timer
+ 196:ibus.c        ****     // to wait for collision free bus again
+ 197:ibus.c        ****     if (g_ibus_State == IBUS_STATE_IDLE && IBUS_SENSTA_VALUE())
+ 198:ibus.c        ****     {
+ 199:ibus.c        ****         g_ibus_State = IBUS_STATE_WAIT_FREE_BUS;
+ 200:ibus.c        ****         IBUS_TIMEOUT_WAIT_FREE_BUS();
+ 201:ibus.c        ****         return;
+ 202:ibus.c        ****     }
+ 203:ibus.c        **** 
+ 204:ibus.c        ****     if (g_ibus_State != IBUS_STATE_IDLE) return;
+ 205:ibus.c        **** 
+ 206:ibus.c        ****     uint8_t len = g_ibus_TxBuffer[(g_ibus_TxReadPos + 1) & IBUS_MSG_TX_BUFFER_SIZE_MASK];
+ 207:ibus.c        ****     int8_t tried = g_ibus_TxBuffer[(g_ibus_TxReadPos + 2 + (posptr_t)len) & IBUS_MSG_TX_BUFFER_SIZE
+ 208:ibus.c        **** 
+ 209:ibus.c        ****     // if we tried more than requested, then remove this message from the buffer and stop transmiss
+ 210:ibus.c        ****     if (tried < 1)
+ 211:ibus.c        ****     {
+ 212:ibus.c        ****         g_ibus_TxReadPos = (g_ibus_TxReadPos + 3 + (posptr_t)len) & IBUS_MSG_TX_BUFFER_SIZE_MASK;
+ 213:ibus.c        ****         g_ibus_TxReadPos_old = g_ibus_TxReadPos;
+ 214:ibus.c        ****         return;
+ 215:ibus.c        ****     }
+ 216:ibus.c        **** 
+ 217:ibus.c        ****     uart_flush();
+ 218:ibus.c        ****     uart_clearTransmissionBuffer();
+ 219:ibus.c        ****     
+ 220:ibus.c        ****     g_ibus_State = IBUS_STATE_TRANSMIT;
+ 221:ibus.c        ****     g_ibus_TxReadPos_old = g_ibus_TxReadPos;
+ 222:ibus.c        **** 
+ 223:ibus.c        ****     // put message into uart queue, do this atomar, so that full message is copied
+ 224:ibus.c        ****     // before anything else happens
+ 225:ibus.c        ****     BEGIN_ATOMAR;
+ 226:ibus.c        ****     {
+ 227:ibus.c        ****         // send full message
+ 228:ibus.c        ****         posptr_t i;
+ 229:ibus.c        ****         for (i=0; i < (posptr_t)len + 2; i++)
+ 230:ibus.c        ****         {
+ 231:ibus.c        ****             uart_putc(g_ibus_TxBuffer[g_ibus_TxReadPos], 1);
+ 232:ibus.c        ****             inc_posptr_tx(g_ibus_TxReadPos);
+ 233:ibus.c        ****         }
+ 234:ibus.c        **** 
+GAS LISTING /tmp/ccm1vQro.s 			page 16
+
+
+ 235:ibus.c        ****         // now decrement the number of tries how often this messages was resent
+ 236:ibus.c        ****         g_ibus_TxBuffer[g_ibus_TxReadPos]--; inc_posptr_tx(g_ibus_TxReadPos);
+ 237:ibus.c        ****     }
+ 238:ibus.c        ****     END_ATOMAR;
+ 239:ibus.c        **** 
+ 240:ibus.c        ****     PORTD |= (1 << 6);
+ 241:ibus.c        **** 
+ 242:ibus.c        ****     // start transmission
+ 243:ibus.c        ****     uart_setTxRx(1,0);
+ 244:ibus.c        ****     uart_setTransmitDoneCallback(ibus_transmitCallback);
+ 245:ibus.c        ****     uart_setReceiveCallback(NULL);
+ 246:ibus.c        ****     uart_startTransmission();
+ 247:ibus.c        **** 
+ 248:ibus.c        ****     // react on bus collisions
+ 249:ibus.c        ****     IBUS_SENSTA_ENABLE_INTERRUPT();
+ 250:ibus.c        **** }
+ 251:ibus.c        **** 
+ 252:ibus.c        **** //--------------------------------------------------------------------------
+ 253:ibus.c        **** void ibus_init()
+ 254:ibus.c        **** {
+ 255:ibus.c        ****     // initialize uart interface used for IBus communication
+ 256:ibus.c        ****     uart_init(UART_BAUD_SELECT(9600, F_CPU));
+ 257:ibus.c        ****     uart_setFormat(8,1,1);
+ 258:ibus.c        ****     uart_setReceiveCallback(ibus_uartReceiveCallback);
+ 259:ibus.c        ****     uart_setTransmitDoneCallback(NULL);
+ 260:ibus.c        **** 
+ 261:ibus.c        ****     // setup pull-up on RX-pin
+ 262:ibus.c        ****     IBUS_UART_RX_PULLUP_ENABLE();
+ 263:ibus.c        ****     
+ 264:ibus.c        ****     // per default we do not use any uart interface
+ 265:ibus.c        ****     g_ibus_TxReadPos = 0;
+ 266:ibus.c        ****     g_ibus_TxReadPos_old = 0;
+ 267:ibus.c        ****     g_ibus_TxWritePos = 0;
+ 268:ibus.c        ****     g_ibus_RxPos = 0;
+ 269:ibus.c        ****     g_ibus_RxLen = 0;
+ 270:ibus.c        ****     g_ibus_State = IBUS_STATE_IDLE;
+ 271:ibus.c        **** 
+ 272:ibus.c        ****     IBUS_SENSTA_SETUP();
+ 273:ibus.c        ****     IBUS_TIMER_SETUP();
+ 274:ibus.c        **** }
+ 275:ibus.c        **** 
+ 276:ibus.c        **** //--------------------------------------------------------------------------
+ 277:ibus.c        **** ISR(IBUS_SENSTA_INT_VECT)
+ 278:ibus.c        **** {
+ 279:ibus.c        ****    /*     // debug
+ 280:ibus.c        ****     static uint8_t on = 0;
+ 281:ibus.c        ****     if (on)
+ 282:ibus.c        ****         PORTD &= ~(1 << 5);
+ 283:ibus.c        ****     else
+ 284:ibus.c        ****         PORTD |= (1 << 5);
+ 285:ibus.c        ****     on = !on;*/
+ 286:ibus.c        **** 
+ 287:ibus.c        ****     IBUS_SENSTA_DISABLE_INTERRUPT();
+ 288:ibus.c        ****     
+ 289:ibus.c        ****     BEGIN_ATOMAR;
+ 290:ibus.c        ****     {
+ 291:ibus.c        ****         // clear buffers and set everything back, so that msg is retransmitted
+GAS LISTING /tmp/ccm1vQro.s 			page 17
+
+
+ 292:ibus.c        ****         uart_clearTransmissionBuffer();
+ 293:ibus.c        ****         uart_flush();
+ 294:ibus.c        ****         g_ibus_TxReadPos = g_ibus_TxReadPos_old;
+ 295:ibus.c        ****         g_ibus_State = IBUS_STATE_WAIT_FREE_BUS;
+ 296:ibus.c        ****         
+ 297:ibus.c        ****         // we disable recieve and transmit modes
+ 298:ibus.c        ****         uart_setTxRx(0,0);
+ 299:ibus.c        ****         uart_setTransmitDoneCallback(NULL);
+ 300:ibus.c        ****         uart_setReceiveCallback(NULL);
+ 301:ibus.c        ****     }
+ 302:ibus.c        ****     END_ATOMAR;
+ 303:ibus.c        **** 
+ 304:ibus.c        ****     // start timer to wait until we change the state, so that no transmission
+ 305:ibus.c        ****     // happens during this time
+ 306:ibus.c        ****     IBUS_TIMEOUT_COLLISION();
+ 307:ibus.c        **** }
+ 308:ibus.c        **** 
+ 309:ibus.c        **** //--------------------------------------------------------------------------
+ 310:ibus.c        **** // This timer is a wait timer, so the execution of IBus protocl is stopped
+ 311:ibus.c        **** // while timer is running
+ 312:ibus.c        **** //--------------------------------------------------------------------------
+ 313:ibus.c        **** ISR(IBUS_TIMER_INTERRUPT)
+ 314:ibus.c        **** {
+ 601               		.stabn	68,0,315,.LM61-.LFBB6
+ 602               	.LM61:
+ 603               	.LFBB6:
+ 604 020c 1F92      		push __zero_reg__
+ 605 020e 0F92      		push r0
+ 606 0210 0FB6      		in r0,__SREG__
+ 607 0212 0F92      		push r0
+ 608 0214 1124      		clr __zero_reg__
+ 609 0216 2F93      		push r18
+ 610 0218 3F93      		push r19
+ 611 021a 4F93      		push r20
+ 612 021c 5F93      		push r21
+ 613 021e 6F93      		push r22
+ 614 0220 7F93      		push r23
+ 615 0222 8F93      		push r24
+ 616 0224 9F93      		push r25
+ 617 0226 AF93      		push r26
+ 618 0228 BF93      		push r27
+ 619 022a EF93      		push r30
+ 620 022c FF93      		push r31
+ 621               	/* prologue: Signal */
+ 622               	/* frame size = 0 */
+ 315:ibus.c        ****     // disable timer interrupts
+ 316:ibus.c        ****     IBUS_TIMER_DISABLE_INTERRUPT();
+ 623               		.stabn	68,0,317,.LM62-.LFBB6
+ 624               	.LM62:
+ 625 022e 89B7      		in r24,89-32
+ 626 0230 8B7F      		andi r24,lo8(-5)
+ 627 0232 89BF      		out 89-32,r24
+ 317:ibus.c        **** 
+ 318:ibus.c        ****     // ok go to idle state
+ 319:ibus.c        ****     g_ibus_State = IBUS_STATE_IDLE;
+ 628               		.stabn	68,0,320,.LM63-.LFBB6
+ 629               	.LM63:
+GAS LISTING /tmp/ccm1vQro.s 			page 18
+
+
+ 630 0234 1092 0000 		sts g_ibus_State,__zero_reg__
+ 320:ibus.c        ****     g_ibus_RxPos = 0;
+ 631               		.stabn	68,0,321,.LM64-.LFBB6
+ 632               	.LM64:
+ 633 0238 1092 0000 		sts g_ibus_RxPos,__zero_reg__
+ 321:ibus.c        ****     g_ibus_RxLen = 0;
+ 634               		.stabn	68,0,322,.LM65-.LFBB6
+ 635               	.LM65:
+ 636 023c 1092 0000 		sts g_ibus_RxLen,__zero_reg__
+ 322:ibus.c        **** 
+ 323:ibus.c        ****     // enable reciever, disable transmitter
+ 324:ibus.c        ****     uart_flush();
+ 637               		.stabn	68,0,325,.LM66-.LFBB6
+ 638               	.LM66:
+ 639 0240 0E94 0000 		call uart_flush
+ 325:ibus.c        ****     uart_setTxRx(0,1);
+ 640               		.stabn	68,0,326,.LM67-.LFBB6
+ 641               	.LM67:
+ 642 0244 80E0      		ldi r24,lo8(0)
+ 643 0246 61E0      		ldi r22,lo8(1)
+ 644 0248 0E94 0000 		call uart_setTxRx
+ 326:ibus.c        ****     uart_setTransmitDoneCallback(NULL);
+ 645               		.stabn	68,0,327,.LM68-.LFBB6
+ 646               	.LM68:
+ 647 024c 80E0      		ldi r24,lo8(0)
+ 648 024e 90E0      		ldi r25,hi8(0)
+ 649 0250 0E94 0000 		call uart_setTransmitDoneCallback
+ 327:ibus.c        ****     uart_setReceiveCallback(ibus_uartReceiveCallback);
+ 650               		.stabn	68,0,328,.LM69-.LFBB6
+ 651               	.LM69:
+ 652 0254 80E0      		ldi r24,lo8(gs(ibus_uartReceiveCallback))
+ 653 0256 90E0      		ldi r25,hi8(gs(ibus_uartReceiveCallback))
+ 654 0258 0E94 0000 		call uart_setReceiveCallback
+ 655               	/* epilogue start */
+ 328:ibus.c        **** }
+ 656               		.stabn	68,0,329,.LM70-.LFBB6
+ 657               	.LM70:
+ 658 025c FF91      		pop r31
+ 659 025e EF91      		pop r30
+ 660 0260 BF91      		pop r27
+ 661 0262 AF91      		pop r26
+ 662 0264 9F91      		pop r25
+ 663 0266 8F91      		pop r24
+ 664 0268 7F91      		pop r23
+ 665 026a 6F91      		pop r22
+ 666 026c 5F91      		pop r21
+ 667 026e 4F91      		pop r20
+ 668 0270 3F91      		pop r19
+ 669 0272 2F91      		pop r18
+ 670 0274 0F90      		pop r0
+ 671 0276 0FBE      		out __SREG__,r0
+ 672 0278 0F90      		pop r0
+ 673 027a 1F90      		pop __zero_reg__
+ 674 027c 1895      		reti
+ 675               		.size	__vector_9, .-__vector_9
+ 676               	.Lscope6:
+ 677               		.stabs	"",36,0,0,.Lscope6-.LFBB6
+GAS LISTING /tmp/ccm1vQro.s 			page 19
+
+
+ 678               		.stabd	78,0,0
+ 679               		.stabs	"__vector_1:F(0,15)",36,0,279,__vector_1
+ 680               	.global	__vector_1
+ 681               		.type	__vector_1, @function
+ 682               	__vector_1:
+ 683               		.stabd	46,0,0
+ 279:ibus.c        **** {
+ 684               		.stabn	68,0,279,.LM71-.LFBB7
+ 685               	.LM71:
+ 686               	.LFBB7:
+ 687 027e 1F92      		push __zero_reg__
+ 688 0280 0F92      		push r0
+ 689 0282 0FB6      		in r0,__SREG__
+ 690 0284 0F92      		push r0
+ 691 0286 1124      		clr __zero_reg__
+ 692 0288 1F93      		push r17
+ 693 028a 2F93      		push r18
+ 694 028c 3F93      		push r19
+ 695 028e 4F93      		push r20
+ 696 0290 5F93      		push r21
+ 697 0292 6F93      		push r22
+ 698 0294 7F93      		push r23
+ 699 0296 8F93      		push r24
+ 700 0298 9F93      		push r25
+ 701 029a AF93      		push r26
+ 702 029c BF93      		push r27
+ 703 029e EF93      		push r30
+ 704 02a0 FF93      		push r31
+ 705               	/* prologue: Signal */
+ 706               	/* frame size = 0 */
+ 288:ibus.c        ****     IBUS_SENSTA_DISABLE_INTERRUPT();
+ 707               		.stabn	68,0,288,.LM72-.LFBB7
+ 708               	.LM72:
+ 709 02a2 8BB7      		in r24,91-32
+ 710 02a4 8F7B      		andi r24,lo8(-65)
+ 711 02a6 8BBF      		out 91-32,r24
+ 290:ibus.c        ****     BEGIN_ATOMAR;
+ 712               		.stabn	68,0,290,.LM73-.LFBB7
+ 713               	.LM73:
+ 714 02a8 1FB7      		in r17,__SREG__
+ 715               	/* #APP */
+ 716               	 ;  290 "ibus.c" 1
+ 717 02aa F894      		cli
+ 718               	 ;  0 "" 2
+ 293:ibus.c        ****         uart_clearTransmissionBuffer();
+ 719               		.stabn	68,0,293,.LM74-.LFBB7
+ 720               	.LM74:
+ 721               	/* #NOAPP */
+ 722 02ac 0E94 0000 		call uart_clearTransmissionBuffer
+ 294:ibus.c        ****         uart_flush();
+ 723               		.stabn	68,0,294,.LM75-.LFBB7
+ 724               	.LM75:
+ 725 02b0 0E94 0000 		call uart_flush
+ 295:ibus.c        ****         g_ibus_TxReadPos = g_ibus_TxReadPos_old;
+ 726               		.stabn	68,0,295,.LM76-.LFBB7
+ 727               	.LM76:
+ 728 02b4 8091 0000 		lds r24,g_ibus_TxReadPos_old
+GAS LISTING /tmp/ccm1vQro.s 			page 20
+
+
+ 729 02b8 8093 0000 		sts g_ibus_TxReadPos,r24
+ 296:ibus.c        ****         g_ibus_State = IBUS_STATE_WAIT_FREE_BUS;
+ 730               		.stabn	68,0,296,.LM77-.LFBB7
+ 731               	.LM77:
+ 732 02bc 81E0      		ldi r24,lo8(1)
+ 733 02be 8093 0000 		sts g_ibus_State,r24
+ 299:ibus.c        ****         uart_setTxRx(0,0);
+ 734               		.stabn	68,0,299,.LM78-.LFBB7
+ 735               	.LM78:
+ 736 02c2 80E0      		ldi r24,lo8(0)
+ 737 02c4 60E0      		ldi r22,lo8(0)
+ 738 02c6 0E94 0000 		call uart_setTxRx
+ 300:ibus.c        ****         uart_setTransmitDoneCallback(NULL);
+ 739               		.stabn	68,0,300,.LM79-.LFBB7
+ 740               	.LM79:
+ 741 02ca 80E0      		ldi r24,lo8(0)
+ 742 02cc 90E0      		ldi r25,hi8(0)
+ 743 02ce 0E94 0000 		call uart_setTransmitDoneCallback
+ 301:ibus.c        ****         uart_setReceiveCallback(NULL);
+ 744               		.stabn	68,0,301,.LM80-.LFBB7
+ 745               	.LM80:
+ 746 02d2 80E0      		ldi r24,lo8(0)
+ 747 02d4 90E0      		ldi r25,hi8(0)
+ 748 02d6 0E94 0000 		call uart_setReceiveCallback
+ 303:ibus.c        ****     END_ATOMAR;
+ 749               		.stabn	68,0,303,.LM81-.LFBB7
+ 750               	.LM81:
+ 751 02da 1FBF      		out __SREG__,r17
+ 307:ibus.c        ****     IBUS_TIMEOUT_COLLISION();
+ 752               		.stabn	68,0,307,.LM82-.LFBB7
+ 753               	.LM82:
+ 754 02dc 81E8      		ldi r24,lo8(-1151)
+ 755 02de 9BEF      		ldi r25,hi8(-1151)
+ 756 02e0 9DBD      		out (76)+1-32,r25
+ 757 02e2 8CBD      		out 76-32,r24
+ 758 02e4 89B7      		in r24,89-32
+ 759 02e6 8460      		ori r24,lo8(4)
+ 760 02e8 89BF      		out 89-32,r24
+ 761               	/* epilogue start */
+ 308:ibus.c        **** }
+ 762               		.stabn	68,0,308,.LM83-.LFBB7
+ 763               	.LM83:
+ 764 02ea FF91      		pop r31
+ 765 02ec EF91      		pop r30
+ 766 02ee BF91      		pop r27
+ 767 02f0 AF91      		pop r26
+ 768 02f2 9F91      		pop r25
+ 769 02f4 8F91      		pop r24
+ 770 02f6 7F91      		pop r23
+ 771 02f8 6F91      		pop r22
+ 772 02fa 5F91      		pop r21
+ 773 02fc 4F91      		pop r20
+ 774 02fe 3F91      		pop r19
+ 775 0300 2F91      		pop r18
+ 776 0302 1F91      		pop r17
+ 777 0304 0F90      		pop r0
+ 778 0306 0FBE      		out __SREG__,r0
+GAS LISTING /tmp/ccm1vQro.s 			page 21
+
+
+ 779 0308 0F90      		pop r0
+ 780 030a 1F90      		pop __zero_reg__
+ 781 030c 1895      		reti
+ 782               		.size	__vector_1, .-__vector_1
+ 783               		.stabs	"_sreg:r(0,11)",64,0,290,17
+ 784               		.stabn	192,0,0,.LFBB7-.LFBB7
+ 785               		.stabn	224,0,0,.Lscope7-.LFBB7
+ 786               	.Lscope7:
+ 787               		.stabs	"",36,0,0,.Lscope7-.LFBB7
+ 788               		.stabd	78,0,0
+ 789               		.stabs	"ibus_init:F(0,15)",36,0,255,ibus_init
+ 790               	.global	ibus_init
+ 791               		.type	ibus_init, @function
+ 792               	ibus_init:
+ 793               		.stabd	46,0,0
+ 255:ibus.c        **** {
+ 794               		.stabn	68,0,255,.LM84-.LFBB8
+ 795               	.LM84:
+ 796               	.LFBB8:
+ 797               	/* prologue: function */
+ 798               	/* frame size = 0 */
+ 257:ibus.c        ****     uart_init(UART_BAUD_SELECT(9600, F_CPU));
+ 799               		.stabn	68,0,257,.LM85-.LFBB8
+ 800               	.LM85:
+ 801 030e 8FE5      		ldi r24,lo8(95)
+ 802 0310 90E0      		ldi r25,hi8(95)
+ 803 0312 0E94 0000 		call uart_init
+ 258:ibus.c        ****     uart_setFormat(8,1,1);
+ 804               		.stabn	68,0,258,.LM86-.LFBB8
+ 805               	.LM86:
+ 806 0316 88E0      		ldi r24,lo8(8)
+ 807 0318 61E0      		ldi r22,lo8(1)
+ 808 031a 41E0      		ldi r20,lo8(1)
+ 809 031c 0E94 0000 		call uart_setFormat
+ 259:ibus.c        ****     uart_setReceiveCallback(ibus_uartReceiveCallback);
+ 810               		.stabn	68,0,259,.LM87-.LFBB8
+ 811               	.LM87:
+ 812 0320 80E0      		ldi r24,lo8(gs(ibus_uartReceiveCallback))
+ 813 0322 90E0      		ldi r25,hi8(gs(ibus_uartReceiveCallback))
+ 814 0324 0E94 0000 		call uart_setReceiveCallback
+ 260:ibus.c        ****     uart_setTransmitDoneCallback(NULL);
+ 815               		.stabn	68,0,260,.LM88-.LFBB8
+ 816               	.LM88:
+ 817 0328 80E0      		ldi r24,lo8(0)
+ 818 032a 90E0      		ldi r25,hi8(0)
+ 819 032c 0E94 0000 		call uart_setTransmitDoneCallback
+ 263:ibus.c        ****     IBUS_UART_RX_PULLUP_ENABLE();
+ 820               		.stabn	68,0,263,.LM89-.LFBB8
+ 821               	.LM89:
+ 822 0330 909A      		sbi 50-32,0
+ 266:ibus.c        ****     g_ibus_TxReadPos = 0;
+ 823               		.stabn	68,0,266,.LM90-.LFBB8
+ 824               	.LM90:
+ 825 0332 1092 0000 		sts g_ibus_TxReadPos,__zero_reg__
+ 267:ibus.c        ****     g_ibus_TxReadPos_old = 0;
+ 826               		.stabn	68,0,267,.LM91-.LFBB8
+ 827               	.LM91:
+GAS LISTING /tmp/ccm1vQro.s 			page 22
+
+
+ 828 0336 1092 0000 		sts g_ibus_TxReadPos_old,__zero_reg__
+ 268:ibus.c        ****     g_ibus_TxWritePos = 0;
+ 829               		.stabn	68,0,268,.LM92-.LFBB8
+ 830               	.LM92:
+ 831 033a 1092 0000 		sts g_ibus_TxWritePos,__zero_reg__
+ 269:ibus.c        ****     g_ibus_RxPos = 0;
+ 832               		.stabn	68,0,269,.LM93-.LFBB8
+ 833               	.LM93:
+ 834 033e 1092 0000 		sts g_ibus_RxPos,__zero_reg__
+ 270:ibus.c        ****     g_ibus_RxLen = 0;
+ 835               		.stabn	68,0,270,.LM94-.LFBB8
+ 836               	.LM94:
+ 837 0342 1092 0000 		sts g_ibus_RxLen,__zero_reg__
+ 271:ibus.c        ****     g_ibus_State = IBUS_STATE_IDLE;
+ 838               		.stabn	68,0,271,.LM95-.LFBB8
+ 839               	.LM95:
+ 840 0346 1092 0000 		sts g_ibus_State,__zero_reg__
+ 273:ibus.c        ****     IBUS_SENSTA_SETUP();
+ 841               		.stabn	68,0,273,.LM96-.LFBB8
+ 842               	.LM96:
+ 843 034a 8A98      		cbi 49-32,2
+ 844 034c 929A      		sbi 50-32,2
+ 845 034e 85B7      		in r24,85-32
+ 846 0350 8360      		ori r24,lo8(3)
+ 847 0352 85BF      		out 85-32,r24
+ 274:ibus.c        ****     IBUS_TIMER_SETUP();
+ 848               		.stabn	68,0,274,.LM97-.LFBB8
+ 849               	.LM97:
+ 850 0354 83E0      		ldi r24,lo8(3)
+ 851 0356 8EBD      		out 78-32,r24
+ 852               	/* epilogue start */
+ 275:ibus.c        **** }
+ 853               		.stabn	68,0,275,.LM98-.LFBB8
+ 854               	.LM98:
+ 855 0358 0895      		ret
+ 856               		.size	ibus_init, .-ibus_init
+ 857               	.Lscope8:
+ 858               		.stabs	"",36,0,0,.Lscope8-.LFBB8
+ 859               		.stabd	78,0,0
+ 860               		.stabs	"ibus_tick:F(0,15)",36,0,192,ibus_tick
+ 861               	.global	ibus_tick
+ 862               		.type	ibus_tick, @function
+ 863               	ibus_tick:
+ 864               		.stabd	46,0,0
+ 192:ibus.c        **** {
+ 865               		.stabn	68,0,192,.LM99-.LFBB9
+ 866               	.LM99:
+ 867               	.LFBB9:
+ 868 035a 0F93      		push r16
+ 869 035c 1F93      		push r17
+ 870 035e CF93      		push r28
+ 871 0360 DF93      		push r29
+ 872               	/* prologue: function */
+ 873               	/* frame size = 0 */
+ 194:ibus.c        ****     if (g_ibus_TxReadPos == g_ibus_TxWritePos || g_ibus_State == IBUS_STATE_WAIT_FREE_BUS) return;
+ 874               		.stabn	68,0,194,.LM100-.LFBB9
+ 875               	.LM100:
+GAS LISTING /tmp/ccm1vQro.s 			page 23
+
+
+ 876 0362 9091 0000 		lds r25,g_ibus_TxReadPos
+ 877 0366 8091 0000 		lds r24,g_ibus_TxWritePos
+ 878 036a 9817      		cp r25,r24
+ 879 036c 01F4      		brne .+2
+ 880 036e 00C0      		rjmp .L40
+ 881 0370 8091 0000 		lds r24,g_ibus_State
+ 882 0374 8130      		cpi r24,lo8(1)
+ 883 0376 01F4      		brne .+2
+ 884 0378 00C0      		rjmp .L40
+ 198:ibus.c        ****     if (g_ibus_State == IBUS_STATE_IDLE && IBUS_SENSTA_VALUE())
+ 885               		.stabn	68,0,198,.LM101-.LFBB9
+ 886               	.LM101:
+ 887 037a 8823      		tst r24
+ 888 037c 01F0      		breq .+2
+ 889 037e 00C0      		rjmp .L40
+ 890 0380 829B      		sbis 48-32,2
+ 891 0382 00C0      		rjmp .L36
+ 200:ibus.c        ****         g_ibus_State = IBUS_STATE_WAIT_FREE_BUS;
+ 892               		.stabn	68,0,200,.LM102-.LFBB9
+ 893               	.LM102:
+ 894 0384 81E0      		ldi r24,lo8(1)
+ 895 0386 8093 0000 		sts g_ibus_State,r24
+ 201:ibus.c        ****         IBUS_TIMEOUT_WAIT_FREE_BUS();
+ 896               		.stabn	68,0,201,.LM103-.LFBB9
+ 897               	.LM103:
+ 898 038a 81EA      		ldi r24,lo8(-351)
+ 899 038c 9EEF      		ldi r25,hi8(-351)
+ 900 038e 9DBD      		out (76)+1-32,r25
+ 901 0390 8CBD      		out 76-32,r24
+ 902 0392 89B7      		in r24,89-32
+ 903 0394 8460      		ori r24,lo8(4)
+ 904 0396 89BF      		out 89-32,r24
+ 905 0398 00C0      		rjmp .L40
+ 906               	.L36:
+ 207:ibus.c        ****     uint8_t len = g_ibus_TxBuffer[(g_ibus_TxReadPos + 1) & IBUS_MSG_TX_BUFFER_SIZE_MASK];
+ 907               		.stabn	68,0,207,.LM104-.LFBB9
+ 908               	.LM104:
+ 909 039a E92F      		mov r30,r25
+ 910 039c F0E0      		ldi r31,lo8(0)
+ 911 039e 3196      		adiw r30,1
+ 912 03a0 DF01      		movw r26,r30
+ 913 03a2 B070      		andi r27,hi8(255)
+ 914 03a4 A050      		subi r26,lo8(-(g_ibus_TxBuffer))
+ 915 03a6 B040      		sbci r27,hi8(-(g_ibus_TxBuffer))
+ 916 03a8 AC91      		ld r26,X
+ 208:ibus.c        ****     int8_t tried = g_ibus_TxBuffer[(g_ibus_TxReadPos + 2 + (posptr_t)len) & IBUS_MSG_TX_BUFFER_SIZE
+ 917               		.stabn	68,0,208,.LM105-.LFBB9
+ 918               	.LM105:
+ 919 03aa CA2F      		mov r28,r26
+ 920 03ac D0E0      		ldi r29,lo8(0)
+ 211:ibus.c        ****     if (tried < 1)
+ 921               		.stabn	68,0,211,.LM106-.LFBB9
+ 922               	.LM106:
+ 923 03ae 3196      		adiw r30,1
+ 924 03b0 EC0F      		add r30,r28
+ 925 03b2 FD1F      		adc r31,r29
+ 926 03b4 F070      		andi r31,hi8(255)
+GAS LISTING /tmp/ccm1vQro.s 			page 24
+
+
+ 927 03b6 E050      		subi r30,lo8(-(g_ibus_TxBuffer))
+ 928 03b8 F040      		sbci r31,hi8(-(g_ibus_TxBuffer))
+ 929 03ba 8081      		ld r24,Z
+ 930 03bc 1816      		cp __zero_reg__,r24
+ 931 03be 04F0      		brlt .L37
+ 213:ibus.c        ****         g_ibus_TxReadPos = (g_ibus_TxReadPos + 3 + (posptr_t)len) & IBUS_MSG_TX_BUFFER_SIZE_MASK;
+ 932               		.stabn	68,0,213,.LM107-.LFBB9
+ 933               	.LM107:
+ 934 03c0 892F      		mov r24,r25
+ 935 03c2 8D5F      		subi r24,lo8(-(3))
+ 936 03c4 8A0F      		add r24,r26
+ 937 03c6 8093 0000 		sts g_ibus_TxReadPos,r24
+ 214:ibus.c        ****         g_ibus_TxReadPos_old = g_ibus_TxReadPos;
+ 938               		.stabn	68,0,214,.LM108-.LFBB9
+ 939               	.LM108:
+ 940 03ca 8093 0000 		sts g_ibus_TxReadPos_old,r24
+ 941 03ce 00C0      		rjmp .L40
+ 942               	.L37:
+ 218:ibus.c        ****     uart_flush();
+ 943               		.stabn	68,0,218,.LM109-.LFBB9
+ 944               	.LM109:
+ 945 03d0 0E94 0000 		call uart_flush
+ 219:ibus.c        ****     uart_clearTransmissionBuffer();
+ 946               		.stabn	68,0,219,.LM110-.LFBB9
+ 947               	.LM110:
+ 948 03d4 0E94 0000 		call uart_clearTransmissionBuffer
+ 221:ibus.c        ****     g_ibus_State = IBUS_STATE_TRANSMIT;
+ 949               		.stabn	68,0,221,.LM111-.LFBB9
+ 950               	.LM111:
+ 951 03d8 84E0      		ldi r24,lo8(4)
+ 952 03da 8093 0000 		sts g_ibus_State,r24
+ 222:ibus.c        ****     g_ibus_TxReadPos_old = g_ibus_TxReadPos;
+ 953               		.stabn	68,0,222,.LM112-.LFBB9
+ 954               	.LM112:
+ 955 03de 8091 0000 		lds r24,g_ibus_TxReadPos
+ 956 03e2 8093 0000 		sts g_ibus_TxReadPos_old,r24
+ 226:ibus.c        ****     BEGIN_ATOMAR;
+ 957               		.stabn	68,0,226,.LM113-.LFBB9
+ 958               	.LM113:
+ 959 03e6 0FB7      		in r16,__SREG__
+ 960               	/* #APP */
+ 961               	 ;  226 "ibus.c" 1
+ 962 03e8 F894      		cli
+ 963               	 ;  0 "" 2
+ 964               	/* #NOAPP */
+ 965 03ea 10E0      		ldi r17,lo8(0)
+ 966               	.LBB12:
+ 230:ibus.c        ****         for (i=0; i < (posptr_t)len + 2; i++)
+ 967               		.stabn	68,0,230,.LM114-.LFBB9
+ 968               	.LM114:
+ 969 03ec 2196      		adiw r28,1
+ 970 03ee 00C0      		rjmp .L38
+ 971               	.L39:
+ 232:ibus.c        ****             uart_putc(g_ibus_TxBuffer[g_ibus_TxReadPos], 1);
+ 972               		.stabn	68,0,232,.LM115-.LFBB9
+ 973               	.LM115:
+ 974 03f0 E22F      		mov r30,r18
+GAS LISTING /tmp/ccm1vQro.s 			page 25
+
+
+ 975 03f2 F0E0      		ldi r31,lo8(0)
+ 976 03f4 E050      		subi r30,lo8(-(g_ibus_TxBuffer))
+ 977 03f6 F040      		sbci r31,hi8(-(g_ibus_TxBuffer))
+ 978 03f8 8081      		ld r24,Z
+ 979 03fa 61E0      		ldi r22,lo8(1)
+ 980 03fc 0E94 0000 		call uart_putc
+ 233:ibus.c        ****             inc_posptr_tx(g_ibus_TxReadPos);
+ 981               		.stabn	68,0,233,.LM116-.LFBB9
+ 982               	.LM116:
+ 983 0400 8091 0000 		lds r24,g_ibus_TxReadPos
+ 984 0404 8F5F      		subi r24,lo8(-(1))
+ 985 0406 8093 0000 		sts g_ibus_TxReadPos,r24
+ 230:ibus.c        ****         for (i=0; i < (posptr_t)len + 2; i++)
+ 986               		.stabn	68,0,230,.LM117-.LFBB9
+ 987               	.LM117:
+ 988 040a 1F5F      		subi r17,lo8(-(1))
+ 989               	.L38:
+ 990 040c 812F      		mov r24,r17
+ 991 040e 90E0      		ldi r25,lo8(0)
+ 992 0410 2091 0000 		lds r18,g_ibus_TxReadPos
+ 993 0414 C817      		cp r28,r24
+ 994 0416 D907      		cpc r29,r25
+ 995 0418 04F4      		brge .L39
+ 237:ibus.c        ****         g_ibus_TxBuffer[g_ibus_TxReadPos]--; inc_posptr_tx(g_ibus_TxReadPos);
+ 996               		.stabn	68,0,237,.LM118-.LFBB9
+ 997               	.LM118:
+ 998 041a E22F      		mov r30,r18
+ 999 041c F0E0      		ldi r31,lo8(0)
+ 1000 041e E050      		subi r30,lo8(-(g_ibus_TxBuffer))
+ 1001 0420 F040      		sbci r31,hi8(-(g_ibus_TxBuffer))
+ 1002 0422 8081      		ld r24,Z
+ 1003 0424 8150      		subi r24,lo8(-(-1))
+ 1004 0426 8083      		st Z,r24
+ 1005 0428 2F5F      		subi r18,lo8(-(1))
+ 1006 042a 2093 0000 		sts g_ibus_TxReadPos,r18
+ 1007               	.LBE12:
+ 239:ibus.c        ****     END_ATOMAR;
+ 1008               		.stabn	68,0,239,.LM119-.LFBB9
+ 1009               	.LM119:
+ 1010 042e 0FBF      		out __SREG__,r16
+ 241:ibus.c        ****     PORTD |= (1 << 6);
+ 1011               		.stabn	68,0,241,.LM120-.LFBB9
+ 1012               	.LM120:
+ 1013 0430 969A      		sbi 50-32,6
+ 244:ibus.c        ****     uart_setTxRx(1,0);
+ 1014               		.stabn	68,0,244,.LM121-.LFBB9
+ 1015               	.LM121:
+ 1016 0432 81E0      		ldi r24,lo8(1)
+ 1017 0434 60E0      		ldi r22,lo8(0)
+ 1018 0436 0E94 0000 		call uart_setTxRx
+ 245:ibus.c        ****     uart_setTransmitDoneCallback(ibus_transmitCallback);
+ 1019               		.stabn	68,0,245,.LM122-.LFBB9
+ 1020               	.LM122:
+ 1021 043a 80E0      		ldi r24,lo8(gs(ibus_transmitCallback))
+ 1022 043c 90E0      		ldi r25,hi8(gs(ibus_transmitCallback))
+ 1023 043e 0E94 0000 		call uart_setTransmitDoneCallback
+ 246:ibus.c        ****     uart_setReceiveCallback(NULL);
+GAS LISTING /tmp/ccm1vQro.s 			page 26
+
+
+ 1024               		.stabn	68,0,246,.LM123-.LFBB9
+ 1025               	.LM123:
+ 1026 0442 80E0      		ldi r24,lo8(0)
+ 1027 0444 90E0      		ldi r25,hi8(0)
+ 1028 0446 0E94 0000 		call uart_setReceiveCallback
+ 247:ibus.c        ****     uart_startTransmission();
+ 1029               		.stabn	68,0,247,.LM124-.LFBB9
+ 1030               	.LM124:
+ 1031 044a 0E94 0000 		call uart_startTransmission
+ 250:ibus.c        ****     IBUS_SENSTA_ENABLE_INTERRUPT();
+ 1032               		.stabn	68,0,250,.LM125-.LFBB9
+ 1033               	.LM125:
+ 1034 044e 8BB7      		in r24,91-32
+ 1035 0450 8064      		ori r24,lo8(64)
+ 1036 0452 8BBF      		out 91-32,r24
+ 1037               	.L40:
+ 1038               	/* epilogue start */
+ 251:ibus.c        **** }
+ 1039               		.stabn	68,0,251,.LM126-.LFBB9
+ 1040               	.LM126:
+ 1041 0454 DF91      		pop r29
+ 1042 0456 CF91      		pop r28
+ 1043 0458 1F91      		pop r17
+ 1044 045a 0F91      		pop r16
+ 1045 045c 0895      		ret
+ 1046               		.size	ibus_tick, .-ibus_tick
+ 1047               		.stabs	"len:r(6,2)",64,0,207,26
+ 1048               		.stabs	"_sreg:r(0,11)",64,0,226,16
+ 1049               		.stabn	192,0,0,.LFBB9-.LFBB9
+ 1050               		.stabs	"i:r(0,16)",64,0,229,17
+ 1051               		.stabn	192,0,0,.LBB12-.LFBB9
+ 1052               		.stabn	224,0,0,.LBE12-.LFBB9
+ 1053               		.stabn	224,0,0,.Lscope9-.LFBB9
+ 1054               	.Lscope9:
+ 1055               		.stabs	"",36,0,0,.Lscope9-.LFBB9
+ 1056               		.stabd	78,0,0
+ 1057               		.stabs	"ibus_uartReceiveCallback:F(0,15)",36,0,156,ibus_uartReceiveCallback
+ 1058               	.global	ibus_uartReceiveCallback
+ 1059               		.type	ibus_uartReceiveCallback, @function
+ 1060               	ibus_uartReceiveCallback:
+ 1061               		.stabd	46,0,0
+ 156:ibus.c        **** {
+ 1062               		.stabn	68,0,156,.LM127-.LFBB10
+ 1063               	.LM127:
+ 1064               	.LFBB10:
+ 1065               	/* prologue: function */
+ 1066               	/* frame size = 0 */
+ 157:ibus.c        ****     if (g_ibus_State == IBUS_STATE_RECIEVE || g_ibus_State == IBUS_STATE_IDLE)
+ 1067               		.stabn	68,0,157,.LM128-.LFBB10
+ 1068               	.LM128:
+ 1069 045e 8091 0000 		lds r24,g_ibus_State
+ 1070 0462 8230      		cpi r24,lo8(2)
+ 1071 0464 01F0      		breq .L42
+ 1072 0466 8823      		tst r24
+ 1073 0468 01F4      		brne .L44
+ 1074               	.L42:
+ 1075               	.LBB13:
+GAS LISTING /tmp/ccm1vQro.s 			page 27
+
+
+ 159:ibus.c        ****         unsigned int data = uart_getc();
+ 1076               		.stabn	68,0,159,.LM129-.LFBB10
+ 1077               	.LM129:
+ 1078 046a 0E94 0000 		call uart_getc
+ 1079 046e BC01      		movw r22,r24
+ 160:ibus.c        ****         ibus_recieveCallback(data & 0xFF, data & 0xFF00);
+ 1080               		.stabn	68,0,160,.LM130-.LFBB10
+ 1081               	.LM130:
+ 1082 0470 6070      		andi r22,lo8(-256)
+ 1083 0472 0E94 0000 		call ibus_recieveCallback
+ 1084               	.L44:
+ 1085 0476 0895      		ret
+ 1086               	.LBE13:
+ 1087               		.size	ibus_uartReceiveCallback, .-ibus_uartReceiveCallback
+ 1088               		.stabs	"data:r(0,4)",64,0,159,22
+ 1089               		.stabn	192,0,0,.LBB13-.LFBB10
+ 1090               		.stabn	224,0,0,.LBE13-.LFBB10
+ 1091               	.Lscope10:
+ 1092               		.stabs	"",36,0,0,.Lscope10-.LFBB10
+ 1093               		.stabd	78,0,0
+ 1094               	.global	g_ibus_State
+ 1095               	.global	g_ibus_State
+ 1096               		.section .bss
+ 1097               		.type	g_ibus_State, @object
+ 1098               		.size	g_ibus_State, 1
+ 1099               	g_ibus_State:
+ 1100 0000 00        		.skip 1,0
+ 1101               	.global	g_ibus_TxReadPos_old
+ 1102               	.global	g_ibus_TxReadPos_old
+ 1103               		.type	g_ibus_TxReadPos_old, @object
+ 1104               		.size	g_ibus_TxReadPos_old, 1
+ 1105               	g_ibus_TxReadPos_old:
+ 1106 0001 00        		.skip 1,0
+ 1107               	.global	g_ibus_TxReadPos
+ 1108               	.global	g_ibus_TxReadPos
+ 1109               		.type	g_ibus_TxReadPos, @object
+ 1110               		.size	g_ibus_TxReadPos, 1
+ 1111               	g_ibus_TxReadPos:
+ 1112 0002 00        		.skip 1,0
+ 1113               	.global	g_ibus_TxWritePos
+ 1114               	.global	g_ibus_TxWritePos
+ 1115               		.type	g_ibus_TxWritePos, @object
+ 1116               		.size	g_ibus_TxWritePos, 1
+ 1117               	g_ibus_TxWritePos:
+ 1118 0003 00        		.skip 1,0
+ 1119               	.global	g_ibus_RxPos
+ 1120               	.global	g_ibus_RxPos
+ 1121               		.type	g_ibus_RxPos, @object
+ 1122               		.size	g_ibus_RxPos, 1
+ 1123               	g_ibus_RxPos:
+ 1124 0004 00        		.skip 1,0
+ 1125               	.global	g_ibus_RxLen
+ 1126               	.global	g_ibus_RxLen
+ 1127               		.type	g_ibus_RxLen, @object
+ 1128               		.size	g_ibus_RxLen, 1
+ 1129               	g_ibus_RxLen:
+ 1130 0005 00        		.skip 1,0
+GAS LISTING /tmp/ccm1vQro.s 			page 28
+
+
+ 1131               		.comm g_ibus_TxBuffer,256,1
+ 1132               		.comm g_ibus_RxBuffer,256,1
+ 1133               		.comm g_ibus_MsgCallback,2,1
+ 1134               		.stabs	"g_ibus_TxBuffer:G(0,20)=ar(0,21)=r(0,21);0;0177777;;0;255;(6,2)",32,0,38,0
+ 1135               		.stabs	"g_ibus_RxBuffer:G(0,20)",32,0,39,0
+ 1136               		.stabs	"g_ibus_MsgCallback:G(0,17)",32,0,41,0
+ 1137               		.stabs	"g_ibus_State:G(6,2)",32,0,43,0
+ 1138               		.stabs	"g_ibus_TxReadPos_old:G(0,16)",32,0,44,0
+ 1139               		.stabs	"g_ibus_TxReadPos:G(0,16)",32,0,45,0
+ 1140               		.stabs	"g_ibus_TxWritePos:G(0,16)",32,0,46,0
+ 1141               		.stabs	"g_ibus_RxPos:G(0,16)",32,0,47,0
+ 1142               		.stabs	"g_ibus_RxLen:G(0,16)",32,0,48,0
+ 1143               		.text
+ 1144               		.stabs	"",100,0,0,.Letext0
+ 1145               	.Letext0:
+GAS LISTING /tmp/ccm1vQro.s 			page 29
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 ibus.c
+     /tmp/ccm1vQro.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccm1vQro.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccm1vQro.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccm1vQro.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccm1vQro.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccm1vQro.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccm1vQro.s:103    .text:00000000 ibus_setMessageCallback
+                            *COM*:00000002 g_ibus_MsgCallback
+     /tmp/ccm1vQro.s:126    .text:0000000a ibus_calcChecksum
+     /tmp/ccm1vQro.s:181    .text:0000002c ibus_recieveCallback
+     /tmp/ccm1vQro.s:1099   .bss:00000000 g_ibus_State
+     /tmp/ccm1vQro.s:1123   .bss:00000004 g_ibus_RxPos
+                            *COM*:00000100 g_ibus_RxBuffer
+     /tmp/ccm1vQro.s:1129   .bss:00000005 g_ibus_RxLen
+     /tmp/ccm1vQro.s:345    .text:000000e4 ibus_sendMessage
+     /tmp/ccm1vQro.s:1117   .bss:00000003 g_ibus_TxWritePos
+     /tmp/ccm1vQro.s:1111   .bss:00000002 g_ibus_TxReadPos
+                            *COM*:00000100 g_ibus_TxBuffer
+     /tmp/ccm1vQro.s:539    .text:000001dc ibus_transmitCallback
+     /tmp/ccm1vQro.s:599    .text:0000020c __vector_9
+     /tmp/ccm1vQro.s:1060   .text:0000045e ibus_uartReceiveCallback
+     /tmp/ccm1vQro.s:682    .text:0000027e __vector_1
+     /tmp/ccm1vQro.s:1105   .bss:00000001 g_ibus_TxReadPos_old
+     /tmp/ccm1vQro.s:792    .text:0000030e ibus_init
+     /tmp/ccm1vQro.s:863    .text:0000035a ibus_tick
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+__divmodhi4
+uart_setTransmitDoneCallback
+uart_flush
+uart_setTxRx
+uart_setReceiveCallback
+uart_clearTransmissionBuffer
+uart_init
+uart_setFormat
+uart_putc
+uart_startTransmission
+uart_getc

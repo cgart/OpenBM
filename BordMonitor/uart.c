@@ -336,13 +336,13 @@ Purpose:  called when the UART has received a character
     
     /* */
 #if defined( AT90_UART )
-    lastRxError = (usr & (_BV(FE)|_BV(DOR)) );
+    lastRxError = (usr & (_BV(FE)|_BV(DOR)|_BV(PE)) );
 #elif defined( ATMEGA_USART )
-    lastRxError = (usr & (_BV(FE)|_BV(DOR)) );
+    lastRxError = (usr & (_BV(FE)|_BV(DOR)|_BV(PE)) );
 #elif defined( ATMEGA_USART0 )
-    lastRxError = (usr & (_BV(FE0)|_BV(DOR0)) );
+    lastRxError = (usr & (_BV(FE0)|_BV(DOR0)|_BV(PE)) );
 #elif defined ( ATMEGA_UART )
-    lastRxError = (usr & (_BV(FE)|_BV(DOR)) );
+    lastRxError = (usr & (_BV(FE)|_BV(DOR)|_BV(PE)) );
 #endif
         
     /* calculate buffer index */ 

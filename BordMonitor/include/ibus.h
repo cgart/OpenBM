@@ -70,7 +70,8 @@
 //*** Message Types ***
 #define IBUS_MSG_LAMP_STATE         0x5B    // Lamp state
 #define IBUS_MSG_VEHICLE_CTRL       0x0C    // Vehicle Control (mostly used from diagnose)
-
+#define IBUS_MSG_UPDATE_MID         0x23    // update information on text display
+     
 //*** iBus Settings ***
 #define IBUS_SENSTA_VALUE()           bit_is_set(PIND,2)
 #define IBUS_SENSTA_SETUP()           { DDRD &= ~(1 << DDD2); PORTD |= (1 << 2); MCUCR |= (1 << ISC00) | (1 << ISC01); }
@@ -78,14 +79,26 @@
 #define IBUS_SENSTA_ENABLE_INTERRUPT()   { GICR |= (1 << INT0); }
 #define IBUS_SENSTA_DISABLE_INTERRUPT()  { GICR &= ~(1 << INT0); }
 #define IBUS_TIMER_SETUP() { TCCR1B = (1 << CS11) | (1 << CS10); }
-#define IBUS_TIMER_100MS() { TCNT1 = 42496; TIMSK |= (1 << TOIE1); }
-//#define IBUS_TIMER_100MS() { TCNT1 = 0; TIMSK |= (1 << TOIE1); }
-#define IBUS_TIMER_75MS()  { TCNT1 = 48256; TIMSK |= (1 << TOIE1); }
-#define IBUS_TIMER_50MS()  { TCNT1 = 54016; TIMSK |= (1 << TOIE1); }
-#define IBUS_TIMER_30MS()  { TCNT1 = 58624; TIMSK |= (1 << TOIE1); }
+
+// wait time by collision when transmitting (around 5.0ms)
+#define IBUS_TIMEOUT_COLLISION() { TCNT1 = 65535 - 1150; TIMSK |= (1 << TOIE1); }
+
+// receive timeout (stop receiving when nothing happens) (around 20ms)
+#define IBUS_TIMEOUT_RECEIVE() { TCNT1 = 65535 - 4600; TIMSK |= (1 << TOIE1); }
+
+// wait time when receive error (around 3.0ms)
+#define IBUS_TIMEOUT_RECEIVE_ERROR() { TCNT1 = 65535 - 690; TIMSK |= (1 << TOIE1); }
+
+// wait when message was transmitted before next message will be transmitted around 2ms
+#define IBUS_TIMEOUT_AFTER_TRANSMIT() { TCNT1 = 65535 - 460; TIMSK |= (1 << TOIE1); }
+
+// wait around 1.5 ms
+#define IBUS_TIMEOUT_WAIT_FREE_BUS() { TCNT1 = 65535 - 350; TIMSK |= (1 << TOIE1); }
+
 #define IBUS_TIMER_DISABLE_INTERRUPT() { TIMSK &= ~(1 << TOIE1); }
 #define IBUS_TIMER_INTERRUPT TIMER1_OVF_vect
 #define IBUS_TRANSMIT_TRIES 3
+#define IBUS_UART_RX_PULLUP_ENABLE() { PORTD |= (1 << 0); }
 
 //******* default constants **********
 #define IBUS_STATE_IDLE 0

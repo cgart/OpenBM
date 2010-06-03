@@ -78,7 +78,7 @@ uint8_t ibus_calcChecksum(uint8_t* pBuffer)
 //--------------------------------------------------------------------------
 void ibus_transmitCallback(void)
 {
-        PORTD &= ~(1 << 6);
+    PORTD &= ~(1 << 6);
 
     BEGIN_ATOMAR;
     {
@@ -88,7 +88,7 @@ void ibus_transmitCallback(void)
         
         // start to wait for free bus, this will introduce small delay between msgs
         g_ibus_State = IBUS_STATE_WAIT_FREE_BUS;
-        IBUS_TIMER_30MS();
+        IBUS_TIMEOUT_AFTER_TRANSMIT();
     }
     END_ATOMAR;
 }
@@ -96,25 +96,25 @@ void ibus_transmitCallback(void)
 //--------------------------------------------------------------------------
 void ibus_recieveCallback(uint8_t c, uint16_t error)
 {
-    static uint8_t on = 0;
+    /*static uint8_t on = 0;
     if (on)
         PORTC &= ~(1 << 2);
     else
         PORTC |= (1 << 2);
-    on = !on;
+    on = !on;*/
 
     // check if there was an error, then reset state and wait until bus get free
     if (error != 0)
     {
-        static uint8_t onb = 0;
+        /*static uint8_t onb = 0;
         if (onb)
             PORTC &= ~(1 << 5);
         else
             PORTC |= (1 << 5);
-        onb = !onb;
+        onb = !onb;*/
 
         g_ibus_State = IBUS_STATE_WAIT_FREE_BUS;
-        IBUS_TIMER_30MS();
+        IBUS_TIMEOUT_RECEIVE_ERROR();
         return;
     }
 
@@ -145,7 +145,7 @@ void ibus_recieveCallback(uint8_t c, uint16_t error)
     END_ATOMAR;
 
     // set timer for receive timeout
-    IBUS_TIMER_50MS();
+    IBUS_TIMEOUT_RECEIVE();
 
     if (g_ibus_MsgCallback)
         g_ibus_MsgCallback(g_ibus_RxBuffer[0], g_ibus_RxBuffer[2], &g_ibus_RxBuffer[3], g_ibus_RxBuffer[1]-2);
@@ -190,11 +190,6 @@ void ibus_sendMessage(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msgLength,
 //--------------------------------------------------------------------------
 void ibus_tick()
 {
-    if (g_ibus_State == IBUS_STATE_IDLE)
-        PORTD |= (1 << 7);
-    else
-        PORTD &= ~(1 << 7);
-
     // if we are currently waiting for free bus, then just do nothing
     if (g_ibus_TxReadPos == g_ibus_TxWritePos || g_ibus_State == IBUS_STATE_WAIT_FREE_BUS) return;
 
@@ -203,7 +198,7 @@ void ibus_tick()
     if (g_ibus_State == IBUS_STATE_IDLE && IBUS_SENSTA_VALUE())
     {
         g_ibus_State = IBUS_STATE_WAIT_FREE_BUS;
-        IBUS_TIMER_75MS();
+        IBUS_TIMEOUT_WAIT_FREE_BUS();
         return;
     }
 
@@ -264,6 +259,9 @@ void ibus_init()
     uart_setReceiveCallback(ibus_uartReceiveCallback);
     uart_setTransmitDoneCallback(NULL);
 
+    // setup pull-up on RX-pin
+    IBUS_UART_RX_PULLUP_ENABLE();
+    
     // per default we do not use any uart interface
     g_ibus_TxReadPos = 0;
     g_ibus_TxReadPos_old = 0;
@@ -279,13 +277,13 @@ void ibus_init()
 //--------------------------------------------------------------------------
 ISR(IBUS_SENSTA_INT_VECT)
 {
-        // debug
+   /*     // debug
     static uint8_t on = 0;
     if (on)
         PORTD &= ~(1 << 5);
     else
         PORTD |= (1 << 5);
-    on = !on;
+    on = !on;*/
 
     IBUS_SENSTA_DISABLE_INTERRUPT();
     
@@ -306,7 +304,7 @@ ISR(IBUS_SENSTA_INT_VECT)
 
     // start timer to wait until we change the state, so that no transmission
     // happens during this time
-    IBUS_TIMER_100MS();
+    IBUS_TIMEOUT_COLLISION();
 }
 
 //--------------------------------------------------------------------------
