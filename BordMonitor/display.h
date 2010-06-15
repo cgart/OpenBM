@@ -28,19 +28,9 @@ extern void display_init(void);
 extern void display_TogglePower(uint8_t writeToEeprom);
 
 //------------------------------------------------------------------------------
-// Set eeprom value to the given state (use this, when reseting the state)
-//------------------------------------------------------------------------------
-extern void display_setPowerState(uint8_t state);
-
-//------------------------------------------------------------------------------
 // Toggle display input
 //------------------------------------------------------------------------------
 extern void display_ToggleInput(uint8_t writeToEeprom);
-
-//------------------------------------------------------------------------------
-// Set input state (use this when reset the state)
-//------------------------------------------------------------------------------
-extern void display_setInputState(uint8_t state);
 
 //------------------------------------------------------------------------------
 // update display buttons and status LEDs
@@ -48,6 +38,15 @@ extern void display_setInputState(uint8_t state);
 //------------------------------------------------------------------------------
 extern void display_updateState(void);
 
+//------------------------------------------------------------------------------
+// Set power state (0=off, 1=on)
+//------------------------------------------------------------------------------
+extern void display_setPowerState(uint8_t state);
+
+//------------------------------------------------------------------------------
+// Set input state (0=vga, 1=av1, 2=av2)
+//------------------------------------------------------------------------------
+extern void display_setInputState(uint8_t state);
 
 
 #ifdef	__cplusplus

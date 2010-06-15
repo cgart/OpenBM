@@ -36,12 +36,17 @@
 #define END_ATOMAR SREG = _sreg;
 #define parity_odd_bit(v) parity_even_bit(v)^0x01
 #define is_bit_set(a,b) ((a >> b) & 1)
+#define bit_set(a,b)   a|=(1<<b)   // sbi
+#define bit_clear(a,b) a&=~(1<<b)  // cbi
+
 
 //--------------------------------------------------------------------------
 // Global ticks
 //--------------------------------------------------------------------------
-//#define ONE_TICK() 180  // length of one tick in by 14MHz/1024 prescaler = 1/80s
-#define TICKS_PER_SECOND() 80  // length of task ticks for one second
+#define TICKS_PER_SECOND() 80  // how much of task ticks in one second
+#define TICKS_PER_HALFSECOND() 40
+#define TICKS_PER_TWO_SECONDS() 160
+#define TICKS_PER_ONE_AND_A_HALF_SECONDS() 120
 //#define TICK_INTERRUPT TIMER2_COMP_vect
 
 // current number of ticks since last reset

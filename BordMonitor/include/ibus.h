@@ -18,9 +18,9 @@
 #include "base.h"
 #include <string.h>
 
- #ifdef __cplusplus
- extern "C" {
- #endif
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 //*** Device Codes ***
 #define IBUS_DEV_GM      0X00    // Body Module
@@ -70,41 +70,48 @@
 //*** Message Types ***
 #define IBUS_MSG_LAMP_STATE         0x5B    // Lamp state
 #define IBUS_MSG_VEHICLE_CTRL       0x0C    // Vehicle Control (mostly used from diagnose)
-#define IBUS_MSG_UPDATE_MID         0x23    // update information on text display
-     
+#define IBUS_MSG_UPDATE_MID_BOTTOM  0x21    // update information on text display
+#define IBUS_MSG_UPDATE_MID_TOP     0x23    // update information on text display
+#define IBUS_MSG_RADIO_ENCODER      0x32    // MID's radio encoder was rotated
+#define IBUS_MSG_BMBT_ENCODER       0x3B    // MID's radio encoder was rotated
+#define IBUS_MSG_BUTTON             0x31    // MID's button state change
+
+
 //*** iBus Settings ***
+#define IBUS_TX_SETUP()               { DDRD |= (1 << DDD1); PORTD |= (1 << 1); }
+#define IBUS_TX_PORT                  PORTD
+#define IBUS_TX_PIN                   1
+#define IBUS_BAUD_DELAY()             { _delay_us(52); _delay_us(52); }
+
 #define IBUS_SENSTA_VALUE()           bit_is_set(PIND,2)
-#define IBUS_SENSTA_SETUP()           { DDRD &= ~(1 << DDD2); PORTD |= (1 << 2); MCUCR |= (1 << ISC00) | (1 << ISC01); }
-#define IBUS_SENSTA_INT_VECT          INT0_vect
-#define IBUS_SENSTA_ENABLE_INTERRUPT()   { GICR |= (1 << INT0); }
-#define IBUS_SENSTA_DISABLE_INTERRUPT()  { GICR &= ~(1 << INT0); }
+#define IBUS_SENSTA_SETUP()           { DDRD &= ~(1 << DDD2); PORTD |= (1 << 2); }
+
+// setup timer used for ibus timings
 #define IBUS_TIMER_SETUP() { TCCR1B = (1 << CS11) | (1 << CS10); }
 
 // wait time by collision when transmitting (around 5.0ms)
-#define IBUS_TIMEOUT_COLLISION() { TCNT1 = 65535 - 1150; TIMSK |= (1 << TOIE1); }
+#define IBUS_TIMEOUT_COLLISION() { BEGIN_ATOMAR; TCNT1 = 65535 - 1650; TIMSK |= (1 << TOIE1); END_ATOMAR; }
 
-// receive timeout (stop receiving when nothing happens) (around 20ms)
-#define IBUS_TIMEOUT_RECEIVE() { TCNT1 = 65535 - 4600; TIMSK |= (1 << TOIE1); }
+// receive timeout (stop receiving when nothing happens) (around 50ms)
+#define IBUS_TIMEOUT_RECEIVE() { BEGIN_ATOMAR; TCNT1 = 65535 - 11500; TIMSK |= (1 << TOIE1); END_ATOMAR; }
 
-// wait time when receive error (around 3.0ms)
-#define IBUS_TIMEOUT_RECEIVE_ERROR() { TCNT1 = 65535 - 690; TIMSK |= (1 << TOIE1); }
+// wait time when receive error (around 2.0ms)
+#define IBUS_TIMEOUT_RECEIVE_ERROR() { BEGIN_ATOMAR; TCNT1 = 65535 - 460; TIMSK |= (1 << TOIE1); END_ATOMAR; }
 
 // wait when message was transmitted before next message will be transmitted around 2ms
-#define IBUS_TIMEOUT_AFTER_TRANSMIT() { TCNT1 = 65535 - 460; TIMSK |= (1 << TOIE1); }
+#define IBUS_TIMEOUT_AFTER_TRANSMIT() { BEGIN_ATOMAR; TCNT1 = 65535 - 460; TIMSK |= (1 << TOIE1); END_ATOMAR; }
 
-// wait around 1.5 ms
-#define IBUS_TIMEOUT_WAIT_FREE_BUS() { TCNT1 = 65535 - 350; TIMSK |= (1 << TOIE1); }
+// if we see busy bus, then we wait at least 2.0 ms
+#define IBUS_TIMEOUT_WAIT_FREE_BUS() { BEGIN_ATOMAR; TCNT1 = 65535 - 460; TIMSK |= (1 << TOIE1); END_ATOMAR; }
 
 #define IBUS_TIMER_DISABLE_INTERRUPT() { TIMSK &= ~(1 << TOIE1); }
 #define IBUS_TIMER_INTERRUPT TIMER1_OVF_vect
-#define IBUS_TRANSMIT_TRIES 3
-#define IBUS_UART_RX_PULLUP_ENABLE() { PORTD |= (1 << 0); }
+#define IBUS_TRANSMIT_TRIES 5
 
 //******* default constants **********
 #define IBUS_STATE_IDLE 0
 #define IBUS_STATE_WAIT_FREE_BUS  (1 << 0)
-#define IBUS_STATE_RECIEVE  (1 << 1)
-#define IBUS_STATE_TRANSMIT  (1 << 2)
+#define IBUS_STATE_RECEIVING  (1 << 1)
 
 /**
  * Class to handle IBus messages. The I-Bus must be conencted

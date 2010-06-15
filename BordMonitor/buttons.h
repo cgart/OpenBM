@@ -7,7 +7,8 @@
  *    - DOWN : button is down for more than two cycles
  *    - PRESSED   : button was just pressed, so previous tick it was up and now down
  *    - RELEASED  : button was just release, so previous tick it was down and now up
- * 
+ *    - LONG_DOWN : button is down longer than specified time (usually 1s)
+ *
  * Created on June 1, 2010, 11:04 PM
  */
 
@@ -27,6 +28,9 @@ extern "C"
 {
 #endif
 
+// delay in ticks, when we decide that button is hold too long
+#define BUTTON_DELAY_LONG TICKS_PER_ONE_AND_A_HALF_SECONDS()
+    
 /*** Button definitions ***/
 // (don't change this, specific to hardware !!!)
 typedef uint8_t buttonIndex_t;
@@ -58,28 +62,26 @@ typedef uint8_t buttonIndex_t;
 #define BUTTON_PRG       19
 #define BUTTON_LEFT_STATE_MASK 0xFF000L
 
-// BMBT-Encoder
-#define BUTTON_BMBT_KNOB            20
-#define BUTTON_BMBT_ENCODER_OUT1    21
-#define BUTTON_BMBT_ENCODER_OUT2    22
+// Eject button
+#define BUTTON_EJECT     20
+
+// Encoder knobs
+#define BUTTON_BMBT_KNOB            21
+#define BUTTON_RADIO_KNOB           22
+
+// Number of all buttons, which's press time can be evaluated
+#define BUTTON_NUM_BUTTONS 23
+
+// Encoder rotations
 #define BUTTON_BMBT_CW              23
 #define BUTTON_BMBT_CCW             24
+#define BUTTON_RADIO_CW             25
+#define BUTTON_RADIO_CCW            26
 
-// Radio-Encoder
-#define BUTTON_RADIO_ENCODER_OUT1   25
-#define BUTTON_RADIO_ENCODER_OUT2   26
-#define BUTTON_RADIO_KNOB           27
-#define BUTTON_RADIO_CW             28
-#define BUTTON_RADIO_CCW            29
-
-#define BUTTON_KNOBS_STATE_MASK      0x3FF00000L
-
-// Eject button
-#define BUTTON_EJECT     30
+#define BUTTON_ROTARY_STATE_MASK      0x7800000L
 
 // device specific, ignore this
-#define BUTTON_ACTIVE_RIGHT_PART    31
-
+#define BUTTON_ACTIVE_RIGHT_PART    27
 
 /**** Button State access  ***/
 //typedef uint8_t   buttonState_t;
@@ -93,27 +95,46 @@ typedef uint8_t   buttonBool_t;
 extern void button_init(void);
 
 /**
- * Update state of buttons.
+ * Update state of buttons. This method can be called as often as you want.
+ * The frequency determines how well it will react on button changes.
+ * NOTE: call this function on every main timer event, so calling this every 1/80sec
+ * or so is enough
  **/
 extern void button_tick(void);
 
 /**
+ * This method should be called as often as you can. This will check for
+ * encoder states. They are independent of other buttons and hence need some
+ * critical timings.
+ * NOTE: call this in your main loop (the execution time of this function is
+ * approximately short, because it do long execution only if rotary state changed)
+ **/
+extern void button_tick_encoder(void);
+
+/**
  * Return state of a one button. The state is encoded, so use
- * defined macros to extract button state
+ * defined macros to extract button state.
+ * Long-
  **/
 extern buttonBool_t button(buttonIndex_t id);
 extern buttonBool_t button_down(buttonIndex_t id);
 extern buttonBool_t button_pressed(buttonIndex_t id);
 extern buttonBool_t button_released(buttonIndex_t id);
 
+// return time in ticks how long a button is already down
+extern uint8_t button_down_time(buttonIndex_t id);
+
+// return if button is down for longer than specified long delay
+#define button_down_long(id) (button_down_time(id) >= BUTTON_DELAY_LONG)
+
 
 /**
  * Get according state of all buttons
  **/
-extern buttonGlobalState_t button_global(void);
-extern buttonGlobalState_t button_global_down(void);
-extern buttonGlobalState_t button_global_pressed(void);
-extern buttonGlobalState_t button_global_released(void);
+//extern buttonGlobalState_t button_global(void);
+//extern buttonGlobalState_t button_global_down(void);
+//extern buttonGlobalState_t button_global_pressed(void);
+//extern buttonGlobalState_t button_global_released(void);
 
 #ifdef	__cplusplus
 }

@@ -13,6 +13,7 @@
 #include "display.h"
 #include "buttons.h"
 #include "leds.h"
+#include "emul_mid.h"
 
 // global tick counter
 ticks_t g_tickNumber = 0;
@@ -24,6 +25,16 @@ uint8_t g_backLightDimmer = 0;
 // channel to read adc values (0 = photo sensor, 1 = light dimmer)
 uint8_t g_adcCurrentChannel = 0;
 
+// current emulation mode (0=OpenBM, 1=MID, 2=BMBT)
+typedef enum _EmulationMode
+{
+    OPENBM = 0,
+    MID = 1,
+    BMBT = 2
+}EmulationMode;
+
+EmulationMode g_emulationMode = MID;
+
 //------------------------------------------------------------------------------
 // Initialize analog hardware (read photo sensor, read bg light)
 //------------------------------------------------------------------------------
@@ -32,6 +43,7 @@ void adc_init(void)
     g_photoSensor = 0;
     g_backLightDimmer = 0;
     g_adcCurrentChannel = 0;
+    g_emulationMode = MID;
     
     ADCSRA |= (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0); // Set ADC prescaler to 128 - 109KHz sample rate @ 14MHz
     ADMUX = (1 << REFS0); // Set ADC reference to AVCC
@@ -60,6 +72,19 @@ void resetCPU(void)
 //------------------------------------------------------------------------------
 void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
 {
+    // transfer message further to current emulation state
+    switch(g_emulationMode)
+    {
+    case OPENBM:
+        emul_openbm_on_bus_msg(src,dst,msg,msglen);
+        break;
+    case MID:
+        emul_mid_on_bus_msg(src,dst,msg,msglen);
+        break;
+    case BMBT:
+        emul_bmbt_on_bus_msg(src,dst,msg,msglen);
+        break;
+    }
 }
 
 
@@ -96,17 +121,34 @@ int main(void)
     // init hardware and do small delay after init
     initHardware();
 
-    uint8_t welcommsg1[16] = {IBUS_MSG_UPDATE_MID, 0x40, 0x20, 'W', 'E', 'L', 'C', 'O', 'M', 'E', 0x20 , 0x20 , 0x20 , 0x20, 0x20, 0x20};
-    uint8_t welcommsg2[16] = {IBUS_MSG_UPDATE_MID, 0x40, 0x20, 'O', 'P', 'E', 'N', 'B', 'M', '_', 'E', '3'  , '9'  , '!'  , 0x20, 0x20};
+    uint8_t welcommsg1[16] = {IBUS_MSG_UPDATE_MID_TOP, 0x40, 0x20, 'W', 'E', 'L', 'C', 'O', 'M', 'E', 0x20 , 0x20 , 0x20 , 0x20, 0x20, 0x20};
+    uint8_t welcommsg2[16] = {IBUS_MSG_UPDATE_MID_TOP, 0x40, 0x20, 'O', 'P', 'E', 'N', 'B', 'M', '_', 'E', '3'  , '9'  , '!'  , 0x20, 0x20};
     //ibus_sendMessage(IBUS_DEV_RAD, IBUS_DEV_ANZV, data, 16, IBUS_TRANSMIT_TRIES);
     
-    led_red_set(0b11110000);
+    //led_red_set(0b11110000);
     
     for(;;)
     {
-        // update current state of buttons
-        button_tick();
+        // update current encoder states, need this here to eventually reset
+        // the encoder rotary state to predefined value
+        button_tick_encoder();
         
+        // ------------ Task timer has shooted, so perfrom repeated task -------
+        if (tick_event())
+        {
+            // update current state of buttons
+            button_tick();
+
+            // update flashing LEDs
+            led_tick();
+
+            // display buttons
+            display_updateState();
+
+            // perform global tick
+            tick();
+        }
+
         // ----------- Do full reset if user liked so --------------------------
         if (button_released(BUTTON_MENU_LR) && button(BUTTON_SELECT) && button(BUTTON_EJECT))
             resetCPU();
@@ -120,129 +162,39 @@ int main(void)
                 ibus_sendMessage(IBUS_DEV_RAD, IBUS_DEV_MID, welcommsg2, 16, IBUS_TRANSMIT_TRIES);
             show = !show;
         }
-        
+
+            // depending on emulation mode, execute corresponding task
+            switch(g_emulationMode)
+            {
+            case OPENBM:
+                emul_openbm_tick();
+                break;
+            case MID:
+                emul_mid_tick();
+                break;
+            case BMBT:
+                emul_bmbt_tick();
+                break;
+            }
+
         // debugging
         {
-            led_green_immediate_set(button(BUTTON_EJECT));
-        }
-
-        // ----- Display Buttons ------
-        display_updateState();
-
-        // ------------ Task timer has shooted, so perfrom repeated task -------
-        if (tick_event())
-        {
-            // update flashing LEDs
-            led_tick();
-            
-            // perform ibus tasks
-            ibus_tick();
-
-            // perform global tick
-            tick();
+            led_radio_immediate_set(button_released(BUTTON_MENU_LR));
+            led_radio_immediate_set(button_pressed(BUTTON_MENU_LR));
+            //led_yellow_immediate_set(button_down_long(BUTTON_MENU_LR));
         }
 
 
-        // ----------- MID Simulation ---------------------
-        if (button_pressed(BUTTON_RADIO_CW))
+        // Switch Emulation mode
+        if (button_down(BUTTON_MENU_LR) && button_down(BUTTON_SELECT) && button_down(BUTTON_MODE) && button_released(BUTTON_RADIO_KNOB))
         {
-            uint8_t data[2] = {0x32, 0x11};
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data, 2, IBUS_TRANSMIT_TRIES);
-        }else if (button_pressed(BUTTON_RADIO_CCW))
-        {
-            uint8_t data[2] = {0x32, 0x10};
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data, 2, IBUS_TRANSMIT_TRIES);
+            if (g_emulationMode == OPENBM) g_emulationMode = MID;
+            else if (g_emulationMode == MID) g_emulationMode = BMBT;
+            else if (g_emulationMode == BMBT) g_emulationMode = OPENBM;
         }
 
-        if (button_pressed(BUTTON_1))
-        {
-            uint8_t data1[4] = {0x31, 0x40, 0x00, 0x00};
-            uint8_t data2[4] = {0x31, 0x40, 0x00, 0x40};
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data1, 4, IBUS_TRANSMIT_TRIES);
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data2, 4, IBUS_TRANSMIT_TRIES);
-        }
-
-        if (button_pressed(BUTTON_2))
-        {
-            uint8_t data1[4] = {0x31, 0x40, 0x00, 0x01};
-            uint8_t data2[4] = {0x31, 0x40, 0x00, 0x41};
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data1, 4, IBUS_TRANSMIT_TRIES);
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data2, 4, IBUS_TRANSMIT_TRIES);
-        }
-
-        if (button_pressed(BUTTON_3))
-        {
-            uint8_t data1[4] = {0x31, 0x40, 0x00, 0x02};
-            uint8_t data2[4] = {0x31, 0x40, 0x00, 0x42};
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data1, 4, IBUS_TRANSMIT_TRIES);
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data2, 4, IBUS_TRANSMIT_TRIES);
-        }
-
-        if (button_pressed(BUTTON_4))
-        {
-            uint8_t data1[4] = {0x31, 0x40, 0x00, 0x03};
-            uint8_t data2[4] = {0x31, 0x40, 0x00, 0x43};
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data1, 4, IBUS_TRANSMIT_TRIES);
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data2, 4, IBUS_TRANSMIT_TRIES);
-        }
-
-        if (button_pressed(BUTTON_5))
-        {
-            uint8_t data1[4] = {0x31, 0x40, 0x00, 0x04};
-            uint8_t data2[4] = {0x31, 0x40, 0x00, 0x44};
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data1, 4, IBUS_TRANSMIT_TRIES);
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data2, 4, IBUS_TRANSMIT_TRIES);
-        }
-
-        if (button_pressed(BUTTON_6))
-        {
-            uint8_t data1[4] = {0x31, 0x40, 0x00, 0x05};
-            uint8_t data2[4] = {0x31, 0x40, 0x00, 0x45};
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data1, 4, IBUS_TRANSMIT_TRIES);
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data2, 4, IBUS_TRANSMIT_TRIES);
-        }
-
-        if (button_pressed(BUTTON_AM))
-        {
-            uint8_t data1[4] = {0x31, 0x40, 0x00, 0x08};
-            uint8_t data2[4] = {0x31, 0x40, 0x00, 0x40};
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data1, 4, IBUS_TRANSMIT_TRIES);
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data2, 4, IBUS_TRANSMIT_TRIES);
-        }
-
-        if (button_pressed(BUTTON_FM))
-        {
-            uint8_t data1[4] = {0x31, 0x40, 0x00, 0x09};
-            uint8_t data2[4] = {0x31, 0x40, 0x00, 0x49};
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data1, 4, IBUS_TRANSMIT_TRIES);
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data2, 4, IBUS_TRANSMIT_TRIES);
-        }
-
-        if (button_pressed(BUTTON_REW))
-        {
-            uint8_t data1[4] = {0x31, 0x00, 0x00, 0x0C};
-            uint8_t data2[4] = {0x31, 0x00, 0x00, 0x4C};
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data1, 4, IBUS_TRANSMIT_TRIES);
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data2, 4, IBUS_TRANSMIT_TRIES);
-        }
-
-        if (button_pressed(BUTTON_FF))
-        {
-            uint8_t data1[4] = {0x31, 0x00, 0x00, 0x0D};
-            uint8_t data2[4] = {0x31, 0x00, 0x00, 0x4D};
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data1, 4, IBUS_TRANSMIT_TRIES);
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data2, 4, IBUS_TRANSMIT_TRIES);
-        }
-
-        if (button_pressed(BUTTON_MODE))
-        {
-            uint8_t data1[4] = {0x31, 0x40, 0x00, 0x0B};
-            uint8_t data2[4] = {0x31, 0x40, 0x00, 0x4B};
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data1, 4, IBUS_TRANSMIT_TRIES);
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data2, 4, IBUS_TRANSMIT_TRIES);
-        }
-
-
+        // perform ibus tasks
+        ibus_tick();
     }
 
     return 0;

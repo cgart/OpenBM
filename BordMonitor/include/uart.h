@@ -179,7 +179,8 @@ extern unsigned int uart_getc(void);
  *  @return  none
  */
 extern void uart_putc(unsigned char data, unsigned char startDelayed);
-
+extern void uart_putc_wait(unsigned char data);
+extern void uart_wait_free(void);
 
 #if 0
 /**

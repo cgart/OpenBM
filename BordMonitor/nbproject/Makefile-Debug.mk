@@ -37,7 +37,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/uart.o \
 	${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/twimaster.o \
 	${OBJECTDIR}/display.o \
-	${OBJECTDIR}/leds.o
+	${OBJECTDIR}/leds.o \
+	${OBJECTDIR}/emul_mid.o
 
 # C Compiler Flags
 CFLAGS=
@@ -97,6 +98,11 @@ ${OBJECTDIR}/leds.o: nbproject/Makefile-${CND_CONF}.mk leds.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.c) -g -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/leds.o leds.c
+
+${OBJECTDIR}/emul_mid.o: nbproject/Makefile-${CND_CONF}.mk emul_mid.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -g -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/emul_mid.o emul_mid.c
 
 # Subprojects
 .build-subprojects:

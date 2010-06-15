@@ -524,6 +524,19 @@ void uart_putc(unsigned char data, unsigned char startDelayed)
 
 }/* uart_putc */
 
+//------------------------------------------------------------------------------
+void uart_wait_free(void)
+{
+    while ( !( UART0_STATUS & (1<<UDRE)) ) ;
+}
+
+//------------------------------------------------------------------------------
+void uart_putc_wait(unsigned char data)
+{
+    while ( !( UART0_STATUS & (1<<UDRE)) ) ;
+    UART0_DATA = data;
+    while ( !( UART0_STATUS & (1<<UDRE)) ) ;
+}
 
 void uart_startTransmission(void)
 {
@@ -583,7 +596,7 @@ Returns:  None
 **************************************************************************/
 void uart_flush(void)
 {
-    UART_RxHead = UART_RxTail;
+    UART_RxTail = UART_RxHead;
 
     // flush readed data from internal fifo
     while ((UART0_STATUS & (1<<RXC)))
@@ -626,11 +639,10 @@ void uart_setFormat(uint8_t wordLength, uint8_t numStopBits, uint8_t parity)
 
 
     #ifdef URSEL
-    UCSRC = (1<<URSEL) | set;
-    #else
-    UCSRC = set;
+    set |= (1 << URSEL);
     #endif
 
+    UCSRC = set;
 }
 
 //--------------------------------------------------------------------------
@@ -670,7 +682,7 @@ void uart_setTransmitDoneCallback(void (*cbTransmitted)(void))
 //--------------------------------------------------------------------------
 void uart_clearTransmissionBuffer(void)
 {
-    UART_TxHead = UART_TxTail;
+    UART_TxTail = UART_TxHead;
     UART0_CONTROL &= ~_BV(UART0_UDRIE);
 }
 
