@@ -19,6 +19,8 @@ uint8_t g_button_delay[BUTTON_NUM_BUTTONS];
 // direction states of both encoders
 volatile uint8_t g_encoder_flag = 0;
 volatile int8_t g_enc_delta[2];
+int8_t g_enc_last_radioRotaryStateCW;
+int8_t g_enc_last_radioRotaryStateCCW;
 int8_t g_enc_last[2];
 #define ENC_BMBT_KNOB (1 << 0)
 #define ENC_BMBT_OUT1 (1 << 1)
@@ -69,6 +71,9 @@ void button_init(void)
         if( state & ENC_RADIO_OUT1 ) new ^= 0b01;
         g_enc_last[ENC_RADIO] = new;
         g_enc_delta[ENC_RADIO] = 0;
+
+        g_enc_last_radioRotaryStateCW = 0;
+        g_enc_last_radioRotaryStateCCW = 0;
     }
 
     int i;
@@ -150,17 +155,19 @@ void button_tick_encoder(void)
         new = 0;
         if( (state & ENC_RADIO_OUT1) ) new  = 0b11;
         if( (state & ENC_RADIO_OUT2) ) new ^= 0b01;
+        g_buttons &= ~(1L << BUTTON_RADIO_CW);
+        g_buttons &= ~(1L << BUTTON_RADIO_CCW);
         diff = g_enc_last[ENC_RADIO] - new;
         if( diff & 1 )
         {
             g_enc_last[ENC_RADIO] = new;
             g_enc_delta[ENC_RADIO] += (diff & 2) - 1;		// bit 1 = direction (+/-)
         }
-        if (g_enc_delta[ENC_RADIO] < 0)
+        if (g_enc_delta[ENC_RADIO] < 0 && !g_enc_last_radioRotaryStateCCW)
         {
             g_buttons |= (1L << BUTTON_RADIO_CCW);
             g_buttons &= ~(1L << BUTTON_RADIO_CW);
-        }else if (g_enc_delta[ENC_RADIO] > 0)
+        }else if (g_enc_delta[ENC_RADIO] > 0 && !g_enc_last_radioRotaryStateCW)
         {
             g_buttons |= (1L << BUTTON_RADIO_CW);
             g_buttons &= ~(1L << BUTTON_RADIO_CCW);
@@ -168,6 +175,8 @@ void button_tick_encoder(void)
         g_enc_delta[ENC_RADIO] = 0;
     }
 
+    g_enc_last_radioRotaryStateCCW = button(BUTTON_RADIO_CCW);
+    g_enc_last_radioRotaryStateCW  = button(BUTTON_RADIO_CW);
 }
 
 //------------------------------------------------------------------------------
