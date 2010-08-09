@@ -73,7 +73,8 @@ extern "C" {
 #define IBUS_MSG_UPDATE_MID_BOTTOM  0x21    // update information on text display
 #define IBUS_MSG_UPDATE_MID_TOP     0x23    // update information on text display
 #define IBUS_MSG_RADIO_ENCODER      0x32    // MID's radio encoder was rotated
-#define IBUS_MSG_BMBT_ENCODER       0x3B    // MID's radio encoder was rotated
+#define IBUS_MSG_BMBT_BUTTON        0x48    // action with BMBT button
+#define IBUS_MSG_BMBT_ENCODER       0x49    // BMBT encoder was rotated
 #define IBUS_MSG_BUTTON             0x31    // MID's button state change
 
 

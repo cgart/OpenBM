@@ -254,11 +254,13 @@ void ibus_tick()
     posptr_t tryCounterPos = g_ibus_TxReadPos;
     int8_t numberOfTries = g_ibus_TxBuffer[g_ibus_TxReadPos]; inc_posptr_rx(g_ibus_TxReadPos);
     posptr_t len = (posptr_t)g_ibus_TxBuffer[(g_ibus_TxReadPos + 1) & IBUS_MSG_TX_BUFFER_SIZE_MASK];
-    
+
+    led_red_immediate_set(1);
+
     // transmit message
     uart_setTxRx(0,0);
     posptr_t oldTxPos = g_ibus_TxReadPos;
-    posptr_t newTxPos = ibus_transmit_msg(g_ibus_TxReadPos, len + 2);
+    posptr_t newTxPos = ibus_transmit_msg(g_ibus_TxReadPos,  len + 2);
 
     BEGIN_ATOMAR;
     {
@@ -318,6 +320,8 @@ void ibus_init()
 //--------------------------------------------------------------------------
 ISR(IBUS_TIMER_INTERRUPT)
 {
+    led_red_immediate_set(0);
+
     // disable timer interrupts
     IBUS_TIMER_DISABLE_INTERRUPT();
 
