@@ -76,8 +76,11 @@ extern "C" {
 #define IBUS_MSG_BMBT_BUTTON        0x48    // action with BMBT button
 #define IBUS_MSG_BMBT_ENCODER       0x49    // BMBT encoder was rotated
 #define IBUS_MSG_BUTTON             0x31    // MID's button state change
+#define IBUS_MSG_UPDATE_MID_TOP_FREQ 0x24   // update frequency field of the radio
+#define IBUS_MSG_LED                0x2B    // set status-LED state
+#define IBUS_MSG_LED_SPECIAL        0x2D    // set status-LED state (special function, defining blink ratio)
 
-
+    
 //*** iBus Settings ***
 #define IBUS_TX_SETUP()               { DDRD |= (1 << DDD1); PORTD |= (1 << 1); }
 #define IBUS_TX_PORT                  PORTD
@@ -91,21 +94,21 @@ extern "C" {
 #define IBUS_TIMER_SETUP() { TCCR1B = (1 << CS11) | (1 << CS10); }
 
 // wait time by collision when transmitting (around 5.0ms)
-#define IBUS_TIMEOUT_COLLISION() { BEGIN_ATOMAR; TCNT1 = 65535 - 1650; TIMSK |= (1 << TOIE1); END_ATOMAR; }
+#define IBUS_TIMEOUT_COLLISION() { TCNT1 = 65535 - 1650; TIMSK |= (1 << TOIE1); }
 
 // receive timeout (stop receiving when nothing happens) (around 50ms)
-#define IBUS_TIMEOUT_RECEIVE() { BEGIN_ATOMAR; TCNT1 = 65535 - 11500; TIMSK |= (1 << TOIE1); END_ATOMAR; }
+#define IBUS_TIMEOUT_RECEIVE() { TCNT1 = 65535 - 11500; TIMSK |= (1 << TOIE1); }
 
 // wait time when receive error (around 2.0ms)
-#define IBUS_TIMEOUT_RECEIVE_ERROR() { BEGIN_ATOMAR; TCNT1 = 65535 - 460; TIMSK |= (1 << TOIE1); END_ATOMAR; }
+#define IBUS_TIMEOUT_RECEIVE_ERROR() { TCNT1 = 65535 - 460; TIMSK |= (1 << TOIE1); }
 
 // wait when message was transmitted before next message will be transmitted around 2ms
-#define IBUS_TIMEOUT_AFTER_TRANSMIT() { BEGIN_ATOMAR; TCNT1 = 65535 - 460; TIMSK |= (1 << TOIE1); END_ATOMAR; }
+#define IBUS_TIMEOUT_AFTER_TRANSMIT() { TCNT1 = 65535 - 460; TIMSK |= (1 << TOIE1); }
 
 // if we see busy bus, then we wait at least 2.0 ms
-#define IBUS_TIMEOUT_WAIT_FREE_BUS() { BEGIN_ATOMAR; TCNT1 = 65535 - 460; TIMSK |= (1 << TOIE1); END_ATOMAR; }
+#define IBUS_TIMEOUT_WAIT_FREE_BUS() { TCNT1 = 65535 - 460; TIMSK |= (1 << TOIE1);  }
 
-#define IBUS_TIMER_DISABLE_INTERRUPT() { TIMSK &= ~(1 << TOIE1); }
+#define IBUS_TIMER_DISABLE_INTERRUPT() { TIMSK &= ~(1 << TOIE1); TIFR |= (1 << TOV1); }
 #define IBUS_TIMER_INTERRUPT TIMER1_OVF_vect
 #define IBUS_TRANSMIT_TRIES 5
 

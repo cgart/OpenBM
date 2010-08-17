@@ -26,14 +26,14 @@ uint8_t g_backLightDimmer = 0;
 uint8_t g_adcCurrentChannel = 0;
 
 // current emulation mode (0=OpenBM, 1=MID, 2=BMBT)
-typedef enum _EmulationMode
-{
-    OPENBM = 0,
-    MID = 1,
-    BMBT = 2
-}EmulationMode;
+//typedef enum _EmulationMode
+//{
+//    OPENBM = 0,
+//    MID = 1,
+//    BMBT = 2
+//}EmulationMode;
 
-EmulationMode g_emulationMode = MID;
+//EmulationMode g_emulationMode = MID;
 
 //------------------------------------------------------------------------------
 // Initialize analog hardware (read photo sensor, read bg light)
@@ -43,7 +43,7 @@ void adc_init(void)
     g_photoSensor = 0;
     g_backLightDimmer = 0;
     g_adcCurrentChannel = 0;
-    g_emulationMode = MID;
+    //g_emulationMode = MID;
     
     ADCSRA |= (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0); // Set ADC prescaler to 128 - 109KHz sample rate @ 14MHz
     ADMUX = (1 << REFS0); // Set ADC reference to AVCC
@@ -73,18 +73,18 @@ void resetCPU(void)
 void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
 {
     // transfer message further to current emulation state
-    switch(g_emulationMode)
-    {
-    case OPENBM:
-        emul_openbm_on_bus_msg(src,dst,msg,msglen);
-        break;
-    case MID:
+    //switch(g_emulationMode)
+    //{
+    //case OPENBM:
+    //    emul_openbm_on_bus_msg(src,dst,msg,msglen);
+    //    break;
+    //case MID:
         emul_mid_on_bus_msg(src,dst,msg,msglen);
-        break;
-    case BMBT:
-        emul_bmbt_on_bus_msg(src,dst,msg,msglen);
-        break;
-    }
+    //    break;
+    //case BMBT:
+    //    emul_bmbt_on_bus_msg(src,dst,msg,msglen);
+    //    break;
+    //}
 }
 
 
@@ -139,6 +139,9 @@ int main(void)
             // update current state of buttons
             button_tick();
 
+            // update mid emulator
+            emul_mid_tick();
+
             // update flashing LEDs
             led_tick();
 
@@ -163,35 +166,28 @@ int main(void)
             show = !show;
         }
 
-            // depending on emulation mode, execute corresponding task
-            switch(g_emulationMode)
-            {
-            case OPENBM:
-                emul_openbm_tick();
-                break;
-            case MID:
-                emul_mid_tick();
-                break;
-            case BMBT:
-                emul_bmbt_tick();
-                break;
-            }
-
-        // debugging
-        {
-            led_radio_immediate_set(button_released(BUTTON_MENU_LR));
-            led_radio_immediate_set(button_pressed(BUTTON_MENU_LR));
-            //led_yellow_immediate_set(button_down_long(BUTTON_MENU_LR));
-        }
+        // depending on emulation mode, execute corresponding task
+        //switch(g_emulationMode)
+        //{
+        //case OPENBM:
+        //    emul_openbm_tick();
+        //    break;
+        //case MID:
+            emul_mid_encoder_tick();
+        //    break;
+        //case BMBT:
+        //    emul_bmbt_tick();
+        //    break;
+        //}
 
 
         // Switch Emulation mode
-        if (button_down(BUTTON_MENU_LR) && button_down(BUTTON_SELECT) && button_down(BUTTON_MODE) && button_released(BUTTON_RADIO_KNOB))
-        {
-            if (g_emulationMode == OPENBM) g_emulationMode = MID;
-            else if (g_emulationMode == MID) g_emulationMode = BMBT;
-            else if (g_emulationMode == BMBT) g_emulationMode = OPENBM;
-        }
+        //if (button_down(BUTTON_MENU_LR) && button_down(BUTTON_SELECT) && button_down(BUTTON_MODE) && button_released(BUTTON_RADIO_KNOB))
+        //{
+        //    if (g_emulationMode == OPENBM) g_emulationMode = MID;
+        //    else if (g_emulationMode == MID) g_emulationMode = BMBT;
+        //    else if (g_emulationMode == BMBT) g_emulationMode = OPENBM;
+        //}
 
         // perform ibus tasks
         ibus_tick();

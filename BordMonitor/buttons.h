@@ -128,14 +128,6 @@ extern uint8_t button_down_time(buttonIndex_t id);
 #define button_down_long(id) (button_down_time(id) >= BUTTON_DELAY_LONG)
 
 
-/**
- * Get according state of all buttons
- **/
-//extern buttonGlobalState_t button_global(void);
-//extern buttonGlobalState_t button_global_down(void);
-//extern buttonGlobalState_t button_global_pressed(void);
-//extern buttonGlobalState_t button_global_released(void);
-
 #ifdef	__cplusplus
 }
 #endif

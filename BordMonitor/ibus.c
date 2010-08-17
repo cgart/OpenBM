@@ -153,7 +153,7 @@ uint8_t ibus_calcChecksum(uint8_t* pBuffer)
 }
 
 //--------------------------------------------------------------------------
-void ibus_recieveCallback(uint8_t c, uint16_t error)
+void ibus_recieveCallback(uint8_t c, uint8_t error)
 {
     // check if there was an error, then reset state and wait until bus get free
     if (error != 0)
@@ -165,6 +165,7 @@ void ibus_recieveCallback(uint8_t c, uint16_t error)
 
     // go to recieve state and start timer which check for timeout
     g_ibus_State = IBUS_STATE_RECEIVING;
+    TIFR |= (1 << TOV1);
     IBUS_TIMEOUT_RECEIVE();
 
     uint8_t msgReceived = 0;
@@ -172,14 +173,18 @@ void ibus_recieveCallback(uint8_t c, uint16_t error)
     BEGIN_ATOMAR;
     {
         // put recieved byte into buffer
-        g_ibus_RxBuffer[g_ibus_RxPos] = c; inc_posptr_rx(g_ibus_RxPos);
+        g_ibus_RxBuffer[g_ibus_RxPos] = c;
 
         // notice length of the message
-        if (g_ibus_RxPos == 2)
+        if (g_ibus_RxPos == 1)
+        {
             g_ibus_RxLen = c + 2;
+        }
+
+        inc_posptr_rx(g_ibus_RxPos);
 
         // if there were enough bytes recieved, then compare checksum
-        else if (g_ibus_RxPos >= g_ibus_RxLen)
+        if (g_ibus_RxPos >= g_ibus_RxLen)
         {
             IBUS_TIMER_DISABLE_INTERRUPT();
 
@@ -202,8 +207,12 @@ void ibus_recieveCallback(uint8_t c, uint16_t error)
 //--------------------------------------------------------------------------
 void ibus_uartReceiveCallback(void)
 {
-    unsigned int data = uart_getc();
-    ibus_recieveCallback(data & 0xFF, data & 0xFF00);
+    while(1)
+    {
+        unsigned int data = uart_getc();
+        if (data & UART_NO_DATA) break;
+        ibus_recieveCallback(data & 0xFF, (data & 0xFF00) >> 8);
+    }
 }
 
 //--------------------------------------------------------------------------
@@ -237,8 +246,6 @@ void ibus_sendMessage(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msgLength,
 //--------------------------------------------------------------------------
 void ibus_tick()
 {
-    led_yellow_immediate_set(IBUS_SENSTA_VALUE());
-
     // if no data in the buffer or we are not idle, then do nothing
     if (g_ibus_TxReadPos == g_ibus_TxWritePos || g_ibus_State != IBUS_STATE_IDLE) return;
 
@@ -252,10 +259,8 @@ void ibus_tick()
     
     // ok bus is free, we can submit a message
     posptr_t tryCounterPos = g_ibus_TxReadPos;
-    int8_t numberOfTries = g_ibus_TxBuffer[g_ibus_TxReadPos]; inc_posptr_rx(g_ibus_TxReadPos);
+    int8_t numberOfTries = g_ibus_TxBuffer[g_ibus_TxReadPos]; inc_posptr_tx(g_ibus_TxReadPos);
     posptr_t len = (posptr_t)g_ibus_TxBuffer[(g_ibus_TxReadPos + 1) & IBUS_MSG_TX_BUFFER_SIZE_MASK];
-
-    led_red_immediate_set(1);
 
     // transmit message
     uart_setTxRx(0,0);
@@ -320,8 +325,6 @@ void ibus_init()
 //--------------------------------------------------------------------------
 ISR(IBUS_TIMER_INTERRUPT)
 {
-    led_red_immediate_set(0);
-
     // disable timer interrupts
     IBUS_TIMER_DISABLE_INTERRUPT();
 
