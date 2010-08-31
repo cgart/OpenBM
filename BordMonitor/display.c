@@ -19,6 +19,12 @@ DisplayState g_eeprom_DisplayState EEMEM;
 ticks_t g_display_NextResponseTime = 0;
 
 //------------------------------------------------------------------------------
+uint8_t display_getInputState()
+{
+    return g_DisplayState.display_Input;
+}
+
+//------------------------------------------------------------------------------
 void display_init(void)
 {
     g_display_NextResponseTime = 0;
@@ -72,7 +78,7 @@ void display_ToggleInput(uint8_t writeToEeprom)
     }
     //_delay_ms(1000);
     
-    g_display_NextResponseTime = tick_get() + TICKS_PER_ONE_AND_A_HALF_SECONDS();
+    g_display_NextResponseTime = tick_get() + TICKS_PER_SECOND();
 }
 
 //------------------------------------------------------------------------------
@@ -103,13 +109,25 @@ void display_setPowerState(uint8_t state)
 void display_setInputState(uint8_t state)
 {
     if (g_DisplayState.display_Input == state) return;
-    int8_t diff = 0;
-    diff = state - g_DisplayState.display_Input;
-    diff &= 3;
-    for (; diff >=0; diff--)
-        display_ToggleInput(0);
 
-    display_saveInputState(g_DisplayState.display_Input);
+    int8_t oldState = g_DisplayState.display_Input;
+    if ((oldState == 0 && state == 1)
+      ||(oldState == 1 && state == 2)
+      ||(oldState == 2 && state == 0))
+    {
+        display_ToggleInput(1);
+    }else if (
+        (oldState == 0 && state == 2)
+      ||(oldState == 1 && state == 0)
+      ||(oldState == 2 && state == 1)
+            )
+    {
+        display_ToggleInput(1);
+        _delay_ms(200);
+        display_ToggleInput(1);
+    }
+
+    display_saveInputState(state);
 }
 
 //------------------------------------------------------------------------------

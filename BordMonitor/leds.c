@@ -60,21 +60,21 @@ void led_init(void)
     // do small animation to indicate start
     {
         G_LED_ON();
-        _delay_ms(500);
+        _delay_ms(50);
         G_LED_OFF();
         R_LED_ON();
-        _delay_ms(500);
+        _delay_ms(50);
         R_LED_OFF();
         Y_LED_ON();
-        _delay_ms(500);
+        _delay_ms(50);
         Y_LED_OFF();
         FAN_LED_ON();
-        _delay_ms(500);
+        _delay_ms(50);
         FAN_LED_OFF();
         RADIO_LED_ON();
-        _delay_ms(500);
+        _delay_ms(50);
         RADIO_LED_OFF();
-        _delay_ms(500);
+        _delay_ms(50);
     }
 
 }

@@ -68,9 +68,12 @@ extern "C" {
 
 
 //*** Message Types ***
+#define IBUS_MSG_DEV_POLL           0x01    // Poll any device
 #define IBUS_MSG_LAMP_STATE         0x5B    // Lamp state
 #define IBUS_MSG_VEHICLE_CTRL       0x0C    // Vehicle Control (mostly used from diagnose)
+#define IBUS_MSG_IKE_STATE          0x13    // IKE informs about its state
 #define IBUS_MSG_UPDATE_MID_BOTTOM  0x21    // update information on text display
+#define IBUS_MSG_MID_ACK_TEXT       0x22    // mid aknowledges that text was received
 #define IBUS_MSG_UPDATE_MID_TOP     0x23    // update information on text display
 #define IBUS_MSG_RADIO_ENCODER      0x32    // MID's radio encoder was rotated
 #define IBUS_MSG_BMBT_BUTTON        0x48    // action with BMBT button
@@ -79,7 +82,6 @@ extern "C" {
 #define IBUS_MSG_UPDATE_MID_TOP_FREQ 0x24   // update frequency field of the radio
 #define IBUS_MSG_LED                0x2B    // set status-LED state
 #define IBUS_MSG_LED_SPECIAL        0x2D    // set status-LED state (special function, defining blink ratio)
-
     
 //*** iBus Settings ***
 #define IBUS_TX_SETUP()               { DDRD |= (1 << DDD1); PORTD |= (1 << 1); }

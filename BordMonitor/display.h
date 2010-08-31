@@ -48,6 +48,7 @@ extern void display_setPowerState(uint8_t state);
 //------------------------------------------------------------------------------
 extern void display_setInputState(uint8_t state);
 
+extern uint8_t display_getInputState(void);
 
 #ifdef	__cplusplus
 }

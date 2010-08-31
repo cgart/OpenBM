@@ -103,6 +103,7 @@ void initHardware(void)
     button_init();
     tick_init();
     adc_init();
+    emul_mid_init();
     
     // setup IBus hardware
     ibus_init();
@@ -121,8 +122,8 @@ int main(void)
     // init hardware and do small delay after init
     initHardware();
 
-    uint8_t welcommsg1[16] = {IBUS_MSG_UPDATE_MID_TOP, 0x40, 0x20, 'W', 'E', 'L', 'C', 'O', 'M', 'E', 0x20 , 0x20 , 0x20 , 0x20, 0x20, 0x20};
-    uint8_t welcommsg2[16] = {IBUS_MSG_UPDATE_MID_TOP, 0x40, 0x20, 'O', 'P', 'E', 'N', 'B', 'M', '_', 'E', '3'  , '9'  , '!'  , 0x20, 0x20};
+    //uint8_t welcommsg1[16] = {IBUS_MSG_UPDATE_MID_TOP, 0x40, 0x20, 'W', 'E', 'L', 'C', 'O', 'M', 'E', 0x20 , 0x20 , 0x20 , 0x20, 0x20, 0x20};
+    //uint8_t welcommsg2[16] = {IBUS_MSG_UPDATE_MID_TOP, 0x40, 0x20, 'O', 'P', 'E', 'N', 'B', 'M', '_', 'E', '3'  , '9'  , '!'  , 0x20, 0x20};
     //ibus_sendMessage(IBUS_DEV_RAD, IBUS_DEV_ANZV, data, 16, IBUS_TRANSMIT_TRIES);
     
     //led_red_set(0b11110000);
@@ -147,6 +148,7 @@ int main(void)
 
             // display buttons
             display_updateState();
+            led_green_immediate_set(display_getInputState() == 1);
 
             // perform global tick
             tick();
@@ -156,7 +158,7 @@ int main(void)
         if (button_released(BUTTON_MENU_LR) && button(BUTTON_SELECT) && button(BUTTON_EJECT))
             resetCPU();
 
-        if (button_pressed(BUTTON_EJECT))
+        /*if (button_pressed(BUTTON_EJECT))
         {
             static uint8_t show = 1;
             if (show)
@@ -164,7 +166,7 @@ int main(void)
             else
                 ibus_sendMessage(IBUS_DEV_RAD, IBUS_DEV_MID, welcommsg2, 16, IBUS_TRANSMIT_TRIES);
             show = !show;
-        }
+        }*/
 
         // depending on emulation mode, execute corresponding task
         //switch(g_emulationMode)
