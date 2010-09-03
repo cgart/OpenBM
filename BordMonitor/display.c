@@ -19,6 +19,12 @@ DisplayState g_eeprom_DisplayState EEMEM;
 ticks_t g_display_NextResponseTime = 0;
 
 //------------------------------------------------------------------------------
+uint8_t display_getPowerState()
+{
+    return g_DisplayState.display_Power;
+}
+
+//------------------------------------------------------------------------------
 uint8_t display_getInputState()
 {
     return g_DisplayState.display_Input;

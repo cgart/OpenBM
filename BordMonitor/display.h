@@ -42,6 +42,7 @@ extern void display_updateState(void);
 // Set power state (0=off, 1=on)
 //------------------------------------------------------------------------------
 extern void display_setPowerState(uint8_t state);
+extern uint8_t display_getPowerState(void);
 
 //------------------------------------------------------------------------------
 // Set input state (0=vga, 1=av1, 2=av2)
