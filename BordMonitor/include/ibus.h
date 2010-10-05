@@ -69,9 +69,11 @@ extern "C" {
 
 //*** Message Types ***
 #define IBUS_MSG_DEV_POLL           0x01    // Poll any device
+#define IBUS_MSG_DEV_READY          0x02    // answer to poll message
 #define IBUS_MSG_LAMP_STATE         0x5B    // Lamp state
 #define IBUS_MSG_VEHICLE_CTRL       0x0C    // Vehicle Control (mostly used from diagnose)
 #define IBUS_MSG_IKE_STATE          0x13    // IKE informs about its state
+#define IBUS_MSG_MID_STATE_BUTTONS  0x20    // MID's main buttons (on/off, TEL, ...)
 #define IBUS_MSG_UPDATE_MID_BOTTOM  0x21    // update information on text display
 #define IBUS_MSG_MID_ACK_TEXT       0x22    // mid aknowledges that text was received
 #define IBUS_MSG_UPDATE_MID_TOP     0x23    // update information on text display
