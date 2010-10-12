@@ -62,9 +62,9 @@ void display_TogglePower(uint8_t writeToEeprom)
         eeprom_busy_wait();
         eeprom_write_byte(&g_eeprom_DisplayState.display_Power, g_DisplayState.display_Power);
     }
-    //_delay_ms(1000);
+    _delay_ms(200);
 
-    g_display_NextResponseTime = tick_get() + TICKS_PER_ONE_AND_A_HALF_SECONDS();
+    g_display_NextResponseTime = tick_get() + TICKS_PER_ONE_AND_A_HALF_SECONDS() - TICKS_PER_QUARTERSECOND();
 }
 
 //------------------------------------------------------------------------------
@@ -82,9 +82,9 @@ void display_ToggleInput(uint8_t writeToEeprom)
         eeprom_busy_wait();
         eeprom_write_byte(&g_eeprom_DisplayState.display_Input, g_DisplayState.display_Input);
     }
-    //_delay_ms(1000);
+    _delay_ms(200);
     
-    g_display_NextResponseTime = tick_get() + TICKS_PER_SECOND();
+    g_display_NextResponseTime = tick_get() + TICKS_PER_SECOND() - TICKS_PER_QUARTERSECOND();
 }
 
 //------------------------------------------------------------------------------
@@ -129,7 +129,6 @@ void display_setInputState(uint8_t state)
             )
     {
         display_ToggleInput(1);
-        _delay_ms(200);
         display_ToggleInput(1);
     }
 

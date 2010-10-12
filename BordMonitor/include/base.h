@@ -44,6 +44,7 @@
 // Global ticks
 //--------------------------------------------------------------------------
 #define TICKS_PER_SECOND() 80  // how much of task ticks in one second
+#define TICKS_PER_QUARTERSECOND() 20
 #define TICKS_PER_HALFSECOND() 40
 #define TICKS_PER_TWO_SECONDS() 160
 #define TICKS_PER_ONE_AND_A_HALF_SECONDS() 120

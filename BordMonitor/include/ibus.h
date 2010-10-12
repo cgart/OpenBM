@@ -84,7 +84,16 @@ extern "C" {
 #define IBUS_MSG_UPDATE_MID_TOP_FREQ 0x24   // update frequency field of the radio
 #define IBUS_MSG_LED                0x2B    // set status-LED state
 #define IBUS_MSG_LED_SPECIAL        0x2D    // set status-LED state (special function, defining blink ratio)
-    
+
+
+#define IBUS_MSG_OPENBM_TO          0xFA    // message sent to OpenBM (not BMW specified)
+#define IBUS_MSG_OPENBM_FROM        0xFB    // message received from OpenBM (not BMW specified)
+
+#define IBUS_MSG_OPENBM_GET_TICKS   0x00    // second data byte: get number of ticks
+#define IBUS_MSG_OPENBM_GET_PHOTO   0x01    // second data byte: get value of the photo sensor
+#define IBUS_MSG_OPENBM_GET_DIMMER  0x02    // second data byte: get value of the backlight dimmer
+
+
 //*** iBus Settings ***
 #define IBUS_TX_SETUP()               { DDRD |= (1 << DDD1); PORTD |= (1 << 1); }
 #define IBUS_TX_PORT                  PORTD

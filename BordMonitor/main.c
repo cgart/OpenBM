@@ -85,6 +85,33 @@ void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen
     //    emul_bmbt_on_bus_msg(src,dst,msg,msglen);
     //    break;
     //}
+
+    // ----------------------------
+    // special message treatment for OpenBM related messages
+    // ----------------------------
+    if (dst == IBUS_DEV_BMBT && msg[0] == IBUS_MSG_OPENBM_TO)
+    {
+        if (msg[1] == IBUS_MSG_OPENBM_GET_TICKS)
+        {
+            uint8_t data[6] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_TICKS, 0, 0, 0, 0};
+            data[2] = (g_tickNumber & 0xFF000000) >> 24;
+            data[3] = (g_tickNumber & 0x00FF0000) >> 16;
+            data[4] = (g_tickNumber & 0x0000FF00) >> 8;
+            data[5] = (g_tickNumber & 0x000000FF) >> 0;
+            ibus_sendMessage(IBUS_DEV_BMBT, src, data, 6, 3);
+            
+        }else if (msg[1] == IBUS_MSG_OPENBM_GET_PHOTO)
+        {
+            uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_PHOTO, g_photoSensor};
+            ibus_sendMessage(IBUS_DEV_BMBT, src, data, 3, 3);
+
+        }else if (msg[1] == IBUS_MSG_OPENBM_GET_DIMMER)
+        {
+            uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_DIMMER, g_backLightDimmer};
+            ibus_sendMessage(IBUS_DEV_BMBT, src, data, 3, 3);
+
+        }
+    }
 }
 
 
