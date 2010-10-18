@@ -92,6 +92,7 @@ extern "C" {
 #define IBUS_MSG_OPENBM_GET_TICKS   0x00    // second data byte: get number of ticks
 #define IBUS_MSG_OPENBM_GET_PHOTO   0x01    // second data byte: get value of the photo sensor
 #define IBUS_MSG_OPENBM_GET_DIMMER  0x02    // second data byte: get value of the backlight dimmer
+#define IBUS_MSG_OPENBM_SPECIAL_REQ 0xFF    // second data byte: special request message (i.e. update firmware)
 
 
 //*** iBus Settings ***

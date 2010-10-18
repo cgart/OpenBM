@@ -14,6 +14,7 @@
 #include "buttons.h"
 #include "leds.h"
 #include "emul_mid.h"
+#include "config.h"
 
 // global tick counter
 ticks_t g_tickNumber = 0;
@@ -68,6 +69,14 @@ void resetCPU(void)
 }
 
 //------------------------------------------------------------------------------
+// Send Version string over ibus
+//------------------------------------------------------------------------------
+void ibus_sendVersion(void)
+{
+    
+}
+
+//------------------------------------------------------------------------------
 // This method will be called by IBus stack when new message recieved
 //------------------------------------------------------------------------------
 void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
@@ -110,7 +119,12 @@ void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen
             uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_DIMMER, g_backLightDimmer};
             ibus_sendMessage(IBUS_DEV_BMBT, src, data, 3, 3);
 
+        // reset command F0 07 .. FA BA AD FE ED ..
+        }else if (msglen == 5 && msg[1] == 0xBA && msg[2] == 0xAD && msg[3] == 0xFE && msg[4] == 0xED)
+        {
+            resetCPU();
         }
+        
     }
 }
 

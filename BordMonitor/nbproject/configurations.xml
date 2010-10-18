@@ -21,6 +21,7 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>buttons.c</itemPath>
+      <itemPath>config.h</itemPath>
       <itemPath>display.c</itemPath>
       <itemPath>emul_mid.c</itemPath>
       <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/ibus.c</itemPath>

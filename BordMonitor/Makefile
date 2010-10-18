@@ -65,7 +65,7 @@
 # Name of target controller
 # (e.g. 'at90s8515', see the available avr-gcc mmcu
 # options for possible values)
-MCU=atmega32
+MCU=atmega8
 
 # id to use with programmer
 # default: PROGRAMMER_MCU=$(MCU)
@@ -73,7 +73,7 @@ MCU=atmega32
 # accept the same MCU name as avr-gcc (for example
 # for ATmega8s, avr-gcc expects 'atmega8' and
 # avrdude requires 'm8')
-PROGRAMMER_MCU=m32
+PROGRAMMER_MCU=m8
 
 # Name of our project
 # (use a single word, e.g. 'myproject')
@@ -84,7 +84,8 @@ PROJECTNAME=bmwMonitor
 # (list all files to compile, e.g. 'a.c b.cpp as.S'):
 # Use .cc, .cpp or .C suffix for C++ files, use .S
 # (NOT .s !!!) for assembly source code files.
-PRJSRC=main.c uart.c ibus.c twimaster.c display.c leds.c buttons.c emul_mid.c
+PRJSRC=reactivate.c
+#main.c uart.c ibus.c twimaster.c display.c leds.c buttons.c emul_mid.c
 
 # additional includes (e.g. -I/path/to/mydir)
 INC=-I./include
