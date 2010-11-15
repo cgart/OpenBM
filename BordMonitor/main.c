@@ -15,6 +15,7 @@
 #include "leds.h"
 #include "emul_mid.h"
 #include "config.h"
+#include "bootloader.h"
 
 // global tick counter
 ticks_t g_tickNumber = 0;
@@ -128,30 +129,26 @@ void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen
     }
 }
 
-
 //------------------------------------------------------------------------------
 // Init all hardware parts needed for the project
 //------------------------------------------------------------------------------
 void initHardware(void)
-{
-    // set default variables
-    g_tickNumber = 0;
-
-    // setup hardware
-    i2c_init();
+{    
+    // init hardware
+    tick_init();
     led_init();
+    i2c_init();
     display_init();
     button_init();
-    tick_init();
     adc_init();
     emul_mid_init();
-    
-    // setup IBus hardware
     ibus_init();
-    ibus_setMessageCallback(ibus_MessageCallback);
 
-    // enable interrupts
     sei();
+
+    start_bootloader();
+    
+    ibus_setMessageCallback(ibus_MessageCallback);
 }
 
 //------------------------------------------------------------------------------

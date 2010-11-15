@@ -5,12 +5,14 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/include/base.h</itemPath>
+      <itemPath>include/bootloader.h</itemPath>
       <itemPath>buttons.h</itemPath>
+      <itemPath>config.h</itemPath>
       <itemPath>display.h</itemPath>
       <itemPath>emul_mid.h</itemPath>
       <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/include/i2cmaster.h</itemPath>
       <itemPath>include/ibus.h</itemPath>
-      <itemPath>leds.h</itemPath>
+      <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/include/leds.h</itemPath>
       <itemPath>include/uart.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -20,13 +22,14 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>bootloader.c</itemPath>
       <itemPath>buttons.c</itemPath>
-      <itemPath>config.h</itemPath>
       <itemPath>display.c</itemPath>
       <itemPath>emul_mid.c</itemPath>
       <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/ibus.c</itemPath>
       <itemPath>leds.c</itemPath>
       <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/main.c</itemPath>
+      <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/sha256.c</itemPath>
       <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/twimaster.c</itemPath>
       <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/uart.c</itemPath>
     </logicalFolder>
@@ -36,6 +39,9 @@
       <itemPath>Makefile</itemPath>
     </logicalFolder>
   </logicalFolder>
+  <sourceRootList>
+    <Elem>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor</Elem>
+  </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
     <conf name="Debug" type="1">

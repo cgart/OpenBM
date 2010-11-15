@@ -57,7 +57,7 @@ extern ticks_t g_tickNumber;
 
 // init tick counter
 //#define tick_init() {TIMSK |= (1 << OCIE2); TCCR2 = (1 << CS22) | (1 << CS21) | (1 << CS20);}
-#define tick_init() {TCCR2 = (1 << CS22) | (1 << CS21) | (1 << CS20);}
+#define tick_init() {TCCR2 = (1 << CS22) | (1 << CS21) | (1 << CS20); g_tickNumber = 0; }
 
 // get current number of ticks
 #define tick_get() g_tickNumber

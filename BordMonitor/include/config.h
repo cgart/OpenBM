@@ -18,9 +18,9 @@ extern "C"
 #endif
 
 
-#define MAJOR_VERSION 0
-#define MINOR_VERSION 9
-#define VERSION_STR "[beta1] compiled on " __DATE__ " at " __TIME__
+#define VERSION_MAJOR 1
+#define VERSION_MINOR 1
+#define VERSION_ADD_STR "[beta1] compiled on " __DATE__ " at " __TIME__
 
 #ifdef	__cplusplus
 }
