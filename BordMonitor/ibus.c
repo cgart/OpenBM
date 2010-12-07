@@ -108,20 +108,16 @@ posptr_t ibus_transmit_msg(posptr_t from, posptr_t len)
             len--;
         }
 
-        // put both lines to predefined states
-        IBUS_TX_SETUP();
+        oldFrom = from;
     }
+
+
+// return on failure
+collision:
+
     END_ATOMAR;
-
-    return from;
-
-
-    // return on failure
-    collision:
- 
-        END_ATOMAR;
-        IBUS_TX_SETUP();
-        return oldFrom;
+    IBUS_TX_SETUP();
+    return oldFrom;
 }
 
 //--------------------------------------------------------------------------
@@ -165,7 +161,7 @@ void ibus_recieveCallback(uint8_t c, uint8_t error)
 
     // go to recieve state and start timer which check for timeout
     g_ibus_State = IBUS_STATE_RECEIVING;
-    TIFR |= (1 << TOV1);
+    TIFR1 |= (1 << TOV1);
     IBUS_TIMEOUT_RECEIVE();
 
     uint8_t msgReceived = 0;
@@ -218,29 +214,21 @@ void ibus_uartReceiveCallback(void)
 //--------------------------------------------------------------------------
 void ibus_sendMessage(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msgLength, uint8_t numberOfTries)
 {
-    // check if we have enough space in the buffer, if not then don't take this msg
-    //int free = IBUS_MSG_TX_BUFFER_SIZE - (IBUS_MSG_TX_BUFFER_SIZE_MASK + g_ibus_TxWritePos - g_ibus_TxReadPos) % IBUS_MSG_TX_BUFFER_SIZE_MASK;
-    //if (free < msgLength+4) return;
-    
-    //BEGIN_ATOMAR;
-    //{
-        // put number of retries
-        g_ibus_TxBuffer[g_ibus_TxWritePos] = numberOfTries; inc_posptr_tx(g_ibus_TxWritePos);
+    // put number of retries
+    g_ibus_TxBuffer[g_ibus_TxWritePos] = numberOfTries; inc_posptr_tx(g_ibus_TxWritePos);
 
-        posptr_t oldWritePos = g_ibus_TxWritePos;
-        uint8_t i;
+    posptr_t oldWritePos = g_ibus_TxWritePos;
+    uint8_t i;
 
-        // put message into queue
-        g_ibus_TxBuffer[g_ibus_TxWritePos] = src; inc_posptr_tx(g_ibus_TxWritePos);
-        g_ibus_TxBuffer[g_ibus_TxWritePos] = msgLength + 2; inc_posptr_tx(g_ibus_TxWritePos);
-        g_ibus_TxBuffer[g_ibus_TxWritePos] = dst; inc_posptr_tx(g_ibus_TxWritePos);
-        for (i=0; i < msgLength; i++)
-        {
-            g_ibus_TxBuffer[g_ibus_TxWritePos] = msg[i]; inc_posptr_tx(g_ibus_TxWritePos);
-        }
-        g_ibus_TxBuffer[g_ibus_TxWritePos] = ibus_calcChecksum(&g_ibus_TxBuffer[oldWritePos]); inc_posptr_tx(g_ibus_TxWritePos);
-    //}
-    //END_ATOMAR;
+    // put message into queue
+    g_ibus_TxBuffer[g_ibus_TxWritePos] = src; inc_posptr_tx(g_ibus_TxWritePos);
+    g_ibus_TxBuffer[g_ibus_TxWritePos] = msgLength + 2; inc_posptr_tx(g_ibus_TxWritePos);
+    g_ibus_TxBuffer[g_ibus_TxWritePos] = dst; inc_posptr_tx(g_ibus_TxWritePos);
+    for (i=0; i < msgLength; i++)
+    {
+        g_ibus_TxBuffer[g_ibus_TxWritePos] = msg[i]; inc_posptr_tx(g_ibus_TxWritePos);
+    }
+    g_ibus_TxBuffer[g_ibus_TxWritePos] = ibus_calcChecksum(&g_ibus_TxBuffer[oldWritePos]); inc_posptr_tx(g_ibus_TxWritePos);
 }
 
 //--------------------------------------------------------------------------

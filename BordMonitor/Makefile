@@ -65,7 +65,7 @@
 # Name of target controller
 # (e.g. 'at90s8515', see the available avr-gcc mmcu
 # options for possible values)
-MCU=atmega32
+MCU=atmega324p
 
 # id to use with programmer
 # default: PROGRAMMER_MCU=$(MCU)
@@ -73,7 +73,7 @@ MCU=atmega32
 # accept the same MCU name as avr-gcc (for example
 # for ATmega8s, avr-gcc expects 'atmega8' and
 # avrdude requires 'm8')
-PROGRAMMER_MCU=m32
+PROGRAMMER_MCU=$(MCU) -F
 
 # Name of our project
 # (use a single word, e.g. 'myproject')
@@ -84,10 +84,11 @@ PROJECTNAME=bmwMonitor
 # (list all files to compile, e.g. 'a.c b.cpp as.S'):
 # Use .cc, .cpp or .C suffix for C++ files, use .S
 # (NOT .s !!!) for assembly source code files.
-PRJSRC=main.c uart.c ibus.c twimaster.c display.c leds.c buttons.c emul_mid.c sha256.c bootloader.c
+PRJSRC=main.c uart.c ibus.c twimaster.c display.c leds.c buttons.c emul_mid.c
+# bootloader/xtea.c bootloader/main.c
 
 # additional includes (e.g. -I/path/to/mydir)
-INC=-I./include
+INC=-I./include -Ibootloader
 
 # libraries to link in (e.g. -lmylib)
 LIBS=
@@ -95,6 +96,35 @@ LIBS=
 # Optimization level,
 # use s (size opt), 1, 2, 3 or 0 (off)
 OPTLEVEL=s
+
+# Unique ID of the device
+DEVID_1 = E4
+DEVID_2 = 15
+DEVID_3 = 76
+DEVID_4 = 70
+DEVID_5 = AD
+DEVID_6 = 17
+DEVID_7 = 01
+DEVID_8 = 55
+DEVID_9 = 9F
+DEVID_10 = E3
+DEVID_11 = A1
+DEVID_12 = 22
+DEVID = $(DEVID_1)$(DEVID_2)$(DEVID_3)$(DEVID_4)$(DEVID_5)$(DEVID_6)$(DEVID_7)$(DEVID_8)$(DEVID_9)$(DEVID_9)$(DEVID_10)$(DEVID_11)$(DEVID_12)
+
+# Flash settings
+BOOTLOADERSTARTADR = 0x7000
+#BOOTLDRSIZE = 0x0800
+
+F_CPU = 14745600
+
+
+# Compiler flag to set the C Standard level.
+#     c89   = "ANSI" C
+#     gnu89 = c89 plus GCC extensions
+#     c99   = ISO C99 standard (not yet fully implemented)
+#     gnu99 = c99 plus GCC extensions
+CSTANDARD = -std=gnu99
 
 
 #####      AVR Dude 'writeflash' options       #####
@@ -136,6 +166,25 @@ AVRDUDE_PORT=
 # HEXFORMAT -- format for .hex file output
 HEXFORMAT=ihex
 
+# DEFINES
+CDEFS += -DBOOTLOADERSTARTADR=$(BOOTLOADERSTARTADR)
+CDEFS = -DF_CPU=$(F_CPU)UL
+CDEFS += -DDEVID=$(DEVID)
+CDEFS += -DDEVID_1=$(DEVID_1)
+CDEFS += -DDEVID_2=$(DEVID_2)
+CDEFS += -DDEVID_3=$(DEVID_3)
+CDEFS += -DDEVID_4=$(DEVID_4)
+CDEFS += -DDEVID_5=$(DEVID_5)
+CDEFS += -DDEVID_6=$(DEVID_6)
+CDEFS += -DDEVID_7=$(DEVID_7)
+CDEFS += -DDEVID_8=$(DEVID_8)
+CDEFS += -DDEVID_9=$(DEVID_9)
+CDEFS += -DDEVID_10=$(DEVID_10)
+CDEFS += -DDEVID_11=$(DEVID_11)
+CDEFS += -DDEVID_12=$(DEVID_12)
+#CDEFS += -DBOOTLDRSIZE=$(BOOTLDRSIZE)
+CDEFS += -DBOOTLOADERSTARTADR=$(BOOTLOADERSTARTADR)
+
 # compiler
 CFLAGS=-I. $(INC) -g -mmcu=$(MCU) -O$(OPTLEVEL) \
 	-fpack-struct -fshort-enums             \
@@ -143,6 +192,12 @@ CFLAGS=-I. $(INC) -g -mmcu=$(MCU) -O$(OPTLEVEL) \
 	-Wall -Wstrict-prototypes               \
 	-Wa,-ahlms=$(firstword                  \
 	$(filter %.lst, $(<:.c=.lst)))
+CFLAGS += -ffunction-sections
+CFLAGS += -fdata-sections
+CFLAGS += -ffreestanding
+CFLAGS += -mcall-prologues
+CFLAGS += $(CDEFS)
+CFLAGS += $(CSTANDARD)
 
 # c++ specific flags
 CPPFLAGS=-I. $(INC) -g -mmcu=$(MCU) -O$(OPTLEVEL) \
@@ -162,6 +217,12 @@ ASMFLAGS =-I. $(INC) -g -mmcu=$(MCU)        \
 # linker
 LDFLAGS=-Wl,-Map,$(TRG).map -mmcu=$(MCU) \
 	-lm $(LIBS)
+
+LDFLAGS	+= -Wl,--section-start=.bootloader=$(BOOTLOADERSTARTADR)
+#LDFLAGS += -T linker_script.x
+LDFLAGS += -Wl,--gc-sections
+LDFLAGS += -Wl,--relax
+
 
 ##### executables ####
 CC=avr-gcc
@@ -297,6 +358,7 @@ extcoff: $(TRG)
 	$(OBJCOPY) -j .text                    \
 		-j .data                       \
 		-O $(HEXFORMAT) $< $@
+#		-j .bootloader			\
 
 .out.ee.hex:
 	$(OBJCOPY) -j .eeprom                  \

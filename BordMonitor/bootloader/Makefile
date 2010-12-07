@@ -42,7 +42,7 @@
 
 # MCU name
 #MCU = atmega16
-MCU = atmega32
+MCU = atmega324p
 #MCU = atmega644
 
 
@@ -73,18 +73,25 @@ FORMAT = ihex
 TARGET = bootloader
 
 #mega32
-# "IEC!"
-#DEVID = 0x49454321
-DEVID = 0x01010101
-BOOTLOADERSTARTADR = 0x3800
-BOOTLDRSIZE = 0x0800
 
-#mega644
-# "IEC1"
-#DEVID = 0x31434549
-#BOOTLOADERSTARTADR = 0xF000
-#BOOTLDRSIZE = 0x1000
+# Unique ID of the device
+DEVID_1 = E4
+DEVID_2 = 15
+DEVID_3 = 76
+DEVID_4 = 70
+DEVID_5 = AD
+DEVID_6 = 17
+DEVID_7 = 01
+DEVID_8 = 55
+DEVID_9 = 9F
+DEVID_10 = E3
+DEVID_11 = A1
+DEVID_12 = 22
+DEVID = $(DEVID_1)$(DEVID_2)$(DEVID_3)$(DEVID_4)$(DEVID_5)$(DEVID_6)$(DEVID_7)$(DEVID_8)$(DEVID_9)$(DEVID_9)$(DEVID_10)$(DEVID_11)$(DEVID_12)
 
+# Flash settings
+BOOTLOADERSTARTADR = 0x7000
+#BOOTLDRSIZE = 0x0800
 
 
 # Target file name (without extension).
@@ -98,7 +105,7 @@ OBJDIR = obj
 
 
 # List C source files here. (C dependencies are automatically generated.)
-SRC = main.c ../leds.c ../ibus.c ../uart.c sha256.c
+SRC = main.c xtea.c ../leds.c ../ibus.c ../uart.c
 
 
 # List C++ source files here. (C dependencies are automatically generated.)
@@ -146,7 +153,21 @@ CSTANDARD = -std=gnu99
 # Place -D or -U options here for C sources
 CDEFS = -DF_CPU=$(F_CPU)UL
 CDEFS += -DDEVID=$(DEVID)
-CDEFS += -DBOOTLDRSIZE=$(BOOTLDRSIZE)
+CDEFS += -DDEVID_1=$(DEVID_1)
+CDEFS += -DDEVID_2=$(DEVID_2)
+CDEFS += -DDEVID_3=$(DEVID_3)
+CDEFS += -DDEVID_4=$(DEVID_4)
+CDEFS += -DDEVID_5=$(DEVID_5)
+CDEFS += -DDEVID_6=$(DEVID_6)
+CDEFS += -DDEVID_7=$(DEVID_7)
+CDEFS += -DDEVID_8=$(DEVID_8)
+CDEFS += -DDEVID_9=$(DEVID_9)
+CDEFS += -DDEVID_10=$(DEVID_10)
+CDEFS += -DDEVID_11=$(DEVID_11)
+CDEFS += -DDEVID_12=$(DEVID_12)
+
+#CDEFS += -DBOOTLDRSIZE=$(BOOTLDRSIZE)
+CDEFS += -DBOOTLOADERSTARTADR=$(BOOTLOADERSTARTADR)
 
 
 # Place -D or -U options here for C++ sources
@@ -176,12 +197,16 @@ CFLAGS += -Wstrict-prototypes
 #CFLAGS += -fno-unit-at-a-time
 #CFLAGS += -Wundef
 #CFLAGS += -Wunreachable-code
-#CFLAGS += -Wsign-compare
+CFLAGS += -Wsign-compare
 CFLAGS += -Wa,-adhlns=$(<:%.c=$(OBJDIR)/%.lst)
 CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
 CFLAGS += $(CSTANDARD)
-CFLAGS += -mtiny-stack
+#CFLAGS += -mtiny-stack
 #CFLAGS += -mno-interrupts
+CFLAGS += -ffunction-sections
+CFLAGS += -fdata-sections
+CFLAGS += -ffreestanding
+#CFLAGS += -mcall-prologues
 
 #---------------- Compiler Options C++ ----------------
 #  -g*:          generate debugging information
@@ -208,7 +233,8 @@ CFLAGS += -Wundef
 CPPFLAGS += -Wa,-adhlns=$(<:%.cpp=$(OBJDIR)/%.lst)
 CPPFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
 #CPPFLAGS += $(CSTANDARD)
-
+CPPFLAGS += -ffunction-sections
+CPPFLAGS += -fdata-sections
 
 #---------------- Assembler Options ----------------
 #  -Wa,...:   tell GCC to pass this to the assembler.
@@ -279,11 +305,11 @@ EXTMEMOPTS =
 LDFLAGS = -Wl,-Map=$(OBJDIR)/$(TARGET).map,--cref
 LDFLAGS += $(EXTMEMOPTS)
 LDFLAGS += $(patsubst %,-L%,$(EXTRALIBDIRS))
-LDFLAGS += $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
+#LDFLAGS += $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
 LDFLAGS	+= -Wl,--section-start=.text=$(BOOTLOADERSTARTADR)
 #LDFLAGS += -T linker_script.x
-
-
+LDFLAGS += -Wl,--gc-sections
+#LDFLAGS += -Wl,--relax
 
 #---------------- Programming Options (avrdude) ----------------
 
@@ -296,7 +322,8 @@ LDFLAGS	+= -Wl,--section-start=.text=$(BOOTLOADERSTARTADR)
 AVRDUDE_PROGRAMMER = usbasp
 
 # com1 = serial port. Use lpt1 to connect to parallel port.
-AVRDUDE_PORT = com2    # programmer connected to serial device
+AVRDUDE_PORT =
+#com2    # programmer connected to serial device
 
 AVRDUDE_WRITE_FLASH = -U flash:w:$(OBJDIR)/$(TARGET).hex
 #AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(OBJDIR)/$(TARGET).eep
@@ -314,9 +341,9 @@ AVRDUDE_WRITE_FLASH = -U flash:w:$(OBJDIR)/$(TARGET).hex
 # Increase verbosity level.  Please use this when submitting bug
 # reports about avrdude. See <http://savannah.nongnu.org/projects/avrdude> 
 # to submit bug reports.
-#AVRDUDE_VERBOSE = -v -v
+AVRDUDE_VERBOSE = -v -v
 
-AVRDUDE_FLAGS = -p $(MCU) -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER)
+AVRDUDE_FLAGS = -p $(MCU)  -c $(AVRDUDE_PROGRAMMER) -F
 AVRDUDE_FLAGS += $(AVRDUDE_NO_VERIFY)
 AVRDUDE_FLAGS += $(AVRDUDE_VERBOSE)
 AVRDUDE_FLAGS += $(AVRDUDE_ERASE_COUNTER)
@@ -329,8 +356,8 @@ AVRDUDE_FLAGS += $(AVRDUDE_ERASE_COUNTER)
 DEBUG_MFREQ = $(F_CPU)
 
 # Set the DEBUG_UI to either gdb or insight.
-# DEBUG_UI = gdb
-DEBUG_UI = insight
+DEBUG_UI = gdb
+#DEBUG_UI = insight
 
 # Set the debugging back-end to either avarice, simulavr.
 DEBUG_BACKEND = avarice
@@ -418,10 +445,11 @@ ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
 all: begin gccversion sizebefore build sizeafter end
 
 # Change the build target to build a HEX file or a library.
-build: elf hex eep lss sym
+build: elf hex eep lss sym bin
 #build: lib
 
 
+bin: $(OBJDIR)/$(TARGET).bin
 elf: $(OBJDIR)/$(TARGET).elf
 hex: $(OBJDIR)/$(TARGET).hex
 eep: $(OBJDIR)/$(TARGET).eep
@@ -429,7 +457,6 @@ lss: $(OBJDIR)/$(TARGET).lss
 sym: $(OBJDIR)/$(TARGET).sym
 LIBNAME=lib$(TARGET).a
 lib: $(LIBNAME)
-
 
 
 # Eye candy.
@@ -525,6 +552,11 @@ extcoff: $(TARGET).elf
 
 
 # Create final output files (.hex, .eep) from ELF output file.
+%.bin: %.elf
+	@echo
+	$(OBJCOPY) -j .text -O binary $< $@
+	perl bin2hex.pl $@ 1 > bootloader.h
+
 %.hex: %.elf
 	@echo
 	@echo $(MSG_FLASH) $@
@@ -610,6 +642,7 @@ clean: begin clean_list end
 clean_list :
 	@echo
 	@echo $(MSG_CLEANING)
+	$(REMOVE) $(OBJDIR)/$(TARGET).bin
 	$(REMOVE) $(OBJDIR)/$(TARGET).hex
 	$(REMOVE) $(OBJDIR)/$(TARGET).eep
 	$(REMOVE) $(OBJDIR)/$(TARGET).cof

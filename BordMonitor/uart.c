@@ -237,7 +237,7 @@ Date        Description
   #define UART0_DATA     UDR0
   #define UART0_UDRIE    UDRIE0
 #elif defined(__AVR_ATmega3290__) ||\
-      defined(__AVR_ATmega6490__) ||
+      defined(__AVR_ATmega6490__)
   /* TLS-Separated these two from the previous group because of inconsistency in the USART_RX */
   /* ATmega with one USART */
   #define ATMEGA_USART0
@@ -340,7 +340,7 @@ Purpose:  called when the UART has received a character
 #elif defined( ATMEGA_USART )
     lastRxError = (usr & (_BV(FE)|_BV(DOR)|_BV(PE)) );
 #elif defined( ATMEGA_USART0 )
-    lastRxError = (usr & (_BV(FE0)|_BV(DOR0)|_BV(PE)) );
+    lastRxError = (usr & (_BV(FE0)|_BV(DOR0)|_BV(UPE0)) );
 #elif defined ( ATMEGA_UART )
     lastRxError = (usr & (_BV(FE)|_BV(DOR)|_BV(PE)) );
 #endif
@@ -430,7 +430,6 @@ void uart_init(unsigned int baudrate)
     #else
     UCSRC = (3<<UCSZ0);
     #endif 
-    
 #elif defined (ATMEGA_USART0 )
     /* Set baud rate */
     if ( baudrate & 0x8000 ) 
@@ -446,9 +445,9 @@ void uart_init(unsigned int baudrate)
     
     /* Set frame format: asynchronous, 8data, no parity, 1stop bit */
     #ifdef URSEL0
-    UCSR0C = (1<<URSEL0)|(3<<UCSZ00);
+    //UCSR0C = (1<<URSEL0)|(3<<UCSZ00);
     #else
-    UCSR0C = (3<<UCSZ00);
+    //UCSR0C = (3<<UCSZ00);
     #endif 
 
 #elif defined ( ATMEGA_UART )
@@ -496,7 +495,7 @@ unsigned int uart_getc(void)
 
 }/* uart_getc */
 
-
+#if 0
 /*************************************************************************
 Function: uart_putc()
 Purpose:  write byte to ringbuffer for transmitting via UART
@@ -543,6 +542,7 @@ void uart_startTransmission(void)
     /* enable UDRE interrupt */
     UART0_CONTROL    |= _BV(UART0_UDRIE);
 }
+#endif
 
 #if 0
 /*************************************************************************
@@ -599,9 +599,9 @@ void uart_flush(void)
     UART_RxTail = UART_RxHead;
 
     // flush readed data from internal fifo
-    while ((UART0_STATUS & (1<<RXC)))
+    while ((UART0_STATUS & (1<<RXC0)))
     {
-        UDR;
+        UDR0;
     }
 
 }/* uart_flush */
@@ -617,32 +617,31 @@ void uart_setFormat(uint8_t wordLength, uint8_t numStopBits, uint8_t parity)
     switch (wordLength)
     {
         case 8:
-                set |= (1 << UCSZ1) | (1 << UCSZ0);
+                set |= (1 << UCSZ01) | (1 << UCSZ00);
                 break;
         case 7:
-                set |= (1 << UCSZ1);
+                set |= (1 << UCSZ01);
                 break;
         case 6:
-                set |= (1 << UCSZ0);
+                set |= (1 << UCSZ00);
                 break;
         default:
             break;
     }
 
     if (numStopBits == 2)
-        set |= (1 << USBS);
+        set |= (1 << USBS0);
 
     if (parity == 1)
-        set |= (1 << UPM1);
+        set |= (1 << UPM01);
     else if (parity == 2)
-        set |= (1 << UPM1) | (1 << UPM0);
-
+        set |= (1 << UPM01) | (1 << UPM00);
 
     #ifdef URSEL
     set |= (1 << URSEL);
     #endif
 
-    UCSRC = set;
+    UCSR0C = set;
 }
 
 //--------------------------------------------------------------------------
@@ -651,14 +650,14 @@ void uart_setFormat(uint8_t wordLength, uint8_t numStopBits, uint8_t parity)
 void uart_setTxRx(unsigned char tx, unsigned char rx)
 {
     if (tx) 
-        UART0_CONTROL |= (1<<TXEN);
+        UART0_CONTROL |= (1<<TXEN0);
     else
-        UART0_CONTROL &= ~(1<<TXEN);
+        UART0_CONTROL &= ~(1<<TXEN0);
 
     if (rx)
-        UART0_CONTROL |= (1<<RXEN) | (1 << RXCIE);
+        UART0_CONTROL |= (1<<RXEN0) | (1 << RXCIE0);
     else
-        UART0_CONTROL &= ~(1<<RXEN) & ~(1<<RXCIE);
+        UART0_CONTROL &= ~(1<<RXEN0) & ~(1<<RXCIE0);
 }
 
 //--------------------------------------------------------------------------

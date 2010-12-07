@@ -36,8 +36,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/buttons.o \
 	${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/uart.o \
 	${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/twimaster.o \
-	${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/sha256.o \
-	${OBJECTDIR}/bootloader.o \
 	${OBJECTDIR}/leds.o \
 	${OBJECTDIR}/display.o \
 	${OBJECTDIR}/emul_mid.o
@@ -90,16 +88,6 @@ ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/twimaste
 	${MKDIR} -p ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor
 	${RM} $@.d
 	$(COMPILE.c) -g -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/twimaster.o /media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/twimaster.c
-
-${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/sha256.o: nbproject/Makefile-${CND_CONF}.mk /media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/sha256.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor
-	${RM} $@.d
-	$(COMPILE.c) -g -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/sha256.o /media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/sha256.c
-
-${OBJECTDIR}/bootloader.o: nbproject/Makefile-${CND_CONF}.mk bootloader.c 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.c) -g -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/bootloader.o bootloader.c
 
 ${OBJECTDIR}/leds.o: nbproject/Makefile-${CND_CONF}.mk leds.c 
 	${MKDIR} -p ${OBJECTDIR}

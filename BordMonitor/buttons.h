@@ -18,9 +18,10 @@
 #include <base.h>
 
 /*** Port expander adresses for buttons ***/
-#define PORT_EXPANDER_ENCODER_ADD 0b01000000
-#define PORT_EXPANDER_RADIO_ADD   0b01000010
-#define PORT_EXPANDER_BMBT_ADD    0b01000100
+#define PORT_EXPANDER_ENC_RADIO  0b10010010
+#define PORT_EXPANDER_ENC_BMBT   0b01000000
+#define PORT_EXPANDER_RADIO      0b01000100
+#define PORT_EXPANDER_BMBT       0b01000010
 
 
 #ifdef	__cplusplus
@@ -52,14 +53,14 @@ typedef uint8_t buttonIndex_t;
 #define BUTTON_RIGHT_STATE_MASK_2 0xFC0L
 
 // left part
-#define BUTTON_TEL       12
-#define BUTTON_SELECT    13
+#define BUTTON_SELECT    12
+#define BUTTON_TEL       13
 #define BUTTON_FF        14
 #define BUTTON_UHR       15
 #define BUTTON_MENU_LR   16
-#define BUTTON_REW       17
+#define BUTTON_PRG       17
 #define BUTTON_TONE      18
-#define BUTTON_PRG       19
+#define BUTTON_REW       19
 #define BUTTON_LEFT_STATE_MASK 0xFF000L
 
 // Eject button
@@ -93,6 +94,11 @@ typedef uint8_t   buttonBool_t;
  * Init buttons
  **/
 extern void button_init(void);
+
+/**
+ * Let button handler know, that it should check for buttons on the next tick
+ **/
+extern void button_isr(void);
 
 /**
  * Update state of buttons. This method can be called as often as you want.

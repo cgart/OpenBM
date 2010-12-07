@@ -53,53 +53,54 @@
 
 // current number of ticks since last reset
 typedef uint32_t ticks_t;
+
 extern ticks_t g_tickNumber;
 
 // init tick counter
-//#define tick_init() {TIMSK |= (1 << OCIE2); TCCR2 = (1 << CS22) | (1 << CS21) | (1 << CS20);}
-#define tick_init() {TCCR2 = (1 << CS22) | (1 << CS21) | (1 << CS20); g_tickNumber = 0; }
+//#define tick_init() {TIMSK |= (1 << OCIE0); TCCR0 = (1 << CS02) | (1 << CS01) | (1 << CS00);}
+#define tick_init() {TCCR0B = (1 << CS02) | (1 << CS00); g_tickNumber = 0; }
 
 // get current number of ticks
 #define tick_get() g_tickNumber
 
 // do ticking
 //#define tick() {g_tickNumber++; TCNT2 = 0; OCR2 = 180;}
-#define tick() {g_tickNumber++; TCNT2 = 0;}
+#define tick() {g_tickNumber++; TCNT0 = 0;}
 
 // check if there is a tick
-#define tick_event() (TCNT2 >= 180)
+#define tick_event() (TCNT0 >= 180)
 
-//--------------------------------------------------------------------------
-// Definitions for different MCUs
-//--------------------------------------------------------------------------
-#ifdef __AVR_ATmega8__
-	#define MCU_IVSELREG GICR
-	#define MCU_COUNTERTYPE uint8_t
-#endif
 
-#ifdef __AVR_ATmega32__
-	#define MCU_IVSELREG GICR
-	#define MCU_COUNTERTYPE uint8_t
-#endif
+// ----------------------------------------------------------------------------
+// Firmware/Hardware information struct
+// ----------------------------------------------------------------------------
+typedef struct
+{
+	uint8_t dev_key[12];            // current device key (unique !!!)
+	uint16_t app_version;           // currently flashed version
+	uint16_t crc16;                 // full checksum of the current program (not crypted)
+        uint16_t prognum;               // how often the flash was already programmed
+} bootldrinfo_t;
 
-#ifdef __AVR_ATmega128__
-	#define MCU_IVSELREG       MCUCR
-	#define MCU_COUNTERTYPE    uint16_t
-#endif
+// Check whenever we can fit the bootloader info into one flash page
+#define CHECK3(x, line) typedef char check ## line[(x) ? 1 : -1];
+#define CHECK2(x, line)  CHECK3(x, line)
+#define CHECK_SIZE(x)  CHECK2(x, __LINE__)
+CHECK_SIZE(sizeof(bootldrinfo_t) <= SPM_PAGESIZE)
 
-#ifdef __AVR_AT90CAN128__
-	#define MCU_IVSELREG MCUCR
-	#define MCU_COUNTERTYPE uint16_t
-#endif
+// check that xtea block size can fit exactly into the page size
+CHECK_SIZE(SPM_PAGESIZE % 8 == 0)
 
-#ifdef __AVR_ATmega168__
-	#define MCU_IVSELREG MCUCR
-	#define MCU_COUNTERTYPE uint8_t
-#endif
+// currently we only support small page sizes
+CHECK_SIZE(SPM_PAGESIZE < 256);
 
-#ifdef __AVR_ATmega644__
-	#define MCU_USART_RXC_vect USART0_RX_vect
-	#define MCU_COUNTERTYPE uint8_t
-#endif
+// Short loading of two bytes into 16 bit word
+#define HILO(data,hi,lo) {\
+            ((uint8_t*)(&data))[0] = lo; \
+            ((uint8_t*)(&data))[1] = hi; \
+        }
+
+#define LAST_PAGE ((BOOTLOADERSTARTADR / SPM_PAGESIZE) - 1)
+
 
 #endif

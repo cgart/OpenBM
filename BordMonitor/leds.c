@@ -5,8 +5,8 @@
 #define R_LED_OFF() {PORTC &= ~(1 << 2);}
 #define R_LED(a) { if(a){ R_LED_ON(); } else{ R_LED_OFF();} }
 
-#define G_LED_ON() {PORTD |= (1 << 7);}
-#define G_LED_OFF() {PORTD &= ~(1 << 7);}
+#define G_LED_ON() {PORTD |= (1 << 4);}
+#define G_LED_OFF() {PORTD &= ~(1 << 4);}
 #define G_LED(a) {if(a){ G_LED_ON(); }else{ G_LED_OFF();}}
 
 #define Y_LED_ON() {PORTD |= (1 << 5);}
@@ -46,7 +46,7 @@ void led_init(void)
     DDRC |= (1 << DDC2); PORTC &= ~(1 << 2);
 
     // GREEN
-    DDRD |= (1 << DDD7); PORTD &= ~(1 << 7);
+    DDRD |= (1 << DDD4); PORTD &= ~(1 << 4);
 
     // YELLOW
     DDRD |= (1 << DDD5); PORTD &= ~(1 << 5);
@@ -56,26 +56,6 @@ void led_init(void)
 
     // RADIO
     DDRC |= (1 << DDC5); PORTC &= ~(1 << 5);
-
-    // do small animation to indicate start
-    {
-        G_LED_ON();
-        _delay_ms(50);
-        G_LED_OFF();
-        R_LED_ON();
-        _delay_ms(50);
-        R_LED_OFF();
-        Y_LED_ON();
-        _delay_ms(50);
-        Y_LED_OFF();
-        FAN_LED_ON();
-        _delay_ms(50);
-        FAN_LED_OFF();
-        RADIO_LED_ON();
-        _delay_ms(50);
-        RADIO_LED_OFF();
-        _delay_ms(50);
-    }
 
 }
 

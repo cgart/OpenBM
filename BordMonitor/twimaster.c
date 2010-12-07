@@ -67,21 +67,23 @@ unsigned char i2c_start(unsigned char address)
 
 }/* i2c_start */
 
-#if 0
+#include "leds.h"
+#if 1
 /*************************************************************************
  Issues a start condition and sends address and transfer direction.
  If device is busy, use ack polling to wait until device is ready
  
  Input:   address and transfer direction of I2C device
 *************************************************************************/
-void i2c_start_wait(unsigned char address)
+unsigned char i2c_start_wait(unsigned char address, unsigned char tries)
 {
     uint8_t   twst;
 
-
     while ( 1 )
+    //for (;tries > 0; --tries)
     {
         // send START condition
+        //TWCR = (1<<TWINT) | (1<<TWSTO) | (1<<TWEN);
         TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN);
     
     	// wait until transmission completed
@@ -100,20 +102,46 @@ void i2c_start_wait(unsigned char address)
     
     	// check value of TWI Status Register. Mask prescaler bits.
     	twst = TW_STATUS & 0xF8;
-    	if ( (twst == TW_MT_SLA_NACK )||(twst ==TW_MR_DATA_NACK) ) 
+        /*if (twst == 0x18) led_green_immediate_set(1);
+        if (twst == 0x20) led_red_immediate_set(1);
+        if (twst == 0x28) led_yellow_immediate_set(1);
+        if (twst == 0x38) led_fan_immediate_set(1);
+        if (twst == 0x30) led_radio_immediate_set(1);*/
+        
+        if ((twst == TW_MT_SLA_NACK) || (twst == TW_MT_ARB_LOST) || (twst == TW_MR_SLA_NACK) || (twst == TW_MR_ARB_LOST)) continue;
+
+        #if 0
+    	//if ( (twst != TW_MT_SLA_ACK) && (twst != TW_MR_SLA_ACK) && (twst != TW_MT_DATA_ACK) && (twst != TW_MR_DATA_ACK) )
+    	if ( (twst == TW_MT_SLA_NACK )||(twst ==TW_MR_DATA_NACK) )
     	{    	    
     	    /* device busy, send stop condition to terminate write operation */
             TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWSTO);
 
             // wait until stop condition is executed and bus released
-            while(TWCR & (1<<TWSTO));
+            //while(TWCR & (1<<TWSTO));
 	        
     	    continue;
     	}
+        #endif
+
+        /*led_yellow_immediate_set(1);
+        _delay_ms(1000);
+        led_yellow_immediate_set(0);
+        _delay_ms(1000);
+        led_yellow_immediate_set(1);
+        _delay_ms(1000);
+        led_yellow_immediate_set(0);
+        _delay_ms(1000);
+        led_yellow_immediate_set(1);
+        _delay_ms(1000);
+        led_yellow_immediate_set(0);
+        _delay_ms(1000);*/
+
     	//if( twst != TW_MT_SLA_ACK) return 1;
     	break;
      }
 
+    return tries == 0;
 }/* i2c_start_wait */
 #endif
 
@@ -142,12 +170,12 @@ void i2c_stop(void)
     TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWSTO);
 
     // wait until stop condition is executed and bus released
-    //while(TWCR & (1<<TWSTO));
+    while(TWCR & (1<<TWSTO));
 
 }/* i2c_stop */
 
 
-#if 0
+#if 1
 /*************************************************************************
   Send one byte to I2C device
   

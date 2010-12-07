@@ -15,17 +15,23 @@
 #include "leds.h"
 #include "emul_mid.h"
 #include "config.h"
-#include "bootloader.h"
+#include "bootloader/bootloader.h"
 
 // global tick counter
 ticks_t g_tickNumber = 0;
+volatile ticks_t g_nextIbusTick = 0;
+
+#define UPDATE_SLEEP_COUNTER() { g_nextIbusTick = tick_get() + TICKS_PER_SECOND() * 300L; }
 
 // current adc value
-uint8_t g_photoSensor = 0;
-uint8_t g_backLightDimmer = 0;
+volatile uint8_t g_photoSensor = 0;
+volatile uint8_t g_backLightDimmer = 0;
+volatile int8_t g_temperatureSensor = 0;
 
-// channel to read adc values (0 = photo sensor, 1 = light dimmer)
-uint8_t g_adcCurrentChannel = 0;
+// channel to read adc values (0 = photo sensor, 1 = light dimmer, 2 = temperature sensor)
+volatile uint8_t g_adcCurrentChannel = 0;
+
+static bootldrinfo_t g_bootldrinfo;
 
 // current emulation mode (0=OpenBM, 1=MID, 2=BMBT)
 //typedef enum _EmulationMode
@@ -43,20 +49,43 @@ uint8_t g_adcCurrentChannel = 0;
 void adc_init(void)
 {
     g_photoSensor = 0;
+    g_temperatureSensor = 0;
     g_backLightDimmer = 0;
     g_adcCurrentChannel = 0;
-    //g_emulationMode = MID;
     
     ADCSRA |= (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0); // Set ADC prescaler to 128 - 109KHz sample rate @ 14MHz
     ADMUX = (1 << REFS0); // Set ADC reference to AVCC
     ADMUX |= (1 << ADLAR); // Left adjust ADC result to allow easy 8 bit reading
     ADMUX |= (1 << MUX0) | (1 << MUX1) | (1 << MUX2); // enable reading on ADC7
-    SFIOR &= ~(1 << ADTS2) & ~(1 << ADTS1) & ~(1 << ADTS0);  // Set ADC to Free-Running Mode
+    //SFIOR &= ~(1 << ADTS2) & ~(1 << ADTS1) & ~(1 << ADTS0);  // Set ADC to Free-Running Mode
+    ADCSRB &= ~(1 << ADTS2) & ~(1 << ADTS1) & ~(1 << ADTS0);  // Set ADC to Free-Running Mode
     ADCSRA |= (1 << ADIE);  // Enable ADC Interrupt
     ADCSRA |= (1 << ADEN);  // Enable ADC
 
+    DIDR0 = 0xFF; // disable digital inputs on the complete ADC port/ A.port
+
     // start reading from ADC
     ADCSRA |= (1 << ADSC);
+}
+
+//------------------------------------------------------------------------------
+// disable currently the ADC (saves power)
+//------------------------------------------------------------------------------
+void adc_sleep(void)
+{
+    ADCSRA &= ~(1 << ADIE);
+    ADCSRA &= ~(1 << ADEN);
+    PRR |= (1 << PRADC);
+}
+
+//------------------------------------------------------------------------------
+// Enable ADC (must be initialized before)
+//------------------------------------------------------------------------------
+void adc_resume(void)
+{
+    PRR &= ~(1 << PRADC);
+    ADCSRA |= (1 << ADIE);  // Enable ADC Interrupt
+    ADCSRA |= (1 << ADEN);  // Enable ADC
 }
 
 //------------------------------------------------------------------------------
@@ -82,6 +111,8 @@ void ibus_sendVersion(void)
 //------------------------------------------------------------------------------
 void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
 {
+    UPDATE_SLEEP_COUNTER();
+    
     // transfer message further to current emulation state
     //switch(g_emulationMode)
     //{
@@ -101,7 +132,12 @@ void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen
     // ----------------------------
     if (dst == IBUS_DEV_BMBT && msg[0] == IBUS_MSG_OPENBM_TO)
     {
-        if (msg[1] == IBUS_MSG_OPENBM_GET_TICKS)
+        if (msg[1] == IBUS_MSG_OPENBM_GET_VERSION)
+        {
+            uint8_t data[4] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_VERSION, g_bootldrinfo.app_version>>8, g_bootldrinfo.app_version&0xFF};
+            ibus_sendMessage(IBUS_DEV_BMBT, src, data, 4, 3);
+            
+        } else if (msg[1] == IBUS_MSG_OPENBM_GET_TICKS)
         {
             uint8_t data[6] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_TICKS, 0, 0, 0, 0};
             data[2] = (g_tickNumber & 0xFF000000) >> 24;
@@ -120,6 +156,11 @@ void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen
             uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_DIMMER, g_backLightDimmer};
             ibus_sendMessage(IBUS_DEV_BMBT, src, data, 3, 3);
 
+        }else if (msg[1] == IBUS_MSG_OPENBM_GET_TEMP)
+        {
+            uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_TEMP, g_temperatureSensor};
+            ibus_sendMessage(IBUS_DEV_BMBT, src, data, 3, 3);
+
         // reset command F0 07 .. FA BA AD FE ED ..
         }else if (msglen == 5 && msg[1] == 0xBA && msg[2] == 0xAD && msg[3] == 0xFE && msg[4] == 0xED)
         {
@@ -130,10 +171,31 @@ void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen
 }
 
 //------------------------------------------------------------------------------
+// Full shut down of the main board (MOSFET turn off signale)
+//------------------------------------------------------------------------------
+void shutDown(void)
+{
+    display_shutDown();         // disbale display
+    PORTC &= ~(1 << 3);         // shut down main board
+}
+
+//------------------------------------------------------------------------------
 // Init all hardware parts needed for the project
 //------------------------------------------------------------------------------
 void initHardware(void)
-{    
+{
+    // enable main MOSFET to control hardware power
+    DDRC |= (1 << DDC3);
+    PORTC |= (1 << 3);
+
+    // disable not needed-hardware
+    PRR = 0;
+    PRR |= (1 << PRUSART1);   // disable USART-1
+    PRR |= (1 << PRSPI);      // disable SPI
+
+    // read this firmware version
+    memcpy_P(&g_bootldrinfo, (PGM_VOID_P)(BOOTLOADERSTARTADR - SPM_PAGESIZE), sizeof(bootldrinfo_t));
+
     // init hardware
     tick_init();
     led_init();
@@ -144,12 +206,34 @@ void initHardware(void)
     emul_mid_init();
     ibus_init();
 
-    sei();
+    // do small animation to indicate start
+    {
+        led_green_immediate_set(1);
+        _delay_ms(50);
+        led_green_immediate_set(0);
+        led_red_immediate_set(1);
+        _delay_ms(50);
+        led_red_immediate_set(0);
+        led_yellow_immediate_set(1);
+        _delay_ms(50);
+        led_yellow_immediate_set(0);
+        led_fan_immediate_set(1);
+        _delay_ms(50);
+        led_fan_immediate_set(0);
+        led_radio_immediate_set(1);
+        _delay_ms(50);
+        led_radio_immediate_set(0);
+        _delay_ms(50);
+    }
 
-    start_bootloader();
+
+    sei();
     
     ibus_setMessageCallback(ibus_MessageCallback);
+
+    UPDATE_SLEEP_COUNTER();
 }
+
 
 //------------------------------------------------------------------------------
 // Set FUSES correctrly ( http://www.engbedded.com/fusecalc/):
@@ -159,13 +243,9 @@ int main(void)
 {
     // init hardware and do small delay after init
     initHardware();
-
-    //uint8_t welcommsg1[16] = {IBUS_MSG_UPDATE_MID_TOP, 0x40, 0x20, 'W', 'E', 'L', 'C', 'O', 'M', 'E', 0x20 , 0x20 , 0x20 , 0x20, 0x20, 0x20};
-    //uint8_t welcommsg2[16] = {IBUS_MSG_UPDATE_MID_TOP, 0x40, 0x20, 'O', 'P', 'E', 'N', 'B', 'M', '_', 'E', '3'  , '9'  , '!'  , 0x20, 0x20};
-    //ibus_sendMessage(IBUS_DEV_RAD, IBUS_DEV_ANZV, data, 16, IBUS_TRANSMIT_TRIES);
     
     //led_red_set(0b11110000);
-    
+
     for(;;)
     {
         // update current encoder states, need this here to eventually reset
@@ -190,21 +270,19 @@ int main(void)
 
             // perform global tick
             tick();
+
+            // go into full sleep mode if there is no action on the ibus
+            // happens during the last X seconds (full shut down!!!)
+            if (tick_get() > g_nextIbusTick)
+                shutDown();
         }
+
+        // based on ambient light we setup display's brightness
+        display_setBackgroundLight(g_photoSensor);
 
         // ----------- Do full reset if user liked so --------------------------
         if (button_released(BUTTON_MENU_LR) && button(BUTTON_SELECT) && button(BUTTON_EJECT))
             resetCPU();
-
-        /*if (button_pressed(BUTTON_EJECT))
-        {
-            static uint8_t show = 1;
-            if (show)
-                ibus_sendMessage(IBUS_DEV_RAD, IBUS_DEV_MID, welcommsg1, 16, IBUS_TRANSMIT_TRIES);
-            else
-                ibus_sendMessage(IBUS_DEV_RAD, IBUS_DEV_MID, welcommsg2, 16, IBUS_TRANSMIT_TRIES);
-            show = !show;
-        }*/
 
         // depending on emulation mode, execute corresponding task
         //switch(g_emulationMode)
@@ -242,18 +320,31 @@ int main(void)
 //------------------------------------------------------------------------------
 ISR(ADC_vect)
 {
+    // values specific to the DC electric coefficients of the temperature sensor
+    #define TEMP_ADC_ZERO 25
+    #define TEMP_INV_DC 2
+
     BEGIN_ATOMAR;
     {
-        if (g_adcCurrentChannel == 0)
+        if (g_adcCurrentChannel == 0)  // we were converting PhotoSensor values
         {
             g_photoSensor = ADCH;
 
             // switch channel (read on ADC0 next)
             g_adcCurrentChannel = 1;
             ADMUX &= ~(1 << MUX4) & ~(1 << MUX3) & ~(1 << MUX2) & ~(1 << MUX1) & ~(1 << MUX0);
-        }else
+        }else if (g_adcCurrentChannel == 1)  // we were converting Backlight Dimmer values
         {
             g_backLightDimmer = ADCH;
+
+            // switch channel (read on ADC1 next)
+            g_adcCurrentChannel = 2;
+            ADMUX &= ~(1 << MUX4) & ~(1 << MUX3);
+            ADMUX |= (1 << MUX0);
+        }else  // we were converting Temperature Sensor values
+        {
+            // convert voltage into human readable temperature (-128, +128)
+            g_temperatureSensor = (int8_t)((ADCH - TEMP_ADC_ZERO) * TEMP_INV_DC);
 
             // switch channel (read on ADC7 next)
             g_adcCurrentChannel = 0;
@@ -265,3 +356,13 @@ ISR(ADC_vect)
     END_ATOMAR;
 }
 
+//------------------------------------------------------------------------------
+// On any button action this interrupt will be called.
+// We use this interrupt to wake up our main CPU and let button handler know
+// that there is something happening with the buttons
+//------------------------------------------------------------------------------
+ISR(INT1_vect)
+{
+    UPDATE_SLEEP_COUNTER();
+    button_isr();
+}
