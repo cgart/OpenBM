@@ -55,20 +55,21 @@
 typedef uint32_t ticks_t;
 
 extern ticks_t g_tickNumber;
+extern uint8_t g_tickEventHappened;
 
 // init tick counter
 //#define tick_init() {TIMSK |= (1 << OCIE0); TCCR0 = (1 << CS02) | (1 << CS01) | (1 << CS00);}
-#define tick_init() {TCCR0B = (1 << CS02) | (1 << CS00); g_tickNumber = 0; }
+#define tick_init() {TCCR0A = 0; TIMSK0 |= (1 << OCIE0A); TCCR0B = (1 << CS02) | (1 << CS00); g_tickNumber = 0; }
 
 // get current number of ticks
 #define tick_get() g_tickNumber
 
 // do ticking
-//#define tick() {g_tickNumber++; TCNT2 = 0; OCR2 = 180;}
-#define tick() {g_tickNumber++; TCNT0 = 0;}
+#define tick() {g_tickNumber++; TCNT0 = 0; OCR0A = 180; g_tickEventHappened = 0;}
+//#define tick() {g_tickNumber++; TCNT0 = 0;}
 
 // check if there is a tick
-#define tick_event() (TCNT0 >= 180)
+#define tick_event() (g_tickEventHappened == 1) //(TCNT0 >= 180)
 
 
 // ----------------------------------------------------------------------------

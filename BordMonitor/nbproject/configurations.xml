@@ -6,6 +6,7 @@
                    projectFiles="true">
       <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/include/base.h</itemPath>
       <itemPath>buttons.h</itemPath>
+      <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/include/config.h</itemPath>
       <itemPath>display.h</itemPath>
       <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/include/i2cmaster.h</itemPath>
       <itemPath>include/ibus.h</itemPath>

@@ -57,7 +57,7 @@ ticks_t g_tickNumber = 0;
 #define ERROR_WRONG_CHUNK_IND      0x0102
 #define ERROR_PASSWORD_MISMATCH    0x0201
 
-#if 0
+#if 1
 // ----------------------------------------------------------------------------
 /* Make sure the watchdog is disabled as soon as possible    */
 /* Copy this code to your bootloader if you use one and your */

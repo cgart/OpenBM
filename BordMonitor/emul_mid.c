@@ -6,6 +6,7 @@
 #include "include/ibus.h"
 #include "leds.h"
 #include "display.h"
+#include "config.h"
 
 //------------------------------------------------------------------------------
 uint8_t mid_active_mode = 0; // 0x40 radio, 0xC0=cd, 0x80=tape, etc.. this come from Radio
@@ -26,6 +27,7 @@ typedef enum _DevicePollState
     DEV_IDLE,
     DEV_RADIO,
     DEV_IKE,
+    DEV_DSP,
     DEV_TEL,
     DEV_LAST = DEV_TEL
 }DevicePollState;
@@ -41,14 +43,26 @@ uint8_t mid_button_mapping[MID_MAP_SIZE] PROGMEM = {
     BUTTON_4,
     BUTTON_5,
     BUTTON_6,
+#if ((DEVICE_CONFIG & RADIO_PROFESSIONAL) == RADIO_PROFESSIONAL)
     BUTTON_NUM_BUTTONS,
     BUTTON_NUM_BUTTONS,
     BUTTON_AM,
     BUTTON_FM,
+#else
+    BUTTON_FM,
+    BUTTON_AM,
+    BUTTON_NUM_BUTTONS,
+    BUTTON_NUM_BUTTONS,
+#endif
     BUTTON_INFO_L,
     BUTTON_MODE,
+#if ((DEVICE_CONFIG & REW_FF_ONMID) == REW_FF_ONMID)
+    BUTTON_REW,
+    BUTTON_FF,
+#else
     BUTTON_NUM_BUTTONS,
     BUTTON_NUM_BUTTONS,
+#endif
     BUTTON_NUM_BUTTONS
 };
 
@@ -59,8 +73,8 @@ uint8_t mid_button_mapping_dbyte1_mask[MID_MAP_SIZE] PROGMEM = {
     0xFF,
     0xFF,
     0xFF,
-    0x00,
-    0x00,
+    0xFF,
+    0xFF,
     0xFF,
     0xFF,
     0xFF,
@@ -70,7 +84,12 @@ uint8_t mid_button_mapping_dbyte1_mask[MID_MAP_SIZE] PROGMEM = {
     0x00
 };
 
-#define OPENBM_MAP_SIZE 11
+#if ((DEVICE_CONFIG & REW_FF_ONMID) == REW_FF_ONMID)
+    #define OPENBM_MAP_SIZE 9
+#else
+    #define OPENBM_MAP_SIZE 11
+#endif
+
 uint8_t openbm_button_mapping[OPENBM_MAP_SIZE] PROGMEM = {
     BUTTON_EJECT,
     BUTTON_TEL,
@@ -78,18 +97,31 @@ uint8_t openbm_button_mapping[OPENBM_MAP_SIZE] PROGMEM = {
     BUTTON_UHR,
     BUTTON_TONE,
     BUTTON_SELECT,
+#if ((DEVICE_CONFIG & REW_FF_ONMID) != REW_FF_ONMID)
     BUTTON_REW,
-    BUTTON_FF, 
+    BUTTON_FF,
+#endif
     BUTTON_MENU_LR,
     BUTTON_BMBT_KNOB,
     BUTTON_INFO_R
+    //{BUTTON_EJECT,0x48,0x24},
+    //{BUTTON_TEL,0x48,0x08},
+    //{BUTTON_PRG,0x48,0x14},
+    //{BUTTON_UHR,0x48,0x07},
+    //{BUTTON_TONE,0x48,0x04},
+    //{BUTTON_SELECT,0x48,0x20},
+    //{BUTTON_REW,0x48,0x10},
+    //{BUTTON_FF,0x48,0x00},
+    //{BUTTON_MENU_LR,0x48,0x30},
+    //{BUTTON_BMBT_KNOB,0x48,0x05},
+    //{BUTTON_INFO_R,0x47,0x38}
 };
 
 //------------------------------------------------------------------------------
 void emul_mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
 {
     // answer to request messages C8 03 E7 01 2D -> C0 04 C8 02 00 0E
-    if (msg[0] == IBUS_MSG_DEV_POLL && (dst == IBUS_DEV_ANZV || dst == IBUS_DEV_GT || dst == IBUS_DEV_BMBT))
+    if (msg[0] == IBUS_MSG_DEV_POLL && (dst == IBUS_DEV_ANZV || dst == IBUS_DEV_MID || dst == IBUS_DEV_GT || dst == IBUS_DEV_BMBT))
     {
         uint8_t data[2] = {IBUS_MSG_DEV_READY, 0x00};
         ibus_sendMessage(dst, src, data, 2, 3);
@@ -98,21 +130,29 @@ void emul_mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
     // ok, radio will give us a hint, which current mode is active
     // this can be seen on text messages sent from radio to ANZV
     // so react only on text messages
-    //if (dst != IBUS_DEV_ANZV || dst != IBUS_DEV_MID || dst != IBUS_DEV_LOC)
+    if (dst != IBUS_DEV_ANZV || dst != IBUS_DEV_MID)// || dst != IBUS_DEV_LOC)
     {
-        if (msg[0] == IBUS_MSG_UPDATE_MID_TOP || msg[0] == IBUS_MSG_UPDATE_MID_BOTTOM)
+        //if (msg[0] == IBUS_MSG_UPDATE_MID_TOP || msg[0] == IBUS_MSG_UPDATE_MID_BOTTOM)
+        if (msg[0] == IBUS_MSG_UPDATE_MID_BOTTOM)
         {
-            // acknowledge msg
-            uint8_t data[2] = {IBUS_MSG_MID_ACK_TEXT, 0x01};
-
-            if (src == IBUS_DEV_RAD && msglen >= 2)
+            if (src == IBUS_DEV_RAD)
             {
-                mid_active_mode = msg[1];
-                data[1] = 0x02;
-            }
+                // acknowledge msg
+                uint8_t data[2] = {IBUS_MSG_MID_ACK_TEXT, 0x01};
 
-            // let receiver know, that we accepted the change
-            ibus_sendMessage(IBUS_DEV_MID, src, data, 2, 3);
+                // BMW Business with DSP ( 68 06 C0 21 00 00 20 AF -> ACK differently)
+                if (msglen == 4 && msg[1] == 0 && msg[2] == 0 && msg[3] == 0x20)
+                {
+                    data[1] = 0;
+                }else if (msglen >= 2)
+                {
+                    mid_active_mode = msg[1];
+                    data[1] = 0x02;
+                }
+
+                // let receiver know, that we accepted the change
+                ibus_sendMessage(IBUS_DEV_MID, src, data, 2, 3);
+            }
         }
 
         if (0 && msg[0] == IBUS_MSG_LED)
@@ -217,9 +257,12 @@ void emul_mid_ping_tick(void)
     else if (firstTicks == TICKS_PER_SECOND())
     {
         firstTicks++;
-        
-        // send enable MID message C0 06 FF 20 00 B3 00
-        uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x00, 0xB3, 0x00};
+
+        uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x00, 0x01, 0x00};
+
+        if (g_deviceSettings.device_Settings & RADIO_PROFESSIONAL)
+            data[2] |= 0xB2;
+
         ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_LOC, data, 4, 5);
     }
 
@@ -247,6 +290,17 @@ void emul_mid_ping_tick(void)
             ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_IKE, data, 1, 5);
 
         }else if (mid_pollState == DEV_IKE)
+        {
+            mid_pollState = DEV_DSP;
+
+            //C0 03 6A 01 A8
+            if (g_deviceSettings.device_Settings & DSP_AMPLIFIER)
+            {
+                uint8_t data[1] = {IBUS_MSG_DEV_POLL};
+                ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_DSP, data, 1, 5);
+            }
+
+        }else if (mid_pollState == DEV_DSP)
         {
             mid_pollState = DEV_TEL;
 
@@ -280,7 +334,7 @@ void emul_mid_backcam_tick(void)
             {
                 mid_cam_state = CAM_SWITCHING;
                 mid_cam_oldstate = display_getInputState();
-                display_setInputState(1);
+                display_setInputState(g_deviceSettings.backcam_Input);
             }else
             {
                 mid_cam_state = CAM_SWITCHING;
@@ -307,8 +361,8 @@ void emul_mid_tick(void)
     emul_mid_ping_tick();
     emul_mid_backcam_tick();
     
-    // turn ON, radio LED if not in TAPE mode
-    led_radio_immediate_set(mid_active_mode && mid_active_mode != 0x80);
+    // turn ON, radio LED if in RADIO mode
+    led_radio_immediate_set(mid_active_mode == 0x40);
 
     // special treatment for the Radio knob button
     // If radio knob is pressed shortly, then on release a message will be sent
@@ -336,7 +390,13 @@ void emul_mid_tick(void)
                     display_setPowerState(1);
                 }
 
-                uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x20, 0xB0, 0x00};
+                //uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x20, 0xB0, 0x00};
+                uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x20, 0xB2, 0x00};
+
+                // if DSP, then include DSP bit to switch DSP on/off
+                if (g_deviceSettings.device_Settings & DSP_AMPLIFIER)
+                    data[3] |= 0x20;
+
                 ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_LOC, data, 4, 1);
             }
             ignoreReleaseEvent = 0;

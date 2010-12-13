@@ -255,6 +255,8 @@ void ibus_tick()
     posptr_t oldTxPos = g_ibus_TxReadPos;
     posptr_t newTxPos = ibus_transmit_msg(g_ibus_TxReadPos,  len + 2);
 
+    g_ibus_State = IBUS_STATE_TRANSMITTING;
+    
     BEGIN_ATOMAR;
     {
         // if there was a collision, then resend message if we still have trials
@@ -295,16 +297,24 @@ void ibus_init()
     uart_setTransmitDoneCallback(NULL);
     uart_setReceiveCallback(ibus_uartReceiveCallback);
 
-    // per default we do not use any uart interface
-    g_ibus_TxReadPos = 0;
-    g_ibus_TxWritePos = 0;
-    g_ibus_RxPos = 0;
-    g_ibus_RxLen = 2;
-    g_ibus_State = IBUS_STATE_WAIT_FREE_BUS;
+    BEGIN_ATOMAR;
+    {
+        // per default we do not use any uart interface
+        g_ibus_TxReadPos = 0;
+        g_ibus_TxWritePos = 0;
+        g_ibus_RxPos = 0;
+        g_ibus_RxLen = 2;
+        g_ibus_State = IBUS_STATE_WAIT_FREE_BUS;
 
-    IBUS_SENSTA_SETUP();
-    IBUS_TIMER_SETUP();
-    IBUS_TIMEOUT_WAIT_FREE_BUS();
+        IBUS_SENSTA_SETUP();
+        IBUS_TIMER_SETUP();
+        IBUS_TIMEOUT_WAIT_FREE_BUS();
+
+        // interrupt on falling edge on SEN/STA pin
+        EICRA &= ~(1 << ISC00);
+        EICRA |=  (1 << ISC01);
+    }
+    END_ATOMAR;
 }
 
 //--------------------------------------------------------------------------
@@ -324,4 +334,15 @@ ISR(IBUS_TIMER_INTERRUPT)
     // enable reciever, disable transmitter
     uart_flush();
     uart_setTxRx(0,1);
+}
+
+//--------------------------------------------------------------------------
+// When SEN/STA down, then trigger this interrupt
+//--------------------------------------------------------------------------
+ISR(INT0_vect)
+{
+    if (g_ibus_State == IBUS_STATE_TRANSMITTING) return;
+    
+    g_ibus_State = IBUS_STATE_WAIT_FREE_BUS;
+    IBUS_TIMEOUT_WAIT_FREE_BUS();
 }

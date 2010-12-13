@@ -19,46 +19,109 @@
 
 // global tick counter
 ticks_t g_tickNumber = 0;
+uint8_t g_tickEventHappened = 0;
 volatile ticks_t g_nextIbusTick = 0;
 
 #define UPDATE_SLEEP_COUNTER() { g_nextIbusTick = tick_get() + TICKS_PER_SECOND() * 300L; }
 
 // current adc value
-volatile uint8_t g_photoSensor = 0;
 volatile uint8_t g_backLightDimmer = 0;
 volatile int8_t g_temperatureSensor = 0;
-
-// channel to read adc values (0 = photo sensor, 1 = light dimmer, 2 = temperature sensor)
 volatile uint8_t g_adcCurrentChannel = 0;
 
 static bootldrinfo_t g_bootldrinfo;
 
-// current emulation mode (0=OpenBM, 1=MID, 2=BMBT)
-//typedef enum _EmulationMode
-//{
-//    OPENBM = 0,
-//    MID = 1,
-//    BMBT = 2
-//}EmulationMode;
+//! Device settings used
+DeviceSettings g_deviceSettings;
+DeviceSettings g_deviceSettingsEEPROM EEMEM;
 
-//EmulationMode g_emulationMode = MID;
+//! Photo sensor ring buffer
+#define PHOTO_NUM_SAMPLES_EXP 5
+#define PHOTO_NUM_SAMPLES (1 << PHOTO_NUM_SAMPLES_EXP)
+uint8_t photoSensorValues[PHOTO_NUM_SAMPLES];
+uint8_t photoSensorIndex = 0;
+uint16_t photoSensorSum = 0;
+volatile uint8_t photoSensorLast = 0;
+volatile uint8_t photoSensorChanged = 0;
+
+//------------------------------------------------------------------------------
+// Read device settings from eeprom
+//------------------------------------------------------------------------------
+void settings_readAndSetup(void)
+{
+    // setup default settings if not in eeprom
+    if (eeprom_read_byte(&g_deviceSettingsEEPROM.initSeed) != 'S')
+    {
+        eeprom_update_byte(&g_deviceSettingsEEPROM.initSeed, 'S');
+
+        // --------------------
+        // Display
+        // --------------------
+        eeprom_update_word(&g_deviceSettingsEEPROM.dac_idleVoltage, DEVICE_DISP_IDLE);
+        eeprom_update_word(&g_deviceSettingsEEPROM.dac_SwitchKey, DEVICE_DISP_SWITCH);
+        eeprom_update_word(&g_deviceSettingsEEPROM.dac_PowerKey, DEVICE_DISP_POWER);
+
+        // --------------------
+        // Hardware settings
+        // --------------------
+        eeprom_update_byte(&g_deviceSettingsEEPROM.photo_minValue, 50);
+        eeprom_update_byte(&g_deviceSettingsEEPROM.photo_maxValue, 0xFF);
+
+        // --------------------
+        // BMW settings
+        // --------------------
+        eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings, DEVICE_CODING2);
+        eeprom_update_byte(&g_deviceSettingsEEPROM.backcam_Input, 1);
+    }
+
+
+    // load current display state from the eeprom
+    g_deviceSettings.dac_idleVoltage  = eeprom_read_word(&g_deviceSettingsEEPROM.dac_idleVoltage);
+    g_deviceSettings.dac_PowerKey  = eeprom_read_word(&g_deviceSettingsEEPROM.dac_PowerKey);
+    g_deviceSettings.dac_SwitchKey = eeprom_read_word(&g_deviceSettingsEEPROM.dac_SwitchKey);
+
+    g_deviceSettings.photo_minValue  = eeprom_read_byte(&g_deviceSettingsEEPROM.photo_minValue);
+    g_deviceSettings.photo_maxValue = eeprom_read_byte(&g_deviceSettingsEEPROM.photo_maxValue);
+
+    g_deviceSettings.device_Settings = eeprom_read_byte(&g_deviceSettingsEEPROM.device_Settings);
+    g_deviceSettings.backcam_Input = eeprom_read_byte(&g_deviceSettingsEEPROM.backcam_Input);
+}
+
+//------------------------------------------------------------------------------
+// Update average photo sensor values (average filter)
+//------------------------------------------------------------------------------
+inline uint8_t getPhotoSensor(void)
+{
+    return (photoSensorSum >> PHOTO_NUM_SAMPLES_EXP);
+}
+uint8_t updatePhotoSensor(uint8_t val)
+{
+    // remove last element of the ring buffer and add new value to the sum
+    photoSensorSum -= photoSensorValues[(photoSensorIndex + 1) & (PHOTO_NUM_SAMPLES-1)];
+    photoSensorSum += val;
+    
+    // add new value into the ring buffer
+    photoSensorValues[photoSensorIndex++] = val;
+    photoSensorIndex = photoSensorIndex & (PHOTO_NUM_SAMPLES-1);
+
+    return getPhotoSensor();
+}
 
 //------------------------------------------------------------------------------
 // Initialize analog hardware (read photo sensor, read bg light)
 //------------------------------------------------------------------------------
 void adc_init(void)
 {
-    g_photoSensor = 0;
     g_temperatureSensor = 0;
     g_backLightDimmer = 0;
     g_adcCurrentChannel = 0;
     
     ADCSRA |= (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0); // Set ADC prescaler to 128 - 109KHz sample rate @ 14MHz
-    ADMUX = (1 << REFS0); // Set ADC reference to AVCC
+    ADMUX = (1 << REFS0); // Set ADC reference to AVCC with external capacitor
     ADMUX |= (1 << ADLAR); // Left adjust ADC result to allow easy 8 bit reading
     ADMUX |= (1 << MUX0) | (1 << MUX1) | (1 << MUX2); // enable reading on ADC7
-    //SFIOR &= ~(1 << ADTS2) & ~(1 << ADTS1) & ~(1 << ADTS0);  // Set ADC to Free-Running Mode
-    ADCSRB &= ~(1 << ADTS2) & ~(1 << ADTS1) & ~(1 << ADTS0);  // Set ADC to Free-Running Mode
+    //ADCSRB &= ~(1 << ADTS2) & ~(1 << ADTS1) & ~(1 << ADTS0);  // Set ADC to Free-Running Mode
+    ADCSRB = (1 << ADTS1) | (1 << ADTS0);  // Set ADC to start on Timer0 compare match
     ADCSRA |= (1 << ADIE);  // Enable ADC Interrupt
     ADCSRA |= (1 << ADEN);  // Enable ADC
 
@@ -86,6 +149,22 @@ void adc_resume(void)
     PRR &= ~(1 << PRADC);
     ADCSRA |= (1 << ADIE);  // Enable ADC Interrupt
     ADCSRA |= (1 << ADEN);  // Enable ADC
+}
+
+// ----------------------------------------------------------------------------
+/* Make sure the watchdog is disabled as soon as possible    */
+/* MCU doesn't disable the WDT after reset!                  */
+// ----------------------------------------------------------------------------
+uint8_t mcusr_mirror __attribute__ ((section (".noinit")));
+
+void get_mcusr(void) \
+  __attribute__((naked)) \
+  __attribute__((section(".init3")));
+void get_mcusr(void)
+{
+  mcusr_mirror = MCUSR;
+  MCUSR = 0;
+  wdt_disable();
 }
 
 //------------------------------------------------------------------------------
@@ -148,7 +227,7 @@ void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen
             
         }else if (msg[1] == IBUS_MSG_OPENBM_GET_PHOTO)
         {
-            uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_PHOTO, g_photoSensor};
+            uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_PHOTO, getPhotoSensor()};
             ibus_sendMessage(IBUS_DEV_BMBT, src, data, 3, 3);
 
         }else if (msg[1] == IBUS_MSG_OPENBM_GET_DIMMER)
@@ -193,8 +272,14 @@ void initHardware(void)
     PRR |= (1 << PRUSART1);   // disable USART-1
     PRR |= (1 << PRSPI);      // disable SPI
 
+    // prepare averaging of photo sensor values
+    memset(&photoSensorValues[0], 0, PHOTO_NUM_SAMPLES);
+
     // read this firmware version
     memcpy_P(&g_bootldrinfo, (PGM_VOID_P)(BOOTLOADERSTARTADR - SPM_PAGESIZE), sizeof(bootldrinfo_t));
+
+    // read settings and setup hardware to the settings
+    settings_readAndSetup();
 
     // init hardware
     tick_init();
@@ -205,7 +290,7 @@ void initHardware(void)
     adc_init();
     emul_mid_init();
     ibus_init();
-
+    
     // do small animation to indicate start
     {
         led_green_immediate_set(1);
@@ -266,23 +351,32 @@ int main(void)
 
             // display buttons
             display_updateState();
-            led_green_immediate_set(display_getInputState() == 1);
-
-            // perform global tick
-            tick();
+            led_green_immediate_set(display_getInputState() == g_deviceSettings.backcam_Input);
 
             // go into full sleep mode if there is no action on the ibus
             // happens during the last X seconds (full shut down!!!)
             if (tick_get() > g_nextIbusTick)
                 shutDown();
+
+            // based on ambient light we setup display's brightness
+            display_setBackgroundLight(getPhotoSensor());
+
+            // perform global tick
+            tick();
         }
-
-        // based on ambient light we setup display's brightness
-        display_setBackgroundLight(g_photoSensor);
-
+        
         // ----------- Do full reset if user liked so --------------------------
         if (button_released(BUTTON_MENU_LR) && button(BUTTON_SELECT) && button(BUTTON_EJECT))
             resetCPU();
+
+        // update photo sensor if value has changed
+        if (photoSensorChanged)
+        {
+            if (photoSensorLast > g_deviceSettings.photo_maxValue) photoSensorLast = g_deviceSettings.photo_maxValue;
+            if (photoSensorLast < g_deviceSettings.photo_minValue) photoSensorLast = g_deviceSettings.photo_minValue;
+            updatePhotoSensor(photoSensorLast);
+            photoSensorChanged = 0;
+        }
 
         // depending on emulation mode, execute corresponding task
         //switch(g_emulationMode)
@@ -323,12 +417,19 @@ ISR(ADC_vect)
     // values specific to the DC electric coefficients of the temperature sensor
     #define TEMP_ADC_ZERO 25
     #define TEMP_INV_DC 2
-
+    #define PHOTO_MIN 50
+    
     BEGIN_ATOMAR;
     {
         if (g_adcCurrentChannel == 0)  // we were converting PhotoSensor values
         {
-            g_photoSensor = ADCH;
+            uint8_t val = ADCH & 0xFC;
+
+            if (photoSensorChanged == 0 && val != photoSensorLast)
+            {
+                photoSensorChanged = 1;
+                photoSensorLast = val;
+            }
 
             // switch channel (read on ADC0 next)
             g_adcCurrentChannel = 1;
@@ -365,4 +466,13 @@ ISR(INT1_vect)
 {
     UPDATE_SLEEP_COUNTER();
     button_isr();
+}
+
+
+//------------------------------------------------------------------------------
+// Timer interrupt on ticks
+//------------------------------------------------------------------------------
+ISR(TIMER0_COMPA_vect)
+{
+    g_tickEventHappened = 1;
 }

@@ -133,6 +133,7 @@ extern "C" {
 #define IBUS_STATE_IDLE 0
 #define IBUS_STATE_WAIT_FREE_BUS  (1 << 0)
 #define IBUS_STATE_RECEIVING  (1 << 1)
+#define IBUS_STATE_TRANSMITTING  (1 << 2)
 
 /**
  * Class to handle IBus messages. The I-Bus must be conencted

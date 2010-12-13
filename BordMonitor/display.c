@@ -1,6 +1,7 @@
 #include "display.h"
 #include "leds.h"
 #include "buttons.h"
+#include "config.h"
 #include "base.h"
 #include <avr/eeprom.h>
 #include "i2cmaster.h"
@@ -12,15 +13,6 @@ typedef struct _DisplayState
 {
     uint8_t display_Power;
     uint8_t display_Input; // (0=vga, 1=av1, 2=av2)
-    uint16_t max_dacVoltage; // in DAC value 12bit (either 3.3V or 5V key)
-
-    // voltage levels for different keys
-    uint16_t dac_idleVoltage; // voltage used when idle
-    uint16_t dac_currentVoltage;
-    uint16_t dac_PowerKey;   // voltage when Power-Button pressed
-    uint16_t dac_SwitchKey;  // voltage when button to switch input pressed
-
-    uint8_t  bglight_maxDuty;// max duty cycle for the bglight (255 -> 100% , 0->0%, linear)
 }DisplayState;
 
 // current hardware state
@@ -28,8 +20,14 @@ DisplayState g_DisplayState;
 DisplayState g_eeprom_DisplayState EEMEM;
 uint8_t      g_eeprom_DisplayDataInit EEMEM;
 
+uint16_t     max_dacVoltage = 0;
+uint16_t     dac_currentVoltage = 0;
+
 ticks_t g_display_NextResponseTime = 0;
 uint8_t g_displayError = 0;
+
+static DeviceSettings* deviceSettings = &g_deviceSettings;
+static DeviceSettings* deviceSettingsEEPROM = &g_deviceSettingsEEPROM;
 
 #define DISP_MOSFET_SETUP {DDRB |= (1 << DDB4); PORTB &= ~(1 << 4);}
 #define DISP_MOSFET_OFF {PORTB &= ~(1 << 4);}
@@ -51,8 +49,8 @@ uint8_t display_getInputState()
 void display_dac_sleep(void)
 {
     // send dac into sleep mode
-    uint8_t cmd1 = (3 << 4) | (uint8_t)((g_DisplayState.dac_currentVoltage >> 8) & 0x0F);
-    uint8_t cmd2 = g_DisplayState.dac_currentVoltage & 0xFF;
+    uint8_t cmd1 = (3 << 4) | (uint8_t)((dac_currentVoltage >> 8) & 0x0F);
+    uint8_t cmd2 = dac_currentVoltage & 0xFF;
 
     // program DAC
     if ((g_displayError = i2c_start_wait(DAC_I2C_ADDRESS + I2C_WRITE, 10)) == 0)
@@ -69,8 +67,8 @@ void display_dac_sleep(void)
 void display_dac_setVoltage_fast(uint16_t value)
 {
     // truncate given voltage level
-    if (value > g_DisplayState.max_dacVoltage) value = g_DisplayState.max_dacVoltage;
-    g_DisplayState.dac_currentVoltage = value;
+    if (value > max_dacVoltage) value = max_dacVoltage;
+    dac_currentVoltage = value;
 
     // create both command bytes to be sent
     uint8_t cmd1 = (uint8_t)((value >> 8) & 0x0F);
@@ -91,8 +89,8 @@ void display_dac_setVoltage_fast(uint16_t value)
 void display_dac_setVoltage(uint16_t value)
 {
     // truncate given voltage level
-    if (value > g_DisplayState.max_dacVoltage) value = g_DisplayState.max_dacVoltage;
-    g_DisplayState.dac_currentVoltage = value;
+    if (value > max_dacVoltage) value = max_dacVoltage;
+    dac_currentVoltage = value;
 
     // create both command bytes to be sent
     uint8_t cmd1 = 0b01100000;    // write DAC+EEPROM and no power down mode
@@ -115,29 +113,29 @@ void display_dac_setVoltage(uint16_t value)
 //------------------------------------------------------------------------------
 void display_setVoltagePower(uint16_t data)
 {
-    if (data > g_DisplayState.max_dacVoltage) data = g_DisplayState.max_dacVoltage;
-    g_DisplayState.dac_PowerKey = data;
-    eeprom_update_word(&g_eeprom_DisplayState.dac_PowerKey, data);
+    if (data > max_dacVoltage) data = max_dacVoltage;
+    deviceSettings->dac_PowerKey = data;
+    eeprom_update_word(&deviceSettingsEEPROM->dac_PowerKey, data);
 }
 
 //------------------------------------------------------------------------------
 uint16_t display_getVoltagePower(void)
 {
-    return g_DisplayState.dac_PowerKey;
+    return deviceSettings->dac_PowerKey;
 }
 
 //------------------------------------------------------------------------------
 void display_setVoltageSwitch(uint16_t data)
 {
-    if (data > g_DisplayState.max_dacVoltage) data = g_DisplayState.max_dacVoltage;
-    g_DisplayState.dac_SwitchKey = data;
-    eeprom_update_word(&g_eeprom_DisplayState.dac_SwitchKey, data);
+    if (data > max_dacVoltage) data = max_dacVoltage;
+    deviceSettings->dac_SwitchKey = data;
+    eeprom_update_word(&deviceSettingsEEPROM->dac_SwitchKey, data);
 }
 
 //------------------------------------------------------------------------------
 uint16_t display_getVoltageSwitch(void)
 {
-    return g_DisplayState.dac_SwitchKey;
+    return deviceSettings->dac_SwitchKey;
 }
 
 //------------------------------------------------------------------------------
@@ -148,41 +146,28 @@ void display_init(void)
     PORTB |= (1 << 3);    // enable pull-up
 
     if (bit_is_set(PINB,3)) // bit is 1, so pull-up, so 5V as maximum
-        g_DisplayState.max_dacVoltage = 0xFFF; // nominal output voltage is 5V
+        max_dacVoltage = 0xFFF; // nominal output voltage is 5V
     else
-        g_DisplayState.max_dacVoltage = 0xA8F; // Data = 3.3V * 4096 / 5V;
+        max_dacVoltage = 0xA8F; // Data = 3.3V * 4096 / 5V;
 
     // disable DAC output and switch display mosfet off
-    g_DisplayState.dac_idleVoltage = g_DisplayState.max_dacVoltage;
-    g_DisplayState.dac_currentVoltage = g_DisplayState.max_dacVoltage;
+    dac_currentVoltage = deviceSettings->dac_idleVoltage;
     display_dac_sleep();
 
     DISP_MOSFET_SETUP;
     DISP_MOSFET_OFF;
 
     // if run for the first time, then write default data to eeprom
-    if (eeprom_read_byte(&g_eeprom_DisplayDataInit) != 'T')
+    if (eeprom_read_byte(&g_eeprom_DisplayDataInit) != 'K')
     {
         eeprom_write_byte(&g_eeprom_DisplayState.display_Power, 1);
         eeprom_write_byte(&g_eeprom_DisplayState.display_Input, 0);
-        eeprom_write_byte(&g_eeprom_DisplayState.bglight_maxDuty, 0xFF);
-        eeprom_write_byte(&g_eeprom_DisplayDataInit, 'T');
-
-        // POWER -> 0V, SWITCH 0.5V (Ich)
-        eeprom_write_word(&g_eeprom_DisplayState.dac_PowerKey, 0);
-        eeprom_write_word(&g_eeprom_DisplayState.dac_SwitchKey, 0x200);
-
-        // POWER -> 1.4V, SWITCH -> 1V (Alex Gurtzki)
-        //eeprom_write_word(&g_eeprom_DisplayState.dac_PowerKey, 0x333);
-        //eeprom_write_word(&g_eeprom_DisplayState.dac_SwitchKey, 0x47A);
+        eeprom_write_byte(&g_eeprom_DisplayDataInit, 'K');
     }
 
     // load current display state from the eeprom
     g_DisplayState.display_Input = eeprom_read_byte(&g_eeprom_DisplayState.display_Input);
     g_DisplayState.display_Power = eeprom_read_byte(&g_eeprom_DisplayState.display_Power);
-    g_DisplayState.dac_PowerKey  = eeprom_read_word(&g_eeprom_DisplayState.dac_PowerKey);
-    g_DisplayState.dac_SwitchKey = eeprom_read_word(&g_eeprom_DisplayState.dac_SwitchKey);
-    g_DisplayState.bglight_maxDuty= eeprom_read_byte(&g_eeprom_DisplayState.bglight_maxDuty);
 
     // setup PWM for the bglight
     DDRD |= (1 << DDD7);
@@ -190,10 +175,10 @@ void display_init(void)
     TCCR2B = (1 << CS21) | (1 << CS20);
     PORTD |= (1 << 7);
     TCNT2 = 0;
-    OCR2A = g_DisplayState.bglight_maxDuty;
+    OCR2A = 0xFF;//g_DisplayState.bglight_maxDuty;
 
     // if display was previously on, then enable power state
-    display_dac_setVoltage(g_DisplayState.dac_idleVoltage);
+    display_dac_setVoltage(deviceSettings->dac_idleVoltage);
     DISP_MOSFET_ON;
 }
 
@@ -201,9 +186,9 @@ void display_init(void)
 void display_TogglePower(uint8_t writeToEeprom)
 {
     // emulate key
-    display_dac_setVoltage_fast(g_DisplayState.dac_PowerKey);
-    _delay_ms(50);
-    display_dac_setVoltage_fast(g_DisplayState.dac_idleVoltage);
+    display_dac_setVoltage_fast(deviceSettings->dac_PowerKey);
+    _delay_ms(100);
+    display_dac_setVoltage_fast(deviceSettings->dac_idleVoltage);
 
     // update current state and write into eeprom
     if (writeToEeprom)
@@ -211,18 +196,19 @@ void display_TogglePower(uint8_t writeToEeprom)
         g_DisplayState.display_Power = !g_DisplayState.display_Power;
         eeprom_write_byte(&g_eeprom_DisplayState.display_Power, g_DisplayState.display_Power);
     }
-    _delay_ms(200);
+    _delay_ms(500);
 
-    g_display_NextResponseTime = tick_get() + TICKS_PER_ONE_AND_A_HALF_SECONDS() - TICKS_PER_QUARTERSECOND();
+    g_display_NextResponseTime = tick_get() + TICKS_PER_QUARTERSECOND();
+    //g_display_NextResponseTime = tick_get() + TICKS_PER_SECOND() - TICKS_PER_QUARTERSECOND();
 }
 
 //------------------------------------------------------------------------------
 void display_ToggleInput(uint8_t writeToEeprom)
 {
     // emulate key
-    display_dac_setVoltage_fast(g_DisplayState.dac_SwitchKey);
-    _delay_ms(50);
-    display_dac_setVoltage_fast(g_DisplayState.dac_idleVoltage);
+    display_dac_setVoltage_fast(deviceSettings->dac_SwitchKey);
+    _delay_ms(100);
+    display_dac_setVoltage_fast(deviceSettings->dac_idleVoltage);
 
     // update current state and write into eeprom
     if (writeToEeprom)
@@ -230,9 +216,10 @@ void display_ToggleInput(uint8_t writeToEeprom)
         g_DisplayState.display_Input = (g_DisplayState.display_Input + 1) % 3;
         eeprom_write_byte(&g_eeprom_DisplayState.display_Input, g_DisplayState.display_Input);
     }
-    _delay_ms(200);
+    _delay_ms(500);
     
-    g_display_NextResponseTime = tick_get() + TICKS_PER_SECOND() - TICKS_PER_QUARTERSECOND();
+    g_display_NextResponseTime = tick_get() + TICKS_PER_QUARTERSECOND();
+    //g_display_NextResponseTime = tick_get() + TICKS_PER_SECOND() - TICKS_PER_QUARTERSECOND();
 }
 
 //------------------------------------------------------------------------------
