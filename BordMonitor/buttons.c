@@ -3,7 +3,6 @@
 #include "base.h"
 #include "leds.h"
 
-//#define EJECT_BUTTON_STATE() g_buttons_ejectState
 #define ENABLE_RADIO_BUTTON_LEFT_PART() {PORTC &= ~(1 << 6); PORTC |= (1 << 7);}
 #define ENABLE_RADIO_BUTTON_RIGHT_PART() {PORTC &= ~(1 << 7); PORTC |= (1 << 6);}
 #define ENABLE_RADIO_BUTTON_BOTH_PARTS() {PORTC &= ~(1 << 7); PORTC &= ~(1 << 6);}
@@ -14,7 +13,7 @@ buttonGlobalState_t g_buttonsPressed = 0;
 buttonGlobalState_t g_buttonsRelease = 0;
 buttonGlobalState_t g_buttons_last = 0;
 
-uint8_t g_buttons_ejectState = 0;
+uint8_t g_buttons_ExpanderState = 0;
 
 // delay in ticks time steps for each button
 uint8_t g_button_delay[BUTTON_NUM_BUTTONS];
@@ -130,7 +129,8 @@ void button_init(void)
 
     // button switcher on radio PCB
     DDRC |= (1 << 6) | (1 << 7);
-    //ENABLE_RADIO_BUTTON_BOTH_PARTS();
+    ENABLE_RADIO_BUTTON_BOTH_PARTS();
+    //ENABLE_RADIO_BUTTON_RIGHT_PART();
     
     // interrupt for the rotary encoders' port expander
     EIMSK &= ~(1 << INT1);                              // disable interrupt
@@ -243,66 +243,103 @@ void button_tick(void)
 {
     // if no active interrupt, then we do not have to test for buttons
     if (bit_is_set(PIND,3)) goto nextkeys;
-    
-    // ----- Read the BMBT Buttons -----
-    if (i2c_start(PORT_EXPANDER_BMBT + I2C_READ) == 0)
-    {
-        unsigned char state = ~(i2c_readNak());
 
-        // if interrupt was cleared now, then we have read the right button field
-        // otherwise we have to find out which side of the radio button field
-        // was responsbile for the interrupt
-        // put left side to vcc, this will clear interrupt (after some time)
-        // if this one occured on the left side, so we then know
-        // that if interrupt is still active, it was on the right side
-        if (bit_is_clear(PIND,3))
-            ENABLE_RADIO_BUTTON_RIGHT_PART();
-
-        i2c_stop();
-
-        g_buttons &= ~(BUTTON_LEFT_STATE_MASK);
-        g_buttons |= ((uint32_t)state << 12);
-    }
-
-    // interrupt is still active, so that means the button event was on the right side
     if (bit_is_clear(PIND,3))
     {
-        ENABLE_RADIO_BUTTON_RIGHT_PART();
-
-        if (i2c_start(PORT_EXPANDER_RADIO + I2C_READ) == 0)
+        // ----- Read the BMBT Buttons -----
+        if (i2c_start(PORT_EXPANDER_BMBT + I2C_READ) == 0)
         {
             unsigned char state = ~(i2c_readNak());
             i2c_stop();
 
-            // first two bits ignored
-            state >>= 2;
-
-            // read right buttons
-            g_buttons &= ~(BUTTON_RIGHT_STATE_MASK_2);
-            g_buttons |= ((uint32_t)state << 6);
-        }
-
-    // if interrupt gone, then the left side, was the correct one
-    }else
-    {
-        ENABLE_RADIO_BUTTON_LEFT_PART();
-
-        if (i2c_start(PORT_EXPANDER_RADIO + I2C_READ) == 0)
-        {
-            unsigned char state = ~(i2c_readNak());
-            i2c_stop();
-
-            // first two bits ignored
-            state >>= 2;
-
-            // read right buttons
-            g_buttons &= ~(BUTTON_RIGHT_STATE_MASK_1);
-            g_buttons |= ((uint32_t)state << 0);
+            g_buttons &= ~(BUTTON_LEFT_STATE_MASK);
+            g_buttons |= ((uint32_t)state << 12);
         }
     }
 
-    // prepare for interrupt on button
-    ENABLE_RADIO_BUTTON_BOTH_PARTS();
+    #if 1
+    // interrupt was cleared, so we have read the right one
+    if (bit_is_set(PIND,3)) goto nextkeys;
+
+    // no button was previously down, so just get states of both parts and
+    // try fix those part to GND which was responsible for the interrupt
+    if (g_buttons_ExpanderState == 0)
+    {
+        // first read on the left side, mark if we were successfull
+        ENABLE_RADIO_BUTTON_LEFT_PART();
+        if (i2c_start(PORT_EXPANDER_RADIO + I2C_READ) == 0)
+        {
+            unsigned char state = ~(i2c_readNak());
+            i2c_stop();
+            state >>= 2;
+            g_buttons &= ~(BUTTON_RIGHT_STATE_MASK_1);
+            g_buttons |= ((uint32_t)state << 0);
+
+            if (state != 0x00)
+                g_buttons_ExpanderState = 2;
+        }
+
+        // nothing could be read on the left side, so read on the right side now
+        if (g_buttons_ExpanderState == 0)
+        {
+            ENABLE_RADIO_BUTTON_RIGHT_PART();
+            if (i2c_start(PORT_EXPANDER_RADIO + I2C_READ) == 0)
+            {
+                unsigned char state = ~(i2c_readNak());
+                i2c_stop();
+                state >>= 2;
+                g_buttons &= ~(BUTTON_RIGHT_STATE_MASK_2);
+                g_buttons |= ((uint32_t)state << 6);
+
+                if (state != 0x00)
+                    g_buttons_ExpanderState = 1;
+            }
+        }
+
+        // if nothing helped, then interrupt came not from here -> restore old state
+        if (g_buttons_ExpanderState == 0)
+            ENABLE_RADIO_BUTTON_BOTH_PARTS();
+
+    // we have previously pressed a button on the right side, so check if it is up now
+    }else if (g_buttons_ExpanderState == 1)
+    {
+        if (i2c_start(PORT_EXPANDER_RADIO + I2C_READ) == 0)
+        {
+            unsigned char state = ~(i2c_readNak());
+            i2c_stop();
+            state >>= 2;
+            g_buttons &= ~(BUTTON_RIGHT_STATE_MASK_2);
+            g_buttons |= ((uint32_t)state << 6);
+
+            // if all buttons on the right side are release, then go-to standard mode
+            if (state == 0x00)
+            {
+                g_buttons_ExpanderState = 0;
+                ENABLE_RADIO_BUTTON_BOTH_PARTS();
+            }
+        }
+
+    // we are currently on the left state, so check if a button here is released
+    }else if (g_buttons_ExpanderState == 2)
+    {
+        if (i2c_start(PORT_EXPANDER_RADIO + I2C_READ) == 0)
+        {
+            unsigned char state = ~(i2c_readNak());
+            i2c_stop();
+            state >>= 2;
+            g_buttons &= ~(BUTTON_RIGHT_STATE_MASK_1);
+            g_buttons |= ((uint32_t)state << 0);
+
+            // if all buttons on the right side are release, then go-to standard mode
+            if (state == 0x00)
+            {
+                g_buttons_ExpanderState = 0;
+                ENABLE_RADIO_BUTTON_BOTH_PARTS();
+            }
+        }
+    }
+
+#endif
 
 #if 0
         // ----- First read the Radio Part -----

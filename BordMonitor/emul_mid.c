@@ -43,7 +43,7 @@ uint8_t mid_button_mapping[MID_MAP_SIZE] PROGMEM = {
     BUTTON_4,
     BUTTON_5,
     BUTTON_6,
-#if ((DEVICE_CONFIG & RADIO_PROFESSIONAL) == RADIO_PROFESSIONAL)
+#if ((DEVICE_CODING2 & RADIO_PROFESSIONAL) == RADIO_PROFESSIONAL)
     BUTTON_NUM_BUTTONS,
     BUTTON_NUM_BUTTONS,
     BUTTON_AM,
@@ -56,7 +56,7 @@ uint8_t mid_button_mapping[MID_MAP_SIZE] PROGMEM = {
 #endif
     BUTTON_INFO_L,
     BUTTON_MODE,
-#if ((DEVICE_CONFIG & REW_FF_ONMID) == REW_FF_ONMID)
+#if ((DEVICE_CODING2 & REW_FF_ONMID) == REW_FF_ONMID)
     BUTTON_REW,
     BUTTON_FF,
 #else
@@ -84,7 +84,7 @@ uint8_t mid_button_mapping_dbyte1_mask[MID_MAP_SIZE] PROGMEM = {
     0x00
 };
 
-#if ((DEVICE_CONFIG & REW_FF_ONMID) == REW_FF_ONMID)
+#if ((DEVICE_CODING2 & REW_FF_ONMID) == REW_FF_ONMID)
     #define OPENBM_MAP_SIZE 9
 #else
     #define OPENBM_MAP_SIZE 11
@@ -97,7 +97,7 @@ uint8_t openbm_button_mapping[OPENBM_MAP_SIZE] PROGMEM = {
     BUTTON_UHR,
     BUTTON_TONE,
     BUTTON_SELECT,
-#if ((DEVICE_CONFIG & REW_FF_ONMID) != REW_FF_ONMID)
+#if ((DEVICE_CODING2 & REW_FF_ONMID) != REW_FF_ONMID)
     BUTTON_REW,
     BUTTON_FF,
 #endif
@@ -229,19 +229,6 @@ void emul_mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
                 mid_cam_state |= CAM_PREPARE_TO_SWITCH;
                 mid_cam_state &= ~CAM_ON;
             }
-
-            /*
-            if ((msg[2] & 0xF0) == 0x10 && display_getInputState() != 1)
-            {
-                mid_cam_state |= CAM_PREPARE_TO_SWITCH;
-                mid_cam_state |= CAM_ON;
-            }else if (msg[2] != 0x13 && msg[2] != 0x11)
-            {
-                mid_cam_state |= CAM_PREPARE_TO_SWITCH;
-                mid_cam_state &= ~CAM_ON;
-            }*/
-
-            
         }
     }
 

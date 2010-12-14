@@ -36,7 +36,7 @@ $_comment   = "# $rem_end ".
 # C / C++
 if(1 == $lang)
 {
-  $_var       = "#include <avr/boot.h>\n\n/* $rem_begin */\n".
+  $_var       = "#include <avr/boot.h>\n\n#define BOOTLOADER_ACTIVE\n\r/* $rem_begin */\n".
                 "uint8_t bin_data[] BOOTLOADER_SECTION = ".
                 "/* %d */\n";
   $_begin     = "{";

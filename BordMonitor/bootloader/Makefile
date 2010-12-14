@@ -125,7 +125,7 @@ DEBUG = dwarf-2
 #     Each directory must be seperated by a space.
 #     Use forward slashes for directory separators.
 #     For a directory that has spaces, enclose it in quotes.
-EXTRAINCDIRS = ../include
+EXTRAINCDIRS = ../include ../
 
 
 # Compiler flag to set the C Standard level.
@@ -179,7 +179,7 @@ CFLAGS += $(CSTANDARD)
 CFLAGS += -ffunction-sections
 CFLAGS += -fdata-sections
 CFLAGS += -ffreestanding
-#CFLAGS += -mcall-prologues
+CFLAGS += -mcall-prologues
 
 #---------------- Compiler Options C++ ----------------
 #  -g*:          generate debugging information
@@ -282,7 +282,7 @@ LDFLAGS += $(patsubst %,-L%,$(EXTRALIBDIRS))
 LDFLAGS	+= -Wl,--section-start=.text=$(BOOTLOADERSTARTADR)
 #LDFLAGS += -T linker_script.x
 LDFLAGS += -Wl,--gc-sections
-#LDFLAGS += -Wl,--relax
+LDFLAGS += -Wl,--relax
 
 #---------------- Programming Options (avrdude) ----------------
 

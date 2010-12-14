@@ -329,8 +329,8 @@ extcoff: $(TRG)
 .out.hex:
 	$(OBJCOPY) -j .text                    \
 		-j .data                       \
-		-O $(HEXFORMAT) $< $@
-#		-j .bootloader			\
+		-j .bootloader			\
+		-O $(HEXFORMAT) $< $@          
 
 .out.ee.hex:
 	$(OBJCOPY) -j .eeprom                  \

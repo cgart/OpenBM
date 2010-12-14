@@ -50,6 +50,7 @@ static uint8_t cipherBlockPerPage = SPM_PAGESIZE >> 3;
 static bootldrinfo_t current_bootldrinfo;
 
 ticks_t g_tickNumber = 0;
+uint8_t g_tickEventHappened = 0;
 
 // ----------------------------------------------------------------------------
 #define ERROR_OK                   0
@@ -325,7 +326,7 @@ begin:
         // load device ID from preprocessor definitions into the array
         #define CONCATx(a,b) a##b
         #define CONCAT(a,b) CONCATx(a,b)
-        #define  DID(i) CONCAT(0x,CONCAT(DEVID_,i))
+        #define  DID(i) CONCAT(DEVID_,i)
         current_bootldrinfo.dev_key[0] = DID(1);
         current_bootldrinfo.dev_key[1] = DID(2);
         current_bootldrinfo.dev_key[2] = DID(3);
@@ -397,4 +398,12 @@ begin:
 start:
     // start main application
     app_start();
+}
+
+//------------------------------------------------------------------------------
+// Timer interrupt on ticks
+//------------------------------------------------------------------------------
+ISR(TIMER0_COMPA_vect)
+{
+    g_tickEventHappened = 1;
 }

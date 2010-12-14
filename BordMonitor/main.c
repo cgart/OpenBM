@@ -6,6 +6,7 @@
  */
 
 #include "base.h"
+#include "config.h"
 #include "ibus.h"
 #include <uart.h>
 #include <i2cmaster.h>
@@ -14,8 +15,8 @@
 #include "buttons.h"
 #include "leds.h"
 #include "emul_mid.h"
-#include "config.h"
-#include "bootloader/bootloader.h"
+#include <avr/boot.h>
+//#include "bootloader/bootloader.h"
 
 // global tick counter
 ticks_t g_tickNumber = 0;
@@ -49,6 +50,12 @@ volatile uint8_t photoSensorChanged = 0;
 //------------------------------------------------------------------------------
 void settings_readAndSetup(void)
 {
+    #ifdef BOOTLOADER_ACTIVE
+    // dummy commands to prevent compiler to optimize bootloader away
+    uint8_t dummy = eeprom_read_byte(&bin_data[0]);
+    eeprom_update_byte(&bin_data[0], dummy);
+    #endif
+
     // setup default settings if not in eeprom
     if (eeprom_read_byte(&g_deviceSettingsEEPROM.initSeed) != 'S')
     {
@@ -71,7 +78,7 @@ void settings_readAndSetup(void)
         // BMW settings
         // --------------------
         eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings, DEVICE_CODING2);
-        eeprom_update_byte(&g_deviceSettingsEEPROM.backcam_Input, 1);
+        eeprom_update_byte(&g_deviceSettingsEEPROM.backcam_Input, DEVICE_CODING1 & 3);
     }
 
 
@@ -151,6 +158,7 @@ void adc_resume(void)
     ADCSRA |= (1 << ADEN);  // Enable ADC
 }
 
+#if 0
 // ----------------------------------------------------------------------------
 /* Make sure the watchdog is disabled as soon as possible    */
 /* MCU doesn't disable the WDT after reset!                  */
@@ -166,6 +174,7 @@ void get_mcusr(void)
   MCUSR = 0;
   wdt_disable();
 }
+#endif
 
 //------------------------------------------------------------------------------
 // Reset cpu by watchdog, full reset is performed
@@ -310,7 +319,6 @@ void initHardware(void)
         led_radio_immediate_set(0);
         _delay_ms(50);
     }
-
 
     sei();
     

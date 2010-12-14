@@ -82,7 +82,7 @@ typedef uint8_t buttonIndex_t;
 #define BUTTON_ROTARY_STATE_MASK      0x7800000L
 
 // device specific, ignore this
-//#define BUTTON_ACTIVE_RIGHT_PART    27
+#define BUTTON_ACTIVE_RIGHT_PART    27
 
 /**** Button State access  ***/
 //typedef uint8_t   buttonState_t;
