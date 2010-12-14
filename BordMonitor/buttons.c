@@ -130,7 +130,6 @@ void button_init(void)
     // button switcher on radio PCB
     DDRC |= (1 << 6) | (1 << 7);
     ENABLE_RADIO_BUTTON_BOTH_PARTS();
-    //ENABLE_RADIO_BUTTON_RIGHT_PART();
     
     // interrupt for the rotary encoders' port expander
     EIMSK &= ~(1 << INT1);                              // disable interrupt
@@ -257,7 +256,6 @@ void button_tick(void)
         }
     }
 
-    #if 1
     // interrupt was cleared, so we have read the right one
     if (bit_is_set(PIND,3)) goto nextkeys;
 
@@ -338,8 +336,6 @@ void button_tick(void)
             }
         }
     }
-
-#endif
 
 #if 0
         // ----- First read the Radio Part -----

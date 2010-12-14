@@ -198,8 +198,8 @@ void display_TogglePower(uint8_t writeToEeprom)
     }
     _delay_ms(500);
 
-    g_display_NextResponseTime = tick_get() + TICKS_PER_QUARTERSECOND();
-    //g_display_NextResponseTime = tick_get() + TICKS_PER_SECOND() - TICKS_PER_QUARTERSECOND();
+    //g_display_NextResponseTime = tick_get() + TICKS_PER_QUARTERSECOND();
+    g_display_NextResponseTime = tick_get() + TICKS_PER_SECOND() - TICKS_PER_QUARTERSECOND();
 }
 
 //------------------------------------------------------------------------------
@@ -218,8 +218,8 @@ void display_ToggleInput(uint8_t writeToEeprom)
     }
     _delay_ms(500);
     
-    g_display_NextResponseTime = tick_get() + TICKS_PER_QUARTERSECOND();
-    //g_display_NextResponseTime = tick_get() + TICKS_PER_SECOND() - TICKS_PER_QUARTERSECOND();
+    //g_display_NextResponseTime = tick_get() + TICKS_PER_QUARTERSECOND();
+    g_display_NextResponseTime = tick_get() + TICKS_PER_SECOND() - TICKS_PER_QUARTERSECOND();
 }
 
 //------------------------------------------------------------------------------

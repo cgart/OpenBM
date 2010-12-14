@@ -57,9 +57,9 @@ void settings_readAndSetup(void)
     #endif
 
     // setup default settings if not in eeprom
-    if (eeprom_read_byte(&g_deviceSettingsEEPROM.initSeed) != 'S')
+    if (eeprom_read_byte(&g_deviceSettingsEEPROM.initSeed) != 'K')
     {
-        eeprom_update_byte(&g_deviceSettingsEEPROM.initSeed, 'S');
+        eeprom_update_byte(&g_deviceSettingsEEPROM.initSeed, 'K');
 
         // --------------------
         // Display
@@ -77,8 +77,8 @@ void settings_readAndSetup(void)
         // --------------------
         // BMW settings
         // --------------------
-        eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings, DEVICE_CODING2);
-        eeprom_update_byte(&g_deviceSettingsEEPROM.backcam_Input, DEVICE_CODING1 & 3);
+        eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings1, DEVICE_CODING1);
+        eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings2, DEVICE_CODING2);
     }
 
 
@@ -90,8 +90,8 @@ void settings_readAndSetup(void)
     g_deviceSettings.photo_minValue  = eeprom_read_byte(&g_deviceSettingsEEPROM.photo_minValue);
     g_deviceSettings.photo_maxValue = eeprom_read_byte(&g_deviceSettingsEEPROM.photo_maxValue);
 
-    g_deviceSettings.device_Settings = eeprom_read_byte(&g_deviceSettingsEEPROM.device_Settings);
-    g_deviceSettings.backcam_Input = eeprom_read_byte(&g_deviceSettingsEEPROM.backcam_Input);
+    g_deviceSettings.device_Settings1 = eeprom_read_byte(&g_deviceSettingsEEPROM.device_Settings1);
+    g_deviceSettings.device_Settings2 = eeprom_read_byte(&g_deviceSettingsEEPROM.device_Settings2);
 }
 
 //------------------------------------------------------------------------------
@@ -359,7 +359,7 @@ int main(void)
 
             // display buttons
             display_updateState();
-            led_green_immediate_set(display_getInputState() == g_deviceSettings.backcam_Input);
+            led_green_immediate_set(display_getInputState() == BACKCAM_INPUT());
 
             // go into full sleep mode if there is no action on the ibus
             // happens during the last X seconds (full shut down!!!)

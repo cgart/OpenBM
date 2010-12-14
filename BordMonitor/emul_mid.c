@@ -85,11 +85,14 @@ uint8_t mid_button_mapping_dbyte1_mask[MID_MAP_SIZE] PROGMEM = {
 };
 
 #if ((DEVICE_CODING2 & REW_FF_ONMID) == REW_FF_ONMID)
-    #define OPENBM_MAP_SIZE 9
+//    #define OPENBM_MAP_SIZE 9
+    #define BMBT_MAP_SIZE   9
 #else
-    #define OPENBM_MAP_SIZE 11
+//    #define OPENBM_MAP_SIZE 11
+    #define BMBT_MAP_SIZE   11
 #endif
 
+#if 0
 uint8_t openbm_button_mapping[OPENBM_MAP_SIZE] PROGMEM = {
     BUTTON_EJECT,
     BUTTON_TEL,
@@ -104,17 +107,25 @@ uint8_t openbm_button_mapping[OPENBM_MAP_SIZE] PROGMEM = {
     BUTTON_MENU_LR,
     BUTTON_BMBT_KNOB,
     BUTTON_INFO_R
-    //{BUTTON_EJECT,0x48,0x24},
-    //{BUTTON_TEL,0x48,0x08},
-    //{BUTTON_PRG,0x48,0x14},
-    //{BUTTON_UHR,0x48,0x07},
-    //{BUTTON_TONE,0x48,0x04},
-    //{BUTTON_SELECT,0x48,0x20},
-    //{BUTTON_REW,0x48,0x10},
-    //{BUTTON_FF,0x48,0x00},
-    //{BUTTON_MENU_LR,0x48,0x30},
-    //{BUTTON_BMBT_KNOB,0x48,0x05},
-    //{BUTTON_INFO_R,0x47,0x38}
+};
+#endif
+
+// original BMBT codes
+uint8_t bmbt_button_mapping[BMBT_MAP_SIZE][3] PROGMEM =
+{
+#if ((DEVICE_CODING2 & REW_FF_ONMID) != REW_FF_ONMID)
+    {BUTTON_FF,0x68,0x00},
+    {BUTTON_REW,0x68,0x10},
+#endif
+    {BUTTON_INFO_R,0xFF,0x03},
+    {BUTTON_TONE,0x68,0x04},
+    {BUTTON_BMBT_KNOB,0x3B,0x05},
+    {BUTTON_UHR,0xFF,0x07},
+    {BUTTON_TEL,0xFF,0x08},
+    {BUTTON_PRG,0x68,0x14},
+    {BUTTON_SELECT,0x68,0x20},
+    {BUTTON_EJECT,0x68,0x24},
+    {BUTTON_MENU_LR,0xFF,0x22}
 };
 
 //------------------------------------------------------------------------------
@@ -155,7 +166,7 @@ void emul_mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
             }
         }
 
-        if (0 && msg[0] == IBUS_MSG_LED)
+        if (USE_BM_LEDS() && msg[0] == IBUS_MSG_LED)
         {
             if (msg[1] & (1 << 0)) led_red_set(0b11111111); else led_red_set(0);
             if (msg[1] & (1 << 1)) led_red_set(0b11110000);
@@ -247,7 +258,7 @@ void emul_mid_ping_tick(void)
 
         uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x00, 0x01, 0x00};
 
-        if (g_deviceSettings.device_Settings & RADIO_PROFESSIONAL)
+        if (g_deviceSettings.device_Settings2 & RADIO_PROFESSIONAL)
             data[2] |= 0xB2;
 
         ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_LOC, data, 4, 5);
@@ -281,7 +292,7 @@ void emul_mid_ping_tick(void)
             mid_pollState = DEV_DSP;
 
             //C0 03 6A 01 A8
-            if (g_deviceSettings.device_Settings & DSP_AMPLIFIER)
+            if (g_deviceSettings.device_Settings2 & DSP_AMPLIFIER)
             {
                 uint8_t data[1] = {IBUS_MSG_DEV_POLL};
                 ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_DSP, data, 1, 5);
@@ -321,7 +332,7 @@ void emul_mid_backcam_tick(void)
             {
                 mid_cam_state = CAM_SWITCHING;
                 mid_cam_oldstate = display_getInputState();
-                display_setInputState(g_deviceSettings.backcam_Input);
+                display_setInputState(BACKCAM_INPUT());
             }else
             {
                 mid_cam_state = CAM_SWITCHING;
@@ -381,7 +392,7 @@ void emul_mid_tick(void)
                 uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x20, 0xB2, 0x00};
 
                 // if DSP, then include DSP bit to switch DSP on/off
-                if (g_deviceSettings.device_Settings & DSP_AMPLIFIER)
+                if (g_deviceSettings.device_Settings2 & DSP_AMPLIFIER)
                     data[3] |= 0x20;
 
                 ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_LOC, data, 4, 1);
@@ -428,14 +439,15 @@ void emul_mid_tick(void)
     // check BMBT buttons and transmit message
     {
         uint8_t i;
-        for (i=0; i < OPENBM_MAP_SIZE; i++)
+        for (i=0; i < BMBT_MAP_SIZE; i++)
         {
             // read to which button this one maps to and go to next, if no mapping
-            uint8_t bmap = pgm_read_byte(&(openbm_button_mapping[i]));
-            if (bmap >= BUTTON_NUM_BUTTONS) continue;
-
+            uint8_t bmap = pgm_read_byte(&(bmbt_button_mapping[i][0]));
+            uint8_t bdst = pgm_read_byte(&(bmbt_button_mapping[i][1]));
+            uint8_t bcod = pgm_read_byte(&(bmbt_button_mapping[i][2]));
+            
             // prepare ibus message for this button
-            uint8_t data[2] = {IBUS_MSG_BMBT_BUTTON, i};
+            uint8_t data[2] = {IBUS_MSG_BMBT_BUTTON, bcod};
             uint8_t sendmsg = button_pressed(bmap);
             if (button_released(bmap))
             {
@@ -449,7 +461,7 @@ void emul_mid_tick(void)
 
             // send message if one of the buttons is set
             if (sendmsg)
-                ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_LOC, data, 2, IBUS_TRANSMIT_TRIES);
+                ibus_sendMessage(IBUS_DEV_BMBT, bdst, data, 2, IBUS_TRANSMIT_TRIES);
         }
     }
 }

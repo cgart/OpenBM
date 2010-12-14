@@ -24,6 +24,9 @@ extern "C"
 #define VERSION_MINOR 1
 #define VERSION_ADD_STR "[beta1] compiled on " __DATE__ " at " __TIME__
 
+#define DEVICE_CODING1 DEVID_11
+#define DEVICE_CODING2 DEVID_12
+
 // Settings
 #define RADIO_BUISINESS    (1 << 0)
 #define RADIO_PROFESSIONAL (1 << 1)
@@ -31,13 +34,13 @@ extern "C"
 #define EMULATE_MID        (1 << 3)
 #define REW_FF_ONMID       (1 << 4)
 
+#define USE_BM_LEDS()      ((g_deviceSettings.device_Settings1 & 4) == 4)
+#define BACKCAM_INPUT()    (g_deviceSettings.device_Settings1 & 3)
+
 // Get Deivec settings out of the device ID
 #define DEVICE_DISP_IDLE   (((DEVID_5 << 8) | DEVID_6) & 0xFFF)
 #define DEVICE_DISP_SWITCH (((DEVID_7 << 8) | DEVID_8) & 0xFFF)
 #define DEVICE_DISP_POWER  (((DEVID_9 << 8) | DEVID_10) & 0xFFF)
-
-#define DEVICE_CODING1 DEVID_11
-#define DEVICE_CODING2 DEVID_12
 
 // -----------------------------------------------------------------------------
 typedef struct _DeviceSettings
@@ -45,7 +48,8 @@ typedef struct _DeviceSettings
     // --------------------------------------
     // BMW settings
     // --------------------------------------
-    uint8_t device_Settings;
+    uint8_t device_Settings1;
+    uint8_t device_Settings2;
 
     // --------------------------------------
     // Hardware Settings
@@ -60,7 +64,6 @@ typedef struct _DeviceSettings
     uint16_t dac_idleVoltage;   // voltage used when idle
     uint16_t dac_PowerKey;      // voltage when Power-Button pressed
     uint16_t dac_SwitchKey;     // voltage when button to switch input pressed
-    uint8_t  backcam_Input;     // which input corresponds to back camera
     
     // --------------------------------------
     // stuff
