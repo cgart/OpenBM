@@ -232,6 +232,12 @@ void ibus_sendMessage(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msgLength,
 }
 
 //--------------------------------------------------------------------------
+uint8_t ibus_isQueueFree()
+{
+    return (g_ibus_TxReadPos == g_ibus_TxWritePos);
+}
+
+//--------------------------------------------------------------------------
 void ibus_tick()
 {
     // if no data in the buffer or we are not idle, then do nothing

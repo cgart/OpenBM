@@ -44,12 +44,19 @@
 //--------------------------------------------------------------------------
 // Global ticks
 //--------------------------------------------------------------------------
-#define TICKS_PER_SECOND() 80  // how much of task ticks in one second
-#define TICKS_PER_QUARTERSECOND() 20
-#define TICKS_PER_HALFSECOND() 40
-#define TICKS_PER_TWO_SECONDS() 160
-#define TICKS_PER_ONE_AND_A_HALF_SECONDS() 120
-//#define TICK_INTERRUPT TIMER2_COMP_vect
+//#define TICKS_PER_SECOND() 60  // how much of task ticks in one second
+//#define TICKS_PER_QUARTERSECOND() 15
+//#define TICKS_PER_HALFSECOND() 30
+//#define TICKS_PER_TWO_SECONDS() 120
+//#define TICKS_PER_ONE_AND_A_HALF_SECONDS() 90
+//#define TICKS_PER_ONE_EIGHTH_SECOND() 7
+
+#define TICKS_PER_SECOND() 32  // how much of task ticks in one second
+#define TICKS_PER_QUARTERSECOND() 8
+#define TICKS_PER_HALFSECOND() 16
+#define TICKS_PER_TWO_SECONDS() 64
+#define TICKS_PER_ONE_AND_A_HALF_SECONDS() 48
+#define TICKS_PER_ONE_EIGHTH_SECOND() 4
 
 // current number of ticks since last reset
 typedef uint32_t ticks_t;
@@ -58,18 +65,18 @@ extern ticks_t g_tickNumber;
 extern uint8_t g_tickEventHappened;
 
 // init tick counter
-//#define tick_init() {TIMSK |= (1 << OCIE0); TCCR0 = (1 << CS02) | (1 << CS01) | (1 << CS00);}
-#define tick_init() {TCCR0A = 0; TIMSK0 |= (1 << OCIE0A); TCCR0B = (1 << CS02) | (1 << CS00); g_tickNumber = 0; }
+//#define tick_init() {TCCR0A = 0; TIMSK0 |= (1 << OCIE0A); TCCR0B = (1 << CS02) | (1 << CS00); g_tickNumber = 0; }
+#define tick_init() {TCCR1A = 0; TIMSK1 |= (1 << OCIE1A); TCCR1B = (1 << CS12) | (1 << CS10); g_tickNumber = 0; }
 
 // get current number of ticks
 #define tick_get() g_tickNumber
 
 // do ticking
-#define tick() {g_tickNumber++; TCNT0 = 0; OCR0A = 180; g_tickEventHappened = 0;}
-//#define tick() {g_tickNumber++; TCNT0 = 0;}
+//#define tick() {g_tickNumber++; TCNT0 = 0; OCR0A = 240; g_tickEventHappened = 0;}
+#define tick() {g_tickNumber++; TCNT1 = 0; OCR1A = 450; g_tickEventHappened = 0;}
 
 // check if there is a tick
-#define tick_event() (g_tickEventHappened == 1) //(TCNT0 >= 180)
+#define tick_event() (g_tickEventHappened == 1)
 
 
 // ----------------------------------------------------------------------------

@@ -16,6 +16,8 @@
 #include "leds.h"
 #include "emul_mid.h"
 #include <avr/boot.h>
+#include <avr/sleep.h>
+
 //#include "bootloader/bootloader.h"
 
 // global tick counter
@@ -37,11 +39,11 @@ DeviceSettings g_deviceSettings;
 DeviceSettings g_deviceSettingsEEPROM EEMEM;
 
 //! Photo sensor ring buffer
-#define PHOTO_NUM_SAMPLES_EXP 5
-#define PHOTO_NUM_SAMPLES (1 << PHOTO_NUM_SAMPLES_EXP)
-uint8_t photoSensorValues[PHOTO_NUM_SAMPLES];
-uint8_t photoSensorIndex = 0;
-uint16_t photoSensorSum = 0;
+//#define PHOTO_NUM_SAMPLES_EXP 2
+//#define PHOTO_NUM_SAMPLES (1 << PHOTO_NUM_SAMPLES_EXP)
+//uint8_t photoSensorValues[PHOTO_NUM_SAMPLES];
+//uint8_t photoSensorIndex = 0;
+//uint16_t photoSensorSum = 0;
 volatile uint8_t photoSensorLast = 0;
 volatile uint8_t photoSensorChanged = 0;
 
@@ -99,8 +101,10 @@ void settings_readAndSetup(void)
 //------------------------------------------------------------------------------
 inline uint8_t getPhotoSensor(void)
 {
-    return (photoSensorSum >> PHOTO_NUM_SAMPLES_EXP);
+    return photoSensorLast;
+    //return (photoSensorSum >> PHOTO_NUM_SAMPLES_EXP);
 }
+#if 0
 uint8_t updatePhotoSensor(uint8_t val)
 {
     // remove last element of the ring buffer and add new value to the sum
@@ -113,6 +117,7 @@ uint8_t updatePhotoSensor(uint8_t val)
 
     return getPhotoSensor();
 }
+#endif
 
 //------------------------------------------------------------------------------
 // Initialize analog hardware (read photo sensor, read bg light)
@@ -131,13 +136,15 @@ void adc_init(void)
     ADCSRB = (1 << ADTS1) | (1 << ADTS0);  // Set ADC to start on Timer0 compare match
     ADCSRA |= (1 << ADIE);  // Enable ADC Interrupt
     ADCSRA |= (1 << ADEN);  // Enable ADC
-
+    ADCSRA |= (1 << ADATE); // Enable ADC to start on trigger (Timer0 compare, tick())
+    
     DIDR0 = 0xFF; // disable digital inputs on the complete ADC port/ A.port
 
     // start reading from ADC
     ADCSRA |= (1 << ADSC);
 }
 
+#if 0
 //------------------------------------------------------------------------------
 // disable currently the ADC (saves power)
 //------------------------------------------------------------------------------
@@ -156,7 +163,9 @@ void adc_resume(void)
     PRR &= ~(1 << PRADC);
     ADCSRA |= (1 << ADIE);  // Enable ADC Interrupt
     ADCSRA |= (1 << ADEN);  // Enable ADC
+    ADCSRA |= (1 << ADSC);
 }
+#endif
 
 #if 0
 // ----------------------------------------------------------------------------
@@ -175,6 +184,15 @@ void get_mcusr(void)
   wdt_disable();
 }
 #endif
+
+//------------------------------------------------------------------------------
+// This will put CPU into sleep mode. Call this in the main loop in order to save power
+//------------------------------------------------------------------------------
+void sleepCPU(void)
+{
+    set_sleep_mode(SLEEP_MODE_IDLE);
+    sleep_mode();
+}
 
 //------------------------------------------------------------------------------
 // Reset cpu by watchdog, full reset is performed
@@ -282,7 +300,7 @@ void initHardware(void)
     PRR |= (1 << PRSPI);      // disable SPI
 
     // prepare averaging of photo sensor values
-    memset(&photoSensorValues[0], 0, PHOTO_NUM_SAMPLES);
+    //memset(&photoSensorValues[0], 0, PHOTO_NUM_SAMPLES);
 
     // read this firmware version
     memcpy_P(&g_bootldrinfo, (PGM_VOID_P)(BOOTLOADERSTARTADR - SPM_PAGESIZE), sizeof(bootldrinfo_t));
@@ -334,13 +352,16 @@ void initHardware(void)
 //------------------------------------------------------------------------------
 int main(void)
 {
-    // init hardware and do small delay after init
     initHardware();
     
     //led_red_set(0b11110000);
 
     for(;;)
     {
+        // goto sleep only if ibus queue is empty
+        if (ibus_isQueueFree())
+            sleepCPU();
+
         // update current encoder states, need this here to eventually reset
         // the encoder rotary state to predefined value
         button_tick_encoder();
@@ -361,46 +382,33 @@ int main(void)
             display_updateState();
             led_green_immediate_set(display_getInputState() == BACKCAM_INPUT());
 
+            // update photo sensor if value has changed
+            if (photoSensorChanged)
+            {
+                if (photoSensorLast > g_deviceSettings.photo_maxValue) photoSensorLast = g_deviceSettings.photo_maxValue;
+                if (photoSensorLast < g_deviceSettings.photo_minValue) photoSensorLast = g_deviceSettings.photo_minValue;
+                //updatePhotoSensor(photoSensorLast);
+                photoSensorChanged = 0;
+            }
+
+            // based on ambient light we setup display's brightness
+            display_setBackgroundLight(getPhotoSensor());
+
             // go into full sleep mode if there is no action on the ibus
             // happens during the last X seconds (full shut down!!!)
             if (tick_get() > g_nextIbusTick)
                 shutDown();
 
-            // based on ambient light we setup display's brightness
-            display_setBackgroundLight(getPhotoSensor());
+            // ----------- Do full reset if user liked so --------------------------
+            if (button_released(BUTTON_MENU_LR) && button_down(BUTTON_SELECT) && button_down(BUTTON_EJECT))
+                resetCPU();
+
+            button_after_tick();
 
             // perform global tick
             tick();
         }
         
-        // ----------- Do full reset if user liked so --------------------------
-        if (button_released(BUTTON_MENU_LR) && button(BUTTON_SELECT) && button(BUTTON_EJECT))
-            resetCPU();
-
-        // update photo sensor if value has changed
-        if (photoSensorChanged)
-        {
-            if (photoSensorLast > g_deviceSettings.photo_maxValue) photoSensorLast = g_deviceSettings.photo_maxValue;
-            if (photoSensorLast < g_deviceSettings.photo_minValue) photoSensorLast = g_deviceSettings.photo_minValue;
-            updatePhotoSensor(photoSensorLast);
-            photoSensorChanged = 0;
-        }
-
-        // depending on emulation mode, execute corresponding task
-        //switch(g_emulationMode)
-        //{
-        //case OPENBM:
-        //    emul_openbm_tick();
-        //    break;
-        //case MID:
-            emul_mid_encoder_tick();
-        //    break;
-        //case BMBT:
-        //    emul_bmbt_tick();
-        //    break;
-        //}
-
-
         // Switch Emulation mode
         //if (button_down(BUTTON_MENU_LR) && button_down(BUTTON_SELECT) && button_down(BUTTON_MODE) && button_released(BUTTON_RADIO_KNOB))
         //{
@@ -425,13 +433,12 @@ ISR(ADC_vect)
     // values specific to the DC electric coefficients of the temperature sensor
     #define TEMP_ADC_ZERO 25
     #define TEMP_INV_DC 2
-    #define PHOTO_MIN 50
     
     BEGIN_ATOMAR;
     {
         if (g_adcCurrentChannel == 0)  // we were converting PhotoSensor values
         {
-            uint8_t val = ADCH & 0xFC;
+            uint8_t val = ADCH;
 
             if (photoSensorChanged == 0 && val != photoSensorLast)
             {
@@ -460,7 +467,7 @@ ISR(ADC_vect)
             ADMUX &= ~(1 << MUX4) & ~(1 << MUX3);
             ADMUX |= (1 << MUX0) | (1 << MUX1) | (1 << MUX2);
         }
-        ADCSRA |= (1 << ADSC);
+        //ADCSRA |= (1 << ADSC);
     }
     END_ATOMAR;
 }

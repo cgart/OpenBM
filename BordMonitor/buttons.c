@@ -20,19 +20,23 @@ uint8_t g_button_delay[BUTTON_NUM_BUTTONS];
 
 // direction states of both encoders
 volatile uint8_t g_encoder_flag = 0;
-volatile int8_t g_enc_delta[2];
-int8_t g_enc_last_radioRotaryStateCW;
-int8_t g_enc_last_radioRotaryStateCCW;
-int8_t g_enc_last[2];
+int8_t g_enc_radioState = 0;        // last state of the radio encoder (acts differently)
+int8_t g_enc_last[2];               // last state of the pins of the encoders
+int8_t g_enc_current[2] = {0,0};    // current rotary state of the encoders
 #define ENC_BMBT_KNOB (1 << 0)
 #define ENC_BMBT_OUT1 (1 << 1)
 #define ENC_BMBT_OUT2 (1 << 2)
 #define BMBT_EJECT    (1 << 3)
-#define ENC_BMBT 0
 #define ENC_RADIO_OUT2 (1 << 0)
 #define ENC_RADIO_OUT1 (1 << 1)
 #define ENC_RADIO_KNOB (1 << 2)
-#define ENC_RADIO 1
+
+//------------------------------------------------------------------------------
+int8_t button_encoder(uint8_t id)
+{
+    if (id == ENC_RADIO || id == ENC_BMBT) return g_enc_current[id];
+    return 0;
+}
 
 //------------------------------------------------------------------------------
 buttonBool_t button(buttonIndex_t id) { return is_bit_set(g_buttons,id); }
@@ -92,7 +96,6 @@ void button_init(void)
         if( state & ENC_BMBT_OUT2 ) new ^= 0b01;
         g_enc_last[ENC_BMBT] = new;
     }
-    g_enc_delta[ENC_BMBT] = 0;
 
     // read from radio encoders, has special treatment (need to send read command first)
     if (i2c_start(PORT_EXPANDER_ENC_RADIO + I2C_WRITE) == 0)
@@ -107,14 +110,10 @@ void button_init(void)
             if( state & ENC_RADIO_OUT1 ) new  = 0b11;
             if( state & ENC_RADIO_OUT2 ) new ^= 0b01;
             g_enc_last[ENC_RADIO] = new;
-
-            g_enc_last_radioRotaryStateCW = 0;
-            g_enc_last_radioRotaryStateCCW = 0;
+            g_enc_radioState = 0;
         }
         i2c_stop();
     }
-    g_enc_delta[ENC_RADIO] = 0;
-
 
     for (int i=0; i < BUTTON_NUM_BUTTONS; i++) g_button_delay[i] = 0;
     
@@ -143,11 +142,6 @@ void button_tick_encoder(void)
     // clear pressed/release states
     g_buttonsPressed = 0;
     g_buttonsRelease = 0;
-    
-    // clear rotary states of both encoders, this will make sure
-    // that if flag get active, this will happen only for the duration until next
-    // call of this routine
-    g_buttons &= ~(BUTTON_ROTARY_STATE_MASK);
 
     // if no event happened, then don't do anything
     if (g_encoder_flag == 0) return;
@@ -165,10 +159,11 @@ void button_tick_encoder(void)
             if (state & ENC_RADIO_KNOB) g_buttons |= (1L << BUTTON_RADIO_KNOB);
             else g_buttons &= ~(1L << BUTTON_RADIO_KNOB);
 
-            int8_t new, diff;
+            int8_t new, diff, delta;
 
             // get value for radio encoder
             new = 0;
+            delta = 0;
             if( (state & ENC_RADIO_OUT1) ) new  = 0b11;
             if( (state & ENC_RADIO_OUT2) ) new ^= 0b01;
 
@@ -176,24 +171,26 @@ void button_tick_encoder(void)
             if( diff & 1 )
             {
                 g_enc_last[ENC_RADIO] = new;
-                g_enc_delta[ENC_RADIO] += (diff & 2) - 1;		// bit 1 = direction (+/-)
+                delta = (diff & 2) - 1;		// bit 1 = direction (+/-)
             }
-            if (g_enc_delta[ENC_RADIO] < 0 && !g_enc_last_radioRotaryStateCCW)
+            if (delta < 0 && !is_bit_set(g_enc_radioState,0))
             {
-                g_buttons |= (1L << BUTTON_RADIO_CCW);
-                g_buttons &= ~(1L << BUTTON_RADIO_CW);
-            }else if (g_enc_delta[ENC_RADIO] > 0 && !g_enc_last_radioRotaryStateCW)
+                bit_set(g_enc_radioState, 0);
+                bit_clear(g_enc_radioState, 1);
+                g_enc_current[ENC_RADIO] += delta;
+            }else if (delta > 0 && !is_bit_set(g_enc_radioState,1))
             {
-                g_buttons |= (1L << BUTTON_RADIO_CW);
-                g_buttons &= ~(1L << BUTTON_RADIO_CCW);
+                bit_set(g_enc_radioState, 1);
+                bit_clear(g_enc_radioState, 0);
+                g_enc_current[ENC_RADIO] += delta;
+            }else
+            {
+                bit_clear(g_enc_radioState, 0);
+                bit_clear(g_enc_radioState, 1);
             }
-            g_enc_delta[ENC_RADIO] = 0;
         }else
             i2c_stop();
     }
-
-    g_enc_last_radioRotaryStateCCW = button(BUTTON_RADIO_CCW);
-    g_enc_last_radioRotaryStateCW  = button(BUTTON_RADIO_CW);
 
     // interrupt was cleared, so do not need to check for other stuff
     if (bit_is_set(PIND,3)) return;
@@ -210,10 +207,11 @@ void button_tick_encoder(void)
         if (state & BMBT_EJECT) g_buttons |= (1L << BUTTON_EJECT);
         else g_buttons &= ~(1L << BUTTON_EJECT);
         
-        int8_t new, diff;
+        int8_t new, diff, delta;
         
         // get value for bmbt encoder
         new = 0;
+        delta = 0;
         if( (state & ENC_BMBT_OUT1) ) new  = 0b11;
         if( (state & ENC_BMBT_OUT2) ) new ^= 0b01;
         diff = g_enc_last[ENC_BMBT] - new;
@@ -221,18 +219,9 @@ void button_tick_encoder(void)
         if( diff & 1 )
         {
             g_enc_last[ENC_BMBT] = new;
-            g_enc_delta[ENC_BMBT] += (diff & 2) - 1;		// bit 1 = direction (+/-)
+            delta = (diff & 2) - 1;		// bit 1 = direction (+/-)
         }
-        if (g_enc_delta[ENC_BMBT] < 0)
-        {
-            g_buttons |= (1L << BUTTON_BMBT_CCW);
-            g_buttons &= ~(1L << BUTTON_BMBT_CW);
-        }else if (g_enc_delta[ENC_BMBT] > 0)
-        {
-            g_buttons |= (1L << BUTTON_BMBT_CW);
-            g_buttons &= ~(1L << BUTTON_BMBT_CCW);
-        }
-        g_enc_delta[ENC_BMBT] = 0;
+        g_enc_current[ENC_BMBT] += delta;
     }
 
 }
@@ -337,37 +326,8 @@ void button_tick(void)
         }
     }
 
-#if 0
-        // ----- First read the Radio Part -----
-        if (i2c_start(PORT_EXPANDER_RADIO + I2C_READ) == 0)
-        {
-            unsigned char state = ~(i2c_readNak());
-            i2c_stop();
-
-            // first two bits ignored
-            state >>= 2;
-
-            // setup buttons according to the state
-            if (is_bit_set(g_buttons_last, BUTTON_ACTIVE_RIGHT_PART))
-            {
-                ENABLE_RADIO_BUTTON_RIGHT_PART();
-
-                g_buttons &= ~(BUTTON_RIGHT_STATE_MASK_1);
-                g_buttons |= ((uint32_t)state << 0);
-
-                g_buttons &= ~(1L << BUTTON_ACTIVE_RIGHT_PART);
-            }else
-            {
-                ENABLE_RADIO_BUTTON_LEFT_PART();
-                g_buttons &= ~(BUTTON_RIGHT_STATE_MASK_2);
-                g_buttons |= ((uint32_t)state << 6);
-
-                g_buttons |= (1L << BUTTON_ACTIVE_RIGHT_PART);
-            }
-        }
-#endif
-
 nextkeys:
+
     // compute down, pressed and released states
     g_buttonsDown       = g_buttons_last    & g_buttons;
     g_buttonsPressed    = (~g_buttons_last) & g_buttons;
@@ -388,6 +348,13 @@ nextkeys:
 
         if (g_button_delay[i] > BUTTON_DELAY_LONG) g_button_delay[i] = 0;
     }
+}
+
+void button_after_tick(void)
+{
+    // reset encoder state
+    g_enc_current[ENC_RADIO] = 0;
+    g_enc_current[ENC_BMBT] = 0;
 }
 
 void button_isr(void)

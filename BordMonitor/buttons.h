@@ -73,16 +73,9 @@ typedef uint8_t buttonIndex_t;
 // Number of all buttons, which's press time can be evaluated
 #define BUTTON_NUM_BUTTONS 23
 
-// Encoder rotations
-#define BUTTON_BMBT_CW              23
-#define BUTTON_BMBT_CCW             24
-#define BUTTON_RADIO_CW             25
-#define BUTTON_RADIO_CCW            26
-
-#define BUTTON_ROTARY_STATE_MASK      0x7800000L
-
-// device specific, ignore this
-#define BUTTON_ACTIVE_RIGHT_PART    27
+// Encoder IDs BMBT or RADIO
+#define ENC_BMBT 0
+#define ENC_RADIO 1
 
 /**** Button State access  ***/
 //typedef uint8_t   buttonState_t;
@@ -107,6 +100,7 @@ extern void button_isr(void);
  * or so is enough
  **/
 extern void button_tick(void);
+extern void button_after_tick(void);
 
 /**
  * This method should be called as often as you can. This will check for
@@ -116,6 +110,12 @@ extern void button_tick(void);
  * approximately short, because it do long execution only if rotary state changed)
  **/
 extern void button_tick_encoder(void);
+
+/**
+ * Return current encoder states as integer. negative means, the movement is counterclockwise.
+ * The encID is either ENC_RADIO or ENC_BMBT
+ **/
+extern int8_t button_encoder(uint8_t encID);
 
 /**
  * Return state of a one button. The state is encoded, so use

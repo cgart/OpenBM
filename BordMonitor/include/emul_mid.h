@@ -21,7 +21,6 @@ void emul_mid_init(void);
  * Run MID emulation task. This will check for buttons and execute corresponding actions
  **/
 extern void emul_mid_tick(void);
-extern void emul_mid_encoder_tick(void);
 
 //extern void emul_openbm_tick(void);
 //extern void emul_bmbt_tick(void);

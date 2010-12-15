@@ -64,7 +64,7 @@ void led_tick(void)
 {
     // react only every 1/8 second
     static uint8_t ticks = 0;
-    if (ticks++ < 10) return;
+    if (ticks++ < TICKS_PER_ONE_EIGHTH_SECOND()) return;
     ticks = 0;
 
     // this is our current tick counter
@@ -85,26 +85,31 @@ void led_tick(void)
 void led_red_set(uint8_t state)
 {
     g_LedState.Red = state;
+    if (state == 0) led_red_immediate_set(0);
 }
 //------------------------------------------------------------------------------
 void led_green_set(uint8_t state)
 {
     g_LedState.Green = state;
+    if (state == 0) led_green_immediate_set(0);
 }
 //------------------------------------------------------------------------------
 void led_yellow_set(uint8_t state)
 {
     g_LedState.Yellow = state;
+    if (state == 0) led_yellow_immediate_set(0);
 }
 //------------------------------------------------------------------------------
 void led_fan_set(uint8_t state)
 {
     g_LedState.Fan = state;
+    if (state == 0) led_fan_immediate_set(0);
 }
 //------------------------------------------------------------------------------
 void led_radio_set(uint8_t state)
 {
     g_LedState.Radio = state;
+    if (state == 0) led_radio_immediate_set(0);
 }
 
 //------------------------------------------------------------------------------

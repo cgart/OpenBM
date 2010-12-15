@@ -107,29 +107,56 @@ extern "C" {
 #define IBUS_SENSTA_VALUE()           bit_is_set(PIND,2)
 #define IBUS_SENSTA_SETUP()           { DDRD &= ~(1 << DDD2); PORTD |= (1 << 2); }
 
-// setup timer used for ibus timings
-#define IBUS_TIMER_SETUP() { TCCR1B = (1 << CS11) | (1 << CS10); }
+#define IBUS_TIMER0
 
-// wait time by collision when transmitting (around 5.0ms)
-#define IBUS_TIMEOUT_COLLISION() { TCNT1 = 65535 - 1650; TIMSK1 |= (1 << TOIE1); }
+#ifdef IBUS_TIMER0
+    #define IBUS_TIMER_SETUP() { TCCR0B = (1 << CS02) | (1 << CS00); }
 
-// receive timeout (stop receiving when nothing happens) (around 50ms)
-#define IBUS_TIMEOUT_RECEIVE() { TCNT1 = 65535 - 11500; TIMSK1 |= (1 << TOIE1); }
+    // wait time by collision when transmitting (around 5.0ms)
+    #define IBUS_TIMEOUT_COLLISION() { TCNT0 = 255 - 80; TIMSK0 |= (1 << TOIE0); }
 
-// wait time when receive error (around 2.0ms)
-#define IBUS_TIMEOUT_RECEIVE_ERROR() { TCNT1 = 65535 - 460; TIMSK1 |= (1 << TOIE1); }
+    // receive timeout (stop receiving when nothing happens) (around 17ms)
+    #define IBUS_TIMEOUT_RECEIVE() { TCNT0 = 0; TIMSK0 |= (1 << TOIE0); }
 
-// wait when message was transmitted before next message will be transmitted around 2ms
-#define IBUS_TIMEOUT_AFTER_TRANSMIT() { TCNT1 = 65535 - 460; TIMSK1 |= (1 << TOIE1); }
+    // wait time when receive error (around 2.7ms)
+    #define IBUS_TIMEOUT_RECEIVE_ERROR() { TCNT0 = 255 - 40; TIMSK0 |= (1 << TOIE0); }
 
-// if we see busy bus, then we wait at least 2.0 ms
-#define IBUS_TIMEOUT_WAIT_FREE_BUS() { TCNT1 = 65535 - 460; TIMSK1 |= (1 << TOIE1);  }
+    // wait when message was transmitted before next message will be transmitted around 2ms
+    #define IBUS_TIMEOUT_AFTER_TRANSMIT() { TCNT0 = 255 - 30; TIMSK0 |= (1 << TOIE0); }
 
-#define IBUS_TIMER_DISABLE_INTERRUPT() { TIMSK1 &= ~(1 << TOIE1); TIFR1 |= (1 << TOV1); }
-#define IBUS_TIMER_INTERRUPT TIMER1_OVF_vect
-#define IBUS_TRANSMIT_TRIES 5
+    // if we see busy bus, then we wait at least 3.0 ms
+    #define IBUS_TIMEOUT_WAIT_FREE_BUS() { TCNT0 = 255 - 50; TIMSK0 |= (1 << TOIE0);  }
+
+    #define IBUS_TIMER_DISABLE_INTERRUPT() { TIMSK0 &= ~(1 << TOIE0); TIFR0 |= (1 << TOV0); }
+    #define IBUS_TIMER_INTERRUPT TIMER0_OVF_vect
+
+#else
+
+    // setup timer used for ibus timings
+    #define IBUS_TIMER_SETUP() { TCCR1B = (1 << CS11) | (1 << CS10); }
+
+    // wait time by collision when transmitting (around 5.0ms)
+    #define IBUS_TIMEOUT_COLLISION() { TCNT1 = 65535 - 1650; TIMSK1 |= (1 << TOIE1); }
+
+    // receive timeout (stop receiving when nothing happens) (around 50ms)
+    #define IBUS_TIMEOUT_RECEIVE() { TCNT1 = 65535 - 11500; TIMSK1 |= (1 << TOIE1); }
+
+    // wait time when receive error (around 2.0ms)
+    #define IBUS_TIMEOUT_RECEIVE_ERROR() { TCNT1 = 65535 - 460; TIMSK1 |= (1 << TOIE1); }
+
+    // wait when message was transmitted before next message will be transmitted around 2ms
+    #define IBUS_TIMEOUT_AFTER_TRANSMIT() { TCNT1 = 65535 - 460; TIMSK1 |= (1 << TOIE1); }
+
+    // if we see busy bus, then we wait at least 2.0 ms
+    #define IBUS_TIMEOUT_WAIT_FREE_BUS() { TCNT1 = 65535 - 460; TIMSK1 |= (1 << TOIE1);  }
+
+    #define IBUS_TIMER_DISABLE_INTERRUPT() { TIMSK1 &= ~(1 << TOIE1); TIFR1 |= (1 << TOV1); }
+    #define IBUS_TIMER_INTERRUPT TIMER1_OVF_vect
+#endif
+    
 
 //******* default constants **********
+#define IBUS_TRANSMIT_TRIES 5
 #define IBUS_STATE_IDLE 0
 #define IBUS_STATE_WAIT_FREE_BUS  (1 << 0)
 #define IBUS_STATE_RECEIVING  (1 << 1)
@@ -168,6 +195,10 @@ extern void ibus_tick(void);
  **/
 extern void ibus_sendMessage(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msgLength, uint8_t numberOfTries);
 
+/**
+ * Check whenever ibus transmit queue is empty.
+ **/
+extern uint8_t ibus_isQueueFree(void);
 
  #ifdef __cplusplus
  }

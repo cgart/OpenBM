@@ -125,7 +125,7 @@ uint8_t bmbt_button_mapping[BMBT_MAP_SIZE][3] PROGMEM =
     {BUTTON_PRG,0x68,0x14},
     {BUTTON_SELECT,0x68,0x20},
     {BUTTON_EJECT,0x68,0x24},
-    {BUTTON_MENU_LR,0xFF,0x22}
+    {BUTTON_MENU_LR,0xFF,0x34}
 };
 
 //------------------------------------------------------------------------------
@@ -141,9 +141,9 @@ void emul_mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
     // ok, radio will give us a hint, which current mode is active
     // this can be seen on text messages sent from radio to ANZV
     // so react only on text messages
-    if (dst != IBUS_DEV_ANZV || dst != IBUS_DEV_MID)// || dst != IBUS_DEV_LOC)
+    if (dst == IBUS_DEV_ANZV || dst == IBUS_DEV_MID)// || dst == IBUS_DEV_LOC)
     {
-        //if (msg[0] == IBUS_MSG_UPDATE_MID_TOP || msg[0] == IBUS_MSG_UPDATE_MID_BOTTOM)
+        // take into account only if for bottom text update
         if (msg[0] == IBUS_MSG_UPDATE_MID_BOTTOM)
         {
             if (src == IBUS_DEV_RAD)
@@ -166,6 +166,7 @@ void emul_mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
             }
         }
 
+        // React on LED message
         if (USE_BM_LEDS() && msg[0] == IBUS_MSG_LED)
         {
             if (msg[1] & (1 << 0)) led_red_set(0b11111111); else led_red_set(0);
@@ -373,8 +374,8 @@ void emul_mid_tick(void)
         if (button_down_long(BUTTON_RADIO_KNOB))
         {
             ignoreReleaseEvent = 1;
-            uint8_t data[2] = {IBUS_MSG_BMBT_BUTTON, 0x4F};
-            ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_LOC, data, 2, 1);
+            uint8_t data[2] = {IBUS_MSG_BMBT_BUTTON, 0x46};
+            ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_RAD, data, 2, 1);
         }else if (button_released(BUTTON_RADIO_KNOB))
         {
             if (ignoreReleaseEvent == 0)
@@ -398,11 +399,7 @@ void emul_mid_tick(void)
                 ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_LOC, data, 4, 1);
             }
             ignoreReleaseEvent = 0;
-        }//else if (button_pressed(BUTTON_RADIO_KNOB))
-        //{
-        //    uint8_t data[2] = {IBUS_MSG_BMBT_BUTTON, 0x0F};
-        //    ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_LOC, data, 2, 1);
-        //}
+        }
     }
 
     // prepare message to send, when a button is down/pressed/up
@@ -464,32 +461,35 @@ void emul_mid_tick(void)
                 ibus_sendMessage(IBUS_DEV_BMBT, bdst, data, 2, IBUS_TRANSMIT_TRIES);
         }
     }
-}
 
-//------------------------------------------------------------------------------
-void emul_mid_encoder_tick(void)
-{
-    // radio knob
-    if (button(BUTTON_RADIO_CW) || button(BUTTON_RADIO_CCW))
+    // Bordmonitor knob
+    int8_t bmbt = button_encoder(ENC_BMBT);
+    if (bmbt)
     {
-        uint8_t data[2] = {IBUS_MSG_RADIO_ENCODER, 0x10};
+        uint8_t data[2] = {IBUS_MSG_BMBT_ENCODER, 0x00};
 
-        if (button(BUTTON_RADIO_CW))
-            data[1] += 1;
+        if (bmbt < 0)
+            data[1] = -bmbt;
+        else
+            data[1] = 0x80 + bmbt;
+
+        ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_GT, data, 2, 1);
+    }
+
+    // radio knob
+    int encradio = button_encoder(ENC_RADIO);
+    if (encradio)
+    {
+        uint8_t data[2] = {IBUS_MSG_RADIO_ENCODER, 0x00};
+
+        if (encradio < 0)
+            data[1] = ((-encradio) << 4);
+        else
+            data[1] = (encradio << 4) + 0x01;
 
         ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data, 2, 1);
     }
 
-    // Bordmonitor knob
-    if (button(BUTTON_BMBT_CW) || button(BUTTON_BMBT_CCW))
-    {
-        uint8_t data[2] = {IBUS_MSG_BMBT_ENCODER, 0x01};
-
-        if (button(BUTTON_BMBT_CW))
-            data[1] += 0x80;
-
-        ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_GT, data, 2, 1);
-    }
 }
 
 //------------------------------------------------------------------------------
