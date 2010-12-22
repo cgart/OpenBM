@@ -7,22 +7,22 @@
 #define ENABLE_RADIO_BUTTON_RIGHT_PART() {PORTC &= ~(1 << 7); PORTC |= (1 << 6);}
 #define ENABLE_RADIO_BUTTON_BOTH_PARTS() {PORTC &= ~(1 << 7); PORTC &= ~(1 << 6);}
 
-buttonGlobalState_t g_buttons = 0;
-buttonGlobalState_t g_buttonsDown = 0;
-buttonGlobalState_t g_buttonsPressed = 0;
-buttonGlobalState_t g_buttonsRelease = 0;
-buttonGlobalState_t g_buttons_last = 0;
+buttonGlobalState_t g_buttons;
+buttonGlobalState_t g_buttonsDown;
+buttonGlobalState_t g_buttonsPressed;
+buttonGlobalState_t g_buttonsRelease;
+buttonGlobalState_t g_buttons_last;
 
-uint8_t g_buttons_ExpanderState = 0;
+uint8_t g_buttons_ExpanderState;
 
 // delay in ticks time steps for each button
 uint8_t g_button_delay[BUTTON_NUM_BUTTONS];
 
 // direction states of both encoders
-volatile uint8_t g_encoder_flag = 0;
-int8_t g_enc_radioState = 0;        // last state of the radio encoder (acts differently)
+volatile uint8_t g_encoder_flag;
+int8_t g_enc_radioState;        // last state of the radio encoder (acts differently)
 int8_t g_enc_last[2];               // last state of the pins of the encoders
-int8_t g_enc_current[2] = {0,0};    // current rotary state of the encoders
+int8_t g_enc_current[2];    // current rotary state of the encoders
 #define ENC_BMBT_KNOB (1 << 0)
 #define ENC_BMBT_OUT1 (1 << 1)
 #define ENC_BMBT_OUT2 (1 << 2)
@@ -116,7 +116,13 @@ void button_init(void)
     }
 
     for (int i=0; i < BUTTON_NUM_BUTTONS; i++) g_button_delay[i] = 0;
-    
+
+
+    g_buttons_ExpanderState = 0;
+
+    g_enc_current[0] = 0;
+    g_enc_current[1] = 0;
+
     g_buttons = 0;
     g_buttonsDown = 0;
     g_buttonsPressed = 0;

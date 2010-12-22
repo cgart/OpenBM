@@ -112,11 +112,11 @@ Date        Description
 
 /** Size of the circular receive buffer, must be power of 2 */
 #ifndef UART_RX_BUFFER_SIZE
-#define UART_RX_BUFFER_SIZE 256
+#define UART_RX_BUFFER_SIZE 16
 #endif
 /** Size of the circular transmit buffer, must be power of 2 */
 #ifndef UART_TX_BUFFER_SIZE
-#define UART_TX_BUFFER_SIZE 256
+#define UART_TX_BUFFER_SIZE 16
 #endif
 
 /* test if the size of the circular buffers fits into SRAM */
@@ -218,9 +218,9 @@ extern void uart_puts_p(const char *s );
 /**
  *  @brief   Return number of bytes waiting in the receive buffer
  *  @param   none
- *  @return  bytes waiting in the receive buffer
+ *  @return  1 if there are bytes waiting in the receive buffer
  */
-extern int uart_available(void);
+extern uint8_t uart_available(void);
 
 /**
  *  @brief   Flush bytes waiting in receive buffer
@@ -262,6 +262,7 @@ extern void uart_clearTransmissionBuffer(void);
  **/
 extern void uart_startTransmission(void);
 
+#if 0
 /** @brief  Initialize USART1 (only available on selected ATmegas) @see uart_init */
 extern void uart1_init(unsigned int baudrate);
 /** @brief  Get received byte of USART1 from ringbuffer. (only available on selected ATmega) @see uart_getc */
@@ -278,6 +279,7 @@ extern void uart1_puts_p(const char *s );
 extern int uart1_available(void);
 /** @brief   Flush bytes waiting in receive buffer */
 extern void uart1_flush(void);
+#endif
 
 /**@}*/
 

@@ -20,14 +20,14 @@ DisplayState g_DisplayState;
 DisplayState g_eeprom_DisplayState EEMEM;
 uint8_t      g_eeprom_DisplayDataInit EEMEM;
 
-uint16_t     max_dacVoltage = 0;
-uint16_t     dac_currentVoltage = 0;
+uint16_t     max_dacVoltage;
+uint16_t     dac_currentVoltage;
 
-ticks_t g_display_NextResponseTime = 0;
-uint8_t g_displayError = 0;
+ticks_t g_display_NextResponseTime;
+uint8_t g_displayError;
 
-static DeviceSettings* deviceSettings = &g_deviceSettings;
-static DeviceSettings* deviceSettingsEEPROM = &g_deviceSettingsEEPROM;
+static DeviceSettings* deviceSettings;
+static DeviceSettings* deviceSettingsEEPROM;
 
 #define DISP_MOSFET_SETUP {DDRB |= (1 << DDB4); PORTB &= ~(1 << 4);}
 #define DISP_MOSFET_OFF {PORTB &= ~(1 << 4);}
@@ -150,6 +150,10 @@ void display_init(void)
     else
         max_dacVoltage = 0xA8F; // Data = 3.3V * 4096 / 5V;
 
+    // set variables
+    deviceSettings = &g_deviceSettings;
+    deviceSettingsEEPROM = &g_deviceSettingsEEPROM;
+
     // disable DAC output and switch display mosfet off
     dac_currentVoltage = deviceSettings->dac_idleVoltage;
     display_dac_sleep();
@@ -168,6 +172,8 @@ void display_init(void)
     // load current display state from the eeprom
     g_DisplayState.display_Input = eeprom_read_byte(&g_eeprom_DisplayState.display_Input);
     g_DisplayState.display_Power = eeprom_read_byte(&g_eeprom_DisplayState.display_Power);
+    g_display_NextResponseTime = 0;
+    g_displayError = 0;
 
     // setup PWM for the bglight
     DDRD |= (1 << DDD7);
@@ -278,6 +284,13 @@ void display_setBackgroundLight(uint8_t duty)
 uint8_t display_getBackgroundLight(void)
 {
     return OCR2A;
+}
+
+//------------------------------------------------------------------------------
+void display_powerOn(void)
+{
+    display_dac_setVoltage(deviceSettings->dac_idleVoltage);
+    DISP_MOSFET_ON;
 }
 
 //------------------------------------------------------------------------------

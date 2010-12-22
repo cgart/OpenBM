@@ -252,7 +252,10 @@ GENASMFILES=$(filter %.s, $(OBJDEPS:.o=.s))
 
 # Make targets:
 # all, disasm, stats, hex, writeflash/install, clean
-all: $(TRG)
+all: $(TRG) bin
+
+bin:
+	$(OBJCOPY) -j .text -O binary $(TRG) $(TRG).bin
 
 disasm: $(DUMPTRG) stats
 
@@ -358,7 +361,7 @@ $(GDBINITFILE): $(TRG)
 
 #### Cleanup ####
 clean:
-	$(REMOVE) $(TRG) $(TRG).map $(DUMPTRG)
+	$(REMOVE) $(TRG) $(TRG).map $(TRG).bin $(DUMPTRG)
 	$(REMOVE) $(OBJDEPS)
 	$(REMOVE) $(LST) $(GDBINITFILE)
 	$(REMOVE) $(GENASMFILES)

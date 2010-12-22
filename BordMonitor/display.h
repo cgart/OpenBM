@@ -28,6 +28,7 @@ extern void display_init(void);
 // Shut down display, this will store settings and turn it off
 //------------------------------------------------------------------------------
 extern void display_shutDown(void);
+extern void display_powerOn(void);
 
 //------------------------------------------------------------------------------
 // Toggle display power

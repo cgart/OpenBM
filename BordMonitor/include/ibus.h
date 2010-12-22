@@ -60,7 +60,7 @@ extern "C" {
 #define IBUS_DEV_GTHL    0xDA    // unknown
 #define IBUS_DEV_IRIS    0xE0    // Integrated radio information system
 #define IBUS_DEV_ANZV    0xE7    // Front display
-#define IBUS_DEV_ISP     0xE8    // unknown
+#define IBUS_DEV_RLS     0xE8    // Rain/Light-Sensor
 #define IBUS_DEV_TV      0xED    // Television
 #define IBUS_DEV_BMBT    0xF0    // On-board monitor operating part
 #define IBUS_DEV_CSU     0xF5    // unknown
@@ -113,19 +113,22 @@ extern "C" {
     #define IBUS_TIMER_SETUP() { TCCR0B = (1 << CS02) | (1 << CS00); }
 
     // wait time by collision when transmitting (around 5.0ms)
-    #define IBUS_TIMEOUT_COLLISION() { TCNT0 = 255 - 80; TIMSK0 |= (1 << TOIE0); }
+    #define IBUS_TIMEOUT_COLLISION() ibus_setTimeOut(80);
 
     // receive timeout (stop receiving when nothing happens) (around 17ms)
-    #define IBUS_TIMEOUT_RECEIVE() { TCNT0 = 0; TIMSK0 |= (1 << TOIE0); }
+    #define IBUS_TIMEOUT_RECEIVE() ibus_setTimeOut(255);
 
     // wait time when receive error (around 2.7ms)
-    #define IBUS_TIMEOUT_RECEIVE_ERROR() { TCNT0 = 255 - 40; TIMSK0 |= (1 << TOIE0); }
+    #define IBUS_TIMEOUT_RECEIVE_ERROR() ibus_setTimeOut(40);
 
     // wait when message was transmitted before next message will be transmitted around 2ms
-    #define IBUS_TIMEOUT_AFTER_TRANSMIT() { TCNT0 = 255 - 30; TIMSK0 |= (1 << TOIE0); }
+    #define IBUS_TIMEOUT_AFTER_TRANSMIT() ibus_setTimeOut(30);
+
+    // if we just have received something, then wait until next ibus operation 2.0 ms
+    #define IBUS_TIMEOUT_AFTER_RECEIVE() ibus_setTimeOut(30);
 
     // if we see busy bus, then we wait at least 3.0 ms
-    #define IBUS_TIMEOUT_WAIT_FREE_BUS() { TCNT0 = 255 - 50; TIMSK0 |= (1 << TOIE0);  }
+    #define IBUS_TIMEOUT_WAIT_FREE_BUS() ibus_setTimeOut(50);
 
     #define IBUS_TIMER_DISABLE_INTERRUPT() { TIMSK0 &= ~(1 << TOIE0); TIFR0 |= (1 << TOV0); }
     #define IBUS_TIMER_INTERRUPT TIMER0_OVF_vect
@@ -136,19 +139,19 @@ extern "C" {
     #define IBUS_TIMER_SETUP() { TCCR1B = (1 << CS11) | (1 << CS10); }
 
     // wait time by collision when transmitting (around 5.0ms)
-    #define IBUS_TIMEOUT_COLLISION() { TCNT1 = 65535 - 1650; TIMSK1 |= (1 << TOIE1); }
+    #define IBUS_TIMEOUT_COLLISION() { TCNT1 = 65535 - 1650; TIMSK1 |= (1 << TOIE1); TIFR1 |= (1 << TOV1); }
 
     // receive timeout (stop receiving when nothing happens) (around 50ms)
-    #define IBUS_TIMEOUT_RECEIVE() { TCNT1 = 65535 - 11500; TIMSK1 |= (1 << TOIE1); }
+    #define IBUS_TIMEOUT_RECEIVE() { TCNT1 = 65535 - 11500; TIMSK1 |= (1 << TOIE1); TIFR1 |= (1 << TOV1);}
 
     // wait time when receive error (around 2.0ms)
-    #define IBUS_TIMEOUT_RECEIVE_ERROR() { TCNT1 = 65535 - 460; TIMSK1 |= (1 << TOIE1); }
+    #define IBUS_TIMEOUT_RECEIVE_ERROR() { TCNT1 = 65535 - 460; TIMSK1 |= (1 << TOIE1); TIFR1 |= (1 << TOV1);}
 
     // wait when message was transmitted before next message will be transmitted around 2ms
-    #define IBUS_TIMEOUT_AFTER_TRANSMIT() { TCNT1 = 65535 - 460; TIMSK1 |= (1 << TOIE1); }
+    #define IBUS_TIMEOUT_AFTER_TRANSMIT() { TCNT1 = 65535 - 460; TIMSK1 |= (1 << TOIE1); TIFR1 |= (1 << TOV1);}
 
     // if we see busy bus, then we wait at least 2.0 ms
-    #define IBUS_TIMEOUT_WAIT_FREE_BUS() { TCNT1 = 65535 - 460; TIMSK1 |= (1 << TOIE1);  }
+    #define IBUS_TIMEOUT_WAIT_FREE_BUS() { TCNT1 = 65535 - 460; TIMSK1 |= (1 << TOIE1);  TIFR1 |= (1 << TOV1);}
 
     #define IBUS_TIMER_DISABLE_INTERRUPT() { TIMSK1 &= ~(1 << TOIE1); TIFR1 |= (1 << TOV1); }
     #define IBUS_TIMER_INTERRUPT TIMER1_OVF_vect
@@ -199,6 +202,11 @@ extern void ibus_sendMessage(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msg
  * Check whenever ibus transmit queue is empty.
  **/
 extern uint8_t ibus_isQueueFree(void);
+
+/**
+ * Return 1 if on the next ibus_tick() message will be transmitted
+ **/
+extern uint8_t ibus_readyToTransmit(void);
 
  #ifdef __cplusplus
  }

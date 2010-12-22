@@ -11,18 +11,17 @@
  ***************************************************************************/
 #include "ibus.h"
 #include "uart.h"
-#include "leds.h"
 
 #define IBUS_USE_SHORT_BUFFER
 
 #ifdef IBUS_USE_SHORT_BUFFER
-    #define IBUS_MSG_TX_BUFFER_SIZE       256
+    #define IBUS_MSG_TX_BUFFER_SIZE       64
     #define IBUS_MSG_RX_BUFFER_SIZE       256
 
     typedef uint8_t posptr_t;
-    #define inc_posptr(ptr, mask) ptr++;
-    #define inc_posptr_rx(ptr) ptr++;
-    #define inc_posptr_tx(ptr) ptr++;
+    #define inc_posptr(ptr, mask) ((ptr+1) & mask)
+    #define inc_posptr_rx(ptr) ((ptr+1) & IBUS_MSG_RX_BUFFER_SIZE_MASK)
+    #define inc_posptr_tx(ptr) ((ptr+1) & IBUS_MSG_TX_BUFFER_SIZE_MASK)
 #else
     #define IBUS_MSG_TX_BUFFER_SIZE       256
     #define IBUS_MSG_RX_BUFFER_SIZE       256
@@ -41,12 +40,19 @@ uint8_t g_ibus_RxBuffer[IBUS_MSG_RX_BUFFER_SIZE];
 
 void(*g_ibus_MsgCallback)(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen);
 
-volatile uint8_t  g_ibus_State = IBUS_STATE_IDLE;
-volatile posptr_t g_ibus_RxPos = 0;
-volatile posptr_t g_ibus_RxLen = 2;
-posptr_t g_ibus_TxReadPos = 0;
-posptr_t g_ibus_TxWritePos = 0;
+volatile uint8_t  g_ibus_State ;
+volatile posptr_t g_ibus_RxPos ;
+volatile posptr_t g_ibus_RxLen ;
+posptr_t g_ibus_TxReadPos ;
+posptr_t g_ibus_TxWritePos ;
 
+//--------------------------------------------------------------------------
+void ibus_setTimeOut(uint8_t delay)
+{
+    TCNT0 = 255 - delay;
+    TIMSK0 |= (1 << TOIE0);
+    TIFR0 |= (1 << TOV0);
+}
 
 //--------------------------------------------------------------------------
 // Transmit message over the bus. Message is readed from the given
@@ -104,7 +110,7 @@ posptr_t ibus_transmit_msg(posptr_t from, posptr_t len)
             if (IBUS_SENSTA_VALUE()) goto collision;
 
             // update current pointers
-            inc_posptr_tx(from);
+            from = inc_posptr_tx(from);
             len--;
         }
 
@@ -127,22 +133,20 @@ void ibus_setMessageCallback(void(*cb)(uint8_t src, uint8_t dst, uint8_t* msg, u
 }
 
 //--------------------------------------------------------------------------
-uint8_t ibus_calcChecksum(uint8_t* pBuffer)
+uint8_t ibus_calcChecksum(uint8_t* pBuffer, posptr_t from, uint8_t mask)
 {
   if(pBuffer == NULL)
     return 0;
 
-  posptr_t i;
-  posptr_t len;
-  uint8_t checksum;
+  uint8_t checksum = 0;
+  posptr_t len = from;
+  len = inc_posptr(len, mask);
+  len = pBuffer[len] + 1;
 
-  checksum = 0;
-  len = pBuffer[1] + 1;
-
-  for(i = 0; i < len;)
+  for(uint8_t i = 0; i < len; ++i)
   {
-      checksum ^= pBuffer[i];
-      inc_posptr_tx(i);
+      checksum ^= pBuffer[from];
+      from = inc_posptr(from, mask);
   }
 
   return checksum;
@@ -161,7 +165,6 @@ void ibus_recieveCallback(uint8_t c, uint8_t error)
 
     // go to recieve state and start timer which check for timeout
     g_ibus_State = IBUS_STATE_RECEIVING;
-    TIFR1 |= (1 << TOV1);
     IBUS_TIMEOUT_RECEIVE();
 
     uint8_t msgReceived = 0;
@@ -177,7 +180,7 @@ void ibus_recieveCallback(uint8_t c, uint8_t error)
             g_ibus_RxLen = c + 2;
         }
 
-        inc_posptr_rx(g_ibus_RxPos);
+        g_ibus_RxPos = inc_posptr_rx(g_ibus_RxPos);
 
         // if there were enough bytes recieved, then compare checksum
         if (g_ibus_RxPos >= g_ibus_RxLen)
@@ -187,11 +190,12 @@ void ibus_recieveCallback(uint8_t c, uint8_t error)
             g_ibus_RxPos = 0;
             g_ibus_RxLen = 2;
 
-            uint8_t chk = ibus_calcChecksum(&g_ibus_RxBuffer[0]);
+            uint8_t chk = ibus_calcChecksum(g_ibus_RxBuffer, 0, IBUS_MSG_RX_BUFFER_SIZE_MASK);
             msgReceived = (chk == c);
 
             g_ibus_State = IBUS_STATE_WAIT_FREE_BUS;
-            IBUS_TIMEOUT_WAIT_FREE_BUS();
+            //IBUS_TIMEOUT_WAIT_FREE_BUS();
+            IBUS_TIMEOUT_AFTER_RECEIVE();
         }
     }
     END_ATOMAR;
@@ -201,34 +205,24 @@ void ibus_recieveCallback(uint8_t c, uint8_t error)
 }
 
 //--------------------------------------------------------------------------
-void ibus_uartReceiveCallback(void)
-{
-    while(1)
-    {
-        unsigned int data = uart_getc();
-        if (data & UART_NO_DATA) break;
-        ibus_recieveCallback(data & 0xFF, (data & 0xFF00) >> 8);
-    }
-}
-
-//--------------------------------------------------------------------------
 void ibus_sendMessage(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msgLength, uint8_t numberOfTries)
 {
     // put number of retries
-    g_ibus_TxBuffer[g_ibus_TxWritePos] = numberOfTries; inc_posptr_tx(g_ibus_TxWritePos);
+    g_ibus_TxBuffer[g_ibus_TxWritePos] = numberOfTries; g_ibus_TxWritePos = inc_posptr_tx(g_ibus_TxWritePos);
 
     posptr_t oldWritePos = g_ibus_TxWritePos;
-    uint8_t i;
 
     // put message into queue
-    g_ibus_TxBuffer[g_ibus_TxWritePos] = src; inc_posptr_tx(g_ibus_TxWritePos);
-    g_ibus_TxBuffer[g_ibus_TxWritePos] = msgLength + 2; inc_posptr_tx(g_ibus_TxWritePos);
-    g_ibus_TxBuffer[g_ibus_TxWritePos] = dst; inc_posptr_tx(g_ibus_TxWritePos);
-    for (i=0; i < msgLength; i++)
+    g_ibus_TxBuffer[g_ibus_TxWritePos] = src; g_ibus_TxWritePos = inc_posptr_tx(g_ibus_TxWritePos);
+    g_ibus_TxBuffer[g_ibus_TxWritePos] = msgLength + 2; g_ibus_TxWritePos = inc_posptr_tx(g_ibus_TxWritePos);
+    g_ibus_TxBuffer[g_ibus_TxWritePos] = dst; g_ibus_TxWritePos = inc_posptr_tx(g_ibus_TxWritePos);
+    for (uint8_t i=0; i < msgLength; i++)
     {
-        g_ibus_TxBuffer[g_ibus_TxWritePos] = msg[i]; inc_posptr_tx(g_ibus_TxWritePos);
+        g_ibus_TxBuffer[g_ibus_TxWritePos] = msg[i];
+        g_ibus_TxWritePos = inc_posptr_tx(g_ibus_TxWritePos);
     }
-    g_ibus_TxBuffer[g_ibus_TxWritePos] = ibus_calcChecksum(&g_ibus_TxBuffer[oldWritePos]); inc_posptr_tx(g_ibus_TxWritePos);
+    g_ibus_TxBuffer[g_ibus_TxWritePos] = ibus_calcChecksum(g_ibus_TxBuffer, oldWritePos, IBUS_MSG_TX_BUFFER_SIZE_MASK);
+    g_ibus_TxWritePos = inc_posptr_tx(g_ibus_TxWritePos);
 }
 
 //--------------------------------------------------------------------------
@@ -238,10 +232,24 @@ uint8_t ibus_isQueueFree()
 }
 
 //--------------------------------------------------------------------------
+uint8_t ibus_readyToTransmit()
+{
+    return (g_ibus_TxReadPos != g_ibus_TxWritePos && g_ibus_State == IBUS_STATE_IDLE);
+}
+
+//--------------------------------------------------------------------------
 void ibus_tick()
 {
+    // if we have data in the receive buffer, then handle it
+    while(1)
+    {
+        unsigned int data = uart_getc();
+        if (data & UART_NO_DATA) break;
+        ibus_recieveCallback(data & 0xFF, (data & 0xFF00) >> 8);
+    }
+
     // if no data in the buffer or we are not idle, then do nothing
-    if (g_ibus_TxReadPos == g_ibus_TxWritePos || g_ibus_State != IBUS_STATE_IDLE) return;
+    if (!ibus_readyToTransmit()) return;
 
     // ok we are idle and we have data in the buffer, then first, wait for free buffer
     if (IBUS_SENSTA_VALUE())
@@ -253,7 +261,7 @@ void ibus_tick()
     
     // ok bus is free, we can submit a message
     posptr_t tryCounterPos = g_ibus_TxReadPos;
-    int8_t numberOfTries = g_ibus_TxBuffer[g_ibus_TxReadPos]; inc_posptr_tx(g_ibus_TxReadPos);
+    int8_t numberOfTries = g_ibus_TxBuffer[g_ibus_TxReadPos]; g_ibus_TxReadPos = inc_posptr_tx(g_ibus_TxReadPos);
     posptr_t len = (posptr_t)g_ibus_TxBuffer[(g_ibus_TxReadPos + 1) & IBUS_MSG_TX_BUFFER_SIZE_MASK];
 
     // transmit message
@@ -298,13 +306,15 @@ void ibus_init()
 {
     // initialize uart interface used for IBus communication
     uart_init(UART_BAUD_SELECT(9600, F_CPU));
-    uart_setFormat(8,1,1);
+    //uart_setFormat(8,1,1);
     uart_setTxRx(0,0);
     uart_setTransmitDoneCallback(NULL);
-    uart_setReceiveCallback(ibus_uartReceiveCallback);
+    uart_setReceiveCallback(NULL);
 
     BEGIN_ATOMAR;
     {
+        g_ibus_MsgCallback = NULL;
+        
         // per default we do not use any uart interface
         g_ibus_TxReadPos = 0;
         g_ibus_TxWritePos = 0;

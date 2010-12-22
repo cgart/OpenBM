@@ -18,19 +18,19 @@
 #include <avr/boot.h>
 #include <avr/sleep.h>
 
-//#include "bootloader/bootloader.h"
+#include "bootloader/bootloader.h"
 
 // global tick counter
-ticks_t g_tickNumber = 0;
-uint8_t g_tickEventHappened = 0;
-volatile ticks_t g_nextIbusTick = 0;
+ticks_t g_tickNumber;
+uint8_t g_tickEventHappened;
+volatile ticks_t g_nextIbusTick;
 
 #define UPDATE_SLEEP_COUNTER() { g_nextIbusTick = tick_get() + TICKS_PER_SECOND() * 300L; }
 
 // current adc value
-volatile uint8_t g_backLightDimmer = 0;
-volatile int8_t g_temperatureSensor = 0;
-volatile uint8_t g_adcCurrentChannel = 0;
+volatile uint8_t g_backLightDimmer;
+volatile int8_t g_temperatureSensor;
+volatile uint8_t g_adcCurrentChannel;
 
 static bootldrinfo_t g_bootldrinfo;
 
@@ -39,13 +39,13 @@ DeviceSettings g_deviceSettings;
 DeviceSettings g_deviceSettingsEEPROM EEMEM;
 
 //! Photo sensor ring buffer
-//#define PHOTO_NUM_SAMPLES_EXP 2
-//#define PHOTO_NUM_SAMPLES (1 << PHOTO_NUM_SAMPLES_EXP)
-//uint8_t photoSensorValues[PHOTO_NUM_SAMPLES];
-//uint8_t photoSensorIndex = 0;
-//uint16_t photoSensorSum = 0;
-volatile uint8_t photoSensorLast = 0;
-volatile uint8_t photoSensorChanged = 0;
+#define PHOTO_NUM_SAMPLES_EXP 4
+#define PHOTO_NUM_SAMPLES (1 << PHOTO_NUM_SAMPLES_EXP)
+uint8_t photoSensorValues[PHOTO_NUM_SAMPLES];
+uint8_t photoSensorIndex;
+uint16_t photoSensorSum;
+volatile uint8_t photoSensorLast;
+volatile uint8_t photoSensorChanged;
 
 //------------------------------------------------------------------------------
 // Read device settings from eeprom
@@ -101,10 +101,10 @@ void settings_readAndSetup(void)
 //------------------------------------------------------------------------------
 inline uint8_t getPhotoSensor(void)
 {
-    return photoSensorLast;
-    //return (photoSensorSum >> PHOTO_NUM_SAMPLES_EXP);
+    //return photoSensorLast;
+    return (photoSensorSum >> PHOTO_NUM_SAMPLES_EXP);
 }
-#if 0
+#if 1
 uint8_t updatePhotoSensor(uint8_t val)
 {
     // remove last element of the ring buffer and add new value to the sum
@@ -127,13 +127,18 @@ void adc_init(void)
     g_temperatureSensor = 0;
     g_backLightDimmer = 0;
     g_adcCurrentChannel = 0;
-    
+    photoSensorIndex = 0;
+    photoSensorSum = 0;
+    photoSensorLast = 0;
+    photoSensorChanged = 0;
+    memset(&photoSensorValues[0], 0, PHOTO_NUM_SAMPLES);
+
     ADCSRA |= (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0); // Set ADC prescaler to 128 - 109KHz sample rate @ 14MHz
     ADMUX = (1 << REFS0); // Set ADC reference to AVCC with external capacitor
     ADMUX |= (1 << ADLAR); // Left adjust ADC result to allow easy 8 bit reading
     ADMUX |= (1 << MUX0) | (1 << MUX1) | (1 << MUX2); // enable reading on ADC7
-    //ADCSRB &= ~(1 << ADTS2) & ~(1 << ADTS1) & ~(1 << ADTS0);  // Set ADC to Free-Running Mode
-    ADCSRB = (1 << ADTS1) | (1 << ADTS0);  // Set ADC to start on Timer0 compare match
+    //ADCSRB = (1 << ADTS1) | (1 << ADTS0);  // Set ADC to start on Timer0 compare match
+    ADCSRB = (1 << ADTS2) | (1 << ADTS0);  // Set ADC to start on Timer1 compare match B
     ADCSRA |= (1 << ADIE);  // Enable ADC Interrupt
     ADCSRA |= (1 << ADEN);  // Enable ADC
     ADCSRA |= (1 << ADATE); // Enable ADC to start on trigger (Timer0 compare, tick())
@@ -299,9 +304,6 @@ void initHardware(void)
     PRR |= (1 << PRUSART1);   // disable USART-1
     PRR |= (1 << PRSPI);      // disable SPI
 
-    // prepare averaging of photo sensor values
-    //memset(&photoSensorValues[0], 0, PHOTO_NUM_SAMPLES);
-
     // read this firmware version
     memcpy_P(&g_bootldrinfo, (PGM_VOID_P)(BOOTLOADERSTARTADR - SPM_PAGESIZE), sizeof(bootldrinfo_t));
 
@@ -317,7 +319,8 @@ void initHardware(void)
     adc_init();
     emul_mid_init();
     ibus_init();
-    
+    g_nextIbusTick = 0;
+
     // do small animation to indicate start
     {
         led_green_immediate_set(1);
@@ -355,7 +358,7 @@ int main(void)
     initHardware();
     
     //led_red_set(0b11110000);
-
+    
     for(;;)
     {
         // goto sleep only if ibus queue is empty
@@ -387,12 +390,11 @@ int main(void)
             {
                 if (photoSensorLast > g_deviceSettings.photo_maxValue) photoSensorLast = g_deviceSettings.photo_maxValue;
                 if (photoSensorLast < g_deviceSettings.photo_minValue) photoSensorLast = g_deviceSettings.photo_minValue;
-                //updatePhotoSensor(photoSensorLast);
+                updatePhotoSensor(photoSensorLast);
                 photoSensorChanged = 0;
-            }
 
-            // based on ambient light we setup display's brightness
-            display_setBackgroundLight(getPhotoSensor());
+                display_setBackgroundLight(getPhotoSensor());
+            }
 
             // go into full sleep mode if there is no action on the ibus
             // happens during the last X seconds (full shut down!!!)
@@ -408,14 +410,6 @@ int main(void)
             // perform global tick
             tick();
         }
-        
-        // Switch Emulation mode
-        //if (button_down(BUTTON_MENU_LR) && button_down(BUTTON_SELECT) && button_down(BUTTON_MODE) && button_released(BUTTON_RADIO_KNOB))
-        //{
-        //    if (g_emulationMode == OPENBM) g_emulationMode = MID;
-        //    else if (g_emulationMode == MID) g_emulationMode = BMBT;
-        //    else if (g_emulationMode == BMBT) g_emulationMode = OPENBM;
-        //}
 
         // perform ibus tasks
         ibus_tick();
@@ -487,7 +481,7 @@ ISR(INT1_vect)
 //------------------------------------------------------------------------------
 // Timer interrupt on ticks
 //------------------------------------------------------------------------------
-ISR(TIMER0_COMPA_vect)
+tick_interrupt()
 {
     g_tickEventHappened = 1;
 }

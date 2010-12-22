@@ -2,6 +2,7 @@
 
 FILE="Customers.ini"
 OUTPUT="customer.h"
+OUTPUTPWD="key.pwd"
 
 # Function: get_config_list config_file
 get_config_list()
@@ -73,6 +74,12 @@ cfg=$1
    echo " " >> $OUTPUT
    echo "// full device id" >> $OUTPUT 
    echo "#define DEVID \""$DEVID_1$DEVID_2$DEVID_3$DEVID_4$DEVID_5$DEVID_6$DEVID_7$DEVID_8$DEVID_9$DEVID_10$DEVID_11$DEVID_12"\"" >> $OUTPUT
+
+   # generate key file, used for firmware encoding
+   rm -f $OUTPUTPWD
+   touch $OUTPUTPWD
+   echo "Automatically generated customer Password key file"
+   echo $FIRMWARE_PASSWORD_1$FIRMWARE_PASSWORD_2$DEVID_1$DEVID_2$DEVID_3$DEVID_4$DEVID_5$DEVID_6$DEVID_7$DEVID_8$DEVID_9$DEVID_10$DEVID_11$DEVID_12$FIRMWARE_PASSWORD_3$FIRMWARE_PASSWORD_4 >> $OUTPUTPWD
    
 #done
 

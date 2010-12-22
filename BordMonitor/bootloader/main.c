@@ -14,9 +14,9 @@
 
 // From OpenBM
 #include <base.h>
-#include <ibus.h>
 #include <xtea.h>
 #include <config.h>
+#include <ibus.h>
 
 #define USE_LED
 
@@ -35,27 +35,28 @@
 #define FAILED                  (1 << 6)
 #define SUCCESS                 (1 << 7)
 
-uint8_t bootloaderMode = WAIT;
+uint8_t bootloaderMode;
 
 
 // ----------------------------------------------------------------------------
-static uint16_t flashpage = 0;
-static uint8_t page_buffer_pos = 0;
-static uint8_t page_buffer[SPM_PAGESIZE];
-static uint8_t seed = 0;
-static uint8_t last_fill = 0;
-static xtea_key_t encKey;
-static uint16_t crc16 = 0;
-static uint8_t cipherBlockPerPage = SPM_PAGESIZE >> 3;
-static bootldrinfo_t current_bootldrinfo;
+uint16_t flashpage;
+uint8_t page_buffer_pos ;
+uint8_t page_buffer[SPM_PAGESIZE];
+uint8_t seed;
+uint8_t last_fill ;
+xtea_key_t encKey;
+uint16_t crc16;
+bootldrinfo_t current_bootldrinfo;
 
-ticks_t g_tickNumber = 0;
-uint8_t g_tickEventHappened = 0;
+ticks_t g_tickNumber;
+uint8_t g_tickEventHappened;
 
 // ----------------------------------------------------------------------------
 #define ERROR_OK                   0
 #define ERROR_WRONG_INIT_CHUNK     0x0101
 #define ERROR_WRONG_CHUNK_IND      0x0102
+#define ERROR_NO_INIT_CHUNK        0x0103
+#define ERROR_WRONG_CHECKSUM       0x0104
 #define ERROR_PASSWORD_MISMATCH    0x0201
 
 #if 1
@@ -120,10 +121,17 @@ void app_start(void)
 //void boot_program_page(uint16_t page, uint8_t *buf) BOOTLOADER_SECTION;
 void boot_program_page(uint16_t page, uint8_t *buf)
 {
+    BEGIN_ATOMAR;
+
     uint32_t adr = page * SPM_PAGESIZE;
 
     //eeprom_busy_wait();
-    
+
+    //boot_page_erase(adr);
+    //while (boot_rww_busy())
+    //        boot_rww_enable();
+
+
     boot_page_erase(adr);
     boot_spm_busy_wait();	  // Wait until the memory is erased.
 
@@ -136,12 +144,17 @@ void boot_program_page(uint16_t page, uint8_t *buf)
         boot_page_fill(adr + i, w);
     }
 
+    //boot_page_write(adr);
+    //while (boot_rww_busy())
+    //        boot_rww_enable();
     boot_page_write(adr);		// Store buffer in flash page.
     boot_spm_busy_wait();		// Wait until the memory is written.
 
     // Reenable RWW-section again. We need this if we want to jump back
     // to the application after bootloading.
-    boot_rww_enable();
+     boot_rww_enable();
+
+    END_ATOMAR;
 }
 
 // ----------------------------------------------------------------------------
@@ -152,7 +165,7 @@ void boot_program_page(uint16_t page, uint8_t *buf)
 void sendErrorCode(uint16_t code)
 {
     uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, (code >> 8), code};
-    ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_LOC, data, 3, 3);
+    ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_LOC, data, 3, 255);
 }
 
 // ----------------------------------------------------------------------------
@@ -163,7 +176,7 @@ void sendErrorCode(uint16_t code)
 void sendAck(uint8_t datasum)
 {
     uint8_t data[2] = {IBUS_MSG_OPENBM_FROM, seed^datasum};
-    ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_LOC, data, 2, 3);
+    ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_LOC, data, 2, 255);
 }
 
 //------------------------------------------------------------------------------
@@ -173,10 +186,9 @@ void sendAck(uint8_t datasum)
 //void onibusMsg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen) BOOTLOADER_SECTION;
 void onibusMsg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
 {
-    if (dst != IBUS_DEV_BMBT || msg[0] != IBUS_MSG_OPENBM_TO || msglen < 4
-            || msg[1] != IBUS_MSG_OPENBM_SPECIAL_REQ) return;
+    if (dst != IBUS_DEV_BMBT || msg[0] != IBUS_MSG_OPENBM_TO || msg[1] != IBUS_MSG_OPENBM_SPECIAL_REQ) return;
 
-    BEGIN_ATOMAR;
+    //BEGIN_ATOMAR;
 
     // we are in the state to wait for password
     if (bootloaderMode == WAIT && msglen == 6)
@@ -199,7 +211,7 @@ void onibusMsg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         sendErrorCode(sum);
 
     // we are in the state to receive first frame
-    }else if (bootloaderMode & RECEIVE_INIT)
+    }else if ((bootloaderMode & RECEIVE_INIT) == RECEIVE_INIT)
     {
         if (msglen != 7)
         {
@@ -217,10 +229,11 @@ void onibusMsg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         bootloaderMode = RECEIVE;
 
     // every other chunk is our data chunk
-    }else if (bootloaderMode & RECEIVE)
+    }else if ((bootloaderMode & RECEIVE) == RECEIVE)
     {
         uint8_t cnd = msg[2];
 
+        #if 1
         // only if do not want to repeat the last chunk, we proceed further
         if (cnd != 0)
         {
@@ -230,8 +243,9 @@ void onibusMsg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
                 // encode received chunk into a temporary buffer
                 uint8_t dec_buffer[SPM_PAGESIZE];
                 uint8_t i;
-                for (i=0; i < cipherBlockPerPage; i++)
-                    xtea_dec(&dec_buffer[i<<3], &page_buffer[i<<3], encKey);
+                memcpy(&dec_buffer[0], &page_buffer[0], SPM_PAGESIZE);
+                //for (i=0; i < SPM_PAGESIZE >> 3; i++)
+                //    xtea_dec(&dec_buffer[i<<3], &page_buffer[i<<3], encKey);
 
                 // compute crc16-checksum of the encoded firmware
                 uint16_t crc = crc16;
@@ -245,11 +259,11 @@ void onibusMsg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
                 boot_program_page(flashpage, dec_buffer);
                 flashpage++;
                 page_buffer_pos = 0;
-                memset(page_buffer, 0, SPM_PAGESIZE);
-            }else
-                page_buffer_pos += last_fill;
+                memset(page_buffer, 0xFF, SPM_PAGESIZE);
+            }
+        }else
+            page_buffer_pos -= last_fill;
 
-        }
 
         // if last frame then do nothing from here, because it was already uploaded
         if (cnd == 0xFF)
@@ -258,25 +272,29 @@ void onibusMsg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
             goto stop;
         }
 
-        // get size of data in the chunk and free space in our flash page
-        uint8_t msgsize = msglen-4;
-        uint8_t free = SPM_PAGESIZE - page_buffer_pos;
-        last_fill = free > msgsize ? msgsize : free;
+        last_fill = (((int16_t)msglen) - 3);
 
-        memcpy(&page_buffer[page_buffer_pos], &msg[4], last_fill);
-
-        uint8_t msgsum = 0; uint8_t i;
-        for (i=4; i < msglen; i++)
+        //memcpy(&page_buffer[page_buffer_pos], &msg[3], len);
+        //page_buffer_pos += len;
+        
+        uint8_t msgsum = 0;
+        for (uint8_t i=3; i < msglen; i++)
+        {
+            page_buffer[page_buffer_pos++] = msg[i];
             msgsum ^= msg[i];
+        }
 
         sendAck(msgsum);
-        tick_init();
+        tick_reset();
+        #endif
     }
 
 stop:
-    END_ATOMAR;
+            return;
+    //END_ATOMAR;
 }
 
+#if 0
 void blink(void)
 {
     led_radio_immediate_set(1);
@@ -284,34 +302,40 @@ void blink(void)
     led_radio_immediate_set(0);
     _delay_ms(500);
 }
+#endif
 
 //------------------------------------------------------------------------------
-int main(void) __attribute__((naked, OS_main)); //BOOTLOADER_SECTION;
-//__attribute__ ((noreturn));
+int main(void) __attribute__((naked, OS_main));
 /*
  * 
  */
 int main(void)
 {
-    uint8_t temp;
-    temp = MCUCR;
-    MCUCR = temp|(1<<IVCE);
-    MCUCR = temp|(1<<IVSEL);
+    uint8_t temp = MCUCR;
+    MCUCR = (1<<IVCE);
+    MCUCR = (1<<IVSEL);
 
+    // init variables
+    flashpage = 0;
+    page_buffer_pos = 0;
+    crc16 = 0;
+    last_fill = 0;
+    
     // disable not needed-hardware
     PRR = 0;
     PRR |= (1 << PRUSART1);   // disable USART-1
     PRR |= (1 << PRSPI);      // disable SPI
 
-begin:
     // first we init only those hardware, which is required for proper bootloader handling
     tick_init();
     ibus_init();
     #ifdef USE_LED
     led_init();
     #endif
-
     sei();
+
+    //blink();
+    
     ibus_setMessageCallback(onibusMsg);
 
     // get current flash information. This indicates current flashed version and other usefull things
@@ -341,6 +365,10 @@ begin:
         current_bootldrinfo.dev_key[11] = DID(12);
     }
 
+    //blink();
+
+begin:
+
     //----------------------------- Wait For Password --------------------------
     // send version string and wait for response over ibus
     {
@@ -348,22 +376,32 @@ begin:
                             SPM_PAGESIZE,
                             0,0,0,0};
 
-        ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_LOC, data, 9, 10);
+        ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_LOC, data, 9, IBUS_TRANSMIT_TRIES);
     }
 
     ticks_t nextTick;
     
+    //blink();
+
     // wait for one second until either we continue with bootloader or go to main app
     #ifdef USE_LED
     led_red_immediate_set(1);
     #endif
     bootloaderMode = WAIT;
-    g_tickNumber = 0;
-    nextTick = g_tickNumber + (ticks_t)TICKS_PER_SECOND() * (ticks_t)2;
+    nextTick = g_tickNumber + (ticks_t)TICKS_PER_SECOND() * (ticks_t)1;
+    //blink();
+
     do{
         if (tick_event()) tick();
+
+        // if we will send next, then do small delay before
+        if (ibus_readyToTransmit())
+            _delay_ms(100);
+        
         ibus_tick();
     }while((bootloaderMode == WAIT) && (tick_get() < nextTick));
+    //blink();
+
     #ifdef USE_LED
     led_red_immediate_set(0);
     #endif
@@ -377,17 +415,33 @@ begin:
     led_yellow_immediate_set(1);
     #endif
     bootloaderMode = RECEIVE_INIT;
-    nextTick = g_tickNumber + (ticks_t)TICKS_PER_SECOND() * (ticks_t)10;
+    nextTick = g_tickNumber + (ticks_t)TICKS_PER_SECOND() * (ticks_t)5;
     do{
         if (tick_event()) tick();
+
+        // if we will send next, then do small delay before
+        if (ibus_readyToTransmit())
+            _delay_ms(100);
+        
         ibus_tick();
-    }while((bootloaderMode & RECEIVE) && (tick_get() < nextTick));
+    }while(((bootloaderMode & RECEIVE) == RECEIVE) && (tick_get() < nextTick));
     #ifdef USE_LED
     led_yellow_immediate_set(0);
     #endif
 
+    // if nothing received, then
+    if ((bootloaderMode & RECEIVE_INIT) == RECEIVE_INIT)
+    {
+        sendErrorCode(ERROR_NO_INIT_CHUNK);
+        goto begin;
+    }
+
     // compare checksum and restart bootloader if wrong
-    if (crc16 != current_bootldrinfo.crc16) goto begin;
+    if (crc16 != current_bootldrinfo.crc16)
+    {
+        sendErrorCode(ERROR_WRONG_CHECKSUM);
+        goto begin;
+    }
 
     // write new bootloader info into the flash
     current_bootldrinfo.prognum++;
@@ -403,7 +457,7 @@ start:
 //------------------------------------------------------------------------------
 // Timer interrupt on ticks
 //------------------------------------------------------------------------------
-ISR(TIMER0_COMPA_vect)
+tick_interrupt()
 {
     g_tickEventHappened = 1;
 }

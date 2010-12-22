@@ -9,7 +9,7 @@
 #include "config.h"
 
 //------------------------------------------------------------------------------
-uint8_t mid_active_mode = 0; // 0x40 radio, 0xC0=cd, 0x80=tape, etc.. this come from Radio
+uint8_t mid_active_mode; // 0x40 radio, 0xC0=cd, 0x80=tape, etc.. this come from Radio
 #if 1
 typedef enum _BackCamState
 {
@@ -18,8 +18,8 @@ typedef enum _BackCamState
     CAM_SWITCHING = 1 << 2,
     CAM_ON = 1 << 3
 }BackCamState;
-BackCamState mid_cam_state = CAM_IDLE;
-uint8_t mid_cam_oldstate = 0;
+BackCamState mid_cam_state;
+uint8_t mid_cam_oldstate;
 #endif
 
 typedef enum _DevicePollState
@@ -85,11 +85,11 @@ uint8_t mid_button_mapping_dbyte1_mask[MID_MAP_SIZE] PROGMEM = {
 };
 
 #if ((DEVICE_CODING2 & REW_FF_ONMID) == REW_FF_ONMID)
-//    #define OPENBM_MAP_SIZE 9
-    #define BMBT_MAP_SIZE   9
+    #define BMBT_RADIO_BUTTONS 9
+    #define BMBT_MAP_SIZE   18
 #else
-//    #define OPENBM_MAP_SIZE 11
-    #define BMBT_MAP_SIZE   11
+    #define BMBT_RADIO_BUTTONS 11
+    #define BMBT_MAP_SIZE   20
 #endif
 
 #if 0
@@ -113,6 +113,7 @@ uint8_t openbm_button_mapping[OPENBM_MAP_SIZE] PROGMEM = {
 // original BMBT codes
 uint8_t bmbt_button_mapping[BMBT_MAP_SIZE][3] PROGMEM =
 {
+// REW and FF buttons send codes as usual
 #if ((DEVICE_CODING2 & REW_FF_ONMID) != REW_FF_ONMID)
     {BUTTON_FF,0x68,0x00},
     {BUTTON_REW,0x68,0x10},
@@ -125,8 +126,30 @@ uint8_t bmbt_button_mapping[BMBT_MAP_SIZE][3] PROGMEM =
     {BUTTON_PRG,0x68,0x14},
     {BUTTON_SELECT,0x68,0x20},
     {BUTTON_EJECT,0x68,0x24},
-    {BUTTON_MENU_LR,0xFF,0x34}
+    {BUTTON_MENU_LR,0xFF,0x34},
+
+    // Left side
+    {BUTTON_INFO_L,0x68,0x07},
+    {BUTTON_1,0x68,0x11},
+    {BUTTON_2,0x68,0x01},
+    {BUTTON_3,0x68,0x12},
+    {BUTTON_4,0x68,0x02},
+    {BUTTON_5,0x68,0x13},
+    {BUTTON_6,0x68,0x03},
+    {BUTTON_AM,0x68,0x21},
+    {BUTTON_FM,0x68,0x31}
+//    {BUTTON_MODE,0x68,0x23}
 };
+
+//------------------------------------------------------------------------------
+uint8_t emul_mid_active_mode(void)
+{
+    if (mid_active_mode == 0x40) return 0; // Radio
+    if (mid_active_mode == 0xC0) return 1; // CD-Chnager
+    if (mid_active_mode == 0x80) return 2; // Tape
+    //if (mid_active_mode == 0x20) return 3; // AUX
+    return 0xFF;
+}
 
 //------------------------------------------------------------------------------
 void emul_mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
@@ -375,18 +398,20 @@ void emul_mid_tick(void)
         {
             ignoreReleaseEvent = 1;
             uint8_t data[2] = {IBUS_MSG_BMBT_BUTTON, 0x46};
-            ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_RAD, data, 2, 1);
+            ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_RAD, data, 2, IBUS_TRANSMIT_TRIES);
         }else if (button_released(BUTTON_RADIO_KNOB))
         {
             if (ignoreReleaseEvent == 0)
             {
                 if (mid_active_mode)
                 {
-                    display_setPowerState(0);
+                    //display_setPowerState(0);
+                    display_shutDown();
                     mid_active_mode = 0;
                 }else
                 {
-                    display_setPowerState(1);
+                    //display_setPowerState(1);
+                    display_powerOn();
                 }
 
                 //uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x20, 0xB0, 0x00};
@@ -396,14 +421,12 @@ void emul_mid_tick(void)
                 if (g_deviceSettings.device_Settings2 & DSP_AMPLIFIER)
                     data[3] |= 0x20;
 
-                ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_LOC, data, 4, 1);
+                ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_LOC, data, 4, IBUS_TRANSMIT_TRIES);
             }
             ignoreReleaseEvent = 0;
         }
     }
 
-    // prepare message to send, when a button is down/pressed/up
-    // check for every button for which we have mapping defined
     {
         uint8_t i;
         for (i=0; i < MID_MAP_SIZE; i++)
@@ -411,6 +434,9 @@ void emul_mid_tick(void)
             // read to which button this one maps to and go to next, if no mapping
             uint8_t bmap = pgm_read_byte(&(mid_button_mapping[i]));
             if (bmap >= BUTTON_NUM_BUTTONS) continue;
+
+            // send MID buttons, however only if not in CarPC mode (MODE send always)
+            if (emul_mid_active_mode() == CARPC_INPUT() && bmap != BUTTON_MODE) continue;
 
             uint8_t bmask = pgm_read_byte(&(mid_button_mapping_dbyte1_mask[i]));
 
@@ -438,6 +464,9 @@ void emul_mid_tick(void)
         uint8_t i;
         for (i=0; i < BMBT_MAP_SIZE; i++)
         {
+            // if we are in the CarPC mode then send other codes for the MID buttons as usual
+            if (emul_mid_active_mode() != CARPC_INPUT() && i >= BMBT_RADIO_BUTTONS) break;
+
             // read to which button this one maps to and go to next, if no mapping
             uint8_t bmap = pgm_read_byte(&(bmbt_button_mapping[i][0]));
             uint8_t bdst = pgm_read_byte(&(bmbt_button_mapping[i][1]));
@@ -495,35 +524,8 @@ void emul_mid_tick(void)
 //------------------------------------------------------------------------------
 void emul_mid_init(void)
 {
+    mid_active_mode = 0; // 0x40 radio, 0xC0=cd, 0x80=tape, etc.. this come from Radio
+    mid_cam_state = CAM_IDLE;
+    mid_pollState = DEV_IDLE;
     mid_cam_oldstate = display_getInputState();
-    
-    //if (display_getInputState() == 1) mid_cam_state = CAM_ON | CAM_SWITCHED;
-    //else mid_cam_state = CAM_IDLE;
 }
-
-#if 0
-//------------------------------------------------------------------------------
-void emul_openbm_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
-{
-
-}
-
-//------------------------------------------------------------------------------
-void emul_openbm_tick(void)
-{
-
-}
-
-//------------------------------------------------------------------------------
-void emul_bmbt_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
-{
-
-}
-
-//------------------------------------------------------------------------------
-void emul_bmbt_tick(void)
-{
-
-}
-#endif 
-

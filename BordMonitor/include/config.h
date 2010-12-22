@@ -34,8 +34,10 @@ extern "C"
 #define EMULATE_MID        (1 << 3)
 #define REW_FF_ONMID       (1 << 4)
 
-#define USE_BM_LEDS()      ((g_deviceSettings.device_Settings1 & 4) == 4)
 #define BACKCAM_INPUT()    (g_deviceSettings.device_Settings1 & 3)
+#define USE_BM_LEDS()      ((g_deviceSettings.device_Settings1 & 4) == 4)
+#define CARPC_INPUT_MASK   (3 << 3);     // bits 3 and 4 codes the current carpc installation
+#define CARPC_INPUT()      ((g_deviceSettings.device_Settings1 >> 3) & 3) // 0=radio, 1=cdchanger, 2=tape, 3=AUX
 
 // Get Deivec settings out of the device ID
 #define DEVICE_DISP_IDLE   (((DEVID_5 << 8) | DEVID_6) & 0xFFF)

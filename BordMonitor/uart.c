@@ -275,19 +275,21 @@ Date        Description
 #elif defined(__AVR_ATmega164P__) || defined(__AVR_ATmega324P__) || defined(__AVR_ATmega644P__)
  /* ATmega with two USART */
  #define ATMEGA_USART0
- #define ATMEGA_USART1
+
  #define UART0_RECEIVE_INTERRUPT   USART0_RX_vect
- #define UART1_RECEIVE_INTERRUPT   USART0_UDRE_vect
- #define UART0_TRANSMIT_INTERRUPT  USART1_RX_vect
- #define UART1_TRANSMIT_INTERRUPT  USART1_UDRE_vect
+ #define UART0_TRANSMIT_INTERRUPT  USART0_UDRE_vect
  #define UART0_STATUS   UCSR0A
  #define UART0_CONTROL  UCSR0B
  #define UART0_DATA     UDR0
  #define UART0_UDRIE    UDRIE0
- #define UART1_STATUS   UCSR1A
- #define UART1_CONTROL  UCSR1B
- #define UART1_DATA     UDR1
- #define UART1_UDRIE    UDRIE1
+ 
+ //#define ATMEGA_USART1
+ //#define UART1_RECEIVE_INTERRUPT   USART1_RX_vect
+ //#define UART1_TRANSMIT_INTERRUPT  USART1_UDRE_vect
+ //#define UART1_STATUS   UCSR1A
+ //#define UART1_CONTROL  UCSR1B
+ //#define UART1_DATA     UDR1
+ //#define UART1_UDRIE    UDRIE1
 //#else
 // #error "no UART definition for MCU available"
 #endif
@@ -307,6 +309,7 @@ static void (*UART_TransmittedCallback)(void);
 static void (*UART_ReceivedCallback)(void);
 
 #if defined( ATMEGA_USART1 )
+#error "Do not use!"
 static volatile unsigned char UART1_TxBuf[UART_TX_BUFFER_SIZE];
 static volatile unsigned char UART1_RxBuf[UART_RX_BUFFER_SIZE];
 static volatile unsigned char UART1_TxHead;
@@ -426,10 +429,11 @@ void uart_init(unsigned int baudrate)
     
     /* Set frame format: asynchronous, 8data, no parity, 1stop bit */
     #ifdef URSEL
-    UCSRC = (1<<URSEL)|(3<<UCSZ0);
+    UART0_CONTROL = (1<<URSEL)|(3<<UCSZ0)|(1 << UPM01);
     #else
-    UCSRC = (3<<UCSZ0);
-    #endif 
+    UART0_CONTROL = (3<<UCSZ0);
+    #endif
+
 #elif defined (ATMEGA_USART0 )
     /* Set baud rate */
     if ( baudrate & 0x8000 ) 
@@ -442,12 +446,12 @@ void uart_init(unsigned int baudrate)
 
     /* Enable USART receiver and transmitter and receive complete interrupt */
     UART0_CONTROL = _BV(RXCIE0)|(1<<RXEN0)|(1<<TXEN0);
-    
+
     /* Set frame format: asynchronous, 8data, no parity, 1stop bit */
     #ifdef URSEL0
-    //UCSR0C = (1<<URSEL0)|(3<<UCSZ00);
+    UART0_CONTROL = (1<<URSEL0)|(3<<UCSZ00)|(1 << UPM01);
     #else
-    //UCSR0C = (3<<UCSZ00);
+    UART0_CONTROL = (3<<UCSZ00)|(1 << UPM01);
     #endif 
 
 #elif defined ( ATMEGA_UART )
@@ -581,9 +585,10 @@ Purpose:  Determine the number of bytes waiting in the receive buffer
 Input:    None
 Returns:  Integer number of bytes in the receive buffer
 **************************************************************************/
-int uart_available(void)
+uint8_t uart_available(void)
 {
-        return (UART_RX_BUFFER_MASK + UART_RxHead - UART_RxTail) % UART_RX_BUFFER_MASK;
+    return UART_RxHead != UART_RxTail;
+        //return (UART_RX_BUFFER_MASK + UART_RxHead - UART_RxTail) % UART_RX_BUFFER_MASK;
 }/* uart_available */
 
 
