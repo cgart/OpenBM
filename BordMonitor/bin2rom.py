@@ -8,12 +8,12 @@ import binascii
 import struct
 from CONFIG import VERSION_MAJOR, VERSION_MINOR
 
-CHUNKSIZE = 8
+CHUNKSIZE = 64
 
 
 def crc16_update(crc, byte):
-	crc ^= byte
-	for i in range(0,7):
+	crc = crc ^ byte
+	for i in range(0,8):
 		if (crc & 1):
 			crc = (crc >> 1) ^ 0xA001
 		else:
@@ -39,6 +39,12 @@ fsize = os.path.getsize(binfile)
 fpos = 0
 f = open(binfile, 'rb')
 crc = 0xFFFF
+
+# Print file header
+outfile.write(struct.pack('BBBB', ord('O'), ord('B'), ord('M'), 1))
+outfile.write(struct.pack('H', CHUNKSIZE))
+outfile.write(struct.pack('BB', VERSION_MAJOR, VERSION_MINOR))
+
 try:
 	
 	while (fsize - fpos > 0):
@@ -71,8 +77,8 @@ finally:
 
 # put crc
 print "Version=" + str(VERSION_MAJOR) + "." + str(VERSION_MINOR)
-print "CRC16=" + str(crc)
-outfile.write(struct.pack('BB', VERSION_MAJOR, VERSION_MINOR))
+print 'CRC16 = 0x%X%X' % (ord(struct.pack('B', (crc & 0xFF00) >> 8)), ord(struct.pack('B', crc & 0xFF)))
+
 outfile.write(struct.pack('BB', (crc & 0xFF00) >> 8, crc & 0xFF))
 
 print "firmware.rom file generated!"

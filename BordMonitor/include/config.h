@@ -21,8 +21,8 @@ extern "C"
 
 // Version
 #define VERSION_MAJOR 1
-#define VERSION_MINOR 1
-#define VERSION_ADD_STR "[beta1] compiled on " __DATE__ " at " __TIME__
+#define VERSION_MINOR 8
+#define VERSION_ADD_STR "[beta4] compiled on " __DATE__ " at " __TIME__
 
 #define DEVICE_CODING1 DEVID_11
 #define DEVICE_CODING2 DEVID_12
@@ -35,6 +35,7 @@ extern "C"
 #define REW_FF_ONMID       (1 << 4)
 
 #define BACKCAM_INPUT()    (g_deviceSettings.device_Settings1 & 3)
+
 #define USE_BM_LEDS()      ((g_deviceSettings.device_Settings1 & 4) == 4)
 #define CARPC_INPUT_MASK   (3 << 3);     // bits 3 and 4 codes the current carpc installation
 #define CARPC_INPUT()      ((g_deviceSettings.device_Settings1 >> 3) & 3) // 0=radio, 1=cdchanger, 2=tape, 3=AUX
@@ -58,7 +59,10 @@ typedef struct _DeviceSettings
     // --------------------------------------
     uint8_t photo_minValue;
     uint8_t photo_maxValue;
-    
+    uint8_t photo_minCalibValue;
+    uint8_t photo_maxCalibValue;
+    uint8_t photo_useSensor;
+
     // --------------------------------------
     // Display settings
     // --------------------------------------
@@ -71,6 +75,7 @@ typedef struct _DeviceSettings
     // stuff
     // --------------------------------------
     uint8_t initSeed;
+    uint8_t io_assignment[3];
 
 }DeviceSettings;
 

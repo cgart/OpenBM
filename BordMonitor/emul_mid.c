@@ -9,7 +9,7 @@
 #include "config.h"
 
 //------------------------------------------------------------------------------
-uint8_t mid_active_mode; // 0x40 radio, 0xC0=cd, 0x80=tape, etc.. this come from Radio
+uint8_t mid_active_mode; // 0x40 radio, 0xC0=cd, 0x80=tape, 0x60=tone, etc.. this come from Radio
 #if 1
 typedef enum _BackCamState
 {
@@ -242,17 +242,17 @@ void emul_mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         }
     }
 
-    // change display to back camera if "R" is received
+    // change display to backup camera if "R" is received
     // 80 09 BF 13 00/02 11/10 00 00 00 00 xx
     if (src == IBUS_DEV_IKE && dst == IBUS_DEV_GLO)
     {
-        if (msglen == 7 && msg[0] == IBUS_MSG_IKE_STATE && display_getPowerState())
+        if (msglen == 7 && msg[0] == IBUS_MSG_IKE_STATE && display_getPowerState() == 1)
         {
             // REVERSE gear selected
             if ((msg[2] & 0xF0) == 0x10)
             {
                 // switch only if in idle mode and not set to AV already
-                if (mid_cam_state == CAM_IDLE && display_getInputState() != 1)
+                if (mid_cam_state == CAM_IDLE && display_getInputState() != BACKCAM_INPUT())
                 {
                     mid_cam_state |= CAM_PREPARE_TO_SWITCH;
                     mid_cam_state |= CAM_ON;
@@ -274,18 +274,32 @@ void emul_mid_ping_tick(void)
 {
     // on very first start, ask for state update
     static uint8_t firstTicks = 0;
-    if (firstTicks < TICKS_PER_SECOND())
+    if (firstTicks < TICKS_PER_TWO_SECONDS())
         firstTicks++;
-    else if (firstTicks == TICKS_PER_SECOND())
+    else if (firstTicks == TICKS_PER_TWO_SECONDS())
     {
         firstTicks++;
 
-        uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x00, 0x01, 0x00};
+        #if 1
+        //uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x20, 0xB2, 0x00 /* DSP 0x20 */};
+        // Alex - DSP C0 06 FF 20 00 B3 20 8A
+        //uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x00, 0x01, 0x00};
+        uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x00, 0xB3, 0x20};
 
-        if (g_deviceSettings.device_Settings2 & RADIO_PROFESSIONAL)
-            data[2] |= 0xB2;
+        //if (g_deviceSettings.device_Settings2 & RADIO_PROFESSIONAL)
+        //    data[2] |= 0xB2;
 
-        ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_LOC, data, 4, 5);
+        ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_LOC, data, 4, IBUS_TRANSMIT_TRIES);
+        #endif
+        #if 0
+        uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x20, 0xB2, 0x00};
+
+        // if DSP, then include DSP bit to switch DSP on/off
+        if (g_deviceSettings.device_Settings2 & DSP_AMPLIFIER)
+            data[3] |= 0x20;
+
+        ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_LOC, data, 4, IBUS_TRANSMIT_TRIES);
+        #endif
     }
 
     // every 10 seconds we perform a ping on different hardware to check if this exists
@@ -405,12 +419,10 @@ void emul_mid_tick(void)
             {
                 if (mid_active_mode)
                 {
-                    //display_setPowerState(0);
                     display_shutDown();
                     mid_active_mode = 0;
                 }else
                 {
-                    //display_setPowerState(1);
                     display_powerOn();
                 }
 
@@ -436,7 +448,7 @@ void emul_mid_tick(void)
             if (bmap >= BUTTON_NUM_BUTTONS) continue;
 
             // send MID buttons, however only if not in CarPC mode (MODE send always)
-            if (emul_mid_active_mode() == CARPC_INPUT() && bmap != BUTTON_MODE) continue;
+            if (emul_mid_active_mode() == CARPC_INPUT() && (bmap != BUTTON_MODE && bmap != BUTTON_REW && bmap != BUTTON_FF) ) continue;
 
             uint8_t bmask = pgm_read_byte(&(mid_button_mapping_dbyte1_mask[i]));
 
@@ -519,6 +531,21 @@ void emul_mid_tick(void)
         ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data, 2, 1);
     }
 
+    // user defined IO-buttons
+    int8_t ios = 0;
+    for (;ios < 3; ios++)
+    {
+        buttonIndex_t but = g_deviceSettings.io_assignment[ios];
+        
+        if (but != BUTTON_NUM_BUTTONS)
+        {
+            if (button_down(but))
+                PORTB |= (1 << (5+ios));
+            else if (button_released(but))
+                PORTB &= ~(1 << (5+ios));
+        }
+    }
+
 }
 
 //------------------------------------------------------------------------------
@@ -528,4 +555,7 @@ void emul_mid_init(void)
     mid_cam_state = CAM_IDLE;
     mid_pollState = DEV_IDLE;
     mid_cam_oldstate = display_getInputState();
+
+    // Output for TONE
+    DDRB |= (1 << DDB6); PORTB &= ~(1 << 6);
 }

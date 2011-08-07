@@ -127,6 +127,9 @@ extern buttonBool_t button_down(buttonIndex_t id);
 extern buttonBool_t button_pressed(buttonIndex_t id);
 extern buttonBool_t button_released(buttonIndex_t id);
 
+// return first detected button which is down (return NUM_BUTTONS if nothing is down)
+extern buttonIndex_t button_whichDown(void);
+
 // return time in ticks how long a button is already down
 extern uint8_t button_down_time(buttonIndex_t id);
 

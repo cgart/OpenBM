@@ -42,6 +42,9 @@ extern void led_yellow_immediate_set(uint8_t state);
 extern void led_fan_immediate_set(uint8_t state);
 extern void led_radio_immediate_set(uint8_t state);
 
+extern void led_radioBlinkLock(uint8_t times);
+extern void led_greenBlinkLock(uint8_t times);
+
 #ifdef	__cplusplus
 }
 #endif

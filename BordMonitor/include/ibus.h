@@ -94,6 +94,8 @@ extern "C" {
 #define IBUS_MSG_OPENBM_GET_PHOTO   0x02    // second data byte: get value of the photo sensor
 #define IBUS_MSG_OPENBM_GET_DIMMER  0x03    // second data byte: get value of the backlight dimmer
 #define IBUS_MSG_OPENBM_GET_TEMP    0x04    // second data byte: get value of the temperature sensor
+#define IBUS_MSG_OPENBM_SET_DISPLAY 0x10    // set display input (next byte corresponds directly to the input, half upper byte = power (0000 - nothing, 1111 - on, 0110 - off), half lower byte = input)
+#define IBUS_MSG_OPENBM_SET_DISPLAY_LIGHT 0x11 // set brightness of display (warning automatic brightness must be disabled)
 #define IBUS_MSG_OPENBM_SPECIAL_REQ 0xFF    // second data byte: special request message (i.e. update firmware)
 #define IBUS_MSG_OPENBM_SETTINGS    0xFE    // second data byte: write/read settings of OpenBM to/from EEPROM
     

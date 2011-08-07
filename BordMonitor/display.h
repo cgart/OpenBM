@@ -29,6 +29,7 @@ extern void display_init(void);
 //------------------------------------------------------------------------------
 extern void display_shutDown(void);
 extern void display_powerOn(void);
+extern void display_powerOff(void);
 
 //------------------------------------------------------------------------------
 // Toggle display power

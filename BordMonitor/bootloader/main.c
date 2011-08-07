@@ -41,9 +41,9 @@ uint8_t bootloaderMode;
 // ----------------------------------------------------------------------------
 uint16_t flashpage;
 uint8_t page_buffer_pos ;
+uint8_t page_buffer_pos_old;
 uint8_t page_buffer[SPM_PAGESIZE];
 uint8_t seed;
-uint8_t last_fill ;
 xtea_key_t encKey;
 uint16_t crc16;
 bootldrinfo_t current_bootldrinfo;
@@ -57,7 +57,8 @@ uint8_t g_tickEventHappened;
 #define ERROR_WRONG_CHUNK_IND      0x0102
 #define ERROR_NO_INIT_CHUNK        0x0103
 #define ERROR_WRONG_CHECKSUM       0x0104
-#define ERROR_PASSWORD_MISMATCH    0x0201
+#define ERROR_WRONG_CHUNK_SIZE     0x0105
+#define ERROR_PASSWORD_MISMATCH    0x0106
 
 #if 1
 // ----------------------------------------------------------------------------
@@ -180,6 +181,21 @@ void sendAck(uint8_t datasum)
 }
 
 //------------------------------------------------------------------------------
+uint16_t crc16_update(uint16_t crc, uint8_t a)
+{
+    crc ^= a;
+    for (uint8_t i = 0; i < 8; ++i)
+    {
+        if (crc & 1)
+            crc = (crc >> 1) ^ 0xA001;
+        else
+            crc = (crc >> 1);
+    }
+
+    return crc;
+}
+
+//------------------------------------------------------------------------------
 /**
  * React on messages received over ibus
  **/
@@ -187,8 +203,6 @@ void sendAck(uint8_t datasum)
 void onibusMsg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
 {
     if (dst != IBUS_DEV_BMBT || msg[0] != IBUS_MSG_OPENBM_TO || msg[1] != IBUS_MSG_OPENBM_SPECIAL_REQ) return;
-
-    //BEGIN_ATOMAR;
 
     // we are in the state to wait for password
     if (bootloaderMode == WAIT && msglen == 6)
@@ -217,7 +231,7 @@ void onibusMsg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         {
             sendErrorCode(ERROR_WRONG_INIT_CHUNK);
             bootloaderMode = FAILED;
-            goto stop;
+            return;
         }
 
         HILO(current_bootldrinfo.app_version, msg[2], msg[3]);
@@ -237,47 +251,51 @@ void onibusMsg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         // only if do not want to repeat the last chunk, we proceed further
         if (cnd != 0)
         {
+            if (page_buffer_pos > SPM_PAGESIZE)
+            {
+                sendErrorCode(ERROR_WRONG_CHUNK_SIZE);
+                bootloaderMode = FAILED;
+                return;
+            }
+
             // if page already full, then write it to the flash
-            if (page_buffer_pos >= SPM_PAGESIZE || cnd == 0xFF)
+            if (page_buffer_pos == SPM_PAGESIZE || cnd == 0xFF)
             {
                 // encode received chunk into a temporary buffer
                 uint8_t dec_buffer[SPM_PAGESIZE];
-                uint8_t i;
-                memcpy(&dec_buffer[0], &page_buffer[0], SPM_PAGESIZE);
-                //for (i=0; i < SPM_PAGESIZE >> 3; i++)
-                //    xtea_dec(&dec_buffer[i<<3], &page_buffer[i<<3], encKey);
+                for (uint8_t i=0; i < (page_buffer_pos >> 3); i++)
+                    xtea_dec(&dec_buffer[i<<3], &page_buffer[i<<3], encKey);
 
                 // compute crc16-checksum of the encoded firmware
-                uint16_t crc = crc16;
-                for (i=0; i < SPM_PAGESIZE; i++)
+                for (uint8_t i=0; i < page_buffer_pos; i++)
                 {
-                    crc = _crc16_update(crc16, dec_buffer[i]);
-                    crc16 = crc;
+                    //dec_buffer[i] = page_buffer[i];
+                    crc16 = crc16_update(crc16, dec_buffer[i]);
+                    page_buffer[i] = 0xFF;
                 }
 
                 // write encoded chunk to memory
                 boot_program_page(flashpage, dec_buffer);
                 flashpage++;
                 page_buffer_pos = 0;
-                memset(page_buffer, 0xFF, SPM_PAGESIZE);
             }
         }else
-            page_buffer_pos -= last_fill;
-
+        {
+            for (uint8_t i=page_buffer_pos_old; i < page_buffer_pos; i++)
+                page_buffer[i] = 0xFF;
+            page_buffer_pos = page_buffer_pos_old;
+        }
 
         // if last frame then do nothing from here, because it was already uploaded
         if (cnd == 0xFF)
         {
             bootloaderMode = SUCCESS;
-            goto stop;
+            return;
         }
 
-        last_fill = (((int16_t)msglen) - 3);
-
-        //memcpy(&page_buffer[page_buffer_pos], &msg[3], len);
-        //page_buffer_pos += len;
-        
+        // put message into queue and compute answer
         uint8_t msgsum = 0;
+        page_buffer_pos_old = page_buffer_pos;
         for (uint8_t i=3; i < msglen; i++)
         {
             page_buffer[page_buffer_pos++] = msg[i];
@@ -289,12 +307,12 @@ void onibusMsg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         #endif
     }
 
-stop:
-            return;
-    //END_ATOMAR;
+    _delay_ms(100);
+
+    return;
 }
 
-#if 0
+#if 1
 void blink(void)
 {
     led_radio_immediate_set(1);
@@ -311,15 +329,8 @@ int main(void) __attribute__((naked, OS_main));
  */
 int main(void)
 {
-    uint8_t temp = MCUCR;
     MCUCR = (1<<IVCE);
     MCUCR = (1<<IVSEL);
-
-    // init variables
-    flashpage = 0;
-    page_buffer_pos = 0;
-    crc16 = 0;
-    last_fill = 0;
     
     // disable not needed-hardware
     PRR = 0;
@@ -368,6 +379,11 @@ int main(void)
     //blink();
 
 begin:
+    // init variables
+    flashpage = 0;
+    page_buffer_pos = 0;
+    page_buffer_pos_old = 0;
+    crc16 = 0xFFFF;
 
     //----------------------------- Wait For Password --------------------------
     // send version string and wait for response over ibus
@@ -395,8 +411,8 @@ begin:
         if (tick_event()) tick();
 
         // if we will send next, then do small delay before
-        if (ibus_readyToTransmit())
-            _delay_ms(100);
+        //if (ibus_readyToTransmit())
+        //    _delay_ms(100);
         
         ibus_tick();
     }while((bootloaderMode == WAIT) && (tick_get() < nextTick));
@@ -420,8 +436,8 @@ begin:
         if (tick_event()) tick();
 
         // if we will send next, then do small delay before
-        if (ibus_readyToTransmit())
-            _delay_ms(100);
+        //if (ibus_readyToTransmit())
+        //    _delay_ms(100);
         
         ibus_tick();
     }while(((bootloaderMode & RECEIVE) == RECEIVE) && (tick_get() < nextTick));

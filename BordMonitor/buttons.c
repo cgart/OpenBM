@@ -51,6 +51,15 @@ buttonGlobalState_t button_global_pressed(void) { return g_buttonsPressed; }
 buttonGlobalState_t button_global_released(void) { return g_buttonsRelease; }
 
 //------------------------------------------------------------------------------
+buttonIndex_t button_whichDown(void)
+{
+    buttonIndex_t i = 0;
+    for (; i < BUTTON_NUM_BUTTONS; i++)
+        if (button_down(i)) return i;
+    return BUTTON_NUM_BUTTONS;
+}
+
+//------------------------------------------------------------------------------
 uint8_t button_down_time(buttonIndex_t id)
 {
     return g_button_delay[id];

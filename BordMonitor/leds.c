@@ -137,3 +137,30 @@ void led_radio_immediate_set(uint8_t state)
 {
     RADIO_LED(state);
 }
+
+//------------------------------------------------------------------------------
+void led_radioBlinkLock(uint8_t times)
+{
+    uint8_t t = times;
+    for (; t > 0; t--)
+    {
+        RADIO_LED(1);
+        _delay_ms(500);
+        RADIO_LED(0);
+        _delay_ms(500);
+    }
+}
+
+//------------------------------------------------------------------------------
+void led_greenBlinkLock(uint8_t times)
+{
+    uint8_t t = times;
+    for (; t > 0; t--)
+    {
+        G_LED(1);
+        _delay_ms(500);
+        G_LED(0);
+        _delay_ms(500);
+    }
+}
+

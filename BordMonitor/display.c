@@ -143,30 +143,15 @@ void display_init(void)
 {
     // based on the jumper settings we enable either 3.3V or 5V as idle voltage
     DDRB &= ~(1 << DDB3); // set Jumper pin to input mode
-    PORTB |= (1 << 3);    // enable pull-up
-
-    if (bit_is_set(PINB,3)) // bit is 1, so pull-up, so 5V as maximum
-        max_dacVoltage = 0xFFF; // nominal output voltage is 5V
-    else
-        max_dacVoltage = 0xA8F; // Data = 3.3V * 4096 / 5V;
-
-    // set variables
-    deviceSettings = &g_deviceSettings;
-    deviceSettingsEEPROM = &g_deviceSettingsEEPROM;
-
-    // disable DAC output and switch display mosfet off
-    dac_currentVoltage = deviceSettings->dac_idleVoltage;
-    display_dac_sleep();
-
+    PORTB |= (1 << 3);    // enable pull-up, will refer to this later, so that we don't get spurious data here
     DISP_MOSFET_SETUP;
-    DISP_MOSFET_OFF;
 
     // if run for the first time, then write default data to eeprom
-    if (eeprom_read_byte(&g_eeprom_DisplayDataInit) != 'K')
+    if (eeprom_read_byte(&g_eeprom_DisplayDataInit) != 'R')
     {
         eeprom_write_byte(&g_eeprom_DisplayState.display_Power, 1);
         eeprom_write_byte(&g_eeprom_DisplayState.display_Input, 0);
-        eeprom_write_byte(&g_eeprom_DisplayDataInit, 'K');
+        eeprom_write_byte(&g_eeprom_DisplayDataInit, 'R');
     }
 
     // load current display state from the eeprom
@@ -175,17 +160,32 @@ void display_init(void)
     g_display_NextResponseTime = 0;
     g_displayError = 0;
 
+    // disable display per default and read max voltage levels
+    DISP_MOSFET_OFF;
+    if (bit_is_set(PINB,3)) // bit is 1, so pull-up, so 5V as maximum
+        max_dacVoltage = 0xFFF; // nominal output voltage is 5V
+    else
+        max_dacVoltage = 0xA8F; // Data = 3.3V * 4096 / 5V;
+
     // setup PWM for the bglight
     DDRD |= (1 << DDD7);
-    TCCR2A = (1 << COM2A1) | (1 << COM2A0) | (1 << WGM21) | (1 << WGM20);
-    TCCR2B = (1 << CS21) | (1 << CS20);
-    PORTD |= (1 << 7);
+    TCCR2A = (1 << COM2A1) | (1 << COM2A0) /*| (1 << WGM21) |*/ |  (1 << WGM20);
+    TCCR2B = (1 << CS22)  | (0 << CS21) | (0 << CS20);
     TCNT2 = 0;
-    OCR2A = 0xFF;//g_DisplayState.bglight_maxDuty;
+    OCR2A = 0x80;//g_DisplayState.bglight_maxDuty;
+    PORTD |= (1 << 7);
 
-    // if display was previously on, then enable power state
+    // set variables
+    deviceSettings = &g_deviceSettings;
+    deviceSettingsEEPROM = &g_deviceSettingsEEPROM;
     display_dac_setVoltage(deviceSettings->dac_idleVoltage);
-    DISP_MOSFET_ON;
+
+    // disable DAC output and switch display mosfet off
+    display_dac_sleep();
+
+    // if display was previously off, then don't enable it again
+    if (g_DisplayState.display_Power)
+        display_powerOn();
 }
 
 //------------------------------------------------------------------------------
@@ -291,6 +291,15 @@ void display_powerOn(void)
 {
     display_dac_setVoltage(deviceSettings->dac_idleVoltage);
     DISP_MOSFET_ON;
+    display_setPowerState(1);
+}
+
+//------------------------------------------------------------------------------
+void display_powerOff(void)
+{
+    display_setPowerState(0);
+    display_dac_sleep();
+    DISP_MOSFET_OFF;
 }
 
 //------------------------------------------------------------------------------
@@ -300,11 +309,8 @@ void display_shutDown(void)
     display_savePowerState(g_DisplayState.display_Power);
     display_saveInputState(g_DisplayState.display_Input);
 
-    // put DAC to sleep
-    display_dac_sleep();
-
     // diable MOSFET
-    DISP_MOSFET_OFF;
+    display_powerOff();
 }
 
 //------------------------------------------------------------------------------
@@ -313,26 +319,8 @@ void display_updateState(void)
     static uint8_t ignoreButtons = 0;
     if (tick_get() < g_display_NextResponseTime) return;
 
-    #if 0
-    //if (button_down(BUTTON_DISP) && button_down(BUTTON_MODE))
-    {
-        register uint8_t light = display_getBackgroundLight();
-
-        if (button_down(BUTTON_FF) && light < 0xFF)
-        {
-            light++;
-            display_setBackgroundLight(light);
-        }else if (button_down(BUTTON_REW) && light > 0)
-        {
-            light--;
-            display_setBackgroundLight(light);
-        }
-    }
-    #endif
-
     // if holding button longer than certain time, then turn off screen if it is on
-    //else
-    if (button_down_long(BUTTON_DISP))// && ignoreButtons == 0)
+    if (button_down_long(BUTTON_DISP) && ignoreButtons == 0)
     {
         // if time elapsed and also SELECT and MENU button was hold, then set display
         // state to predefined value (on, vga). this will make sure that display state
@@ -344,24 +332,10 @@ void display_updateState(void)
             display_saveInputState(0);
 
             // indicate by LEDs
-            led_radio_immediate_set(1);
-            _delay_ms(500);
-            led_radio_immediate_set(0);
-            _delay_ms(150);
-            led_radio_immediate_set(1);
-            _delay_ms(300);
-            led_radio_immediate_set(0);
-            _delay_ms(150);
-            led_radio_immediate_set(1);
-            _delay_ms(300);
-            led_radio_immediate_set(0);
-            _delay_ms(150);
-            led_radio_immediate_set(1);
-            _delay_ms(300);
-            led_radio_immediate_set(0);
+            led_radioBlinkLock(3);
 
         }else if (g_DisplayState.display_Power && ignoreButtons == 0)
-            display_setPowerState(0);
+            display_powerOff();
 
         // ignore all next down times
         ignoreButtons = 1;
@@ -376,7 +350,7 @@ void display_updateState(void)
 
         // if display was off, then turn it on
         if (!g_DisplayState.display_Power)
-            display_setPowerState(1);
+            display_powerOn();
 
         // if display was on, then just switch inputs
         else

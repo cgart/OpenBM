@@ -169,7 +169,7 @@ void ibus_recieveCallback(uint8_t c, uint8_t error)
 
     uint8_t msgReceived = 0;
     
-    BEGIN_ATOMAR;
+    //BEGIN_ATOMAR;
     {
         // put recieved byte into buffer
         g_ibus_RxBuffer[g_ibus_RxPos] = c;
@@ -198,7 +198,7 @@ void ibus_recieveCallback(uint8_t c, uint8_t error)
             IBUS_TIMEOUT_AFTER_RECEIVE();
         }
     }
-    END_ATOMAR;
+    //END_ATOMAR;
 
     if (msgReceived && g_ibus_MsgCallback)
         g_ibus_MsgCallback(g_ibus_RxBuffer[0], g_ibus_RxBuffer[2], &g_ibus_RxBuffer[3], g_ibus_RxBuffer[1]-2);
