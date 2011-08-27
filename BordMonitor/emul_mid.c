@@ -9,34 +9,29 @@
 #include "config.h"
 
 //------------------------------------------------------------------------------
-uint8_t mid_active_mode; // 0x40 radio, 0xC0=cd, 0x80=tape, 0x60=tone, etc.. this come from Radio
-#if 1
-typedef enum _BackCamState
-{
-    CAM_IDLE = 0,
-    CAM_PREPARE_TO_SWITCH = 1 << 1,
-    CAM_SWITCHING = 1 << 2,
-    CAM_ON = 1 << 3
-}BackCamState;
-BackCamState mid_cam_state;
-uint8_t mid_cam_oldstate;
-#endif
+uint8_t _active_mode = 0; // 0x01 init, 0x40 radio, 0xC0=cd, 0x80=tape, 0x60=tone, etc.. this come from Radio
 
 typedef enum _DevicePollState
 {
-    DEV_IDLE,
-    DEV_RADIO,
-    DEV_IKE,
-    DEV_DSP,
-    DEV_TEL,
-    DEV_LAST = DEV_TEL
+    DEV_FIRST = 0,
+    DEV_RADIO = DEV_FIRST,
+    DEV_IKE = 1,
+    DEV_DSP = 2,
+    DEV_TEL = 3,
+    //DEV_LAST = DEV_TEL,
+    DEV_NUM = 4
 }DevicePollState;
-DevicePollState mid_pollState = DEV_IDLE;
+DevicePollState _pollState = DEV_FIRST;
 
+bool _pollStateRecieved[DEV_NUM];
+uint8_t _ackToSrc = 0;
+uint8_t _ackAs = 0;
+uint8_t _ackTextUpdateWithNeg = 0;
+ticks_t _pingTicks = 0;
 
 // mapping from button states to MID buttons
 #define MID_MAP_SIZE 15
-uint8_t mid_button_mapping[MID_MAP_SIZE] PROGMEM = {
+uint8_t _button_mapping[MID_MAP_SIZE] PROGMEM = {
     BUTTON_1,
     BUTTON_2,
     BUTTON_3,
@@ -66,7 +61,7 @@ uint8_t mid_button_mapping[MID_MAP_SIZE] PROGMEM = {
     BUTTON_NUM_BUTTONS
 };
 
-uint8_t mid_button_mapping_dbyte1_mask[MID_MAP_SIZE] PROGMEM = {
+uint8_t _button_mapping_dbyte1_mask[MID_MAP_SIZE] PROGMEM = {
     0xFF,
     0xFF,
     0xFF,
@@ -92,26 +87,9 @@ uint8_t mid_button_mapping_dbyte1_mask[MID_MAP_SIZE] PROGMEM = {
     #define BMBT_MAP_SIZE   20
 #endif
 
-#if 0
-uint8_t openbm_button_mapping[OPENBM_MAP_SIZE] PROGMEM = {
-    BUTTON_EJECT,
-    BUTTON_TEL,
-    BUTTON_PRG,
-    BUTTON_UHR,
-    BUTTON_TONE,
-    BUTTON_SELECT,
-#if ((DEVICE_CODING2 & REW_FF_ONMID) != REW_FF_ONMID)
-    BUTTON_REW,
-    BUTTON_FF,
-#endif
-    BUTTON_MENU_LR,
-    BUTTON_BMBT_KNOB,
-    BUTTON_INFO_R
-};
-#endif
 
 // original BMBT codes
-uint8_t bmbt_button_mapping[BMBT_MAP_SIZE][3] PROGMEM =
+uint8_t _bmbt_button_mapping[BMBT_MAP_SIZE][3] PROGMEM =
 {
 // REW and FF buttons send codes as usual
 #if ((DEVICE_CODING2 & REW_FF_ONMID) != REW_FF_ONMID)
@@ -142,55 +120,91 @@ uint8_t bmbt_button_mapping[BMBT_MAP_SIZE][3] PROGMEM =
 };
 
 //------------------------------------------------------------------------------
-uint8_t emul_mid_active_mode(void)
+uint8_t mid_active_mode(void)
 {
-    if (mid_active_mode == 0x40) return 0; // Radio
-    if (mid_active_mode == 0xC0) return 1; // CD-Chnager
-    if (mid_active_mode == 0x80) return 2; // Tape
-    //if (mid_active_mode == 0x20) return 3; // AUX
+    if (_active_mode == 0x40) return 0; // Radio
+    if (_active_mode == 0xC0) return 1; // CD-Chnager
+    if (_active_mode == 0x80) return 2; // Tape
     return 0xFF;
 }
 
 //------------------------------------------------------------------------------
-void emul_mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
+void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
 {
+    // based on the src decide if this device does exists
+    // if the device hasn't been polled before, then allow up-to 5 polls
+    if (msg[0] == IBUS_MSG_DEV_READY)
+    {        
+        if (src == IBUS_DEV_RAD)
+        {
+            if (_pollStateRecieved[DEV_RADIO] == 0) _pollStateRecieved[DEV_RADIO] = 5;
+            else _pollStateRecieved[DEV_RADIO]++;
+            if (_active_mode == 0) _active_mode = 1; // need to reinitialize the radio
+        }
+        if (src == IBUS_DEV_TEL)
+        {
+            if (_pollStateRecieved[DEV_TEL] == 0) _pollStateRecieved[DEV_TEL] = 5;
+            else _pollStateRecieved[DEV_TEL]++;
+        }
+        if (src == IBUS_DEV_DSP)
+        {
+            if (_pollStateRecieved[DEV_DSP] == 0) _pollStateRecieved[DEV_DSP] = 5;
+            else _pollStateRecieved[DEV_DSP]++;
+        }
+        if (src == IBUS_DEV_IKE)
+        {
+            if (_pollStateRecieved[DEV_IKE] == 0) _pollStateRecieved[DEV_IKE] = 5;
+            else _pollStateRecieved[DEV_IKE]++;
+        }
+    }
+
     // answer to request messages C8 03 E7 01 2D -> C0 04 C8 02 00 0E
     if (msg[0] == IBUS_MSG_DEV_POLL && (dst == IBUS_DEV_ANZV || dst == IBUS_DEV_MID || dst == IBUS_DEV_GT || dst == IBUS_DEV_BMBT))
     {
-        uint8_t data[2] = {IBUS_MSG_DEV_READY, 0x00};
-        ibus_sendMessage(dst, src, data, 2, 3);
+        _ackAs = dst;
+        _ackToSrc = src;
     }
 
+
+    #if 0
+    // if ignore MFL ff/rew modus is activated, then send resend this event
+    if (_active_mode == 0x80 && src == IBUS_DEV_MFL && dst == IBUS_DEV_RAD && msg[0] == IBUS_MSG_MFL_BUTTON)
+    {
+        _nextSendMFLSignal = 0;
+        
+        if (msg[1] == 0x21)
+            _nextSendMFLSignal = 0x01;
+        else if (msg[1] == 0x28)
+            _nextSendMFLSignal = 0x08;
+
+        if (_nextSendMFLSignal)
+            _nextSendMFLSignalTick = tick_get() + TICKS_PER_TWO_SECONDS();
+    }
+    #endif
+    
     // ok, radio will give us a hint, which current mode is active
     // this can be seen on text messages sent from radio to ANZV
     // so react only on text messages
     if (dst == IBUS_DEV_ANZV || dst == IBUS_DEV_MID)// || dst == IBUS_DEV_LOC)
     {
         // take into account only if for bottom text update
-        if (msg[0] == IBUS_MSG_UPDATE_MID_BOTTOM)
+        if (src == IBUS_DEV_RAD && msg[0] == IBUS_MSG_UPDATE_MID_BOTTOM)
         {
-            if (src == IBUS_DEV_RAD)
+            _ackTextUpdateWithNeg = ~(0x01);
+
+            // BMW Business with DSP ( 68 06 C0 21 00 00 20 AF -> ACK differently)
+            if (msglen == 4 && msg[1] == 0 && msg[2] == 0 && msg[3] == 0x20)
             {
-                // acknowledge msg
-                uint8_t data[2] = {IBUS_MSG_MID_ACK_TEXT, 0x01};
-
-                // BMW Business with DSP ( 68 06 C0 21 00 00 20 AF -> ACK differently)
-                if (msglen == 4 && msg[1] == 0 && msg[2] == 0 && msg[3] == 0x20)
-                {
-                    data[1] = 0;
-                }else if (msglen >= 2)
-                {
-                    mid_active_mode = msg[1];
-                    data[1] = 0x02;
-                }
-
-                // let receiver know, that we accepted the change
-                ibus_sendMessage(IBUS_DEV_MID, src, data, 2, 3);
+                _ackTextUpdateWithNeg = ~(0x00);
+            }else if (msglen >= 2)
+            {
+                _active_mode = msg[1];
+                _ackTextUpdateWithNeg = ~(0x02);
             }
         }
 
         // React on LED message
-        if (USE_BM_LEDS() && msg[0] == IBUS_MSG_LED)
+        if (msg[0] == IBUS_MSG_LED && USE_BM_LEDS())
         {
             if (msg[1] & (1 << 0)) led_red_set(0b11111111); else led_red_set(0);
             if (msg[1] & (1 << 1)) led_red_set(0b11110000);
@@ -238,167 +252,126 @@ void emul_mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
             if (msg[1] & (1 << 3)) led_green_set(msg[2]);
             if (msg[1] & (1 << 4)) led_fan_set(msg[2]);
             if (msg[1] & (1 << 5)) led_radio_set(msg[2]);
-
-        }
-    }
-
-    // change display to backup camera if "R" is received
-    // 80 09 BF 13 00/02 11/10 00 00 00 00 xx
-    if (src == IBUS_DEV_IKE && dst == IBUS_DEV_GLO)
-    {
-        if (msglen == 7 && msg[0] == IBUS_MSG_IKE_STATE && display_getPowerState() == 1)
-        {
-            // REVERSE gear selected
-            if ((msg[2] & 0xF0) == 0x10)
-            {
-                // switch only if in idle mode and not set to AV already
-                if (mid_cam_state == CAM_IDLE && display_getInputState() != BACKCAM_INPUT())
-                {
-                    mid_cam_state |= CAM_PREPARE_TO_SWITCH;
-                    mid_cam_state |= CAM_ON;
-                }
-
-            // other gear, change back to previous mode
-            }else
-            {
-                mid_cam_state |= CAM_PREPARE_TO_SWITCH;
-                mid_cam_state &= ~CAM_ON;
-            }
         }
     }
 
 }
 
 //------------------------------------------------------------------------------
-void emul_mid_ping_tick(void)
+void mid_ping_tick(void)
 {
-    // on very first start, ask for state update
-    static uint8_t firstTicks = 0;
-    if (firstTicks < TICKS_PER_TWO_SECONDS())
-        firstTicks++;
-    else if (firstTicks == TICKS_PER_TWO_SECONDS())
+    #if 0
+    if (_nextSendMFLSignal && tick_get() > _nextSendMFLSignalTick)
     {
-        firstTicks++;
+        uint8_t data[2] = {IBUS_MSG_MFL_BUTTON, _nextSendMFLSignal};
+        ibus_sendMessage(IBUS_DEV_MFL,IBUS_DEV_RAD, data, 2, IBUS_TRANSMIT_TRIES);
+        data[1] |= 0x20;
+        ibus_sendMessage(IBUS_DEV_MFL,IBUS_DEV_RAD, data, 2, IBUS_TRANSMIT_TRIES);
+        
+        data[0] = IBUS_MSG_BMBT_BUTTON;
+        if (_nextSendMFLSignal == 0x01)
+            data[1] = 0x00;
+        else
+            data[1] = 0x10;
+        ibus_sendMessage(IBUS_DEV_BMBT,IBUS_DEV_RAD, data, 2, IBUS_TRANSMIT_TRIES);            
+        _nextSendMFLSignal = 0;
 
-        #if 1
+    }
+    #endif
+
+    // if radio has been detected however haven't been asked for its state, do this
+    if (_active_mode == 1)
+    {
+        // mein BMW Prof, ohne DSP C0 06 FF 20 20 B0 00 89
+        // Alex BMW Buis,  mit DSP C0 06 FF 20 00 B3 20 8A
+
         //uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x20, 0xB2, 0x00 /* DSP 0x20 */};
-        // Alex - DSP C0 06 FF 20 00 B3 20 8A
-        //uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x00, 0x01, 0x00};
         uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x00, 0xB3, 0x20};
 
         //if (g_deviceSettings.device_Settings2 & RADIO_PROFESSIONAL)
         //    data[2] |= 0xB2;
 
         ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_LOC, data, 4, IBUS_TRANSMIT_TRIES);
-        #endif
-        #if 0
-        uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x20, 0xB2, 0x00};
-
-        // if DSP, then include DSP bit to switch DSP on/off
-        if (g_deviceSettings.device_Settings2 & DSP_AMPLIFIER)
-            data[3] |= 0x20;
-
-        ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_LOC, data, 4, IBUS_TRANSMIT_TRIES);
-        #endif
+        _active_mode = 0;
     }
 
-    // every 10 seconds we perform a ping on different hardware to check if this exists
-    static ticks_t ticks = 0;
-    if (mid_pollState == DEV_IDLE) ticks++;
 
-    if (ticks > TICKS_PER_SECOND() * 10)
+    // every 10 seconds we perform a ping on different hardware to check if they exists
+    _pingTicks ++;
+
+    if (_pingTicks > TICKS_PER_SECOND() * 10)
     {
-        // go to next ping state and ping
-        if (mid_pollState == DEV_IDLE)
+        uint8_t data[1] = {IBUS_MSG_DEV_POLL};
+
+        if (_pollState == DEV_RADIO)
         {
-            mid_pollState = DEV_RADIO;
-
-            //C0 03 68 01 AA
-            uint8_t data[1] = {IBUS_MSG_DEV_POLL};
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data, 1, 5);
-
-        }else if (mid_pollState == DEV_RADIO)
-        {
-            mid_pollState = DEV_IKE;
-
-            //C0 03 80 01 42
-            uint8_t data[1] = {IBUS_MSG_DEV_POLL};
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_IKE, data, 1, 5);
-
-        }else if (mid_pollState == DEV_IKE)
-        {
-            mid_pollState = DEV_DSP;
-
-            //C0 03 6A 01 A8
-            if (g_deviceSettings.device_Settings2 & DSP_AMPLIFIER)
+            if (_pollStateRecieved[DEV_RADIO] > 0)
             {
-                uint8_t data[1] = {IBUS_MSG_DEV_POLL};
-                ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_DSP, data, 1, 5);
+                ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data, 1, IBUS_TRANSMIT_TRIES);
+                _pollStateRecieved[DEV_RADIO]--;
             }
 
-        }else if (mid_pollState == DEV_DSP)
-        {
-            mid_pollState = DEV_TEL;
+            _pollState = DEV_IKE;
 
-            //C0 03 C8 01 0A
-            uint8_t data[1] = {IBUS_MSG_DEV_POLL};
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_TEL, data, 1, 5);
-
-        }else if (mid_pollState == DEV_LAST)
+        }else if (_pollState == DEV_IKE)
         {
-            mid_pollState = DEV_IDLE;
-            ticks = 0;
+            if (_pollStateRecieved[DEV_IKE] > 0)
+            {
+                ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_IKE, data, 1, IBUS_TRANSMIT_TRIES);
+                _pollStateRecieved[DEV_IKE]--;
+            }
+
+            _pollState = DEV_DSP;
+
+        }else if (_pollState == DEV_DSP)
+        {
+            if (_pollStateRecieved[DEV_DSP] > 0)
+            {
+                ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_DSP, data, 1, IBUS_TRANSMIT_TRIES);
+                _pollStateRecieved[DEV_DSP]--;
+            }
+
+            _pollState = DEV_TEL;
+
+        }else if (_pollState == DEV_TEL)
+        {
+            if (_pollStateRecieved[DEV_TEL] > 0)
+            {
+                ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_TEL, data, 1, IBUS_TRANSMIT_TRIES);
+                _pollStateRecieved[DEV_TEL]--;
+            }
+
+            _pollState = DEV_FIRST;
+
+            _pingTicks = 0;
         }
     }
 }
 
 //------------------------------------------------------------------------------
-void emul_mid_backcam_tick(void)
+void mid_tick(void)
 {
-    static ticks_t ticks = 0;
-
-    // if we are in the mode prepared to switch, then switch after certain amount of ticks
-    if (mid_cam_state & CAM_PREPARE_TO_SWITCH)
-    {
-        ticks++;
-
-        // react after 500ms
-        if (ticks > TICKS_PER_HALFSECOND())
-        {
-            // switch camera according to the output we like to have
-            if (mid_cam_state & CAM_ON)
-            {
-                mid_cam_state = CAM_SWITCHING;
-                mid_cam_oldstate = display_getInputState();
-                display_setInputState(BACKCAM_INPUT());
-            }else
-            {
-                mid_cam_state = CAM_SWITCHING;
-                display_setInputState(mid_cam_oldstate);
-            }
-
-            // while camera was swithcing, we might have received new messages
-            // so whenever camera state is still swithcing, we are safe to go into idle
-            // otherwise, on the next tick we will reset the output again
-            BEGIN_ATOMAR;
-                if (mid_cam_state == CAM_SWITCHING)
-                    mid_cam_state = CAM_IDLE;
-            END_ATOMAR;
-
-            ticks = 0;
-        }
-    }else
-        ticks = 0;
-}
-
-//------------------------------------------------------------------------------
-void emul_mid_tick(void)
-{
-    emul_mid_ping_tick();
-    emul_mid_backcam_tick();
+    mid_ping_tick();
     
     // turn ON, radio LED if in RADIO mode
-    led_radio_immediate_set(mid_active_mode == 0x40);
+    led_radio_immediate_set(_active_mode == 0x40);
+
+    // send ACK message if MID has been requested
+    if (_ackToSrc)
+    {
+        uint8_t data[2] = {IBUS_MSG_DEV_READY, 0x00};
+        ibus_sendMessage(_ackAs, _ackToSrc, data, 2, IBUS_TRANSMIT_TRIES);
+        _ackToSrc = 0;
+    }
+
+    // acknowledge every text update message sent to MID
+    if (_ackTextUpdateWithNeg)
+    {
+        // acknowledge msg
+        uint8_t data[2] = {IBUS_MSG_MID_ACK_TEXT, ~_ackTextUpdateWithNeg};
+        ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data, 2, IBUS_TRANSMIT_TRIES);
+        _ackTextUpdateWithNeg = 0;
+    }
 
     // special treatment for the Radio knob button
     // If radio knob is pressed shortly, then on release a message will be sent
@@ -417,10 +390,10 @@ void emul_mid_tick(void)
         {
             if (ignoreReleaseEvent == 0)
             {
-                if (mid_active_mode)
+                if (_active_mode)
                 {
                     display_shutDown();
-                    mid_active_mode = 0;
+                    _active_mode = 0;
                 }else
                 {
                     display_powerOn();
@@ -444,16 +417,16 @@ void emul_mid_tick(void)
         for (i=0; i < MID_MAP_SIZE; i++)
         {
             // read to which button this one maps to and go to next, if no mapping
-            uint8_t bmap = pgm_read_byte(&(mid_button_mapping[i]));
+            uint8_t bmap = pgm_read_byte(&(_button_mapping[i]));
             if (bmap >= BUTTON_NUM_BUTTONS) continue;
 
             // send MID buttons, however only if not in CarPC mode (MODE send always)
-            if (emul_mid_active_mode() == CARPC_INPUT() && (bmap != BUTTON_MODE && bmap != BUTTON_REW && bmap != BUTTON_FF) ) continue;
+            if (mid_active_mode() == CARPC_INPUT() && (bmap != BUTTON_MODE && bmap != BUTTON_REW && bmap != BUTTON_FF) ) continue;
 
-            uint8_t bmask = pgm_read_byte(&(mid_button_mapping_dbyte1_mask[i]));
+            uint8_t bmask = pgm_read_byte(&(_button_mapping_dbyte1_mask[i]));
 
             // prepare ibus message for this button
-            uint8_t data[4] = {IBUS_MSG_BUTTON, mid_active_mode & bmask, 0x00, i};
+            uint8_t data[4] = {IBUS_MSG_BUTTON, _active_mode & bmask, 0x00, i};
             uint8_t sendmsg = button_pressed(bmap);
             if (button_released(bmap))
             {
@@ -477,12 +450,12 @@ void emul_mid_tick(void)
         for (i=0; i < BMBT_MAP_SIZE; i++)
         {
             // if we are in the CarPC mode then send other codes for the MID buttons as usual
-            if (emul_mid_active_mode() != CARPC_INPUT() && i >= BMBT_RADIO_BUTTONS) break;
+            if (mid_active_mode() != CARPC_INPUT() && i >= BMBT_RADIO_BUTTONS) break;
 
             // read to which button this one maps to and go to next, if no mapping
-            uint8_t bmap = pgm_read_byte(&(bmbt_button_mapping[i][0]));
-            uint8_t bdst = pgm_read_byte(&(bmbt_button_mapping[i][1]));
-            uint8_t bcod = pgm_read_byte(&(bmbt_button_mapping[i][2]));
+            uint8_t bmap = pgm_read_byte(&(_bmbt_button_mapping[i][0]));
+            uint8_t bdst = pgm_read_byte(&(_bmbt_button_mapping[i][1]));
+            uint8_t bcod = pgm_read_byte(&(_bmbt_button_mapping[i][2]));
             
             // prepare ibus message for this button
             uint8_t data[2] = {IBUS_MSG_BMBT_BUTTON, bcod};
@@ -549,13 +522,20 @@ void emul_mid_tick(void)
 }
 
 //------------------------------------------------------------------------------
-void emul_mid_init(void)
+void mid_init(void)
 {
-    mid_active_mode = 0; // 0x40 radio, 0xC0=cd, 0x80=tape, etc.. this come from Radio
-    mid_cam_state = CAM_IDLE;
-    mid_pollState = DEV_IDLE;
-    mid_cam_oldstate = display_getInputState();
+    _active_mode = 0; // 0x40 radio, 0xC0=cd, 0x80=tape, etc.. this comes from Radio
+    _pollState = DEV_FIRST;
+    _ackToSrc = 0;
+    _ackAs = IBUS_DEV_MID;
+    _ackTextUpdateWithNeg = 0;
+    _pingTicks = 0;
+    
+    for (int8_t i=0; i < DEV_NUM; i++)
+        _pollStateRecieved[i] = 0;
 
-    // Output for TONE
+    // Output for IOs
+    DDRB |= (1 << DDB5); PORTB &= ~(1 << 5);
     DDRB |= (1 << DDB6); PORTB &= ~(1 << 6);
+    DDRB |= (1 << DDB7); PORTB &= ~(1 << 7);
 }

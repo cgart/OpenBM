@@ -21,8 +21,8 @@ extern "C"
 
 // Version
 #define VERSION_MAJOR 1
-#define VERSION_MINOR 8
-#define VERSION_ADD_STR "[beta4] compiled on " __DATE__ " at " __TIME__
+#define VERSION_MINOR 12
+#define VERSION_ADD_STR "[2-beta1] compiled on " __DATE__ " at " __TIME__
 
 #define DEVICE_CODING1 DEVID_11
 #define DEVICE_CODING2 DEVID_12
@@ -33,14 +33,15 @@ extern "C"
 #define DSP_AMPLIFIER      (1 << 2)
 #define EMULATE_MID        (1 << 3)
 #define REW_FF_ONMID       (1 << 4)
+    
+#define BACKCAM_INPUT()     (g_deviceSettings.device_Settings1 & 0b00000011)
+#define USE_BM_LEDS()       (g_deviceSettings.device_Settings1 & 0b00000100)
+#define CARPC_INPUT()      ((g_deviceSettings.device_Settings1 & 0b00011000) >> 3) // 0=radio, 1=cdchanger, 2=tape, 3=AUX
+#define SUPPORT_SPECIAL()   (g_deviceSettings.device_Settings1 & 0b00100000)   // support for special features, like autom. close/open central lock
 
-#define BACKCAM_INPUT()    (g_deviceSettings.device_Settings1 & 3)
 
-#define USE_BM_LEDS()      ((g_deviceSettings.device_Settings1 & 4) == 4)
-#define CARPC_INPUT_MASK   (3 << 3);     // bits 3 and 4 codes the current carpc installation
-#define CARPC_INPUT()      ((g_deviceSettings.device_Settings1 >> 3) & 3) // 0=radio, 1=cdchanger, 2=tape, 3=AUX
 
-// Get Deivec settings out of the device ID
+// Get Device settings out of the device ID
 #define DEVICE_DISP_IDLE   (((DEVID_5 << 8) | DEVID_6) & 0xFFF)
 #define DEVICE_DISP_SWITCH (((DEVID_7 << 8) | DEVID_8) & 0xFFF)
 #define DEVICE_DISP_POWER  (((DEVID_9 << 8) | DEVID_10) & 0xFFF)
@@ -53,15 +54,6 @@ typedef struct _DeviceSettings
     // --------------------------------------
     uint8_t device_Settings1;
     uint8_t device_Settings2;
-
-    // --------------------------------------
-    // Hardware Settings
-    // --------------------------------------
-    uint8_t photo_minValue;
-    uint8_t photo_maxValue;
-    uint8_t photo_minCalibValue;
-    uint8_t photo_maxCalibValue;
-    uint8_t photo_useSensor;
 
     // --------------------------------------
     // Display settings
@@ -77,10 +69,16 @@ typedef struct _DeviceSettings
     uint8_t initSeed;
     uint8_t io_assignment[3];
 
+    // --------------------------------------
+    // special features
+    // --------------------------------------
+    uint8_t obms_centralLock;
+    
 }DeviceSettings;
 
 extern DeviceSettings g_deviceSettings;
 extern DeviceSettings g_deviceSettingsEEPROM;
+
 
 #ifdef	__cplusplus
 }

@@ -3,8 +3,8 @@
 #include "buttons.h"
 #include "config.h"
 #include "base.h"
-#include <avr/eeprom.h>
 #include "i2cmaster.h"
+#include <avr/eeprom.h>
 
 //------------------------------------------------------------------------------
 // Current display state, (on/off, input)
@@ -202,7 +202,7 @@ void display_TogglePower(uint8_t writeToEeprom)
         g_DisplayState.display_Power = !g_DisplayState.display_Power;
         eeprom_write_byte(&g_eeprom_DisplayState.display_Power, g_DisplayState.display_Power);
     }
-    _delay_ms(500);
+    _delay_ms(500); // TODO look how to remove that!!!
 
     //g_display_NextResponseTime = tick_get() + TICKS_PER_QUARTERSECOND();
     g_display_NextResponseTime = tick_get() + TICKS_PER_SECOND() - TICKS_PER_QUARTERSECOND();
@@ -222,7 +222,7 @@ void display_ToggleInput(uint8_t writeToEeprom)
         g_DisplayState.display_Input = (g_DisplayState.display_Input + 1) % 3;
         eeprom_write_byte(&g_eeprom_DisplayState.display_Input, g_DisplayState.display_Input);
     }
-    _delay_ms(500);
+    _delay_ms(500); // TODO look how to remove that!!!
     
     //g_display_NextResponseTime = tick_get() + TICKS_PER_QUARTERSECOND();
     g_display_NextResponseTime = tick_get() + TICKS_PER_SECOND() - TICKS_PER_QUARTERSECOND();
@@ -309,8 +309,9 @@ void display_shutDown(void)
     display_savePowerState(g_DisplayState.display_Power);
     display_saveInputState(g_DisplayState.display_Input);
 
-    // diable MOSFET
-    display_powerOff();
+    // disable MOSFET
+    display_dac_sleep();
+    DISP_MOSFET_OFF;
 }
 
 //------------------------------------------------------------------------------

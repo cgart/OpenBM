@@ -15,19 +15,22 @@ extern "C"
 {
 #endif
 
-void emul_mid_init(void);
+
+/**
+ * Initialize emulation of the MID device
+ **/
+extern void mid_init(void);
 
 /**
  * Run MID emulation task. This will check for buttons and execute corresponding actions
  **/
-extern void emul_mid_tick(void);
+extern void mid_tick(void);
 
-//extern void emul_openbm_tick(void);
-//extern void emul_bmbt_tick(void);
+/**
+ * React on messages
+ **/
+extern void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen);
 
-extern void emul_mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen);
-//extern void emul_openbm_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen);
-//extern void emul_bmbt_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen);
 
 #ifdef	__cplusplus
 }

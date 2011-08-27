@@ -40,6 +40,9 @@
 #define bit_set(a,b)   a|=(1<<b)   // sbi
 #define bit_clear(a,b) a&=~(1<<b)  // cbi
 
+#define false 0
+#define true 1
+typedef uint8_t bool;
 
 //--------------------------------------------------------------------------
 // Global ticks

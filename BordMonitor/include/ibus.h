@@ -72,18 +72,26 @@ extern "C" {
 #define IBUS_MSG_DEV_READY          0x02    // answer to poll message
 #define IBUS_MSG_LAMP_STATE         0x5B    // Lamp state
 #define IBUS_MSG_VEHICLE_CTRL       0x0C    // Vehicle Control (mostly used from diagnose)
+#define IBUS_MSG_IGNITION           0x11    // State of the ignition
+#define IBUS_MSG_IKE_STATE_REQ      0x12    // Request current IKE state
 #define IBUS_MSG_IKE_STATE          0x13    // IKE informs about its state
+#define IBUS_MSG_IKE_SPEED          0x18    // IKE informs about the speed and RPM
 #define IBUS_MSG_MID_STATE_BUTTONS  0x20    // MID's main buttons (on/off, TEL, ...)
 #define IBUS_MSG_UPDATE_MID_BOTTOM  0x21    // update information on text display
 #define IBUS_MSG_MID_ACK_TEXT       0x22    // mid aknowledges that text was received
 #define IBUS_MSG_UPDATE_MID_TOP     0x23    // update information on text display
-#define IBUS_MSG_RADIO_ENCODER      0x32    // MID's radio encoder was rotated
-#define IBUS_MSG_BMBT_BUTTON        0x48    // action with BMBT button
-#define IBUS_MSG_BMBT_ENCODER       0x49    // BMBT encoder was rotated
-#define IBUS_MSG_BUTTON             0x31    // MID's button state change
 #define IBUS_MSG_UPDATE_MID_TOP_FREQ 0x24   // update frequency field of the radio
 #define IBUS_MSG_LED                0x2B    // set status-LED state
 #define IBUS_MSG_LED_SPECIAL        0x2D    // set status-LED state (special function, defining blink ratio)
+#define IBUS_MSG_BUTTON             0x31    // MID's button state change
+#define IBUS_MSG_RADIO_ENCODER      0x32    // MID's radio encoder was rotated
+#define IBUS_MSG_MFL_BUTTON         0x3B    // MFL's button state change
+#define IBUS_MSG_BMBT_BUTTON        0x48    // action with BMBT button
+#define IBUS_MSG_BMBT_ENCODER       0x49    // BMBT encoder was rotated
+#define IBUS_MSG_GM_KEY_BUTTON      0x72    // state of the buttons on the key
+#define IBUS_MSG_GM_ENABLE_STATE    0x76    // state of GM indicating if car is closed or not ???
+#define IBUS_MSG_GM_STATE_REQ       0x79    // request current state of the GM (doors, trunk, ...)
+#define IBUS_MSG_GM_STATE           0x7A    // state of the GM (doors, trunk, ...)
 
 
 #define IBUS_MSG_OPENBM_TO          0xFA    // message sent to OpenBM (not BMW specified)

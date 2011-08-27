@@ -8,16 +8,17 @@
 #include "base.h"
 #include "config.h"
 #include "ibus.h"
-#include <uart.h>
-#include <i2cmaster.h>
-#include <avr/wdt.h>
 #include "display.h"
 #include "buttons.h"
 #include "leds.h"
 #include "emul_mid.h"
+#include "uart.h"
+#include "obm_special.h"
+#include "photo_sensor.h"
+#include <i2cmaster.h>
+#include <avr/wdt.h>
 #include <avr/boot.h>
 #include <avr/sleep.h>
-#include "avrfix.h"
 
 //#include "bootloader/bootloader.h"
 
@@ -27,13 +28,20 @@ uint8_t g_tickEventHappened;
 volatile ticks_t g_nextIbusTick;
 uint8_t g_setupMode;
 
-#define UPDATE_SLEEP_COUNTER() { g_nextIbusTick = tick_get() + TICKS_PER_SECOND() * 300L; }
+typedef enum _RunningMode
+{
+    INIT,
+    RUN,
+    STOP_IBUS
+}RunningMode;
+RunningMode g_runningMode = INIT;
+
+#define UPDATE_SLEEP_COUNTER() { g_nextIbusTick = tick_get() + TICKS_PER_SECOND() * 15L; }
 
 // current adc value
 volatile uint8_t g_backLightDimmer;
-volatile int8_t g_temperatureSensor;
+volatile int8_t  g_temperatureSensor;
 volatile uint8_t g_adcCurrentChannel;
-volatile uint8_t g_photoSensor;
 
 static bootldrinfo_t g_bootldrinfo;
 
@@ -41,60 +49,13 @@ static bootldrinfo_t g_bootldrinfo;
 DeviceSettings g_deviceSettings;
 DeviceSettings g_deviceSettingsEEPROM EEMEM;
 
-//! Photo sensor ring buffer
-#define PHOTO_NUM_SAMPLES_EXP 4
-#define PHOTO_NUM_SAMPLES (1 << PHOTO_NUM_SAMPLES_EXP)
-uint8_t photoSensorValues[PHOTO_NUM_SAMPLES];
-uint8_t photoSensorIndex;
-uint8_t photoSensorUse;
-uint16_t photoSensorSum;
-volatile uint8_t photoSensorLast;
-
-
-_aAccum photoSensorRangeFactor;
-
-//------------------------------------------------------------------------------
-void photoSetupCalibration(uint8_t minCalib, uint8_t maxCalib, uint8_t minRange, uint8_t maxRange)
-{
-    g_deviceSettings.photo_maxCalibValue = maxCalib;
-    g_deviceSettings.photo_minCalibValue = minCalib;
-
-    eeprom_update_byte(&g_deviceSettingsEEPROM.photo_minCalibValue, minCalib);
-    eeprom_update_byte(&g_deviceSettingsEEPROM.photo_maxCalibValue, maxCalib);
-
-    g_deviceSettings.photo_maxValue = maxRange;
-    g_deviceSettings.photo_minValue = minRange;
-
-    eeprom_update_byte(&g_deviceSettingsEEPROM.photo_minValue, minRange);
-    eeprom_update_byte(&g_deviceSettingsEEPROM.photo_maxValue, maxRange);
-
-    _aAccum calibMax = itok(maxCalib);
-    _aAccum calibMin = itok(minCalib);
-
-    _aAccum photoMax = itok(maxRange);
-    _aAccum photoMin = itok(minRange);
-
-    photoSensorRangeFactor = divk(photoMax - photoMin, calibMax - calibMin);
-}
-
-//------------------------------------------------------------------------------
-uint8_t photoApplyCalibration(uint8_t value)
-{
-    if (value > g_deviceSettings.photo_maxCalibValue) value = g_deviceSettings.photo_maxCalibValue;
-    if (value < g_deviceSettings.photo_minCalibValue) value = g_deviceSettings.photo_minCalibValue;
-
-    _aAccum v = itok(value - g_deviceSettings.photo_minCalibValue);
-    _aAccum r = mulk(v, photoSensorRangeFactor);
-
-    return ktoi(r);
-}
 
 //------------------------------------------------------------------------------
 // Read device settings from eeprom
 //------------------------------------------------------------------------------
 void settings_readAndSetup(void)
 {
-    BEGIN_ATOMAR;
+    //BEGIN_ATOMAR;
 
     #ifdef BOOTLOADER_ACTIVE
     // dummy commands to prevent compiler to optimize bootloader away
@@ -122,31 +83,24 @@ void settings_readAndSetup(void)
         eeprom_update_word(&g_deviceSettingsEEPROM.dac_PowerKey, DEVICE_DISP_POWER);
 
         // --------------------
-        // Hardware settings
-        // --------------------
-        eeprom_update_byte(&g_deviceSettingsEEPROM.photo_minValue, 40);
-        eeprom_update_byte(&g_deviceSettingsEEPROM.photo_maxValue, 0xFF);
-        eeprom_update_byte(&g_deviceSettingsEEPROM.photo_minCalibValue, 40);
-        eeprom_update_byte(&g_deviceSettingsEEPROM.photo_maxCalibValue, 0xFF);
-        eeprom_update_byte(&g_deviceSettingsEEPROM.photo_useSensor, 0xFF);
-
-        // --------------------
         // BMW settings
         // --------------------
         eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings1, DEVICE_CODING1);
         eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings2, DEVICE_CODING2);
+
+        // --------------------
+        // Special features
+        // --------------------
+        if (DEVICE_CODING1 & (1 << 5))
+            eeprom_update_byte(&g_deviceSettingsEEPROM.obms_centralLock, 5);
+        else
+            eeprom_update_byte(&g_deviceSettingsEEPROM.obms_centralLock, 0);
     }
 
     // load current display state from the eeprom
     g_deviceSettings.dac_idleVoltage  = eeprom_read_word(&g_deviceSettingsEEPROM.dac_idleVoltage);
     g_deviceSettings.dac_PowerKey  = eeprom_read_word(&g_deviceSettingsEEPROM.dac_PowerKey);
     g_deviceSettings.dac_SwitchKey = eeprom_read_word(&g_deviceSettingsEEPROM.dac_SwitchKey);
-
-    g_deviceSettings.photo_minValue = eeprom_read_byte(&g_deviceSettingsEEPROM.photo_minValue);
-    g_deviceSettings.photo_maxValue = eeprom_read_byte(&g_deviceSettingsEEPROM.photo_maxValue);
-    g_deviceSettings.photo_minCalibValue = eeprom_read_byte(&g_deviceSettingsEEPROM.photo_minCalibValue);
-    g_deviceSettings.photo_maxCalibValue = eeprom_read_byte(&g_deviceSettingsEEPROM.photo_maxCalibValue);
-    g_deviceSettings.photo_useSensor = eeprom_read_byte(&g_deviceSettingsEEPROM.photo_useSensor);
 
     g_deviceSettings.device_Settings1 = eeprom_read_byte(&g_deviceSettingsEEPROM.device_Settings1);
     g_deviceSettings.device_Settings2 = eeprom_read_byte(&g_deviceSettingsEEPROM.device_Settings2);
@@ -155,37 +109,11 @@ void settings_readAndSetup(void)
     g_deviceSettings.io_assignment[1] = eeprom_read_word((void*)&g_deviceSettingsEEPROM.io_assignment[1]);
     g_deviceSettings.io_assignment[2] = eeprom_read_word((void*)&g_deviceSettingsEEPROM.io_assignment[2]);
 
-    photoSetupCalibration(g_deviceSettings.photo_minCalibValue, g_deviceSettings.photo_maxCalibValue, g_deviceSettings.photo_minValue, g_deviceSettings.photo_maxValue);
+    g_deviceSettings.obms_centralLock = eeprom_read_byte(&g_deviceSettingsEEPROM.obms_centralLock);
 
-    END_ATOMAR;
+    //END_ATOMAR;
 }
 
-//------------------------------------------------------------------------------
-// Get averaged photo sensor value
-//------------------------------------------------------------------------------
-inline uint8_t getPhotoSensor(void)
-{
-    //return photoSensorLast;
-    return (photoSensorSum >> PHOTO_NUM_SAMPLES_EXP);
-}
-
-//------------------------------------------------------------------------------
-// Update average photo sensor values (average filter)
-//------------------------------------------------------------------------------
-uint8_t updatePhotoSensor(uint8_t val)
-{
-    val = photoApplyCalibration(val);
-
-    // remove last element of the ring buffer and add new value to the sum
-    photoSensorSum -= photoSensorValues[(photoSensorIndex + 1) & (PHOTO_NUM_SAMPLES-1)];
-    photoSensorSum += val;
-    
-    // add new value into the ring buffer
-    photoSensorValues[photoSensorIndex++] = val;
-    photoSensorIndex = photoSensorIndex & (PHOTO_NUM_SAMPLES-1);
-
-    return getPhotoSensor();
-}
 
 //------------------------------------------------------------------------------
 // Initialize analog hardware (read photo sensor, read bg light)
@@ -196,11 +124,6 @@ void adc_init(void)
     g_temperatureSensor = 0;
     g_backLightDimmer = 0;
     g_adcCurrentChannel = 0;
-    photoSensorIndex = 0;
-    photoSensorSum = (uint16_t)g_deviceSettings.photo_maxValue << (uint16_t)PHOTO_NUM_SAMPLES_EXP;
-    photoSensorLast = g_deviceSettings.photo_maxValue;
-    photoSensorUse = g_deviceSettings.photo_useSensor;
-    memset(&photoSensorValues[0], g_deviceSettings.photo_maxValue, PHOTO_NUM_SAMPLES);
 
     ADCSRA |= (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0); // Set ADC prescaler to 128 - 109KHz sample rate @ 14MHz
     ADMUX = (1 << REFS0); // Set ADC reference to AVCC with external capacitor
@@ -241,24 +164,6 @@ void adc_resume(void)
 }
 #endif
 
-#if 0
-// ----------------------------------------------------------------------------
-/* Make sure the watchdog is disabled as soon as possible    */
-/* MCU doesn't disable the WDT after reset!                  */
-// ----------------------------------------------------------------------------
-uint8_t mcusr_mirror __attribute__ ((section (".noinit")));
-
-void get_mcusr(void) \
-  __attribute__((naked)) \
-  __attribute__((section(".init3")));
-void get_mcusr(void)
-{
-  mcusr_mirror = MCUSR;
-  MCUSR = 0;
-  wdt_disable();
-}
-#endif
-
 //------------------------------------------------------------------------------
 // This will put CPU into sleep mode. Call this in the main loop in order to save power
 //------------------------------------------------------------------------------
@@ -279,36 +184,59 @@ void resetCPU(void)
 }
 
 //------------------------------------------------------------------------------
-// Send Version string over ibus
-//------------------------------------------------------------------------------
-void ibus_sendVersion(void)
-{
-    
-}
-
-//------------------------------------------------------------------------------
 // This method will be called by IBus stack when new message recieved
 //------------------------------------------------------------------------------
 void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
 {
+    // check if we have to stop to work on the ibus
+    {
+        // stop be active on ibus when ignition completly off
+        //if (src == IBUS_DEV_IKE && dst == IBUS_DEV_GLO && msglen == 2 && msg[0] == IBUS_MSG_IGNITION && msg[1] == 0)
+        //    g_runningMode = STOP_IBUS;
+
+        // close key
+        // 00,BF,72,12 down  -  00,BF,72,02 released
+
+        // open key
+        // 00,BF,72,22 down  -  00,BF,72,02 released
+
+        // trunk key
+        // 00,BF,72,42 down  -  00,BF,72,02 released
+
+        // key EWS
+        // 44,BF,74,00,01 out
+        // 44,BF,74,04,01 in
+
+        // close car completely
+        // 00,BF,76,00
+        // 44,bf,74,00,ff -> EWS activated???
+        
+        // stop if door was closed with the key
+        if ((src == IBUS_DEV_GM && dst == IBUS_DEV_GLO && msglen == 2 && msg[0] == IBUS_MSG_GM_ENABLE_STATE && msg[1] == 0x00)
+        || (src == IBUS_DEV_GM && dst == IBUS_DEV_GLO && msglen == 2 && msg[0] == IBUS_MSG_GM_KEY_BUTTON && msg[1] == 0x12))
+        {
+            g_runningMode = STOP_IBUS;
+            led_fan_set(0b10100000);
+        }
+
+        // go into running mode, if door was opened
+        if (src == IBUS_DEV_GM && dst == IBUS_DEV_GLO && msglen == 2 && msg[0] == IBUS_MSG_GM_KEY_BUTTON && msg[1] == 0x22)
+        {
+            g_runningMode = RUN;
+            led_fan_set(0);
+        }
+    }
+
     UPDATE_SLEEP_COUNTER();
+
+    // do not proceed while not running
+    if (g_runningMode != RUN) return;
 
     // only send messages if not in setup mode
     if (!g_setupMode)
     {
-        // transfer message further to current emulation state
-        //switch(g_emulationMode)
-        //{
-        //case OPENBM:
-        //    emul_openbm_on_bus_msg(src,dst,msg,msglen);
-        //    break;
-        //case MID:
-            emul_mid_on_bus_msg(src,dst,msg,msglen);
-        //    break;
-        //case BMBT:
-        //    emul_bmbt_on_bus_msg(src,dst,msg,msglen);
-        //    break;
-        //}
+        mid_on_bus_msg(src,dst,msg,msglen);
+        obms_on_bus_msg(src, dst, msg, msglen);
     }
 
     // ----------------------------
@@ -330,11 +258,6 @@ void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen
             data[5] = (g_tickNumber & 0x000000FF) >> 0;
             ibus_sendMessage(IBUS_DEV_BMBT, src, data, 6, 3);
             
-        }else if (msg[1] == IBUS_MSG_OPENBM_GET_PHOTO)
-        {
-            uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_PHOTO, getPhotoSensor()};
-            ibus_sendMessage(IBUS_DEV_BMBT, src, data, 3, 3);
-
         }else if (msg[1] == IBUS_MSG_OPENBM_GET_DIMMER)
         {
             uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_DIMMER, g_backLightDimmer};
@@ -345,7 +268,7 @@ void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen
             uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_TEMP, g_temperatureSensor};
             ibus_sendMessage(IBUS_DEV_BMBT, src, data, 3, 3);
 
-        // reset command F0 07 .. FA BA AD FE ED ..
+        // reset command .. 07 F0 FA BA AD FE ED ..
         }else if (msglen == 5 && msg[1] == 0xBA && msg[2] == 0xAD && msg[3] == 0xFE && msg[4] == 0xED)
         {
             resetCPU();
@@ -360,10 +283,31 @@ void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen
             display_setInputState(inp);
         }else if (msglen == 4 && msg[1] == IBUS_MSG_OPENBM_SET_DISPLAY_LIGHT)
         {
-            photoSensorUse = (msg[2] == 0xFF);
+            photo_enable(msg[2] == 0xFF);
             display_setBackgroundLight(msg[3]);
         }
     }
+}
+
+// ----------------------------------------------------------------------------
+// Make sure the watchdog is disabled as soon as possible
+// MCU doesn't disable the WDT after reset!
+// ----------------------------------------------------------------------------
+uint8_t mcusr_mirror __attribute__ ((section (".noinit")));
+
+void get_mcusr(void) \
+  __attribute__((naked)) \
+  __attribute__((section(".init3")));
+void get_mcusr(void)
+{
+    // enable main MOSFET to control hardware power
+    DDRC  |= (1 << DDC3);// | (1 << DDC4);
+    PORTC |= (1 << 3);
+
+    // disable wdt
+    mcusr_mirror = MCUSR;
+    MCUSR = 0;
+    wdt_disable();
 }
 
 //------------------------------------------------------------------------------
@@ -371,8 +315,21 @@ void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen
 //------------------------------------------------------------------------------
 void shutDown(void)
 {
-    display_shutDown();         // disbale display
-    PORTC &= ~(1 << 3);         // shut down main board
+    //cli();
+    led_radioBlinkLock(3);
+    display_shutDown();         // disable display
+
+    // shut down main board (HACk because of broken TH3122??? need to send)
+    DDRC |= (1 << DDC3);
+    PORTC &= ~(1 << 3);
+    bit_clear(IBUS_TX_PORT, IBUS_TX_PIN);
+
+    _delay_ms(100);
+
+    // debug
+    set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+    sleep_mode();
+    resetCPU();
 }
 
 //------------------------------------------------------------------------------
@@ -380,20 +337,23 @@ void shutDown(void)
 //------------------------------------------------------------------------------
 void initHardware(void)
 {
-    // enable main MOSFET to control hardware power
-    DDRC |= (1 << DDC3);
-    PORTC |= (1 << 3);
+    g_runningMode = INIT;
 
     // disable not needed-hardware
-    PRR = 0;
+    PRR = 0;                  // enable all hardware
     PRR |= (1 << PRUSART1);   // disable USART-1
     PRR |= (1 << PRSPI);      // disable SPI
 
-    // set full I/O clock speed regardles of the fuse
-    cli();
-    CLKPR = (1 << CLKPCE);
-    CLKPR = 0;
+    // init ibus as soon as possible, so that messages don't get lost while initialization procedure
+    ibus_init();
+    sei();
     
+    // set full I/O clock speed regardles of the fuse
+    //cli();
+    //CLKPR = (1 << CLKPCE);
+    //CLKPR = 0;
+    //sei();
+
     // read this firmware version
     memcpy_P(&g_bootldrinfo, (PGM_VOID_P)(BOOTLOADERSTARTADR - SPM_PAGESIZE), sizeof(bootldrinfo_t));
 
@@ -407,9 +367,9 @@ void initHardware(void)
     display_init();
     button_init();
     adc_init();
-    emul_mid_init();
-    ibus_init();
+    photo_init();
     g_nextIbusTick = 0;
+    //ibus_init();
 
     // do small animation to indicate start
     {
@@ -434,11 +394,13 @@ void initHardware(void)
     sei();
     
     ibus_setMessageCallback(ibus_MessageCallback);
-    display_setBackgroundLight(g_deviceSettings.photo_maxValue);
+    display_setBackgroundLight(photo_get_max_value());
+
+    // init software modules
+    mid_init();
+    obms_init();
 
     UPDATE_SLEEP_COUNTER();
-
-
 }
 
 // -----------------------------------------------------------------------------
@@ -547,6 +509,20 @@ void checkSetupMode(void)
     {
         static uint8_t selio = 0;
 
+        // while selection is active check button press
+        if (selio != 0)
+        {
+            buttonIndex_t but = button_whichDown();
+            if (but != BUTTON_NUM_BUTTONS)
+            {
+                g_deviceSettings.io_assignment[selio] = but;
+                eeprom_update_byte(&g_deviceSettingsEEPROM.io_assignment[selio], but);
+                selio = 0;
+                led_radioBlinkLock(2);
+                _settings = NO;
+            }
+        }
+
         if (button_down_long(BUTTON_MENU_LR))
         {
             if (button_down(BUTTON_1))
@@ -567,20 +543,6 @@ void checkSetupMode(void)
                 selio = 0;
         }
 
-        // while selection is active check button press
-        if (selio != 0)
-        {
-            buttonIndex_t but = button_whichDown();
-            if (but != BUTTON_NUM_BUTTONS)
-            {
-                g_deviceSettings.io_assignment[selio] = but;
-                eeprom_update_byte(&g_deviceSettingsEEPROM.io_assignment[selio], but);
-                selio = 0;
-                led_radioBlinkLock(2);
-                _settings = NO;
-            }
-        }
-
         led_red_immediate_set(selio != 0);
 
         break;
@@ -591,43 +553,42 @@ void checkSetupMode(void)
     case PHOTO_MAX:
     case PHOTO_CALIB_MIN:
     case PHOTO_CALIB_MAX:
+    {
+        static uint8_t savePhoto = 0;
 
         // --------- Toggle Use of photo sensor -------------
         if (button_pressed(BUTTON_PRG))
         {
-            if (photoSensorUse)
+            if (photo_is_enabled())
             {
                 led_radioBlinkLock(1);
-                photoSensorUse = 0;
-                //display_setBackgroundLight(0xFF);
+                photo_enable(false);
+                display_setBackgroundLight(photo_get_max_value());
             }else
             {
                 led_radioBlinkLock(2);
-                photoSensorUse = 1;
+                photo_enable(true);
             }
-            eeprom_update_byte(&g_deviceSettingsEEPROM.photo_useSensor, photoSensorUse);
         }
         
         // --------- Change minimum brightness of the background --------
         if (button_pressed(BUTTON_REW))
         {
             _settings = PHOTO_MIN;
-            photoSensorUse = 0;
-            photoSensorLast = g_deviceSettings.photo_minValue;
+            photo_enable(false);
+            savePhoto = photo_get_min_value();
         }else if (button_pressed(BUTTON_FF))
         {
             _settings = PHOTO_MAX;
-            photoSensorUse = 0;
-            photoSensorLast = g_deviceSettings.photo_maxValue;
+            photo_enable(false);
+            savePhoto = photo_get_max_value();
         }else if (button_pressed(BUTTON_SELECT))
         {
             if (_settings == PHOTO_CALIB_MIN || _settings == PHOTO_CALIB_MAX)
             {
                 _settings = PHOTO;
-                photoSetupCalibration(  g_deviceSettings.photo_minCalibValue,
-                                        g_deviceSettings.photo_maxCalibValue,
-                                        g_deviceSettings.photo_minValue,
-                                        g_deviceSettings.photo_maxValue);
+                photo_setup_calibration();
+
             }else
                 _settings = PHOTO_CALIB_MAX;
 
@@ -635,27 +596,22 @@ void checkSetupMode(void)
         {
             if (_settings == PHOTO_CALIB_MAX)
             {
-                g_deviceSettings.photo_maxCalibValue = g_photoSensor;
+                photo_set_max_calib_value(photo_get_adc_raw_value());
+                _settings = PHOTO_CALIB_MIN;
             }else if (_settings == PHOTO_CALIB_MIN)
             {
-                g_deviceSettings.photo_minCalibValue = g_photoSensor;
-            }else{
-                photoSensorUse = 1;
-                if (_settings == PHOTO_MIN)
-                {
-                    eeprom_update_byte(&g_deviceSettingsEEPROM.photo_minValue, photoSensorLast);
-                    g_deviceSettings.photo_minValue = photoSensorLast;
-                }else
-                {
-                    eeprom_update_byte(&g_deviceSettingsEEPROM.photo_maxValue, photoSensorLast);
-                    g_deviceSettings.photo_maxValue = photoSensorLast;
-                }
-                eeprom_update_byte(&g_deviceSettingsEEPROM.photo_useSensor, photoSensorUse);
+                photo_set_min_calib_value(photo_get_adc_raw_value());
+                _settings = PHOTO;
+                photo_setup_calibration();
 
-                photoSetupCalibration(  g_deviceSettings.photo_minCalibValue,
-                                        g_deviceSettings.photo_maxCalibValue,
-                                        g_deviceSettings.photo_minValue,
-                                        g_deviceSettings.photo_maxValue);
+            }else{
+                photo_enable(true);
+                if (_settings == PHOTO_MIN)
+                    photo_set_min_value(savePhoto);
+                else
+                    photo_set_min_value(savePhoto);
+
+                photo_setup_calibration();
                 _settings = PHOTO;
             }
             led_radioBlinkLock(2);
@@ -664,17 +620,18 @@ void checkSetupMode(void)
         if (_settings == PHOTO_MIN || _settings == PHOTO_MAX)
         {
             int8_t enc = button_encoder(ENC_BMBT);
-            int16_t val = (int16_t)photoSensorLast + (int16_t)enc;
+            int16_t val = (int16_t)savePhoto + (int16_t)enc;
             if (val < 0) val = 0;
             if (val > 0xFF) val = 0xFF;
-            photoSensorLast = val & 0xFF;
-            display_setBackgroundLight(photoSensorLast);
+            savePhoto = val & 0xFF;
+            display_setBackgroundLight(savePhoto);
         }
         led_yellow_immediate_set(_settings == PHOTO_MIN || _settings == PHOTO_MAX);
         led_red_immediate_set(_settings == PHOTO_CALIB_MIN || _settings == PHOTO_CALIB_MAX);
 
         break;
 
+    }
     case BACKCAM:
         // --------- Toggle Use of backup camera-------------
         if (button_pressed(BUTTON_PRG))
@@ -716,9 +673,12 @@ void checkSetupMode(void)
 int main(void)
 {
     initHardware();
-    
-    //led_red_set(0b11110000);
-    
+
+    g_runningMode = RUN;
+
+    uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_DIMMER, g_backLightDimmer};
+    ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_GLO, data, 3, 3);
+
     for(;;)
     {
         // goto sleep only if ibus queue is empty
@@ -728,54 +688,35 @@ int main(void)
         // update current encoder states, need this here to eventually reset
         // the encoder rotary state to predefined value
         button_tick_encoder();
-        
+
         // ------------ Task timer has shooted, so perfrom repeated task -------
         if (tick_event())
         {
-            // update current state of buttons
-            button_tick();
-
-            // update mid emulator
-            if (!g_setupMode)
-            {
-                emul_mid_tick();
-                led_tick();
-            }
-
-            // display buttons
-            display_updateState();
-
-            led_green_immediate_set(BACKCAM_INPUT() && display_getInputState() == BACKCAM_INPUT());
-
-            // update photo sensor if its low-pass filtered value has changed
-            register uint8_t photoVal = g_photoSensor;
-            {
-                //if (photoVal > g_deviceSettings.photo_maxValue) photoVal = g_deviceSettings.photo_maxValue;
-                //if (photoVal < g_deviceSettings.photo_minValue) photoVal = g_deviceSettings.photo_minValue;
-                photoVal = updatePhotoSensor(photoVal);
-
-                if (photoSensorUse && photoVal != photoSensorLast)
-                {
-                    display_setBackgroundLight(photoVal);
-                    photoSensorLast = photoVal;
-                }
-            }
-
             // go into full sleep mode if there is no action on the ibus
             // happens during the last X seconds (full shut down!!!)
             if (tick_get() > g_nextIbusTick && !g_setupMode)
                 shutDown();
 
+            // update software modules which are independent of setup and running modes
+            button_tick();
+            photo_tick();
+            display_setBackgroundLight(photo_get_value());
+            display_updateState();
+
+            // update software modules
+            if (!g_setupMode && g_runningMode == RUN)
+            {
+                mid_tick();
+                obms_tick();
+            }
+            led_tick();
+            led_green_immediate_set(BACKCAM_INPUT() && display_getInputState() == BACKCAM_INPUT() && !g_setupMode);
+
             // Enable Setup-Mode, i.e. settable settings per buttons
             checkSetupMode();
 
-            // ----------- Do full reset if user liked so --------------------------
-            if (button_released(BUTTON_MENU_LR) && button_down(BUTTON_SELECT) && button_down(BUTTON_EJECT))
-                resetCPU();
-
-            button_after_tick();
-
             // perform global tick
+            button_after_tick();
             tick();
         }
 
@@ -800,7 +741,7 @@ ISR(ADC_vect)
     {
         if (g_adcCurrentChannel == 0)  // we were converting PhotoSensor values
         {
-            g_photoSensor = ADCH;
+            photo_set_adc_raw_value(ADCH);
 
             // switch channel (read on ADC0 next)
             g_adcCurrentChannel = 1;

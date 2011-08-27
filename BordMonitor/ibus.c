@@ -11,6 +11,7 @@
  ***************************************************************************/
 #include "ibus.h"
 #include "uart.h"
+#include "leds.h"
 
 #define IBUS_USE_SHORT_BUFFER
 
@@ -69,7 +70,7 @@ posptr_t ibus_transmit_msg(posptr_t from, posptr_t len)
     BEGIN_ATOMAR;
     {
         IBUS_TX_SETUP();
-        
+
         while(len > 0)
         {
             // load byte to transmit
@@ -250,7 +251,7 @@ void ibus_tick()
 
     // if no data in the buffer or we are not idle, then do nothing
     if (!ibus_readyToTransmit()) return;
-
+    
     // ok we are idle and we have data in the buffer, then first, wait for free buffer
     if (IBUS_SENSTA_VALUE())
     {
@@ -325,7 +326,8 @@ void ibus_init()
         IBUS_SENSTA_SETUP();
         IBUS_TIMER_SETUP();
         IBUS_TIMEOUT_WAIT_FREE_BUS();
-
+        IBUS_TX_SETUP();
+        
         // interrupt on falling edge on SEN/STA pin
         EICRA &= ~(1 << ISC00);
         EICRA |=  (1 << ISC01);
