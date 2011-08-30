@@ -430,8 +430,6 @@ void obms_tick(void)
                 _lightState = LIGHT_STATE_CHANGED;
                 _leavingHome = DISABLED;
             }
-            //c0,68,31,40,0,02
-            //c0,68,31,40,0,42
             break;
         }
 
