@@ -27,14 +27,16 @@ extern void display_init(void);
 //------------------------------------------------------------------------------
 // Shut down display, this will store settings and turn it off
 //------------------------------------------------------------------------------
-extern void display_shutDown(void);
 extern void display_powerOn(void);
 extern void display_powerOff(void);
+extern void display_turnOff(void); // turn off display without saving the power state to the EEPROM
+//extern void display_turnOn(void);  // turn on display without saving to EEPROM
+extern void display_tryTurnOn(void); // turn on display if state in EEPROM is active
 
 //------------------------------------------------------------------------------
 // Toggle display power
 //------------------------------------------------------------------------------
-extern void display_TogglePower(uint8_t writeToEeprom);
+//extern void display_TogglePower(uint8_t writeToEeprom);
 
 //------------------------------------------------------------------------------
 // Toggle display input
@@ -50,7 +52,7 @@ extern void display_updateState(void);
 //------------------------------------------------------------------------------
 // Set power state (0=off, 1=on)
 //------------------------------------------------------------------------------
-extern void display_setPowerState(uint8_t state);
+//extern void display_setPowerState(uint8_t state, bool writeToEeprom);
 extern uint8_t display_getPowerState(void);
 
 //------------------------------------------------------------------------------

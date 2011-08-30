@@ -308,7 +308,7 @@ void ibus_init()
     // initialize uart interface used for IBus communication
     uart_init(UART_BAUD_SELECT(9600, F_CPU));
     //uart_setFormat(8,1,1);
-    uart_setTxRx(0,0);
+    uart_setTxRx(0,1);
     uart_setTransmitDoneCallback(NULL);
     uart_setReceiveCallback(NULL);
 
@@ -326,7 +326,7 @@ void ibus_init()
         IBUS_SENSTA_SETUP();
         IBUS_TIMER_SETUP();
         IBUS_TIMEOUT_WAIT_FREE_BUS();
-        IBUS_TX_SETUP();
+        //IBUS_TX_SETUP();
         
         // interrupt on falling edge on SEN/STA pin
         EICRA &= ~(1 << ISC00);

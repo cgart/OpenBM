@@ -70,8 +70,9 @@ extern "C" {
 //*** Message Types ***
 #define IBUS_MSG_DEV_POLL           0x01    // Poll any device
 #define IBUS_MSG_DEV_READY          0x02    // answer to poll message
-#define IBUS_MSG_LAMP_STATE         0x5B    // Lamp state
+#define IBUS_MSG_VEHICLE_CTRL_REQ   0x0B    // Request state of the diag data
 #define IBUS_MSG_VEHICLE_CTRL       0x0C    // Vehicle Control (mostly used from diagnose)
+#define IBUS_MSG_IGNITION_REQ       0x10    // Request ignition state
 #define IBUS_MSG_IGNITION           0x11    // State of the ignition
 #define IBUS_MSG_IKE_STATE_REQ      0x12    // Request current IKE state
 #define IBUS_MSG_IKE_STATE          0x13    // IKE informs about its state
@@ -88,10 +89,13 @@ extern "C" {
 #define IBUS_MSG_MFL_BUTTON         0x3B    // MFL's button state change
 #define IBUS_MSG_BMBT_BUTTON        0x48    // action with BMBT button
 #define IBUS_MSG_BMBT_ENCODER       0x49    // BMBT encoder was rotated
+#define IBUS_MSG_LAMP_STATE         0x5B    // Lamp state
+#define IBUS_MSG_DIMMER_STATE       0x5C    // Dimmer state
 #define IBUS_MSG_GM_KEY_BUTTON      0x72    // state of the buttons on the key
 #define IBUS_MSG_GM_ENABLE_STATE    0x76    // state of GM indicating if car is closed or not ???
 #define IBUS_MSG_GM_STATE_REQ       0x79    // request current state of the GM (doors, trunk, ...)
 #define IBUS_MSG_GM_STATE           0x7A    // state of the GM (doors, trunk, ...)
+#define IBUS_MSG_DIA_ACK            0xA0    // acknowledge diagnose message
 
 
 #define IBUS_MSG_OPENBM_TO          0xFA    // message sent to OpenBM (not BMW specified)

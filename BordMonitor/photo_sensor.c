@@ -1,8 +1,8 @@
 #include "base.h"
 #include "photo_sensor.h"
 #include "ibus.h"
-#include "display.h"
 #include "avrfix.h"
+#include "buttons.h"
 #include "config.h"
 #include <avr/eeprom.h>
 
@@ -170,7 +170,7 @@ void photo_init(void)
     // if run for the first time, then write default data to eeprom
     if (eeprom_read_byte(&photo_SettingsInit) != 'P')
     {
-        eeprom_update_byte(&photo_SettingsEEPROM.photo_minValue, 0x28);
+        eeprom_update_byte(&photo_SettingsEEPROM.photo_minValue, 0x40);
         eeprom_update_byte(&photo_SettingsEEPROM.photo_maxValue, 0xFF);
         eeprom_update_byte(&photo_SettingsEEPROM.photo_minCalibValue, 0x3A);
         eeprom_update_byte(&photo_SettingsEEPROM.photo_maxCalibValue, 0xFF);
@@ -197,11 +197,17 @@ void photo_init(void)
 void photo_tick(void)
 {
     // update photo sensor if its low-pass filtered value has changed
-    register uint8_t photoVal = updatePhotoSensor(photoSensorRawValue);
+    uint8_t photoVal = updatePhotoSensor(photoSensorRawValue);
 
     if (photo_Settings.photo_useSensor && photoVal != photoSensorLast)
     {
         photoSensorLast = photoVal;
+    }
+
+    if (button_down(BUTTON_TEL) && button_down(BUTTON_UHR))
+    {
+        uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_PHOTO, photoSensorRawValue};
+        ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_GLO, data, 3, IBUS_TRANSMIT_TRIES);
     }
 }
 

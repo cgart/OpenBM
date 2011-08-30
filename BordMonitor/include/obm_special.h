@@ -2,8 +2,10 @@
  * File:   obm_special.h
  * Author: tevs
  *
- * Emulation of SPecial features:
- *  - automaticd central lock and unlock
+ * Emulation of Special features:
+ *  - automatic central lock (car speed above certain threshold) and unlock (ignition off or park gear)
+ *  - leaving home or greatings light
+ *  - comfort turn lights (TippBlinken)
  * 
  * Created on August 13, 2011, 12:12 AM
  */

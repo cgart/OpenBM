@@ -40,7 +40,12 @@ LedState g_LedState;
 //------------------------------------------------------------------------------
 void led_init(void)
 {
-    memset(&g_LedState, 0, sizeof(LedState));
+    //memset(&g_LedState, 0, sizeof(LedState));
+    g_LedState.Red = 0;
+    g_LedState.Green = 0;
+    g_LedState.Yellow = 0;
+    g_LedState.Fan = 0;
+    g_LedState.Radio = 0;
 
     // RED
     DDRC |= (1 << DDC2); PORTC &= ~(1 << 2);

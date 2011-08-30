@@ -36,7 +36,7 @@ typedef enum _RunningMode
 }RunningMode;
 RunningMode g_runningMode = INIT;
 
-#define UPDATE_SLEEP_COUNTER() { g_nextIbusTick = tick_get() + TICKS_PER_SECOND() * 15L; }
+#define UPDATE_SLEEP_COUNTER() { g_nextIbusTick = tick_get() + TICKS_PER_SECOND() * 300L; }
 
 // current adc value
 volatile uint8_t g_backLightDimmer;
@@ -184,6 +184,17 @@ void resetCPU(void)
 }
 
 //------------------------------------------------------------------------------
+void softReset(void)
+{
+    obms_init();
+    mid_init();
+    led_init();
+
+    g_runningMode = RUN;
+
+}
+
+//------------------------------------------------------------------------------
 // This method will be called by IBus stack when new message recieved
 //------------------------------------------------------------------------------
 void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
@@ -208,22 +219,47 @@ void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen
         // 44,BF,74,04,01 in
 
         // close car completely
+        // 44,bf,74,00,ff -> EWS de/activated???
+
+        // 00,BF,76,00 -> car locked
+        // 00,BF,76,02 -> car unlocked
+
+        // CLOSE Session:
+        // 00,BF,72,12  - key down
         // 00,BF,76,00
-        // 44,bf,74,00,ff -> EWS activated???
-        
+        // 00,BF,72,02  - key release
+        // 00,BF,7A,32,01 - state of Doors and other stuff
+        // 44,BF,74,00,FF
+
+        // OPEN Session:
+        // 00,BF,72,22
+        // 00,BF,76,02
+        // 00,BF,7A,53,21 - state of doors
+        // 00,BF,76,00
+        // 00,BF,72,02
+
         // stop if door was closed with the key
-        if ((src == IBUS_DEV_GM && dst == IBUS_DEV_GLO && msglen == 2 && msg[0] == IBUS_MSG_GM_ENABLE_STATE && msg[1] == 0x00)
-        || (src == IBUS_DEV_GM && dst == IBUS_DEV_GLO && msglen == 2 && msg[0] == IBUS_MSG_GM_KEY_BUTTON && msg[1] == 0x12))
+        if (//(src == IBUS_DEV_GM && dst == IBUS_DEV_GLO && msglen == 2 && msg[0] == IBUS_MSG_GM_ENABLE_STATE && msg[1] == 0x00)
+         (src == IBUS_DEV_GM && dst == IBUS_DEV_GLO && msglen == 2 && msg[0] == IBUS_MSG_GM_KEY_BUTTON && (msg[1] & 0x10)))
         {
             g_runningMode = STOP_IBUS;
-            led_fan_set(0b10100000);
+            led_red_set(0b1100000);
+            display_turnOff();
         }
 
-        // go into running mode, if door was opened
-        if (src == IBUS_DEV_GM && dst == IBUS_DEV_GLO && msglen == 2 && msg[0] == IBUS_MSG_GM_KEY_BUTTON && msg[1] == 0x22)
+        // go into running mode, if key opened the car
+        if (src == IBUS_DEV_GM && dst == IBUS_DEV_GLO && msglen == 2 && msg[0] == IBUS_MSG_GM_KEY_BUTTON && (msg[1] & 0x20))
         {
-            g_runningMode = RUN;
-            led_fan_set(0);
+            softReset();
+        }
+
+        // if door was opened or ignition was activated, then turn display on
+        if (g_runningMode != STOP_IBUS && (
+                (src == IBUS_DEV_GM && dst == IBUS_DEV_GLO && msg[0] == IBUS_MSG_GM_STATE && (msg[1] & 0x0F))
+             || (src == IBUS_DEV_IKE && dst == IBUS_DEV_GLO && msg[0] == IBUS_MSG_IGNITION))
+           )
+        {
+            display_tryTurnOn();
         }
     }
 
@@ -315,11 +351,11 @@ void get_mcusr(void)
 //------------------------------------------------------------------------------
 void shutDown(void)
 {
-    //cli();
-    led_radioBlinkLock(3);
-    display_shutDown();         // disable display
+    cli();
+    led_fan_immediate_set(1);
+    display_turnOff(); // turn display off without storing the power state
 
-    // shut down main board (HACk because of broken TH3122??? need to send)
+    // shut down main board (HACK because of broken TH3122??? need to send)
     DDRC |= (1 << DDC3);
     PORTC &= ~(1 << 3);
     bit_clear(IBUS_TX_PORT, IBUS_TX_PIN);
@@ -337,6 +373,9 @@ void shutDown(void)
 //------------------------------------------------------------------------------
 void initHardware(void)
 {
+    //resetCPU();
+    //_delay_ms(20);
+    //return;
     g_runningMode = INIT;
 
     // disable not needed-hardware
@@ -349,10 +388,10 @@ void initHardware(void)
     sei();
     
     // set full I/O clock speed regardles of the fuse
-    //cli();
-    //CLKPR = (1 << CLKPCE);
-    //CLKPR = 0;
-    //sei();
+    cli();
+    CLKPR = (1 << CLKPCE);
+    CLKPR = 0;
+    sei();
 
     // read this firmware version
     memcpy_P(&g_bootldrinfo, (PGM_VOID_P)(BOOTLOADERSTARTADR - SPM_PAGESIZE), sizeof(bootldrinfo_t));
@@ -372,7 +411,7 @@ void initHardware(void)
     //ibus_init();
 
     // do small animation to indicate start
-    {
+    /*{
         led_green_immediate_set(1);
         _delay_ms(50);
         led_green_immediate_set(0);
@@ -389,12 +428,12 @@ void initHardware(void)
         _delay_ms(50);
         led_radio_immediate_set(0);
         _delay_ms(50);
-    }
+    }*/
 
-    sei();
+    //sei();
     
     ibus_setMessageCallback(ibus_MessageCallback);
-    display_setBackgroundLight(photo_get_max_value());
+    //display_setBackgroundLight(photo_get_max_value());
 
     // init software modules
     mid_init();
@@ -419,12 +458,15 @@ void setBackCamInput(uint8_t a)
 void checkSetupMode(void)
 {
     // change to setup mode, when these three buttons are pressed long
-    if (button_down_long(BUTTON_INFO_R))
+    if (button_down_long(BUTTON_MODE))
     {
         if ((!g_setupMode && button_down(BUTTON_MENU_LR) && button_down(BUTTON_SELECT)) || g_setupMode)
         {
             g_setupMode = !g_setupMode;
             led_fan_immediate_set(g_setupMode);
+            display_setBackgroundLight(0xFF);
+
+            return;
         }
     }
 
@@ -453,7 +495,7 @@ void checkSetupMode(void)
         {
             _settings = IO;
             led_radioBlinkLock(3);
-        }else if (button_down_long(BUTTON_MODE) && button_down(BUTTON_MENU_LR))
+        }else if (button_down_long(BUTTON_RADIO_KNOB) && button_down(BUTTON_MENU_LR))
         {
             // Blink Once with LEDs
             led_radio_immediate_set(1);
@@ -668,7 +710,7 @@ void checkSetupMode(void)
 }
 //------------------------------------------------------------------------------
 // Set FUSES correctrly ( http://www.engbedded.com/fusecalc/):
-// avrdude -F -U lfuse:w:0xff:m -U hfuse:w:0xd8:m  (ext crystal, disable jtag, ckopt, boot reset)
+// avrdude -c usbasp -p atmega324p -F -U lfuse:w:0xff:m -U hfuse:w:0xd8:m  (ext crystal, disable jtag, ckopt, boot reset)
 //------------------------------------------------------------------------------
 int main(void)
 {
@@ -676,8 +718,8 @@ int main(void)
 
     g_runningMode = RUN;
 
-    uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_DIMMER, g_backLightDimmer};
-    ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_GLO, data, 3, 3);
+    //uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_DIMMER, g_backLightDimmer};
+    //ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_GLO, data, 3, 3);
 
     for(;;)
     {
@@ -699,17 +741,22 @@ int main(void)
 
             // update software modules which are independent of setup and running modes
             button_tick();
+            #if 1
             photo_tick();
-            display_setBackgroundLight(photo_get_value());
             display_updateState();
+            #endif
 
             // update software modules
-            if (!g_setupMode && g_runningMode == RUN)
+            if (!g_setupMode)
             {
-                mid_tick();
-                obms_tick();
+                led_tick();
+                display_setBackgroundLight(photo_get_value());
+                if (g_runningMode == RUN)
+                {
+                    mid_tick();
+                    obms_tick();
+                }
             }
-            led_tick();
             led_green_immediate_set(BACKCAM_INPUT() && display_getInputState() == BACKCAM_INPUT() && !g_setupMode);
 
             // Enable Setup-Mode, i.e. settable settings per buttons

@@ -10,6 +10,7 @@
 
 //------------------------------------------------------------------------------
 uint8_t _active_mode = 0; // 0x01 init, 0x40 radio, 0xC0=cd, 0x80=tape, 0x60=tone, etc.. this come from Radio
+uint8_t _ignitionState = 1;
 
 typedef enum _DevicePollState
 {
@@ -123,7 +124,7 @@ uint8_t _bmbt_button_mapping[BMBT_MAP_SIZE][3] PROGMEM =
 uint8_t mid_active_mode(void)
 {
     if (_active_mode == 0x40) return 0; // Radio
-    if (_active_mode == 0xC0) return 1; // CD-Chnager
+    if (_active_mode == 0xC0) return 1; // CD-Changer
     if (_active_mode == 0x80) return 2; // Tape
     return 0xFF;
 }
@@ -137,34 +138,74 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
     {        
         if (src == IBUS_DEV_RAD)
         {
-            if (_pollStateRecieved[DEV_RADIO] == 0) _pollStateRecieved[DEV_RADIO] = 5;
-            else _pollStateRecieved[DEV_RADIO]++;
+            /*if (_pollStateRecieved[DEV_RADIO] == 0) _pollStateRecieved[DEV_RADIO] = 5;
+            else*/
+                _pollStateRecieved[DEV_RADIO]++;
             if (_active_mode == 0) _active_mode = 1; // need to reinitialize the radio
         }
         if (src == IBUS_DEV_TEL)
         {
-            if (_pollStateRecieved[DEV_TEL] == 0) _pollStateRecieved[DEV_TEL] = 5;
-            else _pollStateRecieved[DEV_TEL]++;
+            /*if (_pollStateRecieved[DEV_TEL] == 0) _pollStateRecieved[DEV_TEL] = 5;
+            else*/
+                _pollStateRecieved[DEV_TEL]++;
         }
         if (src == IBUS_DEV_DSP)
         {
-            if (_pollStateRecieved[DEV_DSP] == 0) _pollStateRecieved[DEV_DSP] = 5;
-            else _pollStateRecieved[DEV_DSP]++;
+            /*if (_pollStateRecieved[DEV_DSP] == 0) _pollStateRecieved[DEV_DSP] = 5;
+            else*/
+                _pollStateRecieved[DEV_DSP]++;
         }
         if (src == IBUS_DEV_IKE)
         {
-            if (_pollStateRecieved[DEV_IKE] == 0) _pollStateRecieved[DEV_IKE] = 5;
-            else _pollStateRecieved[DEV_IKE]++;
+            /*if (_pollStateRecieved[DEV_IKE] == 0) _pollStateRecieved[DEV_IKE] = 5;
+            else*/
+                _pollStateRecieved[DEV_IKE]++;
         }
     }
 
     // answer to request messages C8 03 E7 01 2D -> C0 04 C8 02 00 0E
-    if (msg[0] == IBUS_MSG_DEV_POLL && (dst == IBUS_DEV_ANZV || dst == IBUS_DEV_MID || dst == IBUS_DEV_GT || dst == IBUS_DEV_BMBT))
+    // as soon as any request has been recieved
+    if (dst == IBUS_DEV_ANZV || dst == IBUS_DEV_MID || dst == IBUS_DEV_GT || dst == IBUS_DEV_BMBT)
     {
-        _ackAs = dst;
-        _ackToSrc = src;
+        // if we need to poll the answer, then do so
+        if (msg[0] == IBUS_MSG_DEV_POLL)
+        {
+            _ackAs = dst;
+            _ackToSrc = src;
+        }
+
+        if (src == IBUS_DEV_IKE && !_pollStateRecieved[DEV_IKE])
+            _pollStateRecieved[DEV_IKE] = 5;
+        else if (src == IBUS_DEV_TEL && !_pollStateRecieved[DEV_TEL])
+            _pollStateRecieved[DEV_TEL] = 5;
+        else if (src == IBUS_DEV_RAD && !_pollStateRecieved[DEV_RADIO] && _active_mode)
+            _pollStateRecieved[DEV_RADIO] = 5;
+        else if (src == IBUS_DEV_DSP && !_pollStateRecieved[DEV_DSP] && _active_mode)
+            _pollStateRecieved[DEV_DSP] = 5;
     }
 
+
+    // if ignition is off, then stop request on IKE and TEL
+    if (src == IBUS_DEV_IKE && dst == IBUS_DEV_GLO && msg[0] == IBUS_MSG_IGNITION)
+    {
+        _ignitionState = msg[1];
+
+        if (!_ignitionState)
+        {
+            _active_mode = 0;
+
+            _pollStateRecieved[DEV_IKE] = 0;
+            _pollStateRecieved[DEV_TEL] = 0;
+            _pollStateRecieved[DEV_DSP] = 0;
+            _pollStateRecieved[DEV_RADIO] = 0;
+        }else
+        {
+            _pollStateRecieved[DEV_IKE] = 5;
+            _pollStateRecieved[DEV_TEL] = 5;
+        }
+        
+        return;
+    }
 
     #if 0
     // if ignore MFL ff/rew modus is activated, then send resend this event
@@ -198,13 +239,21 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
                 _ackTextUpdateWithNeg = ~(0x00);
             }else if (msglen >= 2)
             {
-                _active_mode = msg[1];
                 _ackTextUpdateWithNeg = ~(0x02);
             }
+
+            // if mode is 0, then we have turned off, so stop polling the radio and DSP
+            if (msg[1] == 0)
+            {
+                _pollStateRecieved[DEV_RADIO] = 0;
+                _pollStateRecieved[DEV_DSP] = 0;
+            }
+
+            _active_mode = msg[1];
         }
 
         // React on LED message
-        if (msg[0] == IBUS_MSG_LED && USE_BM_LEDS())
+        else if (msg[0] == IBUS_MSG_LED && USE_BM_LEDS())
         {
             if (msg[1] & (1 << 0)) led_red_set(0b11111111); else led_red_set(0);
             if (msg[1] & (1 << 1)) led_red_set(0b11110000);
@@ -218,6 +267,8 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
             if (msg[1] & (1 << 6)) led_fan_set(0b11111111); else led_fan_set(0);
             if (msg[1] & (1 << 7)) led_fan_set(0b11110000);
         }
+
+        return;
     }
 
     // special treatment for messages defined for BMBT/OpenBM
@@ -279,23 +330,6 @@ void mid_ping_tick(void)
     }
     #endif
 
-    // if radio has been detected however haven't been asked for its state, do this
-    if (_active_mode == 1)
-    {
-        // mein BMW Prof, ohne DSP C0 06 FF 20 20 B0 00 89
-        // Alex BMW Buis,  mit DSP C0 06 FF 20 00 B3 20 8A
-
-        //uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x20, 0xB2, 0x00 /* DSP 0x20 */};
-        uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x00, 0xB3, 0x20};
-
-        //if (g_deviceSettings.device_Settings2 & RADIO_PROFESSIONAL)
-        //    data[2] |= 0xB2;
-
-        ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_LOC, data, 4, IBUS_TRANSMIT_TRIES);
-        _active_mode = 0;
-    }
-
-
     // every 10 seconds we perform a ping on different hardware to check if they exists
     _pingTicks ++;
 
@@ -346,6 +380,24 @@ void mid_ping_tick(void)
             _pingTicks = 0;
         }
     }
+
+#if 1
+    // if radio has been detected however haven't been asked for its state, do this
+    if (_active_mode == 1)
+    {
+        // mein BMW Prof, ohne DSP C0 06 FF 20 20 B0 00 89
+        // Alex BMW Buis,  mit DSP C0 06 FF 20 00 B3 20 8A
+
+        //uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x20, 0xB2, 0x00 /* DSP 0x20 */};
+        uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x00, 0xB3, 0x20};
+
+        //if (g_deviceSettings.device_Settings2 & RADIO_PROFESSIONAL)
+        //    data[2] |= 0xB2;
+
+        ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_LOC, data, 4, IBUS_TRANSMIT_TRIES);
+        _active_mode = 0;
+    }
+#endif
 }
 
 //------------------------------------------------------------------------------
@@ -386,16 +438,27 @@ void mid_tick(void)
             ignoreReleaseEvent = 1;
             uint8_t data[2] = {IBUS_MSG_BMBT_BUTTON, 0x46};
             ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_RAD, data, 2, IBUS_TRANSMIT_TRIES);
-        }else if (button_released(BUTTON_RADIO_KNOB))
+        }else if (button_released(BUTTON_RADIO_KNOB) && _ignitionState)
         {
             if (ignoreReleaseEvent == 0)
             {
                 if (_active_mode)
                 {
-                    display_shutDown();
+                    _pollStateRecieved[DEV_RADIO] = 0;
+                    _pollStateRecieved[DEV_DSP] = 0;
                     _active_mode = 0;
+
+                    display_powerOff();
                 }else
                 {
+                    _pollStateRecieved[DEV_RADIO] = 5;
+                    _pollStateRecieved[DEV_IKE] = 5;
+                    _pollStateRecieved[DEV_DSP] = 5;
+                    _pollStateRecieved[DEV_TEL] = 5;
+
+                    _active_mode = 1;
+                    _pingTicks = 0xFFFFFF;
+
                     display_powerOn();
                 }
 
@@ -530,7 +593,8 @@ void mid_init(void)
     _ackAs = IBUS_DEV_MID;
     _ackTextUpdateWithNeg = 0;
     _pingTicks = 0;
-    
+    _ignitionState = 1;
+
     for (int8_t i=0; i < DEV_NUM; i++)
         _pollStateRecieved[i] = 0;
 

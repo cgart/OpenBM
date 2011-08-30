@@ -141,10 +141,12 @@ uint16_t display_getVoltageSwitch(void)
 //------------------------------------------------------------------------------
 void display_init(void)
 {
+    DISP_MOSFET_SETUP;
+    DISP_MOSFET_OFF;
+
     // based on the jumper settings we enable either 3.3V or 5V as idle voltage
     DDRB &= ~(1 << DDB3); // set Jumper pin to input mode
     PORTB |= (1 << 3);    // enable pull-up, will refer to this later, so that we don't get spurious data here
-    DISP_MOSFET_SETUP;
 
     // if run for the first time, then write default data to eeprom
     if (eeprom_read_byte(&g_eeprom_DisplayDataInit) != 'R')
@@ -161,7 +163,6 @@ void display_init(void)
     g_displayError = 0;
 
     // disable display per default and read max voltage levels
-    DISP_MOSFET_OFF;
     if (bit_is_set(PINB,3)) // bit is 1, so pull-up, so 5V as maximum
         max_dacVoltage = 0xFFF; // nominal output voltage is 5V
     else
@@ -178,16 +179,17 @@ void display_init(void)
     // set variables
     deviceSettings = &g_deviceSettings;
     deviceSettingsEEPROM = &g_deviceSettingsEEPROM;
-    display_dac_setVoltage(deviceSettings->dac_idleVoltage);
+    //display_dac_setVoltage(deviceSettings->dac_idleVoltage);
 
     // disable DAC output and switch display mosfet off
     display_dac_sleep();
 
     // if display was previously off, then don't enable it again
-    if (g_DisplayState.display_Power)
-        display_powerOn();
+    //if (g_DisplayState.display_Power)
+    //    display_powerOn();
 }
 
+#if 0
 //------------------------------------------------------------------------------
 void display_TogglePower(uint8_t writeToEeprom)
 {
@@ -204,9 +206,9 @@ void display_TogglePower(uint8_t writeToEeprom)
     }
     _delay_ms(500); // TODO look how to remove that!!!
 
-    //g_display_NextResponseTime = tick_get() + TICKS_PER_QUARTERSECOND();
     g_display_NextResponseTime = tick_get() + TICKS_PER_SECOND() - TICKS_PER_QUARTERSECOND();
 }
+#endif
 
 //------------------------------------------------------------------------------
 void display_ToggleInput(uint8_t writeToEeprom)
@@ -235,7 +237,6 @@ void display_savePowerState(uint8_t state)
     eeprom_update_byte(&g_eeprom_DisplayState.display_Power, g_DisplayState.display_Power);
 }
 
-
 //------------------------------------------------------------------------------
 void display_saveInputState(uint8_t state)
 {
@@ -243,12 +244,14 @@ void display_saveInputState(uint8_t state)
     eeprom_update_byte(&g_eeprom_DisplayState.display_Input, g_DisplayState.display_Input);
 }
 
+#if 0
 //------------------------------------------------------------------------------
-void display_setPowerState(uint8_t state)
+void display_setPowerState(uint8_t state, bool saveEEPROM)
 {
     if (g_DisplayState.display_Power == state) return;
-    display_TogglePower(1);
+    display_TogglePower(saveEEPROM);
 }
+#endif
 
 //------------------------------------------------------------------------------
 void display_setInputState(uint8_t state)
@@ -289,29 +292,43 @@ uint8_t display_getBackgroundLight(void)
 //------------------------------------------------------------------------------
 void display_powerOn(void)
 {
+    g_DisplayState.display_Power = 1;
     display_dac_setVoltage(deviceSettings->dac_idleVoltage);
     DISP_MOSFET_ON;
-    display_setPowerState(1);
+    eeprom_update_byte(&g_eeprom_DisplayState.display_Power, g_DisplayState.display_Power);
+    //display_setPowerState(1,true);
 }
 
 //------------------------------------------------------------------------------
 void display_powerOff(void)
 {
-    display_setPowerState(0);
+    g_DisplayState.display_Power = 0;
+
+    // save display settings
+    display_savePowerState(g_DisplayState.display_Power);
+    display_saveInputState(g_DisplayState.display_Input);
+
+    //display_setPowerState(0,true);
     display_dac_sleep();
     DISP_MOSFET_OFF;
 }
 
 //------------------------------------------------------------------------------
-void display_shutDown(void)
+void display_turnOff(void)
 {
-    // save display settings
-    display_savePowerState(g_DisplayState.display_Power);
-    display_saveInputState(g_DisplayState.display_Input);
-
-    // disable MOSFET
     display_dac_sleep();
     DISP_MOSFET_OFF;
+}
+
+//------------------------------------------------------------------------------
+void display_tryTurnOn(void)
+{
+    if (eeprom_read_byte(&g_eeprom_DisplayState.display_Power))
+    {
+        display_dac_setVoltage(deviceSettings->dac_idleVoltage);
+        DISP_MOSFET_ON;
+        //display_setPowerState(1,false);
+    }
 }
 
 //------------------------------------------------------------------------------
