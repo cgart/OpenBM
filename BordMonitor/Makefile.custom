@@ -84,7 +84,7 @@ PROJECTNAME=bmwMonitor
 # (list all files to compile, e.g. 'a.c b.cpp as.S'):
 # Use .cc, .cpp or .C suffix for C++ files, use .S
 # (NOT .s !!!) for assembly source code files.
-PRJSRC=main.c uart.c ibus.c twimaster.c display.c leds.c buttons.c emul_mid.c avrfix.c obm_special.c photo_sensor.c
+PRJSRC=main.c uart.c ibus.c twimaster.c display.c leds.c buttons.c emul_mid.c obm_special.c photo_sensor.c power_module.c
 # bootloader/xtea.c bootloader/main.c
 
 # additional includes (e.g. -I/path/to/mydir)
@@ -170,6 +170,7 @@ CFLAGS += -ffreestanding
 CFLAGS += -mcall-prologues
 CFLAGS += $(CDEFS)
 CFLAGS += $(CSTANDARD)
+#CFLAGS += -fverbose-asm -save-temps
 
 # c++ specific flags
 CPPFLAGS=-I. $(INC) -g -mmcu=$(MCU) -O$(OPTLEVEL) \
@@ -188,7 +189,7 @@ ASMFLAGS =-I. $(INC) -g -mmcu=$(MCU)        \
 
 # linker
 LDFLAGS=-Wl,-Map,$(TRG).map -mmcu=$(MCU) \
-	-lm $(LIBS)
+	-lc -lm $(LIBS)
 
 LDFLAGS	+= -Wl,--section-start=.bootloader=$(BOOTLOADERSTARTADR)
 #LDFLAGS += -T linker_script.x
@@ -278,7 +279,7 @@ $(DUMPTRG): $(TRG)
 
 
 $(TRG): $(OBJDEPS)
-	$(CC) $(LDFLAGS) -o $(TRG) $(OBJDEPS)
+	$(CC) $(LDFLAGS) -o $(TRG) $(OBJDEPS) -lc
 
 #### Generating assembly ####
 # asm from C

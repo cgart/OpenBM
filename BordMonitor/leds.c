@@ -69,7 +69,7 @@ void led_tick(void)
 {
     // react only every 1/8 second
     static uint8_t ticks = 0;
-    if (ticks++ < TICKS_PER_ONE_EIGHTH_SECOND()) return;
+    if (ticks++ < TICKS_PER_ONE_EIGHTH_SECOND) return;
     ticks = 0;
 
     // this is our current tick counter

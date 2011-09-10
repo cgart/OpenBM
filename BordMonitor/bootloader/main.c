@@ -71,6 +71,10 @@ void get_mcusr(void)
 //     BOOTLOADER_SECTION;
 void get_mcusr(void)
 {
+  // enable main MOSFET to control hardware power
+  DDRC  |= (1 << DDC3);// | (1 << DDC4);
+  PORTC |= (1 << 3);
+
   MCUSR = 0;
   wdt_disable();
 }
@@ -307,7 +311,7 @@ void onibusMsg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         #endif
     }
 
-    _delay_ms(100);
+    //_delay_ms(100);
 
     return;
 }
@@ -404,7 +408,7 @@ begin:
     led_red_immediate_set(1);
     #endif
     bootloaderMode = WAIT;
-    nextTick = g_tickNumber + (ticks_t)TICKS_PER_SECOND() * (ticks_t)1;
+    nextTick = g_tickNumber + TICKS_PER_SECOND;
     //blink();
 
     do{
@@ -431,7 +435,7 @@ begin:
     led_yellow_immediate_set(1);
     #endif
     bootloaderMode = RECEIVE_INIT;
-    nextTick = g_tickNumber + (ticks_t)TICKS_PER_SECOND() * (ticks_t)5;
+    nextTick = g_tickNumber + TICKS_PER_X_SECONDS(5);
     do{
         if (tick_event()) tick();
 
@@ -468,6 +472,8 @@ begin:
 start:
     // start main application
     app_start();
+
+    return 0;
 }
 
 //------------------------------------------------------------------------------

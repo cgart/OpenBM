@@ -333,7 +333,7 @@ void mid_ping_tick(void)
     // every 10 seconds we perform a ping on different hardware to check if they exists
     _pingTicks ++;
 
-    if (_pingTicks > TICKS_PER_SECOND() * 10)
+    if (_pingTicks > TICKS_PER_X_SECONDS(10))
     {
         uint8_t data[1] = {IBUS_MSG_DEV_POLL};
 
@@ -582,6 +582,21 @@ void mid_tick(void)
         }
     }
 
+}
+
+//------------------------------------------------------------------------------
+void mid_stop()
+{
+    _ignitionState = 0;
+    _active_mode = 0;
+    for (int8_t i=0; i < DEV_NUM; i++)
+        _pollStateRecieved[i] = 0;
+}
+
+//------------------------------------------------------------------------------
+void mid_resume()
+{
+    mid_init();
 }
 
 //------------------------------------------------------------------------------

@@ -171,7 +171,8 @@ void display_init(void)
     // setup PWM for the bglight
     DDRD |= (1 << DDD7);
     TCCR2A = (1 << COM2A1) | (1 << COM2A0) /*| (1 << WGM21) |*/ |  (1 << WGM20);
-    TCCR2B = (1 << CS22)  | (0 << CS21) | (0 << CS20);
+    //TCCR2B = (1 << CS22)  | (0 << CS21) | (0 << CS20);
+    TCCR2B = (0 << CS22)  | (1 << CS21) | (0 << CS20);
     TCNT2 = 0;
     OCR2A = 0x80;//g_DisplayState.bglight_maxDuty;
     PORTD |= (1 << 7);
@@ -227,7 +228,7 @@ void display_ToggleInput(uint8_t writeToEeprom)
     _delay_ms(500); // TODO look how to remove that!!!
     
     //g_display_NextResponseTime = tick_get() + TICKS_PER_QUARTERSECOND();
-    g_display_NextResponseTime = tick_get() + TICKS_PER_SECOND() - TICKS_PER_QUARTERSECOND();
+    g_display_NextResponseTime = tick_get() + TICKS_PER_SECOND - TICKS_PER_QUARTERSECOND;
 }
 
 //------------------------------------------------------------------------------
@@ -274,7 +275,7 @@ void display_setInputState(uint8_t state)
         display_ToggleInput(1);
     }
 
-    display_saveInputState(state);
+    //display_saveInputState(state);
 }
 
 //------------------------------------------------------------------------------
@@ -297,6 +298,7 @@ void display_powerOn(void)
     DISP_MOSFET_ON;
     eeprom_update_byte(&g_eeprom_DisplayState.display_Power, g_DisplayState.display_Power);
     //display_setPowerState(1,true);
+    g_display_NextResponseTime = tick_get() + TICKS_PER_SECOND - TICKS_PER_QUARTERSECOND;
 }
 
 //------------------------------------------------------------------------------
@@ -328,6 +330,7 @@ void display_tryTurnOn(void)
         display_dac_setVoltage(deviceSettings->dac_idleVoltage);
         DISP_MOSFET_ON;
         //display_setPowerState(1,false);
+        g_display_NextResponseTime = tick_get() + TICKS_PER_SECOND - TICKS_PER_QUARTERSECOND;
     }
 }
 

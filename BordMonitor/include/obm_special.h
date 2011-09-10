@@ -20,6 +20,8 @@ extern "C"
 
 extern void obms_init(void);
 extern void obms_tick(void);
+extern void obms_stop(void);
+extern void obms_resume(void);
 extern void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen);
 
 #ifdef	__cplusplus

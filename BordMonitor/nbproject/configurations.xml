@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="62">
+<configurationDescriptor version="69">
   <logicalFolder name="root" displayName="root" projectFiles="true">
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
@@ -14,6 +14,7 @@
       <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/include/leds.h</itemPath>
       <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/include/obm_special.h</itemPath>
       <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/include/photo_sensor.h</itemPath>
+      <itemPath>include/power_module.h</itemPath>
       <itemPath>include/uart.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
@@ -27,6 +28,7 @@
       <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/main.c</itemPath>
       <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/obm_special.c</itemPath>
       <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/photo_sensor.c</itemPath>
+      <itemPath>power_module.c</itemPath>
       <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/twimaster.c</itemPath>
       <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/uart.c</itemPath>
     </logicalFolder>
@@ -65,10 +67,6 @@
             <pElem>./include</pElem>
           </incDir>
         </ccTool>
-        <linkerTool>
-          <linkerLibItems>
-          </linkerLibItems>
-        </linkerTool>
       </compileType>
     </conf>
     <conf name="Release" type="1">
@@ -94,10 +92,6 @@
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
         </fortranCompilerTool>
-        <linkerTool>
-          <linkerLibItems>
-          </linkerLibItems>
-        </linkerTool>
       </compileType>
     </conf>
   </confs>

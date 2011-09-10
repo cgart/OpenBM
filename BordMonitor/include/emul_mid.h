@@ -31,6 +31,9 @@ extern void mid_tick(void);
  **/
 extern void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen);
 
+extern void mid_stop(void);
+extern void mid_resume(void);
+
 
 #ifdef	__cplusplus
 }

@@ -1,10 +1,12 @@
 #include "base.h"
 #include "photo_sensor.h"
 #include "ibus.h"
-#include "avrfix.h"
 #include "buttons.h"
 #include "config.h"
+#include "include/photo_sensor.h"
 #include <avr/eeprom.h>
+#include <math.h>
+
 
 typedef struct _PhotoSettings
 {
@@ -13,6 +15,9 @@ typedef struct _PhotoSettings
     uint8_t photo_minCalibValue;
     uint8_t photo_maxCalibValue;
     uint8_t photo_useSensor;
+    uint8_t photo_calibChanged;
+    uint8_t photo_sensorLast;
+    float   photo_Gamma;
 }PhotoSettings;
 
 PhotoSettings photo_Settings;
@@ -20,14 +25,86 @@ PhotoSettings photo_SettingsEEPROM EEMEM;
 uint8_t       photo_SettingsInit EEMEM;
 
 
-#define PHOTO_NUM_SAMPLES_EXP 4
+#define PHOTO_NUM_SAMPLES_EXP 6
 #define PHOTO_NUM_SAMPLES (1 << PHOTO_NUM_SAMPLES_EXP)
 uint8_t photoSensorValues[PHOTO_NUM_SAMPLES];
 uint8_t photoSensorIndex;
 uint16_t photoSensorSum;
 uint8_t photoSensorLast;
 uint8_t photoSensorRawValue;
-_aAccum photoSensorRangeFactor;
+//_aAccum photoSensorRangeFactor;
+
+#define CACHE_RANGE 32
+#define CACHE_HALF_RANGE (CACHE_RANGE >> 1)
+#define CACHE_FACTOR 4
+
+//------------------------------------------------------------------------------
+uint8_t photo_calibTableEEPROM[256] EEMEM;
+uint8_t photo_calibCache[CACHE_RANGE];
+uint8_t photo_calibCacheLine = 0xFF;
+
+//------------------------------------------------------------------------------
+uint8_t photo_get_cached(uint8_t value)
+{
+    uint8_t cacheLine = value >> CACHE_FACTOR;
+    uint8_t cacheStart = cacheLine << CACHE_FACTOR;
+
+    // check if cache isn't loaded yet, then preload it
+    if (photo_calibCacheLine != cacheLine)
+    {
+        cacheStart = 0;
+        if (cacheLine > 0)
+            cacheStart = (cacheLine << CACHE_FACTOR) - CACHE_HALF_RANGE;
+
+        photo_calibCacheLine = cacheLine;
+
+        eeprom_read_block(photo_calibCache, &photo_calibTableEEPROM[cacheStart], CACHE_RANGE);
+    }
+
+    // the value we look for must be in the loaded cache line
+    return photo_calibCache[value - cacheStart];
+}
+
+
+//------------------------------------------------------------------------------
+void photo_setup_calibration()
+{
+    if (photo_Settings.photo_calibChanged)
+    {
+        uint8_t minCalib = photo_Settings.photo_minCalibValue;
+        uint8_t maxCalib = photo_Settings.photo_maxCalibValue;
+        uint8_t minRange = photo_Settings.photo_minValue;
+        uint8_t maxRange = photo_Settings.photo_maxValue;
+
+        eeprom_update_byte(&photo_SettingsEEPROM.photo_minCalibValue, minCalib);
+        eeprom_update_byte(&photo_SettingsEEPROM.photo_maxCalibValue, maxCalib);
+
+        eeprom_update_byte(&photo_SettingsEEPROM.photo_minValue, minRange);
+        eeprom_update_byte(&photo_SettingsEEPROM.photo_maxValue, maxRange);
+
+        // setup look-up table
+        for (uint8_t i=0 ; i <= minCalib; i++)
+            eeprom_update_byte(&photo_calibTableEEPROM[i], minRange);
+
+        for (uint8_t i=minCalib+1; i < maxCalib; i++)
+        {
+            float val = (float)(i - minCalib);
+            val = val / (float)(maxCalib - minCalib);
+            val = powf(val, photo_Settings.photo_Gamma);
+            uint8_t res = (uint8_t)(val * (float)(maxRange - minRange)) + minRange;
+            eeprom_update_byte(&photo_calibTableEEPROM[i], res);
+        }
+
+        for (uint8_t i=maxCalib ; i < 255; i++)
+            eeprom_update_byte(&photo_calibTableEEPROM[i], maxRange);
+
+        // preload look-up table into cache
+        photo_get_cached(photoSensorRawValue);
+
+        photo_Settings.photo_calibChanged = 0;
+        eeprom_update_byte(&photo_SettingsEEPROM.photo_calibChanged, 0);
+    }
+}
 
 //------------------------------------------------------------------------------
 bool photo_is_enabled(void)
@@ -59,6 +136,7 @@ void photo_set_max_value(uint8_t val)
 {
     eeprom_update_byte(&photo_SettingsEEPROM.photo_maxValue, val);
     photo_Settings.photo_maxValue = val;
+    photo_Settings.photo_calibChanged = 1;
 }
 
 //------------------------------------------------------------------------------
@@ -66,6 +144,7 @@ void photo_set_min_value(uint8_t val)
 {
     eeprom_update_byte(&photo_SettingsEEPROM.photo_minValue, val);
     photo_Settings.photo_minValue = val;
+    photo_Settings.photo_calibChanged = 1;
 }
 
 //------------------------------------------------------------------------------
@@ -73,6 +152,7 @@ void photo_set_max_calib_value(uint8_t val)
 {
     eeprom_update_byte(&photo_SettingsEEPROM.photo_maxCalibValue, val);
     photo_Settings.photo_maxCalibValue = val;
+    photo_Settings.photo_calibChanged = 1;
 }
 
 //------------------------------------------------------------------------------
@@ -80,6 +160,7 @@ void photo_set_min_calib_value(uint8_t val)
 {
     eeprom_update_byte(&photo_SettingsEEPROM.photo_minCalibValue, val);
     photo_Settings.photo_minCalibValue = val;
+    photo_Settings.photo_calibChanged = 1;
 }
 
 //------------------------------------------------------------------------------
@@ -95,47 +176,19 @@ uint8_t photo_get_adc_raw_value(void)
 }
 
 //------------------------------------------------------------------------------
-void photo_setup_calibration()//uint8_t minCalib, uint8_t maxCalib, uint8_t minRange, uint8_t maxRange)
+bool photo_is_bright_enough(void)
 {
-    uint8_t minCalib = photo_Settings.photo_minCalibValue;
-    uint8_t maxCalib = photo_Settings.photo_maxCalibValue;
-    uint8_t minRange = photo_Settings.photo_minValue;
-    uint8_t maxRange = photo_Settings.photo_maxValue;
-
-    //uint8_t dataph[6] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_PHOTO, minCalib, maxCalib, minRange, maxRange};
-    //ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_BMBT, dataph, 6, 6);
-
-    //photo_Settings.photo_minCalibValue = minCalib;
-    //photo_Settings.photo_maxCalibValue = maxCalib;
-
-    eeprom_update_byte(&photo_SettingsEEPROM.photo_minCalibValue, minCalib);
-    eeprom_update_byte(&photo_SettingsEEPROM.photo_maxCalibValue, maxCalib);
-
-    //photo_Settings.photo_minValue = minRange;
-    //photo_Settings.photo_maxValue = maxRange;
-
-    eeprom_update_byte(&photo_SettingsEEPROM.photo_minValue, minRange);
-    eeprom_update_byte(&photo_SettingsEEPROM.photo_maxValue, maxRange);
-
-    _aAccum calibMax = itok(maxCalib);
-    _aAccum calibMin = itok(minCalib);
-
-    _aAccum photoMax = itok(maxRange);
-    _aAccum photoMin = itok(minRange);
-
-    photoSensorRangeFactor = divk(photoMax - photoMin, calibMax - calibMin);
+    uint8_t hdiff = (photo_Settings.photo_maxCalibValue - photo_Settings.photo_minCalibValue) >> 1;
+    return photoSensorRawValue >= (photo_Settings.photo_minCalibValue + hdiff);
 }
 
 //------------------------------------------------------------------------------
 uint8_t photo_apply_calibration(uint8_t value)
 {
-    if (value > photo_Settings.photo_maxCalibValue) value = photo_Settings.photo_maxCalibValue;
-    if (value < photo_Settings.photo_minCalibValue) value = photo_Settings.photo_minCalibValue;
+    if (photo_Settings.photo_calibChanged)
+        photo_setup_calibration();
 
-    _aAccum v = itok(value - photo_Settings.photo_minCalibValue);
-    _aAccum r = mulk(v, photoSensorRangeFactor);
-
-    return ktoi(r) + photo_Settings.photo_minValue;
+    return photo_get_cached(value);
 }
 
 //------------------------------------------------------------------------------
@@ -168,15 +221,20 @@ uint8_t updatePhotoSensor(uint8_t val)
 void photo_init(void)
 {
     // if run for the first time, then write default data to eeprom
-    if (eeprom_read_byte(&photo_SettingsInit) != 'P')
+    if (eeprom_read_byte(&photo_SettingsInit) != 'K')
     {
         eeprom_update_byte(&photo_SettingsEEPROM.photo_minValue, 0x40);
         eeprom_update_byte(&photo_SettingsEEPROM.photo_maxValue, 0xFF);
-        eeprom_update_byte(&photo_SettingsEEPROM.photo_minCalibValue, 0x3A);
-        eeprom_update_byte(&photo_SettingsEEPROM.photo_maxCalibValue, 0xFF);
+        eeprom_update_byte(&photo_SettingsEEPROM.photo_minCalibValue, 0x00);
+        eeprom_update_byte(&photo_SettingsEEPROM.photo_maxCalibValue, 0x30);
         eeprom_update_byte(&photo_SettingsEEPROM.photo_useSensor, 0xFF);
+        eeprom_update_byte(&photo_SettingsEEPROM.photo_calibChanged, 1);
+        eeprom_update_byte(&photo_SettingsEEPROM.photo_sensorLast, 0xFF);
 
-        eeprom_write_byte(&photo_SettingsInit, 'P');
+        float gamma = 0.35f;
+        eeprom_update_block(&gamma, &photo_SettingsEEPROM.photo_Gamma, sizeof(float));
+
+        eeprom_write_byte(&photo_SettingsInit, 'K');
     }
 
     photo_Settings.photo_minValue = eeprom_read_byte(&photo_SettingsEEPROM.photo_minValue);
@@ -184,12 +242,16 @@ void photo_init(void)
     photo_Settings.photo_minCalibValue = eeprom_read_byte(&photo_SettingsEEPROM.photo_minCalibValue);
     photo_Settings.photo_maxCalibValue = eeprom_read_byte(&photo_SettingsEEPROM.photo_maxCalibValue);
     photo_Settings.photo_useSensor = eeprom_read_byte(&photo_SettingsEEPROM.photo_useSensor);
+    photo_Settings.photo_calibChanged = eeprom_read_byte(&photo_SettingsEEPROM.photo_calibChanged);
+    photo_Settings.photo_sensorLast = eeprom_read_byte(&photo_SettingsEEPROM.photo_calibChanged);
+
+    eeprom_read_block(&photo_Settings.photo_Gamma, &photo_SettingsEEPROM.photo_Gamma, sizeof(float));
 
     photo_setup_calibration();
 
     photoSensorIndex = 0;
     photoSensorSum = (uint16_t)photo_Settings.photo_maxValue << (uint16_t)PHOTO_NUM_SAMPLES_EXP;
-    photoSensorLast = photo_Settings.photo_maxValue;
+    photoSensorLast = photo_Settings.photo_sensorLast;
     memset(&photoSensorValues[0], photo_Settings.photo_maxValue, PHOTO_NUM_SAMPLES);
 }
 
@@ -197,26 +259,69 @@ void photo_init(void)
 void photo_tick(void)
 {
     // update photo sensor if its low-pass filtered value has changed
-    uint8_t photoVal = updatePhotoSensor(photoSensorRawValue);
-
-    if (photo_Settings.photo_useSensor && photoVal != photoSensorLast)
+    if (photo_Settings.photo_useSensor)
     {
-        photoSensorLast = photoVal;
+        uint8_t photoVal = updatePhotoSensor(photoSensorRawValue);
+
+        if (photoVal != photoSensorLast)
+        {
+            photoSensorLast = photoVal;
+        }
     }
 
     if (button_down(BUTTON_TEL) && button_down(BUTTON_UHR))
     {
-        uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_PHOTO, photoSensorRawValue};
-        ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_GLO, data, 3, IBUS_TRANSMIT_TRIES);
+        uint8_t data[8] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_PHOTO, photoSensorRawValue, photoSensorSum >> PHOTO_NUM_SAMPLES_EXP, photo_Settings.photo_minValue, photo_Settings.photo_maxValue, photo_Settings.photo_minCalibValue, photo_Settings.photo_maxCalibValue};
+        ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_GLO, data, 8, IBUS_TRANSMIT_TRIES);
     }
 }
 
 //------------------------------------------------------------------------------
 void photo_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
 {
-    if (dst == IBUS_DEV_BMBT && msglen >= 2 && msg[0] == IBUS_MSG_OPENBM_TO && msg[1] == IBUS_MSG_OPENBM_GET_PHOTO)
+    if (dst == IBUS_DEV_BMBT && msg[0] == IBUS_MSG_OPENBM_TO)
     {
-        uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_PHOTO, photoSensorSum >> PHOTO_NUM_SAMPLES_EXP};
-        ibus_sendMessage(IBUS_DEV_BMBT, src, data, 3, IBUS_TRANSMIT_TRIES);
+        if (msglen == 2 && msg[1] == IBUS_MSG_OPENBM_GET_PHOTO)
+        {
+            uint8_t data[8] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_PHOTO, photoSensorRawValue, photoSensorSum >> PHOTO_NUM_SAMPLES_EXP, photo_Settings.photo_minValue, photo_Settings.photo_maxValue, photo_Settings.photo_minCalibValue, photo_Settings.photo_maxCalibValue};
+            ibus_sendMessage(IBUS_DEV_BMBT, src, data, 8, IBUS_TRANSMIT_TRIES);
+            
+        }else if (msglen == 4 && msg[1] == IBUS_MSG_OPENBM_SET_DISPLAY_LIGHT)
+        {
+            photo_enable(msg[2] == 0xFF);
+            photoSensorLast = msg[3];
+            eeprom_update_byte(&photo_SettingsEEPROM.photo_sensorLast, msg[3]);
+        }else if (msglen == 7 && msg[1] == IBUS_MSG_OPENBM_SET_PHOTO)
+        {
+            // every such message will be responded, default response is 0
+            uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_SET_PHOTO, msg[2]};
+
+            // setup gamma
+            if (msg[2] == 0x01)
+            {
+                union
+                {
+                    struct
+                    {
+                        uint8_t byte[4];
+                    };
+                    float gamma;
+                } gamma;
+                gamma.byte[3] = msg[3];
+                gamma.byte[2] = msg[4];
+                gamma.byte[1] = msg[5];
+                gamma.byte[0] = msg[6];
+
+                photo_Settings.photo_Gamma = gamma.gamma;
+                eeprom_update_block(&gamma.gamma, &photo_SettingsEEPROM.photo_Gamma, sizeof(float));
+                photo_Settings.photo_calibChanged = 1;
+                
+            // don't know what to do with this
+            }else
+                data[2] = 0;
+
+            ibus_sendMessage(IBUS_DEV_BMBT, src, data, 3, IBUS_TRANSMIT_TRIES);
+        }
     }
+
 }

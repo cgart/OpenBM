@@ -30,7 +30,7 @@ extern "C"
 #endif
 
 // delay in ticks, when we decide that button is hold too long
-#define BUTTON_DELAY_LONG TICKS_PER_ONE_AND_A_HALF_SECONDS()
+#define BUTTON_DELAY_LONG TICKS_PER_ONE_AND_A_HALF_SECONDS
     
 /*** Button definitions ***/
 // (don't change this, specific to hardware !!!)

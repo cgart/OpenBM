@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="62">
+<configurationDescriptor version="69">
   <projectmakefile>Makefile</projectmakefile>
   <defaultConf>1</defaultConf>
   <confs>
     <conf name="Debug" type="1">
-      <gdbdebugger version="2">
-        <gdb_command>gdb</gdb_command>
-        <array_repeat_threshold>10</array_repeat_threshold>
-      </gdbdebugger>
       <gizmo_options version="3">
       </gizmo_options>
       <runprofile version="6">
@@ -22,10 +18,6 @@
       </runprofile>
     </conf>
     <conf name="Release" type="1">
-      <gdbdebugger version="2">
-        <gdb_command>gdb</gdb_command>
-        <array_repeat_threshold>10</array_repeat_threshold>
-      </gdbdebugger>
       <gizmo_options version="3">
       </gizmo_options>
       <runprofile version="6">

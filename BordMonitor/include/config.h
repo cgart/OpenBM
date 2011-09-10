@@ -20,9 +20,9 @@ extern "C"
 #include "customer.h"
 
 // Version
-#define VERSION_MAJOR 1
-#define VERSION_MINOR 12
-#define VERSION_ADD_STR "[2-beta1] compiled on " __DATE__ " at " __TIME__
+#define VERSION_MAJOR 2
+#define VERSION_MINOR 0
+#define VERSION_ADD_STR "[2-beta2] compiled on " __DATE__ " at " __TIME__
 
 #define DEVICE_CODING1 DEVID_11
 #define DEVICE_CODING2 DEVID_12
@@ -68,11 +68,6 @@ typedef struct _DeviceSettings
     // --------------------------------------
     uint8_t initSeed;
     uint8_t io_assignment[3];
-
-    // --------------------------------------
-    // special features
-    // --------------------------------------
-    uint8_t obms_centralLock;
     
 }DeviceSettings;
 

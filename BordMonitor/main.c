@@ -15,28 +15,22 @@
 #include "uart.h"
 #include "obm_special.h"
 #include "photo_sensor.h"
+#include "power_module.h"
 #include <i2cmaster.h>
-#include <avr/wdt.h>
 #include <avr/boot.h>
 #include <avr/sleep.h>
+#include <avr/wdt.h>
 
 //#include "bootloader/bootloader.h"
+#include "include/leds.h"
+#include "include/power_module.h"
+#include "include/photo_sensor.h"
+#include "include/ibus.h"
 
 // global tick counter
 ticks_t g_tickNumber;
 uint8_t g_tickEventHappened;
-volatile ticks_t g_nextIbusTick;
 uint8_t g_setupMode;
-
-typedef enum _RunningMode
-{
-    INIT,
-    RUN,
-    STOP_IBUS
-}RunningMode;
-RunningMode g_runningMode = INIT;
-
-#define UPDATE_SLEEP_COUNTER() { g_nextIbusTick = tick_get() + TICKS_PER_SECOND() * 300L; }
 
 // current adc value
 volatile uint8_t g_backLightDimmer;
@@ -87,14 +81,6 @@ void settings_readAndSetup(void)
         // --------------------
         eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings1, DEVICE_CODING1);
         eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings2, DEVICE_CODING2);
-
-        // --------------------
-        // Special features
-        // --------------------
-        if (DEVICE_CODING1 & (1 << 5))
-            eeprom_update_byte(&g_deviceSettingsEEPROM.obms_centralLock, 5);
-        else
-            eeprom_update_byte(&g_deviceSettingsEEPROM.obms_centralLock, 0);
     }
 
     // load current display state from the eeprom
@@ -108,8 +94,6 @@ void settings_readAndSetup(void)
     g_deviceSettings.io_assignment[0] = eeprom_read_word((void*)&g_deviceSettingsEEPROM.io_assignment[0]);
     g_deviceSettings.io_assignment[1] = eeprom_read_word((void*)&g_deviceSettingsEEPROM.io_assignment[1]);
     g_deviceSettings.io_assignment[2] = eeprom_read_word((void*)&g_deviceSettingsEEPROM.io_assignment[2]);
-
-    g_deviceSettings.obms_centralLock = eeprom_read_byte(&g_deviceSettingsEEPROM.obms_centralLock);
 
     //END_ATOMAR;
 }
@@ -173,106 +157,23 @@ void sleepCPU(void)
     sleep_mode();
 }
 
-//------------------------------------------------------------------------------
-// Reset cpu by watchdog, full reset is performed
-//------------------------------------------------------------------------------
-void resetCPU(void)
-{
-    cli();
-    wdt_enable(WDTO_15MS);
-    while(1){};
-}
-
-//------------------------------------------------------------------------------
-void softReset(void)
-{
-    obms_init();
-    mid_init();
-    led_init();
-
-    g_runningMode = RUN;
-
-}
 
 //------------------------------------------------------------------------------
 // This method will be called by IBus stack when new message recieved
 //------------------------------------------------------------------------------
 void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
 {
-    // check if we have to stop to work on the ibus
-    {
-        // stop be active on ibus when ignition completly off
-        //if (src == IBUS_DEV_IKE && dst == IBUS_DEV_GLO && msglen == 2 && msg[0] == IBUS_MSG_IGNITION && msg[1] == 0)
-        //    g_runningMode = STOP_IBUS;
-
-        // close key
-        // 00,BF,72,12 down  -  00,BF,72,02 released
-
-        // open key
-        // 00,BF,72,22 down  -  00,BF,72,02 released
-
-        // trunk key
-        // 00,BF,72,42 down  -  00,BF,72,02 released
-
-        // key EWS
-        // 44,BF,74,00,01 out
-        // 44,BF,74,04,01 in
-
-        // close car completely
-        // 44,bf,74,00,ff -> EWS de/activated???
-
-        // 00,BF,76,00 -> car locked
-        // 00,BF,76,02 -> car unlocked
-
-        // CLOSE Session:
-        // 00,BF,72,12  - key down
-        // 00,BF,76,00
-        // 00,BF,72,02  - key release
-        // 00,BF,7A,32,01 - state of Doors and other stuff
-        // 44,BF,74,00,FF
-
-        // OPEN Session:
-        // 00,BF,72,22
-        // 00,BF,76,02
-        // 00,BF,7A,53,21 - state of doors
-        // 00,BF,76,00
-        // 00,BF,72,02
-
-        // stop if door was closed with the key
-        if (//(src == IBUS_DEV_GM && dst == IBUS_DEV_GLO && msglen == 2 && msg[0] == IBUS_MSG_GM_ENABLE_STATE && msg[1] == 0x00)
-         (src == IBUS_DEV_GM && dst == IBUS_DEV_GLO && msglen == 2 && msg[0] == IBUS_MSG_GM_KEY_BUTTON && (msg[1] & 0x10)))
-        {
-            g_runningMode = STOP_IBUS;
-            led_red_set(0b1100000);
-            display_turnOff();
-        }
-
-        // go into running mode, if key opened the car
-        if (src == IBUS_DEV_GM && dst == IBUS_DEV_GLO && msglen == 2 && msg[0] == IBUS_MSG_GM_KEY_BUTTON && (msg[1] & 0x20))
-        {
-            softReset();
-        }
-
-        // if door was opened or ignition was activated, then turn display on
-        if (g_runningMode != STOP_IBUS && (
-                (src == IBUS_DEV_GM && dst == IBUS_DEV_GLO && msg[0] == IBUS_MSG_GM_STATE && (msg[1] & 0x0F))
-             || (src == IBUS_DEV_IKE && dst == IBUS_DEV_GLO && msg[0] == IBUS_MSG_IGNITION))
-           )
-        {
-            display_tryTurnOn();
-        }
-    }
-
-    UPDATE_SLEEP_COUNTER();
+    power_on_bus_msg(src, dst, msg, msglen);
 
     // do not proceed while not running
-    if (g_runningMode != RUN) return;
+    if (power_get_running_mode() != RUN) return;
 
     // only send messages if not in setup mode
     if (!g_setupMode)
     {
         mid_on_bus_msg(src,dst,msg,msglen);
         obms_on_bus_msg(src, dst, msg, msglen);
+        photo_on_bus_msg(src, dst, msg, msglen);
     }
 
     // ----------------------------
@@ -283,7 +184,7 @@ void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen
         if (msg[1] == IBUS_MSG_OPENBM_GET_VERSION)
         {
             uint8_t data[4] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_VERSION, g_bootldrinfo.app_version>>8, g_bootldrinfo.app_version&0xFF};
-            ibus_sendMessage(IBUS_DEV_BMBT, src, data, 4, 3);
+            ibus_sendMessage(IBUS_DEV_BMBT, src, data, 4, IBUS_TRANSMIT_TRIES);
             
         } else if (msg[1] == IBUS_MSG_OPENBM_GET_TICKS)
         {
@@ -292,22 +193,22 @@ void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen
             data[3] = (g_tickNumber & 0x00FF0000) >> 16;
             data[4] = (g_tickNumber & 0x0000FF00) >> 8;
             data[5] = (g_tickNumber & 0x000000FF) >> 0;
-            ibus_sendMessage(IBUS_DEV_BMBT, src, data, 6, 3);
+            ibus_sendMessage(IBUS_DEV_BMBT, src, data, 6, IBUS_TRANSMIT_TRIES);
             
         }else if (msg[1] == IBUS_MSG_OPENBM_GET_DIMMER)
         {
             uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_DIMMER, g_backLightDimmer};
-            ibus_sendMessage(IBUS_DEV_BMBT, src, data, 3, 3);
+            ibus_sendMessage(IBUS_DEV_BMBT, src, data, 3, IBUS_TRANSMIT_TRIES);
 
         }else if (msg[1] == IBUS_MSG_OPENBM_GET_TEMP)
         {
             uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_TEMP, g_temperatureSensor};
-            ibus_sendMessage(IBUS_DEV_BMBT, src, data, 3, 3);
+            ibus_sendMessage(IBUS_DEV_BMBT, src, data, 3, IBUS_TRANSMIT_TRIES);
 
         // reset command .. 07 F0 FA BA AD FE ED ..
         }else if (msglen == 5 && msg[1] == 0xBA && msg[2] == 0xAD && msg[3] == 0xFE && msg[4] == 0xED)
         {
-            resetCPU();
+            power_reset_cpu();
         }else if (msglen == 3 && msg[1] == IBUS_MSG_OPENBM_SET_DISPLAY)
         {
             // get power and input states from the second byte
@@ -317,10 +218,6 @@ void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen
             if (pwr == 0b01100000) display_powerOff();
             else if (pwr == 0b11110000) display_powerOn();
             display_setInputState(inp);
-        }else if (msglen == 4 && msg[1] == IBUS_MSG_OPENBM_SET_DISPLAY_LIGHT)
-        {
-            photo_enable(msg[2] == 0xFF);
-            display_setBackgroundLight(msg[3]);
         }
     }
 }
@@ -346,37 +243,13 @@ void get_mcusr(void)
     wdt_disable();
 }
 
-//------------------------------------------------------------------------------
-// Full shut down of the main board (MOSFET turn off signale)
-//------------------------------------------------------------------------------
-void shutDown(void)
-{
-    cli();
-    led_fan_immediate_set(1);
-    display_turnOff(); // turn display off without storing the power state
-
-    // shut down main board (HACK because of broken TH3122??? need to send)
-    DDRC |= (1 << DDC3);
-    PORTC &= ~(1 << 3);
-    bit_clear(IBUS_TX_PORT, IBUS_TX_PIN);
-
-    _delay_ms(100);
-
-    // debug
-    set_sleep_mode(SLEEP_MODE_PWR_DOWN);
-    sleep_mode();
-    resetCPU();
-}
 
 //------------------------------------------------------------------------------
 // Init all hardware parts needed for the project
 //------------------------------------------------------------------------------
 void initHardware(void)
 {
-    //resetCPU();
-    //_delay_ms(20);
-    //return;
-    g_runningMode = INIT;
+    power_set_running_mode(INIT);
 
     // disable not needed-hardware
     PRR = 0;                  // enable all hardware
@@ -401,13 +274,13 @@ void initHardware(void)
 
     // init hardware
     tick_init();
+    power_init();
     led_init();
     i2c_init();
     display_init();
     button_init();
     adc_init();
     photo_init();
-    g_nextIbusTick = 0;
     //ibus_init();
 
     // do small animation to indicate start
@@ -434,12 +307,11 @@ void initHardware(void)
     
     ibus_setMessageCallback(ibus_MessageCallback);
     //display_setBackgroundLight(photo_get_max_value());
+    //display_tryTurnOn();
 
     // init software modules
     mid_init();
     obms_init();
-
-    UPDATE_SLEEP_COUNTER();
 }
 
 // -----------------------------------------------------------------------------
@@ -541,6 +413,8 @@ void checkSetupMode(void)
             led_red_immediate_set(0);
 
             g_setupMode = 0;
+
+            power_reset_cpu();
         }
     }
 
@@ -629,7 +503,7 @@ void checkSetupMode(void)
             if (_settings == PHOTO_CALIB_MIN || _settings == PHOTO_CALIB_MAX)
             {
                 _settings = PHOTO;
-                photo_setup_calibration();
+                //photo_setup_calibration();
 
             }else
                 _settings = PHOTO_CALIB_MAX;
@@ -644,7 +518,7 @@ void checkSetupMode(void)
             {
                 photo_set_min_calib_value(photo_get_adc_raw_value());
                 _settings = PHOTO;
-                photo_setup_calibration();
+                //photo_setup_calibration();
 
             }else{
                 photo_enable(true);
@@ -653,7 +527,7 @@ void checkSetupMode(void)
                 else
                     photo_set_min_value(savePhoto);
 
-                photo_setup_calibration();
+                //photo_setup_calibration();
                 _settings = PHOTO;
             }
             led_radioBlinkLock(2);
@@ -716,10 +590,7 @@ int main(void)
 {
     initHardware();
 
-    g_runningMode = RUN;
-
-    //uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_DIMMER, g_backLightDimmer};
-    //ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_GLO, data, 3, 3);
+    power_set_running_mode(RUN);
 
     for(;;)
     {
@@ -734,24 +605,18 @@ int main(void)
         // ------------ Task timer has shooted, so perfrom repeated task -------
         if (tick_event())
         {
-            // go into full sleep mode if there is no action on the ibus
-            // happens during the last X seconds (full shut down!!!)
-            if (tick_get() > g_nextIbusTick && !g_setupMode)
-                shutDown();
-
             // update software modules which are independent of setup and running modes
+            power_tick();
             button_tick();
-            #if 1
             photo_tick();
             display_updateState();
-            #endif
 
             // update software modules
             if (!g_setupMode)
             {
                 led_tick();
                 display_setBackgroundLight(photo_get_value());
-                if (g_runningMode == RUN)
+                if (power_get_running_mode() == RUN)
                 {
                     mid_tick();
                     obms_tick();
@@ -814,17 +679,6 @@ ISR(ADC_vect)
         //ADCSRA |= (1 << ADSC);
     }
     END_ATOMAR;
-}
-
-//------------------------------------------------------------------------------
-// On any button action this interrupt will be called.
-// We use this interrupt to wake up our main CPU and let button handler know
-// that there is something happening with the buttons
-//------------------------------------------------------------------------------
-ISR(INT1_vect)
-{
-    UPDATE_SLEEP_COUNTER();
-    button_isr();
 }
 
 

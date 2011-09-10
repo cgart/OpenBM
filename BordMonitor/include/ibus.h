@@ -92,7 +92,7 @@ extern "C" {
 #define IBUS_MSG_LAMP_STATE         0x5B    // Lamp state
 #define IBUS_MSG_DIMMER_STATE       0x5C    // Dimmer state
 #define IBUS_MSG_GM_KEY_BUTTON      0x72    // state of the buttons on the key
-#define IBUS_MSG_GM_ENABLE_STATE    0x76    // state of GM indicating if car is closed or not ???
+#define IBUS_MSG_GM_ENABLE_STATE    0x76    // state of GM indicating if car is closed or not ??? could be DWA?!
 #define IBUS_MSG_GM_STATE_REQ       0x79    // request current state of the GM (doors, trunk, ...)
 #define IBUS_MSG_GM_STATE           0x7A    // state of the GM (doors, trunk, ...)
 #define IBUS_MSG_DIA_ACK            0xA0    // acknowledge diagnose message
@@ -108,9 +108,10 @@ extern "C" {
 #define IBUS_MSG_OPENBM_GET_TEMP    0x04    // second data byte: get value of the temperature sensor
 #define IBUS_MSG_OPENBM_SET_DISPLAY 0x10    // set display input (next byte corresponds directly to the input, half upper byte = power (0000 - nothing, 1111 - on, 0110 - off), half lower byte = input)
 #define IBUS_MSG_OPENBM_SET_DISPLAY_LIGHT 0x11 // set brightness of display (warning automatic brightness must be disabled)
+#define IBUS_MSG_OPENBM_OBMS_SET    0x12    // setup settings for OBMS
+#define IBUS_MSG_OPENBM_SET_PHOTO   0x13    // setup settings for the photo sensor
 #define IBUS_MSG_OPENBM_SPECIAL_REQ 0xFF    // second data byte: special request message (i.e. update firmware)
 #define IBUS_MSG_OPENBM_SETTINGS    0xFE    // second data byte: write/read settings of OpenBM to/from EEPROM
-    
 
 //*** iBus Settings ***
 #define IBUS_TX_SETUP()               { DDRD |= (1 << DDD1); PORTD |= (1 << 1); }

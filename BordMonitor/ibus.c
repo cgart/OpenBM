@@ -66,11 +66,11 @@ posptr_t ibus_transmit_msg(posptr_t from, posptr_t len)
     posptr_t oldFrom = from;
     
     if (IBUS_SENSTA_VALUE()) return from;
+
+    IBUS_TX_SETUP();
     
     BEGIN_ATOMAR;
     {
-        IBUS_TX_SETUP();
-
         while(len > 0)
         {
             // load byte to transmit

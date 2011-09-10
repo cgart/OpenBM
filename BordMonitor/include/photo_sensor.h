@@ -31,6 +31,7 @@ extern void photo_set_max_value(uint8_t);
 extern void photo_set_min_value(uint8_t);
 extern void photo_set_max_calib_value(uint8_t);
 extern void photo_set_min_calib_value(uint8_t);
+extern bool photo_is_bright_enough(void); // returns true if the value of photo-sensor is considered as bright, i.e. v-min/max-min > 0.5
 
 #ifdef	__cplusplus
 }
