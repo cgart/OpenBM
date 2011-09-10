@@ -196,7 +196,7 @@ void obms_set_light_state(void)
     if (_lightState & FOGLIGHT_FRONT_LEFT) data[6] |= 0x04;
     if (_lightState & FOGLIGHT_FRONT_RIGHT) data[6] |= 0x40;
 
-    if (_lightState & BRAKE_LEFT) data[5] |= 0x80;
+    if (_lightState & BRAKE_LEFT) data[5] |= 0x08;
     if (_lightState & BRAKE_RIGHT) data[5] |= 0x10;
     if (_lightState & BRAKE_CENTER) data[7] |= 0x10;
 
@@ -652,7 +652,7 @@ void obms_init(void)
     // if run for the first time, then write default data to eeprom
     if (eeprom_read_byte(&obms_SettingsInit) != 'O')
     {
-        eeprom_update_byte(&obms_SettingsEEPROM.automaticCentralLock, 10);
+        eeprom_update_byte(&obms_SettingsEEPROM.automaticCentralLock, 5);
         eeprom_update_byte(&obms_SettingsEEPROM.lockCarUnused, 60);
 
         eeprom_update_byte(&obms_SettingsEEPROM.comfortTurnLight, 3);

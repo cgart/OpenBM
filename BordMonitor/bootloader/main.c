@@ -130,7 +130,7 @@ void boot_program_page(uint16_t page, uint8_t *buf)
 
     uint32_t adr = page * SPM_PAGESIZE;
 
-    //eeprom_busy_wait();
+    eeprom_busy_wait();
 
     //boot_page_erase(adr);
     //while (boot_rww_busy())
@@ -355,6 +355,11 @@ int main(void)
 
     // get current flash information. This indicates current flashed version and other usefull things
     memcpy_P(&current_bootldrinfo, (PGM_VOID_P)(BOOTLOADERSTARTADR - SPM_PAGESIZE), sizeof(bootldrinfo_t));
+   /* {
+        uint8_t data[] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_SPECIAL_REQ, current_bootldrinfo.app_version >> 8, current_bootldrinfo.app_version & 0xFF};
+
+        ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_GLO, data, 4, IBUS_TRANSMIT_TRIES);
+    }*/
     if (current_bootldrinfo.app_version == 0xFFFF || current_bootldrinfo.app_version == 0)
     {
         current_bootldrinfo.app_version  = (uint16_t)VERSION_MAJOR << 8;
@@ -378,6 +383,11 @@ int main(void)
         current_bootldrinfo.dev_key[9] = DID(10);
         current_bootldrinfo.dev_key[10] = DID(11);
         current_bootldrinfo.dev_key[11] = DID(12);
+
+        // write default one
+        //memset(&page_buffer[0], 0xFF, SPM_PAGESIZE);
+        //memcpy(&page_buffer[0], &current_bootldrinfo, sizeof(bootldrinfo_t));
+        //boot_program_page(LAST_PAGE, page_buffer);
     }
 
     //blink();

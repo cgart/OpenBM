@@ -35,8 +35,7 @@ uint8_t photoSensorRawValue;
 //_aAccum photoSensorRangeFactor;
 
 #define CACHE_RANGE 32
-#define CACHE_HALF_RANGE (CACHE_RANGE >> 1)
-#define CACHE_FACTOR 4
+#define CACHE_FACTOR 5
 
 //------------------------------------------------------------------------------
 uint8_t photo_calibTableEEPROM[256] EEMEM;
@@ -52,10 +51,6 @@ uint8_t photo_get_cached(uint8_t value)
     // check if cache isn't loaded yet, then preload it
     if (photo_calibCacheLine != cacheLine)
     {
-        cacheStart = 0;
-        if (cacheLine > 0)
-            cacheStart = (cacheLine << CACHE_FACTOR) - CACHE_HALF_RANGE;
-
         photo_calibCacheLine = cacheLine;
 
         eeprom_read_block(photo_calibCache, &photo_calibTableEEPROM[cacheStart], CACHE_RANGE);
@@ -225,7 +220,7 @@ void photo_init(void)
     {
         eeprom_update_byte(&photo_SettingsEEPROM.photo_minValue, 0x40);
         eeprom_update_byte(&photo_SettingsEEPROM.photo_maxValue, 0xFF);
-        eeprom_update_byte(&photo_SettingsEEPROM.photo_minCalibValue, 0x00);
+        eeprom_update_byte(&photo_SettingsEEPROM.photo_minCalibValue, 0x02);
         eeprom_update_byte(&photo_SettingsEEPROM.photo_maxCalibValue, 0x30);
         eeprom_update_byte(&photo_SettingsEEPROM.photo_useSensor, 0xFF);
         eeprom_update_byte(&photo_SettingsEEPROM.photo_calibChanged, 1);
@@ -312,10 +307,11 @@ void photo_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
                 gamma.byte[1] = msg[5];
                 gamma.byte[0] = msg[6];
 
-                photo_Settings.photo_Gamma = gamma.gamma;
                 eeprom_update_block(&gamma.gamma, &photo_SettingsEEPROM.photo_Gamma, sizeof(float));
+                photo_Settings.photo_Gamma = gamma.gamma;
                 photo_Settings.photo_calibChanged = 1;
-                
+                photo_calibCacheLine = 0xFF;
+
             // don't know what to do with this
             }else
                 data[2] = 0;
