@@ -46,6 +46,7 @@ uint8_t page_buffer[SPM_PAGESIZE];
 uint8_t seed;
 xtea_key_t encKey;
 uint16_t crc16;
+bootldrinfo_t bootLdrInfo __attribute__((section(".bootloadercfg")));
 bootldrinfo_t current_bootldrinfo;
 
 ticks_t g_tickNumber;
@@ -354,7 +355,7 @@ int main(void)
     ibus_setMessageCallback(onibusMsg);
 
     // get current flash information. This indicates current flashed version and other usefull things
-    memcpy_P(&current_bootldrinfo, (PGM_VOID_P)(BOOTLOADERSTARTADR - SPM_PAGESIZE), sizeof(bootldrinfo_t));
+    memcpy_P(&current_bootldrinfo, &bootLdrInfo, sizeof(bootldrinfo_t));//(PGM_VOID_P)(BOOTLOADERSTARTADR - SPM_PAGESIZE), sizeof(bootldrinfo_t));
    /* {
         uint8_t data[] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_SPECIAL_REQ, current_bootldrinfo.app_version >> 8, current_bootldrinfo.app_version & 0xFF};
 
@@ -385,8 +386,8 @@ int main(void)
         current_bootldrinfo.dev_key[11] = DID(12);
 
         // write default one
-        //memset(&page_buffer[0], 0xFF, SPM_PAGESIZE);
-        //memcpy(&page_buffer[0], &current_bootldrinfo, sizeof(bootldrinfo_t));
+        //memset(page_buffer, 0xFF, SPM_PAGESIZE);
+        //memcpy(page_buffer, &current_bootldrinfo, sizeof(bootldrinfo_t));
         //boot_program_page(LAST_PAGE, page_buffer);
     }
 

@@ -311,29 +311,6 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
             _lwrState = 0;
         }else if (msglen == 5 && msg[0] == IBUS_MSG_LAMP_STATE)
         {
-            #if 0
-            //_oldLightState = _lightState;
-            _lightState = IDLE;
-            if (msg[1] & 0x01) _lightState |= PARKINGLIGHT_LEFT | PARKINGLIGHT_RIGHT;
-            if (msg[1] & 0x02) _lightState |= LOWBEAM_LEFT | LOWBEAM_RIGHT;
-            if (msg[1] & 0x04) _lightState |= HIGHBEAM_LEFT | HIGHBEAM_RIGHT;
-            if (msg[1] & 0x08) _lightState |= FOGLIGHT_FRONT_LEFT | FOGLIGHT_FRONT_RIGHT;
-            if (msg[1] & 0x10) _lightState |= FOGLIGHT_BACK_LEFT | FOGLIGHT_BACK_RIGHT;
-
-            if (msg[1] & 0x20)
-            {
-                _lightState |= LEFT_TURNLIGHT | LEFT_TURNLIGHT_BACK;
-                //if (msg[3] & 0x04) _lightState |= (1L << LEFT_TURNLIGHT_FLASH);
-            }
-            if (msg[1] & 0x40)
-            {
-                _lightState |= RIGHT_TURNLIGHT | RIGHT_TURNLIGHT_BACK;
-                //if (msg[3] & 0x04) _lightState |= (1L << RIGHT_TURNLIGHT_FLASH);
-            }
-            if (_selectedGear == REVERSE)
-                _lightState |= REARGEAR_LEFT | REARGEAR_RIGHT;
-            #endif
-
             // TippBlinken only active if not already running
             if ((_tippBlinken & 0x0F) == 0 && obms_Settings.comfortTurnLight > 0)
             {

@@ -21,7 +21,7 @@
 #include <avr/sleep.h>
 #include <avr/wdt.h>
 
-//#include "bootloader/bootloader.h"
+#include "bootloader/bootloader.h"
 #include "include/leds.h"
 #include "include/power_module.h"
 #include "include/photo_sensor.h"
@@ -37,6 +37,7 @@ volatile uint8_t g_backLightDimmer;
 volatile int8_t  g_temperatureSensor;
 volatile uint8_t g_adcCurrentChannel;
 
+bootldrinfo_t bootLdrInfo __attribute__((section(".bootloadercfg")));
 static bootldrinfo_t g_bootldrinfo;
 
 //! Device settings used
@@ -267,7 +268,7 @@ void initHardware(void)
     sei();
 
     // read this firmware version
-    memcpy_P(&g_bootldrinfo, (PGM_VOID_P)(BOOTLOADERSTARTADR - SPM_PAGESIZE), sizeof(bootldrinfo_t));
+    memcpy_P(&g_bootldrinfo, &bootLdrInfo, sizeof(bootldrinfo_t));//(PGM_VOID_P)(BOOTLOADERSTARTADR - SPM_PAGESIZE), sizeof(bootldrinfo_t));
 
     // read settings and setup hardware to the settings
     settings_readAndSetup();

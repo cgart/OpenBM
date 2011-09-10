@@ -76,6 +76,8 @@ TARGET = bootloader
 
 # Flash settings
 BOOTLOADERSTARTADR = 0x7000
+BOOTLDRCONFIGADR=0x6F80
+
 #BOOTLDRSIZE = 0x0800
 
 
@@ -141,6 +143,7 @@ CDEFS = -DF_CPU=$(F_CPU)UL
 
 #CDEFS += -DBOOTLDRSIZE=$(BOOTLDRSIZE)
 CDEFS += -DBOOTLOADERSTARTADR=$(BOOTLOADERSTARTADR)
+CDEFS += -DBOOTLDRCONFIGADR=$(BOOTLDRCONFIGADR)
 
 
 # Place -D or -U options here for C++ sources
@@ -280,6 +283,7 @@ LDFLAGS += $(EXTMEMOPTS)
 LDFLAGS += $(patsubst %,-L%,$(EXTRALIBDIRS))
 #LDFLAGS += $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
 LDFLAGS	+= -Wl,--section-start=.text=$(BOOTLOADERSTARTADR)
+LDFLAGS += -Wl,--section-start=.bootloadercfg=$(BOOTLDRCONFIGADR)
 #LDFLAGS += -T linker_script.x
 LDFLAGS += -Wl,--gc-sections
 LDFLAGS += -Wl,--relax
