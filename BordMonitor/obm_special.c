@@ -8,6 +8,9 @@
 #include "leds.h"
 #include "power_module.h"
 #include "include/ibus.h"
+#include "include/photo_sensor.h"
+#include "include/obm_special.h"
+#include "include/leds.h"
 #include <avr/eeprom.h>
 
 
@@ -22,8 +25,12 @@ typedef struct _OBMSSettings
 
     uint8_t  comfortTurnLight;
 
+    uint8_t  comingHome;
     uint8_t  leavingHome;
     uint32_t leavingHomeLights;
+
+    uint8_t emulateCDchanger;
+
 }ObmsSettings;
 
 
@@ -110,6 +117,8 @@ static uint8_t _carHalfSpeed = 0;
 static uint8_t _carRPM = 0;
 
 static bool _doToggleCentralLock = false;
+static ticks_t _centralLockWait = 0;
+
 
 #define DEV_IKE      (1 << 0)
 #define DEV_IKE_DONE (1 << 1)
@@ -125,7 +134,8 @@ typedef enum _LeavingHome
     START = 1,
     HOLD = 2,
     STOP = 3,
-    DISABLED = 4
+    DISABLED = 4,
+    GOODBYE = 5
 }LeavingHome;
 static LeavingHome _leavingHome = NO;
 
@@ -140,14 +150,22 @@ static ticks_t _leavingHomeStopAfter = 0;
 static ticks_t _lockCarIfNoDoorOpened = 0;
 static bool    _lockCarIfNoDoorOpenedActive = true;
 
-//ticks_t _nextSendMFLSignalTick;
-//bool _nextSendMFLSignal;
+typedef enum _CDChangerState
+{
+    CDC_IDLE = 0,
+    CDC_RESPONSE = 1,
+    CDC_SEND_START_PLAYING = 2,
+    CDC_SEND_STATE_NOTPLAYING = 3
+}CDChangerState;
+static CDChangerState _cdcState = CDC_IDLE;
 
 //------------------------------------------------------------------------------
 void obms_toggle_central_lock(void)
 {
     uint8_t data[3] = {IBUS_MSG_VEHICLE_CTRL, 0x00, 0x0B};
     ibus_sendMessage(IBUS_DEV_DIA, IBUS_DEV_GM, data, 3, IBUS_TRANSMIT_TRIES);
+
+    _centralLockWait = tick_get() + TICKS_PER_X_SECONDS(10);
 }
 
 //------------------------------------------------------------------------------
@@ -206,15 +224,66 @@ void obms_set_light_state(void)
 }
 
 //------------------------------------------------------------------------------
+void obms_lights_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
+{
+    int8_t doorOpened = -1;
+    int8_t kl50 = -1;
+    bool brightEnough = false;
+
+    if (photo_is_enabled())
+        brightEnough = photo_is_bright_enough();
+
+    if (src == IBUS_DEV_GM && dst == IBUS_DEV_GLO && msglen >= 2)
+    {
+        // turn leaving home if car was closed with the key
+        if (msg[0] == IBUS_MSG_GM_KEY_BUTTON && (msg[1] & 0x10))
+            kl50 = 2;
+
+        // door opened and/or kl50 activated
+        if (msg[0] == IBUS_MSG_GM_STATE)
+        {
+            if (msg[1] & 0x0F) doorOpened = 1;
+            if (msg[1] & 0x40) kl50 = 1;
+        }
+    }
+
+    if (doorOpened == 1 || kl50 >= 1)
+    {
+        if (doorOpened == 1)
+        {
+            if (_leavingHome == HOLD)
+                _leavingHome = STOP;
+
+        }else if (_leavingHome == NO && !brightEnough)
+        {
+            if (kl50 == 1) // greeting light
+                _leavingHome = START;
+            else if (kl50 == 2) // goodbye light
+                _leavingHome = GOODBYE;
+        }
+    }
+
+    // Status Message from LCM, response to 3F,D0,0B
+    // D0 23 3F A0 C1 C0 00 00 00 00 00 00 00 9B 00 00 80 00 00 59 33 00 08 00 00 00 00 00 00 00 00 00 00 FF FF FE EA
+    if (src == IBUS_DEV_LCM && dst == IBUS_DEV_DIA && msglen > 20 && msg[0] == IBUS_MSG_DIA_ACK && msg[1] == 0xC1)
+    {
+        _dimmerState = msg[16];
+        _lwrState = msg[17];
+    }
+}
+
+//------------------------------------------------------------------------------
 void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
 {
+    obms_lights_on_bus_msg(src, dst, msg, msglen);
+
     if (src == IBUS_DEV_GM && dst == IBUS_DEV_GLO)
     {
         // if GM has not been seen yet, then ping it on next tick
         if (!(_reqStatus & DEV_GM_DONE))
             _reqStatus |= DEV_GM;
 
-        if (msg[0] == IBUS_MSG_GM_STATE)
+        if (msg[0] == IBUS_MSG_GM_STATE && msglen >= 2)
         {
             // GM has been seen now
             _reqStatus |= DEV_GM_DONE;
@@ -232,17 +301,10 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
             // just any door was opened
             if (msg[1] & 0x0F)
             {
-                // deactivate leaving home
-                if (_leavingHome == HOLD)
-                    _leavingHome = STOP;
-
                 // stop lock door counter, if this one is running
                 _lockCarIfNoDoorOpened = 0;
                 _lockCarIfNoDoorOpenedActive = false;
-
-            // light inside turns on (KL50), however door wasn't opened, so just unlocked the car
-            }else if ((msg[1] & 0x40) && _leavingHome == NO && !photo_is_bright_enough())
-                _leavingHome = START;
+            }
         }
     }
 
@@ -289,17 +351,10 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
             _reqStatus |= DEV_IKE;
 
         // if ignition is switched off and central is locked, then unlock it
-        if (msglen ==2 && msg[0] == IBUS_MSG_IGNITION && msg[1] && msg[1] != 0x03 && _centralLocked)
+        if (msglen >= 2 && msg[0] == IBUS_MSG_IGNITION && msg[1] && msg[1] != 0x03 && _centralLocked)
             _doToggleCentralLock = true;
     }
 
-    // Status Message from LCM, response to 3F,D0,0B
-    // D0 23 3F A0 C1 C0 00 00 00 00 00 00 00 9B 00 00 80 00 00 59 33 00 08 00 00 00 00 00 00 00 00 00 00 FF FF FE EA
-    if (src == IBUS_DEV_LCM && dst == IBUS_DEV_DIA && msglen > 20 && msg[0] == IBUS_MSG_DIA_ACK && msg[1] == 0xC1)
-    {
-        _dimmerState = msg[16];
-        _lwrState = msg[17];
-    }
 
     // update of the lamp state
     if (src == IBUS_DEV_LCM && dst == IBUS_DEV_GLO)
@@ -347,28 +402,38 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
 
 
     // Setup settings if asked so over IBus
-    if (dst == IBUS_DEV_BMBT && msg[0] == IBUS_MSG_OPENBM_TO && msg[1] == IBUS_MSG_OPENBM_OBMS_SET)
+    if (dst == IBUS_DEV_BMBT  && msglen >= 3 && msg[0] == IBUS_MSG_OPENBM_TO && msg[1] == IBUS_MSG_OPENBM_OBMS_SET)
     {
         // every such message will be responded, default response is 0
         uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_OBMS_SET, msg[2]};
-
+        uint8_t ok = 0;
+        
         if (msglen == 4 && msg[2] == 0x01)
         {
             eeprom_update_byte(&obms_SettingsEEPROM.automaticCentralLock, msg[3] >> 1);
             obms_Settings.automaticCentralLock = msg[3] >> 1;
+            ok = 1;
         }else if (msglen == 4 && msg[2] == 0x02)
         {
             eeprom_update_byte(&obms_SettingsEEPROM.lockCarUnused, msg[3]);
             obms_Settings.lockCarUnused = msg[3];
+            ok = 1;
         }else if (msglen == 4 && msg[2] == 0x03)
         {
             eeprom_update_byte(&obms_SettingsEEPROM.comfortTurnLight, msg[3]);
             obms_Settings.comfortTurnLight = msg[3];
+            ok = 1;
         }else if (msglen == 4 && msg[2] == 0x04)
         {
             eeprom_update_byte(&obms_SettingsEEPROM.leavingHome, msg[3]);
             obms_Settings.leavingHome = msg[3];
-        }else if (msglen == 7 && msg[2] == 0x05)
+            ok = 1;
+        }else if (msglen == 4 && msg[2] == 0x05)
+        {
+            eeprom_update_byte(&obms_SettingsEEPROM.comingHome, msg[3]);
+            obms_Settings.comingHome = msg[3];
+            ok = 1;
+        }else if (msglen == 7 && msg[2] == 0x06)
         {
             union
             {
@@ -384,11 +449,31 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
             light.byte[0] = msg[6];
             eeprom_update_dword(&obms_SettingsEEPROM.leavingHomeLights, light.lights);
             obms_Settings.leavingHomeLights = light.lights;
+            ok = 1;
+        }else if (msglen == 4 && msg[2] == 0x07)
+        {
+            eeprom_update_byte(&obms_SettingsEEPROM.emulateCDchanger, msg[3]);
+            obms_Settings.emulateCDchanger = msg[3];
+            ok = 1;
         }else
         {
             data[2] = 0;
         }
-        ibus_sendMessage(IBUS_DEV_BMBT, src, data, 3, IBUS_TRANSMIT_TRIES);
+        if (ok)
+          ibus_sendMessage(IBUS_DEV_BMBT, src, data, 3, IBUS_TRANSMIT_TRIES);
+    }
+
+    // Emulate cd-changer
+    if (obms_Settings.emulateCDchanger && dst == IBUS_DEV_CDC)
+    {
+        if (msg[0] == IBUS_MSG_DEV_POLL)
+            _cdcState = CDC_RESPONSE;
+        else if (msg[0] == IBUS_MSG_RADIO_CDC && msglen >= 2)
+        {
+            _cdcState = CDC_SEND_START_PLAYING;
+            if (msg[1] == 0x01)
+                _cdcState = CDC_SEND_STATE_NOTPLAYING;
+        }
     }
 }
 
@@ -436,10 +521,8 @@ void obms_backcam_tick(void)
 }
 
 //------------------------------------------------------------------------------
-void obms_tick(void)
+void obms_lights_tick(void)
 {
-    obms_backcam_tick();
-
     // request state of the dimmer and lwr if unknown
     if (_dimmerState == 0 && _lwrState == 0)
     {
@@ -451,18 +534,35 @@ void obms_tick(void)
     }
 
     // Handle leaving home support if such is activated
-    if (obms_Settings.leavingHome)
+    if (obms_Settings.leavingHome || obms_Settings.comingHome)
     {
         switch(_leavingHome)
         {
             // start leaving home, this is done by activating predefined lights
+            case GOODBYE:
             case START:
             {
+                if (_leavingHome == START)
+                {
+                    if (obms_Settings.leavingHome == 0)
+                    {
+                        _leavingHome = DISABLED;
+                        break;
+                    }
+                    _leavingHomeStopAfter = tick_get() + TICKS_PER_X_SECONDS(obms_Settings.leavingHome);
+                }else
+                {
+                    if (obms_Settings.comingHome == 0)
+                    {
+                        _leavingHome = DISABLED;
+                        break;
+                    }
+                    _leavingHomeStopAfter = tick_get() + TICKS_PER_X_SECONDS(obms_Settings.comingHome);
+                }
+
+                _leavingHome = HOLD;
                 _lightState = obms_Settings.leavingHomeLights;
                 _lightState |= LIGHT_STATE_CHANGED;
-                _leavingHome = HOLD;
-
-                _leavingHomeStopAfter = tick_get() + TICKS_PER_X_SECONDS(obms_Settings.leavingHome);
                 _leavingHomeResendAfter = 0;
 
                 break;
@@ -501,6 +601,15 @@ void obms_tick(void)
         }
     }
 
+    // set state of light if changed
+    obms_set_light_state();
+}
+
+//------------------------------------------------------------------------------
+void obms_tick(void)
+{
+    obms_backcam_tick();
+
     // If comfort turn light is active
     if (obms_Settings.comfortTurnLight)
     {
@@ -537,11 +646,10 @@ void obms_tick(void)
         }
     }
 
-    // set state of light if changed
-    obms_set_light_state();
+    obms_lights_tick();
 
     // if Central Lock feature is enabled
-    if (obms_Settings.automaticCentralLock)
+    if (obms_Settings.automaticCentralLock && tick_get() > _centralLockWait)
     {
         // if we just need to toggle the central lock
         if (_doToggleCentralLock
@@ -591,6 +699,35 @@ void obms_tick(void)
             power_prepare_shutdown();
         }
     }
+
+    // emulate CD-changer
+    if (obms_Settings.emulateCDchanger && _cdcState != NO)
+    {
+        switch (_cdcState)
+        {
+            case CDC_RESPONSE:
+            {
+                uint8_t data[2] = {IBUS_MSG_DEV_READY, 0x00};
+                ibus_sendMessage(IBUS_DEV_CDC, IBUS_DEV_LOC, data, 2, IBUS_TRANSMIT_TRIES);
+                break;
+            }
+            case CDC_SEND_STATE_NOTPLAYING:
+            {
+                uint8_t data[8] = {IBUS_MSG_CDC_STATE, 0x00, 0x02, 0x00, 0x3F, 0x00, 0x06, 0x99};
+                ibus_sendMessage(IBUS_DEV_CDC, IBUS_DEV_RAD, data, 8, IBUS_TRANSMIT_TRIES);
+                break;
+            }
+            case CDC_SEND_START_PLAYING:
+            {
+                uint8_t data[8] = {IBUS_MSG_CDC_STATE, 0x02, 0x09, 0x00, 0x20, 0x00, 0x06, 0x99};
+                ibus_sendMessage(IBUS_DEV_CDC, IBUS_DEV_RAD, data, 8, IBUS_TRANSMIT_TRIES);
+                break;
+            }
+            default:
+                break;
+        }
+        _cdcState = NO;
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -610,7 +747,9 @@ void obms_resume(void)
 //------------------------------------------------------------------------------
 void obms_init(void)
 {
-    _centralLocked = 1;
+    _cdcState = CDC_IDLE;
+    _centralLockWait = 0;
+    _centralLocked = true;
     _parkingBrake = 0;
     _carHalfSpeed = 0;
     _carRPM = 0;
@@ -635,12 +774,15 @@ void obms_init(void)
         eeprom_update_byte(&obms_SettingsEEPROM.comfortTurnLight, 3);
 
         eeprom_update_byte(&obms_SettingsEEPROM.leavingHome, 30);
+        eeprom_update_byte(&obms_SettingsEEPROM.comingHome, 0);
         eeprom_update_dword(&obms_SettingsEEPROM.leavingHomeLights,
                          (BACKLIGHT_LEFT | BACKLIGHT_RIGHT |
                           FOGLIGHT_FRONT_LEFT | FOGLIGHT_FRONT_RIGHT |
                           PARKINGLIGHT_LEFT | PARKINGLIGHT_RIGHT |
-                          BRAKE_LEFT | BRAKE_RIGHT |
+                          //BRAKE_LEFT | BRAKE_RIGHT |
                           LICENSE_PLATE));
+
+        eeprom_update_byte(&obms_SettingsEEPROM.emulateCDchanger, (DEVICE_CODING2 & EMULATE_CDCHANGER) == EMULATE_CDCHANGER);
 
         eeprom_write_byte(&obms_SettingsInit, 'O');
     }
@@ -652,6 +794,9 @@ void obms_init(void)
 
     obms_Settings.comfortTurnLight = eeprom_read_byte(&obms_SettingsEEPROM.comfortTurnLight);
 
+    obms_Settings.comingHome = eeprom_read_byte(&obms_SettingsEEPROM.comingHome);
     obms_Settings.leavingHome = eeprom_read_byte(&obms_SettingsEEPROM.leavingHome);
     obms_Settings.leavingHomeLights = eeprom_read_dword(&obms_SettingsEEPROM.leavingHomeLights);
+
+    obms_Settings.emulateCDchanger = eeprom_read_byte(&obms_SettingsEEPROM.emulateCDchanger);
 }

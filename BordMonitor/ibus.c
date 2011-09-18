@@ -17,24 +17,23 @@
 
 #ifdef IBUS_USE_SHORT_BUFFER
     #define IBUS_MSG_TX_BUFFER_SIZE       64
-    #define IBUS_MSG_RX_BUFFER_SIZE       256
+    #define IBUS_MSG_RX_BUFFER_SIZE       128
 
     typedef uint8_t posptr_t;
-    #define inc_posptr(ptr, mask) ((ptr+1) & mask)
-    #define inc_posptr_rx(ptr) ((ptr+1) & IBUS_MSG_RX_BUFFER_SIZE_MASK)
-    #define inc_posptr_tx(ptr) ((ptr+1) & IBUS_MSG_TX_BUFFER_SIZE_MASK)
 #else
     #define IBUS_MSG_TX_BUFFER_SIZE       256
     #define IBUS_MSG_RX_BUFFER_SIZE       256
 
     typedef uint16_t posptr_t;
-    #define inc_posptr(ptr, mask) (ptr + 1) & mask;
-    #define inc_posptr_rx(ptr) (ptr + 1) & IBUS_MSG_RX_BUFFER_SIZE_MASK;
-    #define inc_posptr_tx(ptr) (ptr + 1) & IBUS_MSG_TX_BUFFER_SIZE_MASK;
 #endif
 
 #define IBUS_MSG_TX_BUFFER_SIZE_MASK  (IBUS_MSG_TX_BUFFER_SIZE - 1)
 #define IBUS_MSG_RX_BUFFER_SIZE_MASK  (IBUS_MSG_RX_BUFFER_SIZE - 1)
+
+#define inc_posptr(ptr, mask) ((ptr+1) & mask)
+#define inc_posptr_rx(ptr) ((ptr+1) & IBUS_MSG_RX_BUFFER_SIZE_MASK)
+#define inc_posptr_tx(ptr) ((ptr+1) & IBUS_MSG_TX_BUFFER_SIZE_MASK)
+
 
 uint8_t g_ibus_TxBuffer[IBUS_MSG_TX_BUFFER_SIZE];
 uint8_t g_ibus_RxBuffer[IBUS_MSG_RX_BUFFER_SIZE];
@@ -154,15 +153,15 @@ uint8_t ibus_calcChecksum(uint8_t* pBuffer, posptr_t from, uint8_t mask)
 }
 
 //--------------------------------------------------------------------------
-void ibus_recieveCallback(uint8_t c, uint8_t error)
+void ibus_recieveCallback(uint8_t c)//, uint8_t error)
 {
     // check if there was an error, then reset state and wait until bus get free
-    if (error != 0)
+    /*if (error != 0)
     {
         g_ibus_State = IBUS_STATE_WAIT_FREE_BUS;
         IBUS_TIMEOUT_RECEIVE_ERROR();
         return;
-    }
+    }*/
 
     // go to recieve state and start timer which check for timeout
     g_ibus_State = IBUS_STATE_RECEIVING;
@@ -242,11 +241,25 @@ uint8_t ibus_readyToTransmit()
 void ibus_tick()
 {
     // if we have data in the receive buffer, then handle it
-    while(1)
+    /*while(1)
     {
         unsigned int data = uart_getc();
         if (data & UART_NO_DATA) break;
         ibus_recieveCallback(data & 0xFF, (data & 0xFF00) >> 8);
+    }*/
+    // if we have data in the receive buffer, then handle it
+    while(uart_available())
+    {
+        uint8_t data = uart_getc();
+
+        if (uart_last_error())
+        {
+            uart_clear_error();
+            g_ibus_State = IBUS_STATE_WAIT_FREE_BUS;
+            IBUS_TIMEOUT_RECEIVE_ERROR();
+            break;
+        }else
+            ibus_recieveCallback(data);
     }
 
     // if no data in the buffer or we are not idle, then do nothing
@@ -259,18 +272,19 @@ void ibus_tick()
         IBUS_TIMEOUT_WAIT_FREE_BUS();
         return;
     }
-    
+
+    g_ibus_State = IBUS_STATE_TRANSMITTING;
+    //uart_setTxRx(0,0);
+    uart_setRx(0);
+
     // ok bus is free, we can submit a message
     posptr_t tryCounterPos = g_ibus_TxReadPos;
     int8_t numberOfTries = g_ibus_TxBuffer[g_ibus_TxReadPos]; g_ibus_TxReadPos = inc_posptr_tx(g_ibus_TxReadPos);
     posptr_t len = (posptr_t)g_ibus_TxBuffer[(g_ibus_TxReadPos + 1) & IBUS_MSG_TX_BUFFER_SIZE_MASK];
 
     // transmit message
-    uart_setTxRx(0,0);
     posptr_t oldTxPos = g_ibus_TxReadPos;
     posptr_t newTxPos = ibus_transmit_msg(g_ibus_TxReadPos,  len + 2);
-
-    g_ibus_State = IBUS_STATE_TRANSMITTING;
     
     BEGIN_ATOMAR;
     {
@@ -308,7 +322,9 @@ void ibus_init()
     // initialize uart interface used for IBus communication
     uart_init(UART_BAUD_SELECT(9600, F_CPU));
     //uart_setFormat(8,1,1);
-    uart_setTxRx(0,1);
+    //uart_setTxRx(0,1);
+    uart_setRx(1);
+
     uart_setTransmitDoneCallback(NULL);
     uart_setReceiveCallback(NULL);
 
@@ -351,7 +367,8 @@ ISR(IBUS_TIMER_INTERRUPT)
 
     // enable reciever, disable transmitter
     uart_flush();
-    uart_setTxRx(0,1);
+    //uart_setTxRx(0,1);
+    uart_setRx(1);
 }
 
 //--------------------------------------------------------------------------

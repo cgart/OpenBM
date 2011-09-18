@@ -412,7 +412,7 @@ void uart_init(unsigned int baudrate)
     UBRR = (unsigned char)baudrate; 
 
     /* enable UART receiver and transmmitter and receive complete interrupt */
-    UART0_CONTROL = _BV(RXCIE)|_BV(RXEN)|_BV(TXEN);
+    UART0_CONTROL = _BV(RXCIE)|_BV(RXEN);//|_BV(TXEN);
 
 #elif defined (ATMEGA_USART)
     /* Set baud rate */
@@ -425,7 +425,7 @@ void uart_init(unsigned int baudrate)
     UBRRL = (unsigned char) baudrate;
    
     /* Enable USART receiver and transmitter and receive complete interrupt */
-    UART0_CONTROL = _BV(RXCIE)|(1<<RXEN)|(1<<TXEN);
+    UART0_CONTROL = _BV(RXCIE)|(1<<RXEN);//|(1<<TXEN);
     
     /* Set frame format: asynchronous, 8data, no parity, 1stop bit */
     #ifdef URSEL
@@ -445,7 +445,7 @@ void uart_init(unsigned int baudrate)
     UBRR0L = (unsigned char) baudrate;
 
     /* Enable USART receiver and transmitter and receive complete interrupt */
-    UART0_CONTROL = _BV(RXCIE0)|(1<<RXEN0)|(1<<TXEN0);
+    UART0_CONTROL = _BV(RXCIE0)|(1<<RXEN0);//|(1<<TXEN0);
 
     /* Set frame format: asynchronous, 8data, no parity, 1stop bit */
     #ifdef URSEL0
@@ -465,7 +465,7 @@ void uart_init(unsigned int baudrate)
     UBRR   = (unsigned char) baudrate;
 
     /* Enable UART receiver and transmitter and receive complete interrupt */
-    UART0_CONTROL = _BV(RXCIE)|(1<<RXEN)|(1<<TXEN);
+    UART0_CONTROL = _BV(RXCIE)|(1<<RXEN);//|(1<<TXEN);
 
 #endif
 
@@ -478,26 +478,39 @@ Purpose:  return byte from ringbuffer
 Returns:  lower byte:  received byte from ringbuffer
           higher byte: last receive error
 **************************************************************************/
-unsigned int uart_getc(void)
+unsigned char uart_getc(void)
 {    
     unsigned char tmptail;
     unsigned char data;
 
 
+#if 0
     if ( UART_RxHead == UART_RxTail ) {
         return UART_NO_DATA;   /* no data available */
     }
-    
+#endif
+
     /* calculate /store buffer index */
     tmptail = (UART_RxTail + 1) & UART_RX_BUFFER_MASK;
     UART_RxTail = tmptail; 
     
     /* get data from receive buffer */
     data = UART_RxBuf[tmptail];
-    
-    return (UART_LastRxError << 8) + data;
+
+    return data;
+
+    //return (UART_LastRxError << 8) + data;
 
 }/* uart_getc */
+
+uint8_t uart_last_error(void)
+{
+    return UART_LastRxError;
+}
+void uart_clear_error(void)
+{
+    UART_LastRxError = 0;
+}
 
 #if 0
 /*************************************************************************
@@ -649,6 +662,7 @@ void uart_setFormat(uint8_t wordLength, uint8_t numStopBits, uint8_t parity)
     UCSR0C = set;
 }
 
+#if 0
 //--------------------------------------------------------------------------
 // Set frame format
 //--------------------------------------------------------------------------
@@ -659,6 +673,14 @@ void uart_setTxRx(unsigned char tx, unsigned char rx)
     else
         UART0_CONTROL &= ~(1<<TXEN0);
 
+    if (rx)
+        UART0_CONTROL |= (1<<RXEN0) | (1 << RXCIE0);
+    else
+        UART0_CONTROL &= ~(1<<RXEN0) & ~(1<<RXCIE0);
+}
+#endif 
+void uart_setRx(unsigned char rx)
+{
     if (rx)
         UART0_CONTROL |= (1<<RXEN0) | (1 << RXCIE0);
     else

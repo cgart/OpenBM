@@ -76,7 +76,7 @@ TARGET = bootloader
 
 # Flash settings
 BOOTLOADERSTARTADR = 0x7000
-BOOTLDRCONFIGADR=0x6F80
+#BOOTLDRCONFIGADR=0x6F80
 
 #BOOTLDRSIZE = 0x0800
 
@@ -143,7 +143,7 @@ CDEFS = -DF_CPU=$(F_CPU)UL
 
 #CDEFS += -DBOOTLDRSIZE=$(BOOTLDRSIZE)
 CDEFS += -DBOOTLOADERSTARTADR=$(BOOTLOADERSTARTADR)
-CDEFS += -DBOOTLDRCONFIGADR=$(BOOTLDRCONFIGADR)
+#CDEFS += -DBOOTLDRCONFIGADR=$(BOOTLDRCONFIGADR)
 
 
 # Place -D or -U options here for C++ sources
@@ -167,7 +167,7 @@ CFLAGS += -funsigned-char
 CFLAGS += -funsigned-bitfields
 CFLAGS += -fpack-struct
 CFLAGS += -fshort-enums
-CFLAGS += -Wall
+CFLAGS += -Wall -Werror
 CFLAGS += -Wstrict-prototypes
 CFLAGS += -mshort-calls
 #CFLAGS += -fno-unit-at-a-time
@@ -199,7 +199,7 @@ CPPFLAGS += -funsigned-bitfields
 CPPFLAGS += -fpack-struct
 CPPFLAGS += -fshort-enums
 CPPFLAGS += -fno-exceptions
-CPPFLAGS += -Wall
+CPPFLAGS += -Wall -Werror
 CFLAGS += -Wundef
 #CPPFLAGS += -mshort-calls
 #CPPFLAGS += -fno-unit-at-a-time
@@ -283,7 +283,7 @@ LDFLAGS += $(EXTMEMOPTS)
 LDFLAGS += $(patsubst %,-L%,$(EXTRALIBDIRS))
 #LDFLAGS += $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
 LDFLAGS	+= -Wl,--section-start=.text=$(BOOTLOADERSTARTADR)
-LDFLAGS += -Wl,--section-start=.bootloadercfg=$(BOOTLDRCONFIGADR)
+#LDFLAGS += -Wl,--section-start=.bootloadercfg=$(BOOTLDRCONFIGADR)
 #LDFLAGS += -T linker_script.x
 LDFLAGS += -Wl,--gc-sections
 LDFLAGS += -Wl,--relax

@@ -45,8 +45,8 @@ cfg=$1
 
    # print some information about customer's device
    echo "Customer: " $surname, $name
-   echo "Device ID: " $DEVID_1 $DEVID_2 $DEVID_3 $DEVID_4
-   echo "Voltage Settings: " $DEVID_5 $DEVID_6 $DEVID_7 $DEVID_8 $DEVID_9 $DEVID_10
+   echo "Device ID: " $DEVID_1
+   echo "Voltage Settings: " $DEVID_2 $DEVID_3 $DEVID_4 $DEVID_5 $DEVID_6 $DEVID_7 $DEVID_8 $DEVID_9 $DEVID_10
    echo "Device Codings: " $DEVID_11 $DEVID_12
 
    # generate config file, which customer specific

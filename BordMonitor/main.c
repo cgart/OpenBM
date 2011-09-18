@@ -9,6 +9,7 @@
 #include "config.h"
 #include "ibus.h"
 #include "display.h"
+#include "include/config.h"
 #include "buttons.h"
 #include "leds.h"
 #include "emul_mid.h"
@@ -26,18 +27,23 @@
 #include "include/power_module.h"
 #include "include/photo_sensor.h"
 #include "include/ibus.h"
+#include "include/obm_special.h"
 
 // global tick counter
 ticks_t g_tickNumber;
 uint8_t g_tickEventHappened;
 uint8_t g_setupMode;
 
+// values specific to the DC electric coefficients of the temperature sensor
+#define TEMP_ADC_ZERO 25
+#define TEMP_INV_DC 2
+
 // current adc value
 volatile uint8_t g_backLightDimmer;
 volatile int8_t  g_temperatureSensor;
 volatile uint8_t g_adcCurrentChannel;
 
-bootldrinfo_t bootLdrInfo __attribute__((section(".bootloadercfg")));
+//bootldrinfo_t bootLdrInfo __attribute__((section(".bootloadercfg")));
 static bootldrinfo_t g_bootldrinfo;
 
 //! Device settings used
@@ -50,8 +56,6 @@ DeviceSettings g_deviceSettingsEEPROM EEMEM;
 //------------------------------------------------------------------------------
 void settings_readAndSetup(void)
 {
-    //BEGIN_ATOMAR;
-
     #ifdef BOOTLOADER_ACTIVE
     // dummy commands to prevent compiler to optimize bootloader away
     uint8_t dummy = eeprom_read_byte(&bin_data[0]);
@@ -71,13 +75,6 @@ void settings_readAndSetup(void)
         eeprom_update_word((void*)&g_deviceSettingsEEPROM.io_assignment[2], BUTTON_TEL);
 
         // --------------------
-        // Display
-        // --------------------
-        eeprom_update_word(&g_deviceSettingsEEPROM.dac_idleVoltage, DEVICE_DISP_IDLE);
-        eeprom_update_word(&g_deviceSettingsEEPROM.dac_SwitchKey, DEVICE_DISP_SWITCH);
-        eeprom_update_word(&g_deviceSettingsEEPROM.dac_PowerKey, DEVICE_DISP_POWER);
-
-        // --------------------
         // BMW settings
         // --------------------
         eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings1, DEVICE_CODING1);
@@ -85,18 +82,12 @@ void settings_readAndSetup(void)
     }
 
     // load current display state from the eeprom
-    g_deviceSettings.dac_idleVoltage  = eeprom_read_word(&g_deviceSettingsEEPROM.dac_idleVoltage);
-    g_deviceSettings.dac_PowerKey  = eeprom_read_word(&g_deviceSettingsEEPROM.dac_PowerKey);
-    g_deviceSettings.dac_SwitchKey = eeprom_read_word(&g_deviceSettingsEEPROM.dac_SwitchKey);
-
     g_deviceSettings.device_Settings1 = eeprom_read_byte(&g_deviceSettingsEEPROM.device_Settings1);
     g_deviceSettings.device_Settings2 = eeprom_read_byte(&g_deviceSettingsEEPROM.device_Settings2);
 
     g_deviceSettings.io_assignment[0] = eeprom_read_word((void*)&g_deviceSettingsEEPROM.io_assignment[0]);
     g_deviceSettings.io_assignment[1] = eeprom_read_word((void*)&g_deviceSettingsEEPROM.io_assignment[1]);
     g_deviceSettings.io_assignment[2] = eeprom_read_word((void*)&g_deviceSettingsEEPROM.io_assignment[2]);
-
-    //END_ATOMAR;
 }
 
 
@@ -108,7 +99,7 @@ void adc_init(void)
     g_setupMode = 0;
     g_temperatureSensor = 0;
     g_backLightDimmer = 0;
-    g_adcCurrentChannel = 0;
+    g_adcCurrentChannel = 1;
 
     ADCSRA |= (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0); // Set ADC prescaler to 128 - 109KHz sample rate @ 14MHz
     ADMUX = (1 << REFS0); // Set ADC reference to AVCC with external capacitor
@@ -167,7 +158,11 @@ void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen
     power_on_bus_msg(src, dst, msg, msglen);
 
     // do not proceed while not running
-    if (power_get_running_mode() != RUN) return;
+    if (power_get_running_mode() != RUN)
+    {
+        obms_lights_on_bus_msg(src, dst, msg, msglen);
+        return;
+    }
 
     // only send messages if not in setup mode
     if (!g_setupMode)
@@ -180,7 +175,7 @@ void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen
     // ----------------------------
     // special message treatment for OpenBM related messages
     // ----------------------------
-    if (dst == IBUS_DEV_BMBT && msg[0] == IBUS_MSG_OPENBM_TO)
+    if (dst == IBUS_DEV_BMBT && msg[0] == IBUS_MSG_OPENBM_TO && msglen >= 2)
     {
         if (msg[1] == IBUS_MSG_OPENBM_GET_VERSION)
         {
@@ -203,7 +198,11 @@ void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen
 
         }else if (msg[1] == IBUS_MSG_OPENBM_GET_TEMP)
         {
-            uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_TEMP, g_temperatureSensor};
+            // convert voltage into human readable temperature (-128, +128)
+            int16_t temp = g_temperatureSensor;
+            temp = temp - TEMP_ADC_ZERO;
+            temp = temp * TEMP_INV_DC;
+            uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_TEMP, (uint8_t)temp};
             ibus_sendMessage(IBUS_DEV_BMBT, src, data, 3, IBUS_TRANSMIT_TRIES);
 
         // reset command .. 07 F0 FA BA AD FE ED ..
@@ -252,6 +251,9 @@ void initHardware(void)
 {
     power_set_running_mode(INIT);
 
+    led_init();
+    led_red_immediate_set(1);
+
     // disable not needed-hardware
     PRR = 0;                  // enable all hardware
     PRR |= (1 << PRUSART1);   // disable USART-1
@@ -260,15 +262,16 @@ void initHardware(void)
     // init ibus as soon as possible, so that messages don't get lost while initialization procedure
     ibus_init();
     sei();
-    
+
     // set full I/O clock speed regardles of the fuse
-    cli();
-    CLKPR = (1 << CLKPCE);
-    CLKPR = 0;
-    sei();
+    //cli();
+    //CLKPR = (1 << CLKPCE);
+    //CLKPR = 0;
+    //sei();
 
     // read this firmware version
-    memcpy_P(&g_bootldrinfo, &bootLdrInfo, sizeof(bootldrinfo_t));//(PGM_VOID_P)(BOOTLOADERSTARTADR - SPM_PAGESIZE), sizeof(bootldrinfo_t));
+    //memcpy_P(&g_bootldrinfo, &bootLdrInfo, sizeof(bootldrinfo_t));
+    memcpy_P(&g_bootldrinfo, (PGM_VOID_P)(BOOTLOADERSTARTADR - SPM_PAGESIZE), sizeof(bootldrinfo_t));
 
     // read settings and setup hardware to the settings
     settings_readAndSetup();
@@ -276,7 +279,6 @@ void initHardware(void)
     // init hardware
     tick_init();
     power_init();
-    led_init();
     i2c_init();
     display_init();
     button_init();
@@ -313,6 +315,8 @@ void initHardware(void)
     // init software modules
     mid_init();
     obms_init();
+
+    led_red_immediate_set(0);
 }
 
 // -----------------------------------------------------------------------------
@@ -621,7 +625,8 @@ int main(void)
                 {
                     mid_tick();
                     obms_tick();
-                }
+                }else
+                    obms_lights_tick();
             }
             led_green_immediate_set(BACKCAM_INPUT() && display_getInputState() == BACKCAM_INPUT() && !g_setupMode);
 
@@ -645,41 +650,28 @@ int main(void)
 // afterwards conversion is started again and channel is switched
 //------------------------------------------------------------------------------
 ISR(ADC_vect)
-{
-    // values specific to the DC electric coefficients of the temperature sensor
-    #define TEMP_ADC_ZERO 25
-    #define TEMP_INV_DC 2
-    
-    BEGIN_ATOMAR;
+{    
+    if (g_adcCurrentChannel == 1)  // we were converting PhotoSensor values
     {
-        if (g_adcCurrentChannel == 0)  // we were converting PhotoSensor values
-        {
-            photo_set_adc_raw_value(ADCH);
+        photo_set_adc_raw_value(ADCH);
 
-            // switch channel (read on ADC0 next)
-            g_adcCurrentChannel = 1;
-            ADMUX &= ~(1 << MUX4) & ~(1 << MUX3) & ~(1 << MUX2) & ~(1 << MUX1) & ~(1 << MUX0);
-        }else if (g_adcCurrentChannel == 1)  // we were converting Backlight Dimmer values
-        {
-            g_backLightDimmer = ADCH;
+        // switch channel (read on ADC0 next)
+        ADMUX &= ~(1 << MUX2) & ~(1 << MUX1) & ~(1 << MUX0);
+    }else if (g_adcCurrentChannel == 2)  // we were converting Backlight Dimmer values
+    {
+        g_backLightDimmer = ADCH;
 
-            // switch channel (read on ADC1 next)
-            g_adcCurrentChannel = 2;
-            ADMUX &= ~(1 << MUX4) & ~(1 << MUX3);
-            ADMUX |= (1 << MUX0);
-        }else  // we were converting Temperature Sensor values
-        {
-            // convert voltage into human readable temperature (-128, +128)
-            g_temperatureSensor = (int8_t)((ADCH - TEMP_ADC_ZERO) * TEMP_INV_DC);
+        // switch channel (read on ADC1 next)
+        ADMUX |= (1 << MUX0);
+    }else  // we were converting Temperature Sensor values
+    {
+        g_temperatureSensor = ADCH;
 
-            // switch channel (read on ADC7 next)
-            g_adcCurrentChannel = 0;
-            ADMUX &= ~(1 << MUX4) & ~(1 << MUX3);
-            ADMUX |= (1 << MUX0) | (1 << MUX1) | (1 << MUX2);
-        }
-        //ADCSRA |= (1 << ADSC);
+        // switch channel (read on ADC7 next)
+        g_adcCurrentChannel = 0;
+        ADMUX |= (1 << MUX0) | (1 << MUX1) | (1 << MUX2);
     }
-    END_ATOMAR;
+    g_adcCurrentChannel++;
 }
 
 

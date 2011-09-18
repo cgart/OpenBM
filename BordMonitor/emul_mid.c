@@ -120,6 +120,9 @@ uint8_t _bmbt_button_mapping[BMBT_MAP_SIZE][3] PROGMEM =
 //    {BUTTON_MODE,0x68,0x23}
 };
 
+ticks_t _nextSendMFLSignalTick;
+bool _nextSendMFLSignal;
+
 //------------------------------------------------------------------------------
 uint8_t mid_active_mode(void)
 {
@@ -186,7 +189,7 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
 
 
     // if ignition is off, then stop request on IKE and TEL
-    if (src == IBUS_DEV_IKE && dst == IBUS_DEV_GLO && msg[0] == IBUS_MSG_IGNITION)
+    if (src == IBUS_DEV_IKE && dst == IBUS_DEV_GLO && msglen >= 2 && msg[0] == IBUS_MSG_IGNITION)
     {
         _ignitionState = msg[1];
 
@@ -207,9 +210,8 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         return;
     }
 
-    #if 0
     // if ignore MFL ff/rew modus is activated, then send resend this event
-    if (_active_mode == 0x80 && src == IBUS_DEV_MFL && dst == IBUS_DEV_RAD && msg[0] == IBUS_MSG_MFL_BUTTON)
+    if (src == IBUS_DEV_MFL && dst == IBUS_DEV_RAD && msg[0] == IBUS_MSG_MFL_BUTTON && msglen >= 2 && mid_active_mode() == CARPC_INPUT() && mid_active_mode() == 2)
     {
         _nextSendMFLSignal = 0;
         
@@ -219,9 +221,8 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
             _nextSendMFLSignal = 0x08;
 
         if (_nextSendMFLSignal)
-            _nextSendMFLSignalTick = tick_get() + TICKS_PER_TWO_SECONDS();
+            _nextSendMFLSignalTick = tick_get() + TICKS_PER_TWO_SECONDS;
     }
-    #endif
     
     // ok, radio will give us a hint, which current mode is active
     // this can be seen on text messages sent from radio to ANZV
@@ -229,7 +230,7 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
     if (dst == IBUS_DEV_ANZV || dst == IBUS_DEV_MID)// || dst == IBUS_DEV_LOC)
     {
         // take into account only if for bottom text update
-        if (src == IBUS_DEV_RAD && msg[0] == IBUS_MSG_UPDATE_MID_BOTTOM)
+        if (src == IBUS_DEV_RAD && msg[0] == IBUS_MSG_UPDATE_MID_BOTTOM && msglen >= 2)
         {
             _ackTextUpdateWithNeg = ~(0x01);
 
@@ -253,7 +254,7 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         }
 
         // React on LED message
-        else if (msg[0] == IBUS_MSG_LED && USE_BM_LEDS())
+        else if (msg[0] == IBUS_MSG_LED && USE_BM_LEDS() && msglen >= 2)
         {
             if (msg[1] & (1 << 0)) led_red_set(0b11111111); else led_red_set(0);
             if (msg[1] & (1 << 1)) led_red_set(0b11110000);
@@ -272,7 +273,7 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
     }
 
     // special treatment for messages defined for BMBT/OpenBM
-    if (dst == IBUS_DEV_BMBT)
+    if (dst == IBUS_DEV_BMBT && msglen >= 2)
     {
         if (msg[0] == IBUS_MSG_LED)
         {
@@ -311,25 +312,6 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
 //------------------------------------------------------------------------------
 void mid_ping_tick(void)
 {
-    #if 0
-    if (_nextSendMFLSignal && tick_get() > _nextSendMFLSignalTick)
-    {
-        uint8_t data[2] = {IBUS_MSG_MFL_BUTTON, _nextSendMFLSignal};
-        ibus_sendMessage(IBUS_DEV_MFL,IBUS_DEV_RAD, data, 2, IBUS_TRANSMIT_TRIES);
-        data[1] |= 0x20;
-        ibus_sendMessage(IBUS_DEV_MFL,IBUS_DEV_RAD, data, 2, IBUS_TRANSMIT_TRIES);
-        
-        data[0] = IBUS_MSG_BMBT_BUTTON;
-        if (_nextSendMFLSignal == 0x01)
-            data[1] = 0x00;
-        else
-            data[1] = 0x10;
-        ibus_sendMessage(IBUS_DEV_BMBT,IBUS_DEV_RAD, data, 2, IBUS_TRANSMIT_TRIES);            
-        _nextSendMFLSignal = 0;
-
-    }
-    #endif
-
     // every 10 seconds we perform a ping on different hardware to check if they exists
     _pingTicks ++;
 
@@ -568,8 +550,7 @@ void mid_tick(void)
     }
 
     // user defined IO-buttons
-    int8_t ios = 0;
-    for (;ios < 3; ios++)
+    for (int8_t ios = 0; ios < 3; ios++)
     {
         buttonIndex_t but = g_deviceSettings.io_assignment[ios];
         
@@ -582,6 +563,22 @@ void mid_tick(void)
         }
     }
 
+    // MFL emulation if active
+    if (_nextSendMFLSignal && tick_get() > _nextSendMFLSignalTick)
+    {
+        uint8_t data[2] = {IBUS_MSG_MFL_BUTTON, _nextSendMFLSignal};
+        ibus_sendMessage(IBUS_DEV_MFL,IBUS_DEV_RAD, data, 2, IBUS_TRANSMIT_TRIES);
+        data[1] |= 0x20;
+        ibus_sendMessage(IBUS_DEV_MFL,IBUS_DEV_RAD, data, 2, IBUS_TRANSMIT_TRIES);
+
+        data[0] = IBUS_MSG_BMBT_BUTTON;
+        if (_nextSendMFLSignal == 0x01)
+            data[1] = 0x00;
+        else
+            data[1] = 0x10;
+        ibus_sendMessage(IBUS_DEV_BMBT,IBUS_DEV_RAD, data, 2, IBUS_TRANSMIT_TRIES);
+        _nextSendMFLSignal = 0;
+    }
 }
 
 //------------------------------------------------------------------------------

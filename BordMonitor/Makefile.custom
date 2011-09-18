@@ -99,7 +99,7 @@ OPTLEVEL=s
 
 # Flash settings
 BOOTLOADERSTARTADR=0x7000
-BOOTLDRCONFIGADR=0x6F80
+#BOOTLDRCONFIGADR=0x6F80
 #BOOTLDRSIZE = 0x0800
 
 F_CPU = 14745600
@@ -155,13 +155,14 @@ HEXFORMAT=ihex
 # DEFINES
 CDEFS = -DF_CPU=$(F_CPU)UL
 CDEFS += -DBOOTLOADERSTARTADR=$(BOOTLOADERSTARTADR)
-CDEFS += -DBOOTLDRCONFIGADR=$(BOOTLDRCONFIGADR)
+#CDEFS += -DBOOTLDRCONFIGADR=$(BOOTLDRCONFIGADR)
 #CDEFS += -DBOOTLDRSIZE=$(BOOTLDRSIZE)
 
 # compiler
 CFLAGS=-I. $(INC) -g -mmcu=$(MCU) -O$(OPTLEVEL) \
 	-fpack-struct -fshort-enums             \
 	-funsigned-bitfields -funsigned-char    \
+	#-funroll-loops \
 	-Wall -Wstrict-prototypes -Werror      \
 	-Wa,-ahlms=$(firstword                  \
 	$(filter %.lst, $(<:.c=.lst)))
@@ -193,7 +194,7 @@ LDFLAGS=-Wl,-Map,$(TRG).map -mmcu=$(MCU) \
 	-lc -lm $(LIBS)
 
 LDFLAGS	+= -Wl,--section-start=.bootloader=$(BOOTLOADERSTARTADR)
-LDFLAGS += -Wl,--section-start=.bootloadercfg=$(BOOTLDRCONFIGADR)
+#LDFLAGS += -Wl,--section-start=.bootloadercfg=$(BOOTLDRCONFIGADR)
 #LDFLAGS += -T linker_script.x
 LDFLAGS += -Wl,--gc-sections
 LDFLAGS += -Wl,--relax

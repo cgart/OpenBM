@@ -159,10 +159,10 @@ void photo_set_min_calib_value(uint8_t val)
 }
 
 //------------------------------------------------------------------------------
-void photo_set_adc_raw_value(uint8_t adcval)
+/*void photo_set_adc_raw_value(uint8_t adcval)
 {
     photoSensorRawValue = adcval;
-}
+}*/
 
 //------------------------------------------------------------------------------
 uint8_t photo_get_adc_raw_value(void)
@@ -264,11 +264,13 @@ void photo_tick(void)
         }
     }
 
+#if 0
     if (button_down(BUTTON_TEL) && button_down(BUTTON_UHR))
     {
         uint8_t data[8] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_PHOTO, photoSensorRawValue, photoSensorSum >> PHOTO_NUM_SAMPLES_EXP, photo_Settings.photo_minValue, photo_Settings.photo_maxValue, photo_Settings.photo_minCalibValue, photo_Settings.photo_maxCalibValue};
         ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_GLO, data, 8, IBUS_TRANSMIT_TRIES);
     }
+#endif
 }
 
 //------------------------------------------------------------------------------
@@ -280,7 +282,6 @@ void photo_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         {
             uint8_t data[8] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_PHOTO, photoSensorRawValue, photoSensorSum >> PHOTO_NUM_SAMPLES_EXP, photo_Settings.photo_minValue, photo_Settings.photo_maxValue, photo_Settings.photo_minCalibValue, photo_Settings.photo_maxCalibValue};
             ibus_sendMessage(IBUS_DEV_BMBT, src, data, 8, IBUS_TRANSMIT_TRIES);
-            
         }else if (msglen == 4 && msg[1] == IBUS_MSG_OPENBM_SET_DISPLAY_LIGHT)
         {
             photo_enable(msg[2] == 0xFF);

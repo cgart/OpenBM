@@ -4,6 +4,8 @@
 #include "config.h"
 #include "base.h"
 #include "i2cmaster.h"
+#include "include/base.h"
+#include "include/leds.h"
 #include <avr/eeprom.h>
 
 //------------------------------------------------------------------------------
@@ -13,21 +15,31 @@ typedef struct _DisplayState
 {
     uint8_t display_Power;
     uint8_t display_Input; // (0=vga, 1=av1, 2=av2)
+
+    // --------------------------------------
+    // Voltage settings
+    // --------------------------------------
+    uint16_t dac_maxVoltage;  // in DAC value 12bit (either 3.3V or 5V key)
+    uint16_t dac_idleVoltage;   // voltage used when idle
+    uint16_t dac_PowerKey;      // voltage when Power-Button pressed
+    uint16_t dac_SwitchKey;     // voltage when button to switch input pressed
+    uint16_t dac_MenuKey;       // voltage when button menu pressed
+    uint16_t dac_IncKey;        // voltage when button inc pressed
+    uint16_t dac_DecKey;        // voltage when button dec pressed
+
 }DisplayState;
 
 // current hardware state
-DisplayState g_DisplayState;
-DisplayState g_eeprom_DisplayState EEMEM;
-uint8_t      g_eeprom_DisplayDataInit EEMEM;
+static DisplayState g_DisplayState;
+static DisplayState g_eeprom_DisplayState EEMEM;
+static uint8_t      g_eeprom_DisplayDataInit EEMEM;
 
-uint16_t     max_dacVoltage;
-uint16_t     dac_currentVoltage;
+static uint16_t     dac_currentVoltage;
 
-ticks_t g_display_NextResponseTime;
-uint8_t g_displayError;
+static ticks_t g_display_NextResponseTime;
+static uint8_t g_displayError;
 
-static DeviceSettings* deviceSettings;
-static DeviceSettings* deviceSettingsEEPROM;
+static ticks_t _nextStopOSD;
 
 #define DISP_MOSFET_SETUP {DDRB |= (1 << DDB4); PORTB &= ~(1 << 4);}
 #define DISP_MOSFET_OFF {PORTB &= ~(1 << 4);}
@@ -67,7 +79,7 @@ void display_dac_sleep(void)
 void display_dac_setVoltage_fast(uint16_t value)
 {
     // truncate given voltage level
-    if (value > max_dacVoltage) value = max_dacVoltage;
+    if (value > g_DisplayState.dac_maxVoltage) value = g_DisplayState.dac_maxVoltage;
     dac_currentVoltage = value;
 
     // create both command bytes to be sent
@@ -89,7 +101,7 @@ void display_dac_setVoltage_fast(uint16_t value)
 void display_dac_setVoltage(uint16_t value)
 {
     // truncate given voltage level
-    if (value > max_dacVoltage) value = max_dacVoltage;
+    if (value > g_DisplayState.dac_maxVoltage) value = g_DisplayState.dac_maxVoltage;
     dac_currentVoltage = value;
 
     // create both command bytes to be sent
@@ -113,29 +125,29 @@ void display_dac_setVoltage(uint16_t value)
 //------------------------------------------------------------------------------
 void display_setVoltagePower(uint16_t data)
 {
-    if (data > max_dacVoltage) data = max_dacVoltage;
-    deviceSettings->dac_PowerKey = data;
-    eeprom_update_word(&deviceSettingsEEPROM->dac_PowerKey, data);
+    if (data > g_DisplayState.dac_maxVoltage) data = g_DisplayState.dac_maxVoltage;
+    g_DisplayState.dac_PowerKey = data;
+    eeprom_update_word(&g_eeprom_DisplayState.dac_PowerKey, data);
 }
 
 //------------------------------------------------------------------------------
 uint16_t display_getVoltagePower(void)
 {
-    return deviceSettings->dac_PowerKey;
+    return g_DisplayState.dac_PowerKey;
 }
 
 //------------------------------------------------------------------------------
 void display_setVoltageSwitch(uint16_t data)
 {
-    if (data > max_dacVoltage) data = max_dacVoltage;
-    deviceSettings->dac_SwitchKey = data;
-    eeprom_update_word(&deviceSettingsEEPROM->dac_SwitchKey, data);
+    if (data > g_DisplayState.dac_maxVoltage) data = g_DisplayState.dac_maxVoltage;
+    g_DisplayState.dac_SwitchKey = data;
+    eeprom_update_word(&g_eeprom_DisplayState.dac_SwitchKey, data);
 }
 
 //------------------------------------------------------------------------------
 uint16_t display_getVoltageSwitch(void)
 {
-    return deviceSettings->dac_SwitchKey;
+    return g_DisplayState.dac_SwitchKey;
 }
 
 //------------------------------------------------------------------------------
@@ -148,25 +160,51 @@ void display_init(void)
     DDRB &= ~(1 << DDB3); // set Jumper pin to input mode
     PORTB |= (1 << 3);    // enable pull-up, will refer to this later, so that we don't get spurious data here
 
+    // disable display per default and read max voltage levels
+    if (bit_is_set(PINB,3)) // bit is 1, so pull-up, so 5V as maximum
+        g_DisplayState.dac_maxVoltage = 0xFFF; // nominal output voltage is 5V
+    else
+        g_DisplayState.dac_maxVoltage = 0xA8F; // Data = 3.3V * 4096 / 5V;
+
     // if run for the first time, then write default data to eeprom
-    if (eeprom_read_byte(&g_eeprom_DisplayDataInit) != 'R')
+    if (eeprom_read_byte(&g_eeprom_DisplayDataInit) != 'R' || eeprom_read_word(&g_eeprom_DisplayState.dac_maxVoltage) != g_DisplayState.dac_maxVoltage)
     {
+        // default state
         eeprom_write_byte(&g_eeprom_DisplayState.display_Power, 1);
         eeprom_write_byte(&g_eeprom_DisplayState.display_Input, 0);
+
+        #define DEVICE_DISP_SWITCH   ((DEVID_2 << 4L) | ((DEVID_3 & 0xF0) >> 4L) & 0xFFF)
+        #define DEVICE_DISP_POWER    (((DEVID_3 & 0x0F) << 8L) | (DEVID_4 & 0xFF) & 0xFFF)
+        #define DEVICE_DISP_MENU     ((DEVID_5 << 4L) | ((DEVID_6 & 0xF0) >> 4L) & 0xFFF)
+        #define DEVICE_DISP_INC      (((DEVID_6 & 0x0F) << 8L) | (DEVID_7 & 0xFF) & 0xFFF)
+        #define DEVICE_DISP_DEC      ((DEVID_8 << 4L) | ((DEVID_9 & 0xF0) >> 4L) & 0xFFF)
+        #define DEVICE_DISP_IDLE     (((DEVID_9 & 0x0F) << 8L) | (DEVID_10 & 0xFF) & 0xFFF)
+
+        eeprom_update_word(&g_eeprom_DisplayState.dac_SwitchKey, DEVICE_DISP_SWITCH);
+        eeprom_update_word(&g_eeprom_DisplayState.dac_PowerKey, DEVICE_DISP_POWER);
+        eeprom_update_word(&g_eeprom_DisplayState.dac_MenuKey, DEVICE_DISP_MENU);
+        eeprom_update_word(&g_eeprom_DisplayState.dac_IncKey, DEVICE_DISP_INC);
+        eeprom_update_word(&g_eeprom_DisplayState.dac_DecKey, DEVICE_DISP_DEC);
+        eeprom_update_word(&g_eeprom_DisplayState.dac_idleVoltage, DEVICE_DISP_IDLE);
+        
+        // ok, initialized
         eeprom_write_byte(&g_eeprom_DisplayDataInit, 'R');
     }
 
     // load current display state from the eeprom
     g_DisplayState.display_Input = eeprom_read_byte(&g_eeprom_DisplayState.display_Input);
     g_DisplayState.display_Power = eeprom_read_byte(&g_eeprom_DisplayState.display_Power);
+
+    g_DisplayState.dac_idleVoltage  = eeprom_read_word(&g_eeprom_DisplayState.dac_idleVoltage);
+    g_DisplayState.dac_PowerKey  = eeprom_read_word(&g_eeprom_DisplayState.dac_PowerKey);
+    g_DisplayState.dac_SwitchKey = eeprom_read_word(&g_eeprom_DisplayState.dac_SwitchKey);
+    g_DisplayState.dac_MenuKey  = eeprom_read_word(&g_eeprom_DisplayState.dac_MenuKey);
+    g_DisplayState.dac_IncKey  = eeprom_read_word(&g_eeprom_DisplayState.dac_IncKey);
+    g_DisplayState.dac_DecKey = eeprom_read_word(&g_eeprom_DisplayState.dac_DecKey);
+
     g_display_NextResponseTime = 0;
     g_displayError = 0;
-
-    // disable display per default and read max voltage levels
-    if (bit_is_set(PINB,3)) // bit is 1, so pull-up, so 5V as maximum
-        max_dacVoltage = 0xFFF; // nominal output voltage is 5V
-    else
-        max_dacVoltage = 0xA8F; // Data = 3.3V * 4096 / 5V;
+    _nextStopOSD = 0;
 
     // setup PWM for the bglight
     DDRD |= (1 << DDD7);
@@ -177,10 +215,9 @@ void display_init(void)
     OCR2A = 0x80;//g_DisplayState.bglight_maxDuty;
     PORTD |= (1 << 7);
 
+
     // set variables
-    deviceSettings = &g_deviceSettings;
-    deviceSettingsEEPROM = &g_deviceSettingsEEPROM;
-    //display_dac_setVoltage(deviceSettings->dac_idleVoltage);
+    //display_dac_setVoltage(g_DisplayState.dac_idleVoltage);
 
     // disable DAC output and switch display mosfet off
     display_dac_sleep();
@@ -190,14 +227,20 @@ void display_init(void)
     //    display_powerOn();
 }
 
-#if 0
+//------------------------------------------------------------------------------
+void display_ToggleKey(uint16_t keyVoltage)
+{
+    display_dac_setVoltage_fast(keyVoltage);
+    _delay_ms(100);
+    display_dac_setVoltage_fast(g_DisplayState.dac_idleVoltage);
+}
+
+#if 1
 //------------------------------------------------------------------------------
 void display_TogglePower(uint8_t writeToEeprom)
 {
     // emulate key
-    display_dac_setVoltage_fast(deviceSettings->dac_PowerKey);
-    _delay_ms(100);
-    display_dac_setVoltage_fast(deviceSettings->dac_idleVoltage);
+    display_ToggleKey(g_DisplayState.dac_PowerKey);
 
     // update current state and write into eeprom
     if (writeToEeprom)
@@ -207,7 +250,7 @@ void display_TogglePower(uint8_t writeToEeprom)
     }
     _delay_ms(500); // TODO look how to remove that!!!
 
-    g_display_NextResponseTime = tick_get() + TICKS_PER_SECOND() - TICKS_PER_QUARTERSECOND();
+    g_display_NextResponseTime = tick_get() + TICKS_PER_SECOND - TICKS_PER_QUARTERSECOND;
 }
 #endif
 
@@ -215,9 +258,7 @@ void display_TogglePower(uint8_t writeToEeprom)
 void display_ToggleInput(uint8_t writeToEeprom)
 {
     // emulate key
-    display_dac_setVoltage_fast(deviceSettings->dac_SwitchKey);
-    _delay_ms(100);
-    display_dac_setVoltage_fast(deviceSettings->dac_idleVoltage);
+    display_ToggleKey(g_DisplayState.dac_SwitchKey);
 
     // update current state and write into eeprom
     if (writeToEeprom)
@@ -244,6 +285,7 @@ void display_saveInputState(uint8_t state)
     g_DisplayState.display_Input = state;
     eeprom_update_byte(&g_eeprom_DisplayState.display_Input, g_DisplayState.display_Input);
 }
+
 
 #if 0
 //------------------------------------------------------------------------------
@@ -294,10 +336,9 @@ uint8_t display_getBackgroundLight(void)
 void display_powerOn(void)
 {
     g_DisplayState.display_Power = 1;
-    display_dac_setVoltage(deviceSettings->dac_idleVoltage);
+    display_dac_setVoltage(g_DisplayState.dac_idleVoltage);
     DISP_MOSFET_ON;
     eeprom_update_byte(&g_eeprom_DisplayState.display_Power, g_DisplayState.display_Power);
-    //display_setPowerState(1,true);
     g_display_NextResponseTime = tick_get() + TICKS_PER_SECOND - TICKS_PER_QUARTERSECOND;
 }
 
@@ -310,7 +351,6 @@ void display_powerOff(void)
     display_savePowerState(g_DisplayState.display_Power);
     display_saveInputState(g_DisplayState.display_Input);
 
-    //display_setPowerState(0,true);
     display_dac_sleep();
     DISP_MOSFET_OFF;
 }
@@ -327,9 +367,8 @@ void display_tryTurnOn(void)
 {
     if (eeprom_read_byte(&g_eeprom_DisplayState.display_Power))
     {
-        display_dac_setVoltage(deviceSettings->dac_idleVoltage);
+        display_dac_setVoltage(g_DisplayState.dac_idleVoltage);
         DISP_MOSFET_ON;
-        //display_setPowerState(1,false);
         g_display_NextResponseTime = tick_get() + TICKS_PER_SECOND - TICKS_PER_QUARTERSECOND;
     }
 }
@@ -337,8 +376,51 @@ void display_tryTurnOn(void)
 //------------------------------------------------------------------------------
 void display_updateState(void)
 {
+    //led_yellow_immediate_set(tick_get() < _nextStopOSD);
+
+    // check if we have switched to the OSD menu of the main TFT
+    if (tick_get() < _nextStopOSD)
+    {
+        bool prolong = false;
+
+        int8_t bmbt = button_encoder(ENC_BMBT);
+
+        // emulate keys to browse through OSD menu
+        if (button_released(BUTTON_DISP))
+        {
+            //display_ToggleKey(g_DisplayState.dac_SwitchKey);
+            display_ToggleKey(g_DisplayState.dac_MenuKey);
+            prolong = true;
+        }
+        if (bmbt < 0)
+        {
+            display_ToggleKey(g_DisplayState.dac_DecKey);
+            prolong = true;
+        }else if (bmbt > 0)
+        {
+            display_ToggleKey(g_DisplayState.dac_IncKey);
+            prolong = true;
+        }
+
+        if (prolong)
+            _nextStopOSD = tick_get() + TICKS_PER_X_SECONDS(2);
+
+        return;
+
+    // check if user want to switch to the OSD menu (only when not already there)
+    }else if (button_released(BUTTON_DISP) && button_down(BUTTON_MENU_LR))
+    {
+        display_ToggleKey(g_DisplayState.dac_MenuKey);
+        _nextStopOSD = tick_get() + TICKS_PER_X_SECONDS(2);
+
+        return;
+    }
+
     static uint8_t ignoreButtons = 0;
     if (tick_get() < g_display_NextResponseTime) return;
+
+    if (button_down_long(BUTTON_INFO_R))
+        display_TogglePower(false);
 
     // if holding button longer than certain time, then turn off screen if it is on
     if (button_down_long(BUTTON_DISP) && ignoreButtons == 0)

@@ -85,9 +85,9 @@ Date        Description
 /**@{*/
 
 
-#if (__GNUC__ * 100 + __GNUC_MINOR__) < 304
-#error "This library requires AVR-GCC 3.4 or later, update to newer AVR-GCC compiler !"
-#endif
+//#if (__GNUC__ * 100 + __GNUC_MINOR__) < 304
+//#error "This library requires AVR-GCC 3.4 or later, update to newer AVR-GCC compiler !"
+//#endif
 
  #ifdef __cplusplus
  extern "C" {
@@ -112,7 +112,7 @@ Date        Description
 
 /** Size of the circular receive buffer, must be power of 2 */
 #ifndef UART_RX_BUFFER_SIZE
-#define UART_RX_BUFFER_SIZE 128
+#define UART_RX_BUFFER_SIZE 256
 #endif
 /** Size of the circular transmit buffer, must be power of 2 */
 #ifndef UART_TX_BUFFER_SIZE
@@ -170,7 +170,10 @@ extern void uart_init(unsigned int baudrate);
  *           - \b UART_FRAME_ERROR       
  *             <br>Framing Error by UART
  */
-extern unsigned int uart_getc(void);
+extern unsigned char uart_getc(void);
+
+extern uint8_t uart_last_error(void);
+extern void uart_clear_error(void);
 
 
 /**
@@ -240,7 +243,8 @@ extern void uart_setFormat(unsigned char wordLength, unsigned char numStopBits, 
 /**
  * @brief              Enable tx and/or rx unit
  **/
-extern void uart_setTxRx(unsigned char tx, unsigned char rx);
+//extern void uart_setTxRx(unsigned char tx, unsigned char rx);
+extern void uart_setRx(unsigned char rx);
 
 /**
  * @brief set callback which will be called when data recieved

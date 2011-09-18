@@ -22,7 +22,7 @@ extern "C"
 // Version
 #define VERSION_MAJOR 2
 #define VERSION_MINOR 0
-#define VERSION_ADD_STR "[2-beta2] compiled on " __DATE__ " at " __TIME__
+#define VERSION_ADD_STR "[2.0.0-rc1] compiled on " __DATE__ " at " __TIME__
 
 #define DEVICE_CODING1 DEVID_11
 #define DEVICE_CODING2 DEVID_12
@@ -33,18 +33,12 @@ extern "C"
 #define DSP_AMPLIFIER      (1 << 2)
 #define EMULATE_MID        (1 << 3)
 #define REW_FF_ONMID       (1 << 4)
+#define EMULATE_CDCHANGER  (1 << 5)
     
 #define BACKCAM_INPUT()     (g_deviceSettings.device_Settings1 & 0b00000011)
 #define USE_BM_LEDS()       (g_deviceSettings.device_Settings1 & 0b00000100)
 #define CARPC_INPUT()      ((g_deviceSettings.device_Settings1 & 0b00011000) >> 3) // 0=radio, 1=cdchanger, 2=tape, 3=AUX
 #define SUPPORT_SPECIAL()   (g_deviceSettings.device_Settings1 & 0b00100000)   // support for special features, like autom. close/open central lock
-
-
-
-// Get Device settings out of the device ID
-#define DEVICE_DISP_IDLE   (((DEVID_5 << 8) | DEVID_6) & 0xFFF)
-#define DEVICE_DISP_SWITCH (((DEVID_7 << 8) | DEVID_8) & 0xFFF)
-#define DEVICE_DISP_POWER  (((DEVID_9 << 8) | DEVID_10) & 0xFFF)
 
 // -----------------------------------------------------------------------------
 typedef struct _DeviceSettings
@@ -54,14 +48,6 @@ typedef struct _DeviceSettings
     // --------------------------------------
     uint8_t device_Settings1;
     uint8_t device_Settings2;
-
-    // --------------------------------------
-    // Display settings
-    // --------------------------------------
-    //uint16_t dac_maxVoltage;  // in DAC value 12bit (either 3.3V or 5V key)
-    uint16_t dac_idleVoltage;   // voltage used when idle
-    uint16_t dac_PowerKey;      // voltage when Power-Button pressed
-    uint16_t dac_SwitchKey;     // voltage when button to switch input pressed
     
     // --------------------------------------
     // stuff
