@@ -94,6 +94,7 @@ extern "C" {
 #define IBUS_MSG_LAMP_STATE         0x5B    // Lamp state
 #define IBUS_MSG_DIMMER_STATE       0x5C    // Dimmer state
 #define IBUS_MSG_GM_KEY_BUTTON      0x72    // state of the buttons on the key
+#define IBUS_MSG_EWS_STATE          0x74    // state of the EWS
 #define IBUS_MSG_GM_ENABLE_STATE    0x76    // state of GM indicating if car is closed or not ??? could be DWA?!
 #define IBUS_MSG_GM_STATE_REQ       0x79    // request current state of the GM (doors, trunk, ...)
 #define IBUS_MSG_GM_STATE           0x7A    // state of the GM (doors, trunk, ...)

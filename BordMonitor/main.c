@@ -22,7 +22,7 @@
 #include <avr/sleep.h>
 #include <avr/wdt.h>
 
-#include "bootloader/bootloader.h"
+//#include "bootloader/bootloader.h"
 #include "include/leds.h"
 #include "include/power_module.h"
 #include "include/photo_sensor.h"

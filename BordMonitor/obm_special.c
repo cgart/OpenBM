@@ -111,7 +111,7 @@ static Gear _selectedGear = UNKNOWN;
 static lightState_t _lightState = IDLE;
 //lightState_t _oldLightState = IDLE;
 
-static bool _centralLocked = false;
+static int8_t _centralLocked = -1;
 static bool _parkingBrake = false;
 static uint8_t _carHalfSpeed = 0;
 static uint8_t _carRPM = 0;
@@ -120,13 +120,16 @@ static bool _doToggleCentralLock = false;
 static ticks_t _centralLockWait = 0;
 
 
-#define DEV_IKE      (1 << 0)
-#define DEV_IKE_DONE (1 << 1)
+//#define DEV_IKE      (1 << 0)
+//#define DEV_IKE_DONE (1 << 1)
 
 #define DEV_GM       (1 << 3)
 #define DEV_GM_DONE  (1 << 4)
 
 static uint8_t _reqStatus = 0;
+static int8_t _ignitionState = -1;
+static int8_t _ewsState = -1;
+static ticks_t _reqIgnitionState = 0;
 
 typedef enum _LeavingHome
 {
@@ -152,12 +155,13 @@ static bool    _lockCarIfNoDoorOpenedActive = true;
 
 typedef enum _CDChangerState
 {
-    CDC_IDLE = 0,
-    CDC_RESPONSE = 1,
-    CDC_SEND_START_PLAYING = 2,
-    CDC_SEND_STATE_NOTPLAYING = 3
+    CDC_INIT = 0,
+    CDC_IDLE = 1,
+    CDC_RESPONSE = 2,
+    CDC_SEND_START_PLAYING = 3,
+    CDC_SEND_STATE_NOTPLAYING = 4
 }CDChangerState;
-static CDChangerState _cdcState = CDC_IDLE;
+static CDChangerState _cdcState = CDC_INIT;
 
 //------------------------------------------------------------------------------
 void obms_toggle_central_lock(void)
@@ -254,7 +258,7 @@ void obms_lights_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msgl
             if (_leavingHome == HOLD)
                 _leavingHome = STOP;
 
-        }else if (_leavingHome == NO && !brightEnough)
+        }else if (_centralLocked != -1 && _leavingHome == NO && !brightEnough)
         {
             if (kl50 == 1) // greeting light
                 _leavingHome = START;
@@ -308,6 +312,12 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         }
     }
 
+    // EWS state
+    if (src == IBUS_DEV_EWS && dst == IBUS_DEV_GLO && msglen >= 3 && msg[0] == IBUS_MSG_EWS_STATE)
+    {
+        _ewsState = msg[1];
+    }
+
     // IKE state
     // 80 09 BF 13 00/02 11/10 00 00 00 00 xx
     if (src == IBUS_DEV_IKE && dst == IBUS_DEV_GLO)
@@ -317,10 +327,17 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
             _carHalfSpeed = msg[1];
             _carRPM = msg[2];
         }
+
+        if (msglen >= 2 && msg[0] == IBUS_MSG_IGNITION)
+        {
+            _ignitionState = msg[1];
+            _reqIgnitionState = 0;
+        }
+
         if (msglen == 7 && msg[0] == IBUS_MSG_IKE_STATE)
         {
             // ok, IKE has been seen now
-            _reqStatus |= DEV_IKE_DONE;
+            //_reqStatus |= DEV_IKE_DONE;
 
             // hand brake
             _parkingBrake = msg[1] & 1;
@@ -347,14 +364,22 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         }
 
         // if IKE has not been seen till now, then request its state on next tick
-        if (!(_reqStatus & DEV_IKE_DONE))
-            _reqStatus |= DEV_IKE;
+        //if (!(_reqStatus & DEV_IKE_DONE))
+        //    _reqStatus |= DEV_IKE;
 
         // if ignition is switched off and central is locked, then unlock it
-        if (msglen >= 2 && msg[0] == IBUS_MSG_IGNITION && msg[1] && msg[1] != 0x03 && _centralLocked)
+        if (_ignitionState > 0 && _ignitionState < 3 && _centralLocked == 1)
             _doToggleCentralLock = true;
     }
 
+    // on valid ews state or valid ignition we stop the leaving home and stop counting door closer
+    if (_ewsState > 0 || _ignitionState > 0)
+    {
+        _lockCarIfNoDoorOpened = 0;
+        _lockCarIfNoDoorOpenedActive = false;
+        if (_leavingHome == HOLD)
+            _leavingHome = STOP;
+    }
 
     // update of the lamp state
     if (src == IBUS_DEV_LCM && dst == IBUS_DEV_GLO)
@@ -656,28 +681,39 @@ void obms_tick(void)
 
         // if the central is locked and hand brake was activated, then open the door
         // open also the door if locked and P-gear was set
-          || (_centralLocked && (_parkingBrake || _selectedGear == PARK))
+          || (_centralLocked == 1 && _ignitionState > 0 && (_parkingBrake || _selectedGear == PARK))
 
         // if unlocked and car speed is above certain limit then lock the car
-          || (!_centralLocked && _carHalfSpeed > obms_Settings.automaticCentralLock))
+          || (_centralLocked == 0 && _ignitionState > 0 && _carHalfSpeed > obms_Settings.automaticCentralLock))
         {
             obms_toggle_central_lock();
             _doToggleCentralLock = false;
         }
     }
 
+#if 0
     // if we are allowed to request the status of a device, then do so
     if (_reqStatus & DEV_IKE)
     {
+        _reqStatus &= ~DEV_IKE;
+        _reqStatus |= DEV_IKE_DONE;
+    }
+#endif
+
+    // if we are allowed to request the status of a device, then do so
+    if (_ignitionState > -10 && _ignitionState < 0 && _reqIgnitionState > 0 && tick_get() > _reqIgnitionState)
+    {
+        _ignitionState--;
+
         uint8_t data[2] = {IBUS_MSG_IKE_STATE_REQ, 0x00};
         ibus_sendMessage(IBUS_DEV_DIA, IBUS_DEV_IKE, data, 2, IBUS_TRANSMIT_TRIES);
 
         data[0] = IBUS_MSG_IGNITION_REQ;
         ibus_sendMessage(IBUS_DEV_DIA, IBUS_DEV_IKE, data, 2, IBUS_TRANSMIT_TRIES);
 
-        _reqStatus &= ~DEV_IKE;
-        _reqStatus |= DEV_IKE_DONE;
+        _reqIgnitionState = tick_get() + TICKS_PER_X_SECONDS(2);
     }
+
     if (_reqStatus & DEV_GM)
     {
         uint8_t data[2] = {IBUS_MSG_GM_STATE_REQ, 0x00};
@@ -694,9 +730,12 @@ void obms_tick(void)
         {
             _lockCarIfNoDoorOpened = 0;
             _lockCarIfNoDoorOpenedActive = false;
-            if (!_centralLocked)
-                obms_toggle_central_lock();
-            power_prepare_shutdown();
+            if (_ignitionState == 0)
+            {
+                power_prepare_shutdown();
+                if (_centralLocked == 0)
+                    obms_toggle_central_lock();
+            }
         }
     }
 
@@ -705,6 +744,11 @@ void obms_tick(void)
     {
         switch (_cdcState)
         {
+            case CDC_INIT:
+            {
+                uint8_t data[2] = {IBUS_MSG_DEV_READY, 0x01};
+                ibus_sendMessage(IBUS_DEV_CDC, IBUS_DEV_LOC, data, 2, IBUS_TRANSMIT_TRIES);
+            }
             case CDC_RESPONSE:
             {
                 uint8_t data[2] = {IBUS_MSG_DEV_READY, 0x00};
@@ -747,9 +791,9 @@ void obms_resume(void)
 //------------------------------------------------------------------------------
 void obms_init(void)
 {
-    _cdcState = CDC_IDLE;
+    _cdcState = CDC_INIT;
     _centralLockWait = 0;
-    _centralLocked = true;
+    _centralLocked = -1;
     _parkingBrake = 0;
     _carHalfSpeed = 0;
     _carRPM = 0;
@@ -763,7 +807,8 @@ void obms_init(void)
     _lwrState = 0;
     _lockCarIfNoDoorOpened = 0;
     _lockCarIfNoDoorOpenedActive = true;
-
+    _ignitionState = -1;
+    _reqIgnitionState = 1;
 
     // if run for the first time, then write default data to eeprom
     if (eeprom_read_byte(&obms_SettingsInit) != 'O')

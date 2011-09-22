@@ -65,7 +65,7 @@ void display_dac_sleep(void)
     uint8_t cmd2 = dac_currentVoltage & 0xFF;
 
     // program DAC
-    if ((g_displayError = i2c_start_wait(DAC_I2C_ADDRESS + I2C_WRITE, 10)) == 0)
+    if ((g_displayError = i2c_start_wait(DAC_I2C_ADDRESS + I2C_WRITE, 100)) == 0)
     {
         i2c_write(cmd1);
         i2c_write(cmd2);
@@ -87,7 +87,7 @@ void display_dac_setVoltage_fast(uint16_t value)
     uint8_t cmd2 = value & 0xFF;
 
     // program DAC
-    if ((g_displayError = i2c_start_wait(DAC_I2C_ADDRESS + I2C_WRITE, 10)) == 0)
+    if ((g_displayError = i2c_start_wait(DAC_I2C_ADDRESS + I2C_WRITE, 100)) == 0)
     {
         i2c_write(cmd1);
         i2c_write(cmd2);
@@ -110,7 +110,7 @@ void display_dac_setVoltage(uint16_t value)
     uint8_t cmd3 = (value & 0x0F) << 4;;
 
     // program DAC
-    if ((g_displayError = i2c_start_wait(DAC_I2C_ADDRESS + I2C_WRITE, 10)) == 0)
+    if ((g_displayError = i2c_start_wait(DAC_I2C_ADDRESS + I2C_WRITE, 100)) == 0)
     {
         i2c_write(cmd1);
         i2c_write(cmd2);

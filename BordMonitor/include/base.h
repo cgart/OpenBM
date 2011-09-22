@@ -19,7 +19,7 @@
 #ifndef F_CPU
 	#define F_CPU 14745650UL
 #endif
-#define SCL_CLOCK 100000 // 100kHz for the I2C Bus
+#define SCL_CLOCK 100000L // 100kHz for the I2C Bus
 
 //--------------------------------------------------------------------------
 // Include basic headers

@@ -9,8 +9,9 @@
 #include "config.h"
 
 //------------------------------------------------------------------------------
-uint8_t _active_mode = 0; // 0x01 init, 0x40 radio, 0xC0=cd, 0x80=tape, 0x60=tone, etc.. this come from Radio
-uint8_t _ignitionState = 1;
+static uint8_t _active_mode = 0; // 0x01 init, 0x40 radio, 0xC0=cd, 0x80=tape, 0x60=tone, etc.. this come from Radio
+static int8_t _ignitionState = -1;
+static ticks_t _reqIgnitionState = 0;
 
 typedef enum _DevicePollState
 {
@@ -22,13 +23,13 @@ typedef enum _DevicePollState
     //DEV_LAST = DEV_TEL,
     DEV_NUM = 4
 }DevicePollState;
-DevicePollState _pollState = DEV_FIRST;
+static DevicePollState _pollState = DEV_FIRST;
 
-bool _pollStateRecieved[DEV_NUM];
-uint8_t _ackToSrc = 0;
-uint8_t _ackAs = 0;
-uint8_t _ackTextUpdateWithNeg = 0;
-ticks_t _pingTicks = 0;
+static bool _pollStateRecieved[DEV_NUM];
+static uint8_t _ackToSrc = 0;
+static uint8_t _ackAs = 0;
+static uint8_t _ackTextUpdateWithNeg = 0;
+static ticks_t _pingTicks = 0;
 
 // mapping from button states to MID buttons
 #define MID_MAP_SIZE 15
@@ -120,8 +121,8 @@ uint8_t _bmbt_button_mapping[BMBT_MAP_SIZE][3] PROGMEM =
 //    {BUTTON_MODE,0x68,0x23}
 };
 
-ticks_t _nextSendMFLSignalTick;
-bool _nextSendMFLSignal;
+static ticks_t _nextSendMFLSignalTick;
+static bool _nextSendMFLSignal;
 
 //------------------------------------------------------------------------------
 uint8_t mid_active_mode(void)
@@ -137,32 +138,24 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
 {
     // based on the src decide if this device does exists
     // if the device hasn't been polled before, then allow up-to 5 polls
-    if (msg[0] == IBUS_MSG_DEV_READY)
+    if (msg[0] == IBUS_MSG_DEV_READY && _ignitionState > 0)
     {        
         if (src == IBUS_DEV_RAD)
         {
-            /*if (_pollStateRecieved[DEV_RADIO] == 0) _pollStateRecieved[DEV_RADIO] = 5;
-            else*/
-                _pollStateRecieved[DEV_RADIO]++;
+            _pollStateRecieved[DEV_RADIO]++;
             if (_active_mode == 0) _active_mode = 1; // need to reinitialize the radio
         }
         if (src == IBUS_DEV_TEL)
         {
-            /*if (_pollStateRecieved[DEV_TEL] == 0) _pollStateRecieved[DEV_TEL] = 5;
-            else*/
-                _pollStateRecieved[DEV_TEL]++;
+            _pollStateRecieved[DEV_TEL]++;
         }
         if (src == IBUS_DEV_DSP)
         {
-            /*if (_pollStateRecieved[DEV_DSP] == 0) _pollStateRecieved[DEV_DSP] = 5;
-            else*/
-                _pollStateRecieved[DEV_DSP]++;
+            _pollStateRecieved[DEV_DSP]++;
         }
         if (src == IBUS_DEV_IKE)
         {
-            /*if (_pollStateRecieved[DEV_IKE] == 0) _pollStateRecieved[DEV_IKE] = 5;
-            else*/
-                _pollStateRecieved[DEV_IKE]++;
+            _pollStateRecieved[DEV_IKE]++;
         }
     }
 
@@ -192,8 +185,9 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
     if (src == IBUS_DEV_IKE && dst == IBUS_DEV_GLO && msglen >= 2 && msg[0] == IBUS_MSG_IGNITION)
     {
         _ignitionState = msg[1];
+        _reqIgnitionState = 0;
 
-        if (!_ignitionState)
+        if (_ignitionState == 0)
         {
             _active_mode = 0;
 
@@ -315,7 +309,7 @@ void mid_ping_tick(void)
     // every 10 seconds we perform a ping on different hardware to check if they exists
     _pingTicks ++;
 
-    if (_pingTicks > TICKS_PER_X_SECONDS(10))
+    if (_pingTicks > TICKS_PER_X_SECONDS(10) && _ignitionState > 0)
     {
         uint8_t data[1] = {IBUS_MSG_DEV_POLL};
 
@@ -363,7 +357,6 @@ void mid_ping_tick(void)
         }
     }
 
-#if 1
     // if radio has been detected however haven't been asked for its state, do this
     if (_active_mode == 1)
     {
@@ -379,7 +372,6 @@ void mid_ping_tick(void)
         ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_LOC, data, 4, IBUS_TRANSMIT_TRIES);
         _active_mode = 0;
     }
-#endif
 }
 
 //------------------------------------------------------------------------------
@@ -420,7 +412,7 @@ void mid_tick(void)
             ignoreReleaseEvent = 1;
             uint8_t data[2] = {IBUS_MSG_BMBT_BUTTON, 0x46};
             ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_RAD, data, 2, IBUS_TRANSMIT_TRIES);
-        }else if (button_released(BUTTON_RADIO_KNOB) && _ignitionState)
+        }else if (button_released(BUTTON_RADIO_KNOB) && _ignitionState >= 1)
         {
             if (ignoreReleaseEvent == 0)
             {
@@ -579,6 +571,18 @@ void mid_tick(void)
         ibus_sendMessage(IBUS_DEV_BMBT,IBUS_DEV_RAD, data, 2, IBUS_TRANSMIT_TRIES);
         _nextSendMFLSignal = 0;
     }
+
+    // if we are allowed to request the status of a device, then do so
+    if (_ignitionState > -10 && _ignitionState < 0 && _reqIgnitionState > 0 && tick_get() > _reqIgnitionState)
+    {
+        _ignitionState--;
+
+        uint8_t data[2] = {IBUS_MSG_IGNITION_REQ, 0x00};
+        ibus_sendMessage(IBUS_DEV_DIA, IBUS_DEV_IKE, data, 2, IBUS_TRANSMIT_TRIES);
+
+        _reqIgnitionState = tick_get() + TICKS_PER_X_SECONDS(2);
+    }
+
 }
 
 //------------------------------------------------------------------------------
@@ -605,7 +609,8 @@ void mid_init(void)
     _ackAs = IBUS_DEV_MID;
     _ackTextUpdateWithNeg = 0;
     _pingTicks = 0;
-    _ignitionState = 1;
+    _ignitionState = -1;
+    _reqIgnitionState = 1;
 
     for (int8_t i=0; i < DEV_NUM; i++)
         _pollStateRecieved[i] = 0;
