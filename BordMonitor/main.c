@@ -155,6 +155,15 @@ void sleepCPU(void)
 //------------------------------------------------------------------------------
 void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
 {
+#if 0 // DEBUG
+    if (src != 0xFF)
+    {
+        uint8_t data[2] = {msg[0], msg[1]};
+        ibus_sendMessage(0xFF, 0xFF, data, 2, IBUS_TRANSMIT_TRIES);
+        //return;
+    }
+#endif
+
     power_on_bus_msg(src, dst, msg, msglen);
 
     // do not proceed while not running
@@ -218,8 +227,96 @@ void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen
             if (pwr == 0b01100000) display_powerOff();
             else if (pwr == 0b11110000) display_powerOn();
             display_setInputState(inp);
+        }else if (msglen >= 4 && msg[1] == IBUS_MSG_OPENBM_SET_DEVICE)
+        {
+            // every such message will be responded, default response is 0
+            uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_SET_DEVICE, msg[2]};
+            uint8_t ok = 0;
+
+            if (msg[2] == 0x01)
+            {
+                if (msg[3])
+                {
+                    eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings2, g_deviceSettings.device_Settings2 | DSP_AMPLIFIER);
+                    g_deviceSettings.device_Settings2 |= DSP_AMPLIFIER;
+                }else
+                {
+                    eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings2, g_deviceSettings.device_Settings2 & ~(DSP_AMPLIFIER));
+                    g_deviceSettings.device_Settings2 &= ~(DSP_AMPLIFIER);
+                }
+                ok = 1;
+            }else if (msg[2] == 0x02)
+            {
+                if (msg[3])
+                {
+                    eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings2, g_deviceSettings.device_Settings2 | REW_FF_ONMID);
+                    g_deviceSettings.device_Settings2 |= REW_FF_ONMID;
+                }else
+                {
+                    eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings2, g_deviceSettings.device_Settings2 & ~(REW_FF_ONMID));
+                    g_deviceSettings.device_Settings2 &= ~(REW_FF_ONMID);
+                }
+                ok = 1;
+            }else if (msg[2] == 0x03)
+            {
+                ok = 1;
+                if (msg[3] == 1)
+                {
+                    eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings2, g_deviceSettings.device_Settings2 | RADIO_PROFESSIONAL);
+                    g_deviceSettings.device_Settings2 |= RADIO_PROFESSIONAL;
+                }else if (msg[3] == 0)
+                {
+                    eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings2, g_deviceSettings.device_Settings2 & ~(RADIO_PROFESSIONAL));
+                    g_deviceSettings.device_Settings2 &= ~(RADIO_PROFESSIONAL);
+                }else
+                    ok = 0;
+            }else if (msg[2] == 0x04)
+            {
+                ok = 1;
+                if (msg[3] == 1)
+                {
+                    g_deviceSettings.device_Settings1 |= USE_BM_LEDS_BIT;
+                }else if (msg[3] == 0)
+                {
+                    g_deviceSettings.device_Settings1 &= ~(USE_BM_LEDS_BIT);
+                }else
+                    ok = 0;
+
+                eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings1, g_deviceSettings.device_Settings1);
+            }else if (msg[2] == 0x05)
+            {
+                ok = 1;
+                CARPC_INPUT_SET(msg[3]);
+
+                eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings1, g_deviceSettings.device_Settings1);
+            }else
+            {
+                data[2] = 0;
+            }
+            if (ok)
+              ibus_sendMessage(IBUS_DEV_BMBT, src, data, 3, IBUS_TRANSMIT_TRIES);
+        
+        }else if (msglen >= 4 && msg[1] == IBUS_MSG_OPENBM_SET_IOPINS)
+        {
+            // every such message will be responded, default response is 0
+            uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_SET_IOPINS, msg[2]};
+            uint8_t ok = 0;
+
+            if (msg[2] >= 1 && msg[2] <= 3)
+            {
+                ok = 1;
+                if (msg[3])
+                    PORTB |= (1 << (4+msg[2]));
+                else
+                    PORTB &= ~(1 << (4+msg[2]));
+            }else
+                data[2] = 0;
+
+            if (ok)
+              ibus_sendMessage(IBUS_DEV_BMBT, src, data, 3, IBUS_TRANSMIT_TRIES);
         }
     }
+
 }
 
 // ----------------------------------------------------------------------------
@@ -249,6 +346,16 @@ void get_mcusr(void)
 //------------------------------------------------------------------------------
 void initHardware(void)
 {
+    DDRC &= (~(1 << DDC0) & ~(1 << DDC1));
+    DDRD &= ~(1 << DDD3);
+    PORTC &= (~(1 << 0) & ~(1 << 1));
+    PORTD &= ~(1 << 3);
+    
+    // init ibus as soon as possible, so that messages don't get lost while initialization procedure
+    ibus_init();
+    sei();
+    ibus_setMessageCallback(ibus_MessageCallback);
+
     power_set_running_mode(INIT);
 
     led_init();
@@ -258,10 +365,6 @@ void initHardware(void)
     PRR = 0;                  // enable all hardware
     PRR |= (1 << PRUSART1);   // disable USART-1
     PRR |= (1 << PRSPI);      // disable SPI
-
-    // init ibus as soon as possible, so that messages don't get lost while initialization procedure
-    ibus_init();
-    sei();
 
     // set full I/O clock speed regardles of the fuse
     //cli();
@@ -284,39 +387,42 @@ void initHardware(void)
     button_init();
     adc_init();
     photo_init();
-    //ibus_init();
-
-    // do small animation to indicate start
-    /*{
-        led_green_immediate_set(1);
-        _delay_ms(50);
-        led_green_immediate_set(0);
-        led_red_immediate_set(1);
-        _delay_ms(50);
-        led_red_immediate_set(0);
-        led_yellow_immediate_set(1);
-        _delay_ms(50);
-        led_yellow_immediate_set(0);
-        led_fan_immediate_set(1);
-        _delay_ms(50);
-        led_fan_immediate_set(0);
-        led_radio_immediate_set(1);
-        _delay_ms(50);
-        led_radio_immediate_set(0);
-        _delay_ms(50);
-    }*/
-
-    //sei();
-    
-    ibus_setMessageCallback(ibus_MessageCallback);
-    //display_setBackgroundLight(photo_get_max_value());
-    //display_tryTurnOn();
 
     // init software modules
     mid_init();
     obms_init();
 
     led_red_immediate_set(0);
+
+    // Output for IOs
+    DDRB |= (1 << DDB5); PORTB &= ~(1 << 5);
+    DDRB |= (1 << DDB6); PORTB &= ~(1 << 6);
+    DDRB |= (1 << DDB7); PORTB &= ~(1 << 7);
+
+/*
+   // Blink Once with LEDs
+    led_radio_immediate_set(1);
+    led_green_immediate_set(1);
+    led_yellow_immediate_set(1);
+    led_red_immediate_set(1);
+    led_fan_immediate_set(1);
+    _delay_ms(500);
+    led_radio_immediate_set(0);
+    led_green_immediate_set(0);
+    led_yellow_immediate_set(0);
+    led_red_immediate_set(0);
+    led_fan_immediate_set(0);
+
+    display_powerOn();
+    _delay_ms(1000);
+    display_ToggleInput(0);
+    _delay_ms(1000);
+    display_ToggleInput(0);
+    _delay_ms(1000);
+    display_ToggleInput(0);
+
+ */
+//    display_powerOn();
 }
 
 // -----------------------------------------------------------------------------
@@ -633,13 +739,29 @@ int main(void)
             // Enable Setup-Mode, i.e. settable settings per buttons
             checkSetupMode();
 
+            // user defined IO-buttons
+            for (int8_t ios = 0; ios < 3; ios++)
+            {
+                buttonIndex_t but = g_deviceSettings.io_assignment[ios];
+
+                if (but != BUTTON_NUM_BUTTONS)
+                {
+                    if (button_down(but))
+                        PORTB |= (1 << (5+ios));
+                    else if (button_released(but))
+                        PORTB &= ~(1 << (5+ios));
+                }
+            }
+
             // perform global tick
             button_after_tick();
             tick();
         }
 
         // perform ibus tasks
+        ADCSRA &= ~(1 << ADIE);
         ibus_tick();
+        ADCSRA |= (1 << ADIE);
     }
 
     return 0;

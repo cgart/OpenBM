@@ -12,6 +12,7 @@
 #include "ibus.h"
 #include "uart.h"
 #include "leds.h"
+#include "include/leds.h"
 
 #define IBUS_USE_SHORT_BUFFER
 
@@ -63,66 +64,75 @@ void ibus_setTimeOut(uint8_t delay)
 posptr_t ibus_transmit_msg(posptr_t from, posptr_t len)
 {
     posptr_t oldFrom = from;
+
+    //IBUS_TX_SETUP();
     
     if (IBUS_SENSTA_VALUE()) return from;
 
-    IBUS_TX_SETUP();
-    
-    BEGIN_ATOMAR;
+    // we currently disable interrupt of TH3122, we will ask it manually here
+    IBUS_SENSTA_DIS_INT();
+
+    while(len > 0)
     {
-        while(len > 0)
+        // load byte to transmit
+        uint8_t byte = g_ibus_TxBuffer[from];
+        uint8_t sent = byte;
+        uint8_t par  = 0;
+
+        // transmit start bit and check if collision happens
+        bit_clear(IBUS_TX_PORT, IBUS_TX_PIN);
+        IBUS_BAUD_DELAY();
+        if (IBUS_SENSTA_VALUE()) goto collision;
+
+        // transmit bitwise and compute parity bit
+        // while transmitting check if collision was detected
+        int8_t i;
+        for (i = 0; i < 8; i++, byte>>=1)
         {
-            // load byte to transmit
-            uint8_t byte = g_ibus_TxBuffer[from];
-            uint8_t par  = 0;
-
-            // transmit start bit and check if collision happens
-            bit_clear(IBUS_TX_PORT, IBUS_TX_PIN);
-            IBUS_BAUD_DELAY();
-            if (IBUS_SENSTA_VALUE()) goto collision;
-
-            // transmit bitwise and compute parity bit
-            // while transmitting check if collision was detected
-            int8_t i;
-            for (i = 0; i < 8; i++, byte>>=1)
-            {
-                par ^= (byte & 1);
-                if (byte & 1)
-                    bit_set(IBUS_TX_PORT, IBUS_TX_PIN);
-                else
-                    bit_clear(IBUS_TX_PORT, IBUS_TX_PIN);
-                IBUS_BAUD_DELAY();
-                if (IBUS_SENSTA_VALUE()) goto collision;
-            }
-
-            // send parity bit
-            if (par & 1)
+            par ^= (byte & 1);
+            if (byte & 1)
                 bit_set(IBUS_TX_PORT, IBUS_TX_PIN);
             else
                 bit_clear(IBUS_TX_PORT, IBUS_TX_PIN);
-
             IBUS_BAUD_DELAY();
             if (IBUS_SENSTA_VALUE()) goto collision;
-
-            // send stop bit
-            bit_set(IBUS_TX_PORT, IBUS_TX_PIN);
-            IBUS_BAUD_DELAY();
-            if (IBUS_SENSTA_VALUE()) goto collision;
-
-            // update current pointers
-            from = inc_posptr_tx(from);
-            len--;
         }
 
-        oldFrom = from;
+        // send parity bit
+        if (par & 1)
+            bit_set(IBUS_TX_PORT, IBUS_TX_PIN);
+        else
+            bit_clear(IBUS_TX_PORT, IBUS_TX_PIN);
+
+        IBUS_BAUD_DELAY();
+        if (IBUS_SENSTA_VALUE()) goto collision;
+
+        // send stop bit
+        bit_set(IBUS_TX_PORT, IBUS_TX_PIN);
+        IBUS_BAUD_DELAY();
+        if (IBUS_SENSTA_VALUE()) goto collision;
+
+        // update current pointers
+        from = inc_posptr_tx(from);
+        len--;
+
+        // we should have now received the same byte through uart rx
+        // check if there was no frame error and if the received byte is the right one
+        if (!uart_available())goto collision;
+        if (uart_lastc() != sent) goto collision;
+        if (uart_last_error()) goto collision;
     }
+
+    // if everything went fine, then we will return new from position
+    oldFrom = from;
 
 
 // return on failure
 collision:
 
-    END_ATOMAR;
     IBUS_TX_SETUP();
+    IBUS_SENSTA_ENA_INT();
+    //END_ATOMAR;
     return oldFrom;
 }
 
@@ -133,43 +143,29 @@ void ibus_setMessageCallback(void(*cb)(uint8_t src, uint8_t dst, uint8_t* msg, u
 }
 
 //--------------------------------------------------------------------------
-uint8_t ibus_calcChecksum(uint8_t* pBuffer, posptr_t from, uint8_t mask)
+uint8_t ibus_calcChecksum(const uint8_t* pBuffer, posptr_t from, uint8_t mask)
 {
-  if(pBuffer == NULL)
-    return 0;
+    uint8_t checksum = pBuffer[from]; from = inc_posptr(from, mask);
+    uint8_t len = pBuffer[from];
+    while(len > 0)
+    {
+        checksum ^= pBuffer[from];
+        len --;
+        from = inc_posptr(from, mask);
+    }
 
-  uint8_t checksum = 0;
-  posptr_t len = from;
-  len = inc_posptr(len, mask);
-  len = pBuffer[len] + 1;
-
-  for(uint8_t i = 0; i < len; ++i)
-  {
-      checksum ^= pBuffer[from];
-      from = inc_posptr(from, mask);
-  }
-
-  return checksum;
+    return checksum;
 }
 
 //--------------------------------------------------------------------------
-void ibus_recieveCallback(uint8_t c)//, uint8_t error)
+void ibus_recieveCallback(uint8_t c)
 {
-    // check if there was an error, then reset state and wait until bus get free
-    /*if (error != 0)
-    {
-        g_ibus_State = IBUS_STATE_WAIT_FREE_BUS;
-        IBUS_TIMEOUT_RECEIVE_ERROR();
-        return;
-    }*/
-
     // go to recieve state and start timer which check for timeout
     g_ibus_State = IBUS_STATE_RECEIVING;
     IBUS_TIMEOUT_RECEIVE();
 
     uint8_t msgReceived = 0;
     
-    //BEGIN_ATOMAR;
     {
         // put recieved byte into buffer
         g_ibus_RxBuffer[g_ibus_RxPos] = c;
@@ -194,11 +190,9 @@ void ibus_recieveCallback(uint8_t c)//, uint8_t error)
             msgReceived = (chk == c);
 
             g_ibus_State = IBUS_STATE_WAIT_FREE_BUS;
-            //IBUS_TIMEOUT_WAIT_FREE_BUS();
             IBUS_TIMEOUT_AFTER_RECEIVE();
         }
     }
-    //END_ATOMAR;
 
     if (msgReceived && g_ibus_MsgCallback)
         g_ibus_MsgCallback(g_ibus_RxBuffer[0], g_ibus_RxBuffer[2], &g_ibus_RxBuffer[3], g_ibus_RxBuffer[1]-2);
@@ -241,13 +235,6 @@ uint8_t ibus_readyToTransmit()
 void ibus_tick()
 {
     // if we have data in the receive buffer, then handle it
-    /*while(1)
-    {
-        unsigned int data = uart_getc();
-        if (data & UART_NO_DATA) break;
-        ibus_recieveCallback(data & 0xFF, (data & 0xFF00) >> 8);
-    }*/
-    // if we have data in the receive buffer, then handle it
     while(uart_available())
     {
         uint8_t data = uart_getc();
@@ -274,8 +261,7 @@ void ibus_tick()
     }
 
     g_ibus_State = IBUS_STATE_TRANSMITTING;
-    //uart_setTxRx(0,0);
-    uart_setRx(0);
+    uart_clear_error(); // start fresh :)
 
     // ok bus is free, we can submit a message
     posptr_t tryCounterPos = g_ibus_TxReadPos;
@@ -286,31 +272,32 @@ void ibus_tick()
     posptr_t oldTxPos = g_ibus_TxReadPos;
     posptr_t newTxPos = ibus_transmit_msg(g_ibus_TxReadPos,  len + 2);
     
-    BEGIN_ATOMAR;
+    // from here we are free to clear all errors
+    uart_clear_error();
+
+    // if there was a collision, then resend message if we still have trials
+    if (newTxPos == oldTxPos)
     {
-        // if there was a collision, then resend message if we still have trials
-        if (newTxPos == oldTxPos)
+        numberOfTries--;
+        if (numberOfTries >= 0)
         {
-            numberOfTries--;
-            if (numberOfTries >= 0)
-            {
-                g_ibus_TxBuffer[tryCounterPos] = numberOfTries;
-                g_ibus_TxReadPos = tryCounterPos;
+            g_ibus_TxBuffer[tryCounterPos] = numberOfTries;
+            g_ibus_TxReadPos = tryCounterPos;
 
-                g_ibus_State = IBUS_STATE_WAIT_FREE_BUS;
-                IBUS_TIMEOUT_COLLISION();
+            g_ibus_State = IBUS_STATE_WAIT_FREE_BUS;
+            IBUS_TIMEOUT_COLLISION();
 
-                END_ATOMAR;
-                return;
-            }
-            newTxPos = (posptr_t)(oldTxPos + len + 2) & IBUS_MSG_TX_BUFFER_SIZE_MASK;
+            return;
         }
+        newTxPos = (posptr_t)(oldTxPos + len + 2) & IBUS_MSG_TX_BUFFER_SIZE_MASK;
 
-        // ok message was either submitted successfully or message trials
-        // counter is elapsed, we flush tx buffer and continue
-        g_ibus_TxReadPos = newTxPos;
-    }
-    END_ATOMAR;
+    // if there was no collision, then we have received the same message as sent, so just flush it
+    }else
+        uart_flush(0);
+
+    // ok message was either submitted successfully or message trials
+    // counter is elapsed, we flush tx buffer and continue
+    g_ibus_TxReadPos = newTxPos;
 
     g_ibus_State = IBUS_STATE_WAIT_FREE_BUS;
     IBUS_TIMEOUT_AFTER_TRANSMIT();
@@ -319,36 +306,32 @@ void ibus_tick()
 //--------------------------------------------------------------------------
 void ibus_init()
 {
-    // initialize uart interface used for IBus communication
+    // initialize uart interface used for IBus communication, uart default 9600 8E1
     uart_init(UART_BAUD_SELECT(9600, F_CPU));
-    //uart_setFormat(8,1,1);
-    //uart_setTxRx(0,1);
     uart_setRx(1);
 
-    uart_setTransmitDoneCallback(NULL);
-    uart_setReceiveCallback(NULL);
+    g_ibus_MsgCallback = NULL;
 
-    BEGIN_ATOMAR;
-    {
-        g_ibus_MsgCallback = NULL;
-        
-        // per default we do not use any uart interface
-        g_ibus_TxReadPos = 0;
-        g_ibus_TxWritePos = 0;
-        g_ibus_RxPos = 0;
-        g_ibus_RxLen = 2;
-        g_ibus_State = IBUS_STATE_WAIT_FREE_BUS;
+    // per default we do not use any uart interface
+    g_ibus_TxReadPos = 0;
+    g_ibus_TxWritePos = 0;
+    g_ibus_RxPos = 0;
+    g_ibus_RxLen = 2;
+    g_ibus_State = IBUS_STATE_IDLE;
 
-        IBUS_SENSTA_SETUP();
-        IBUS_TIMER_SETUP();
-        IBUS_TIMEOUT_WAIT_FREE_BUS();
-        //IBUS_TX_SETUP();
-        
-        // interrupt on falling edge on SEN/STA pin
-        EICRA &= ~(1 << ISC00);
-        EICRA |=  (1 << ISC01);
-    }
-    END_ATOMAR;
+    IBUS_SENSTA_SETUP();
+    IBUS_TIMER_SETUP();
+    IBUS_TX_SETUP();
+
+    // currently no timer is running
+    IBUS_TIMER_DISABLE_INTERRUPT();
+
+    // interrupt on falling edge on SEN/STA pin
+    EIMSK &= ~(1 << INT0);
+    EICRA &= ~(1 << ISC00);
+    EICRA |=  (1 << ISC01);
+    EIFR  |=  (1 << INTF0);
+
 }
 
 //--------------------------------------------------------------------------
@@ -364,11 +347,6 @@ ISR(IBUS_TIMER_INTERRUPT)
     g_ibus_State = IBUS_STATE_IDLE;
     g_ibus_RxPos = 0;
     g_ibus_RxLen = 2;
-
-    // enable reciever, disable transmitter
-    uart_flush();
-    //uart_setTxRx(0,1);
-    uart_setRx(1);
 }
 
 //--------------------------------------------------------------------------

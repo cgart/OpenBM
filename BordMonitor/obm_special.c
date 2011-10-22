@@ -31,6 +31,7 @@ typedef struct _OBMSSettings
 
     uint8_t emulateCDchanger;
 
+    uint8_t  automaticMirrorFold;
 }ObmsSettings;
 
 
@@ -66,6 +67,11 @@ typedef enum _Gear
 }Gear;
 static Gear _selectedGear = UNKNOWN;
 
+#define AUT_MIRROR_FOLD    (1 << 0)
+#define AUT_MIRROR_UNFOLD  (1 << 1)
+#define AUT_MIRROR_RESTORE (1 << 5)
+static int8_t _nextMirrorFold = -1;
+static ticks_t _comfortCloseTimer = 0;
 
 #define IDLE                     0
 
@@ -111,22 +117,18 @@ static Gear _selectedGear = UNKNOWN;
 static lightState_t _lightState = IDLE;
 //lightState_t _oldLightState = IDLE;
 
-static int8_t _centralLocked = -1;
+// IKE state
 static bool _parkingBrake = false;
 static uint8_t _carHalfSpeed = 0;
 static uint8_t _carRPM = 0;
 
-static bool _doToggleCentralLock = false;
+// central lock state
 static ticks_t _centralLockWait = 0;
+static ticks_t _reqGMState = 0;
+static int8_t _centralLocked = -1;
+static uint8_t _catchedKeyReleased = 0;
 
-
-//#define DEV_IKE      (1 << 0)
-//#define DEV_IKE_DONE (1 << 1)
-
-#define DEV_GM       (1 << 3)
-#define DEV_GM_DONE  (1 << 4)
-
-static uint8_t _reqStatus = 0;
+// ignition and EWS state
 static int8_t _ignitionState = -1;
 static int8_t _ewsState = -1;
 static ticks_t _reqIgnitionState = 0;
@@ -164,12 +166,39 @@ typedef enum _CDChangerState
 static CDChangerState _cdcState = CDC_INIT;
 
 //------------------------------------------------------------------------------
+void obms_set_mirror_fold(uint8_t fold)
+{
+    //Fahrerspiegel ein
+    //3F 06 00 0C 01 31 01 04
+
+    //Fahrerspiegel aus
+    //3F 06 00 0C 01 30 01 05
+
+    //Beifahrerspiegel ein
+    //3F 06 00 0C 02 31 01 07
+
+    //Beifahrerspiegel aus
+    //3F 06 00 0C 02 30 01 06
+
+    {
+        uint8_t data[3] = {IBUS_MSG_VEHICLE_CTRL, 0x01, 0x30 | fold};
+        ibus_sendMessage(IBUS_DEV_DIA, IBUS_DEV_GM, data, 3, IBUS_TRANSMIT_TRIES);
+    }
+    //_delay_ms(100);
+    {
+        uint8_t data[3] = {IBUS_MSG_VEHICLE_CTRL, 0x02, 0x30 | fold};
+        ibus_sendMessage(IBUS_DEV_DIA, IBUS_DEV_GM, data, 3, IBUS_TRANSMIT_TRIES);
+    }
+}
+
+//------------------------------------------------------------------------------
 void obms_toggle_central_lock(void)
 {
     uint8_t data[3] = {IBUS_MSG_VEHICLE_CTRL, 0x00, 0x0B};
     ibus_sendMessage(IBUS_DEV_DIA, IBUS_DEV_GM, data, 3, IBUS_TRANSMIT_TRIES);
 
     _centralLockWait = tick_get() + TICKS_PER_X_SECONDS(10);
+    _centralLocked = -1; // make the current state unknown, so that we can check if GM accepted our message
 }
 
 //------------------------------------------------------------------------------
@@ -234,6 +263,16 @@ void obms_lights_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msgl
     int8_t kl50 = -1;
     bool brightEnough = false;
 
+    if (src == IBUS_DEV_GM && dst == IBUS_DEV_GLO && msg[0] == IBUS_MSG_GM_STATE && msglen >= 2)
+    {
+        // central unlocked   00 05 BF 7A [dd1=10] [dd2=00] xx // dd1 = bit8 - trunk, bit7 = kl50, bit6=locked, bit5=?, bit4-bit1=door, dd2 = bit6 - trunk opened, bit4-1 windows
+        // central locked     00 05 BF 7A 20 00 xx
+        if (msg[1] & 0x20)
+            _centralLocked = 1;
+        else
+            _centralLocked = 0;
+    }
+
     if (photo_is_enabled())
         brightEnough = photo_is_bright_enough();
 
@@ -241,7 +280,12 @@ void obms_lights_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msgl
     {
         // turn leaving home if car was closed with the key
         if (msg[0] == IBUS_MSG_GM_KEY_BUTTON && (msg[1] & 0x10))
+        {
+            _lockCarIfNoDoorOpened = 0;
+            _leavingHome = NO;
+            _lockCarIfNoDoorOpenedActive = false;
             kl50 = 2;
+        }
 
         // door opened and/or kl50 activated
         if (msg[0] == IBUS_MSG_GM_STATE)
@@ -250,7 +294,7 @@ void obms_lights_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msgl
             if (msg[1] & 0x40) kl50 = 1;
         }
     }
-
+    
     if (doorOpened == 1 || kl50 >= 1)
     {
         if (doorOpened == 1)
@@ -258,11 +302,11 @@ void obms_lights_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msgl
             if (_leavingHome == HOLD)
                 _leavingHome = STOP;
 
-        }else if (_centralLocked != -1 && _leavingHome == NO && !brightEnough)
+        }else if (/*_centralLocked != -1 &&*/ _leavingHome == NO && !brightEnough)
         {
-            if (kl50 == 1) // greeting light
+            if (_centralLocked == 0 && kl50 == 1) // greeting light
                 _leavingHome = START;
-            else if (kl50 == 2) // goodbye light
+            else if (/*_centralLocked == -1 &&*/ kl50 == 2) // goodbye light
                 _leavingHome = GOODBYE;
         }
     }
@@ -283,21 +327,27 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
 
     if (src == IBUS_DEV_GM && dst == IBUS_DEV_GLO)
     {
-        // if GM has not been seen yet, then ping it on next tick
-        if (!(_reqStatus & DEV_GM_DONE))
-            _reqStatus |= DEV_GM;
+        if (msg[0] == IBUS_MSG_GM_KEY_BUTTON && msglen >= 2)
+        {
+            if (msg[1] & 0x10)
+                _comfortCloseTimer = tick_get() + TICKS_PER_TWO_SECONDS;
+
+            _catchedKeyReleased = (msg[1] & 0xF0) == 0;
+
+            if (_catchedKeyReleased)
+                _comfortCloseTimer = 0;
+        }
 
         if (msg[0] == IBUS_MSG_GM_STATE && msglen >= 2)
         {
-            // GM has been seen now
-            _reqStatus |= DEV_GM_DONE;
+            _reqGMState = 0;
 
             // central unlocked   00 05 BF 7A [dd1=10] [dd2=00] xx // dd1 = bit8 - trunk, bit7 = kl50, bit6=locked, bit5=?, bit4-bit1=door, dd2 = bit6 - trunk opened, bit4-1 windows
             // central locked     00 05 BF 7A 20 00 xx
-            if (msg[1] & 0x20)
+            /*if (msg[1] & 0x20)
                 _centralLocked = 1;
             else
-                _centralLocked = 0;
+                _centralLocked = 0;*/
 
             if ((msg[1] & 0xF0) && _lockCarIfNoDoorOpenedActive)
                 _lockCarIfNoDoorOpened = tick_get() + TICKS_PER_X_SECONDS(obms_Settings.lockCarUnused);
@@ -336,9 +386,6 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
 
         if (msglen == 7 && msg[0] == IBUS_MSG_IKE_STATE)
         {
-            // ok, IKE has been seen now
-            //_reqStatus |= DEV_IKE_DONE;
-
             // hand brake
             _parkingBrake = msg[1] & 1;
 
@@ -362,14 +409,6 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
                     _cam_state = CAM_PREPARE_TO_SWITCH;
             }
         }
-
-        // if IKE has not been seen till now, then request its state on next tick
-        //if (!(_reqStatus & DEV_IKE_DONE))
-        //    _reqStatus |= DEV_IKE;
-
-        // if ignition is switched off and central is locked, then unlock it
-        if (_ignitionState > 0 && _ignitionState < 3 && _centralLocked == 1)
-            _doToggleCentralLock = true;
     }
 
     // on valid ews state or valid ignition we stop the leaving home and stop counting door closer
@@ -392,29 +431,36 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         }else if (msglen == 5 && msg[0] == IBUS_MSG_LAMP_STATE)
         {
             // TippBlinken only active if not already running
-            if ((_tippBlinken & 0x0F) == 0 && obms_Settings.comfortTurnLight > 0)
+            //if ((_tippBlinken & 0x0F) == 0 &&
+            if (obms_Settings.comfortTurnLight > 0)
             {
                 // turn flash light
                 if (msg[3] == 0x04)
                 {
+                    // this counter will be passed to the new
+                    uint8_t counter = (_tippBlinken & 0x0F);
+
                     // activated left
                     if (msg[1] & 0x20)
                     {
                         // if we have had right flash before, then reset the counter
                         if (_tippBlinken & 0x40) _tippBlinkenCounter = 0;
-                        _tippBlinken = 0x80;
+                        _tippBlinken = 0x80 | counter;
 
                     // activated right
                     }else if (msg[1] & 0x40)
                     {
                         // if we have had left flash before, then reset the counter
                         if (_tippBlinken & 0x80) _tippBlinkenCounter = 0;
-                        _tippBlinken = 0x40;
+                        _tippBlinken = 0x40 | counter;
                     }
-                    _tippBlinkenCounter++;
+
+                    // increase counter only if not running yet
+                    if ((_tippBlinken & 0x0F) == 0)
+                        _tippBlinkenCounter++;
 
                 // if turn flash light is turned off
-                }else if (msg[3] == 0)
+                }else if ((_tippBlinken & 0x0F) == 0 && msg[3] == 0)
                 {
                     // activate tipp blinken for at most X flashes
                     if (_tippBlinkenCounter > 0 && _tippBlinkenCounter < obms_Settings.comfortTurnLight)
@@ -480,6 +526,11 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
             eeprom_update_byte(&obms_SettingsEEPROM.emulateCDchanger, msg[3]);
             obms_Settings.emulateCDchanger = msg[3];
             ok = 1;
+        }else if (msglen == 4 && msg[2] == 0x08)
+        {
+            eeprom_update_byte(&obms_SettingsEEPROM.automaticMirrorFold, msg[3]);
+            obms_Settings.automaticMirrorFold = msg[3];
+            ok = 1;
         }else
         {
             data[2] = 0;
@@ -514,32 +565,51 @@ void obms_backcam_tick(void)
     uint8_t state = _cam_state;
     if (state & CAM_PREPARE_TO_SWITCH)
     {
-        ticks++;
-
-        // react after 500ms
-        if (ticks > TICKS_PER_HALFSECOND)
+        if (HAS_BACKCAM_SWITCH && BACKCAM_INPUT() == 0x02)
         {
+            static uint8_t oldState = 0;
             _cam_state = CAM_SWITCHING;
-
-            // switch camera according to the output we like to have
-            if (state & CAM_ON)
+            if ((state & CAM_ON) == CAM_ON)
             {
-                //_cam_oldstate = display_getInputState();
-                display_setInputState(BACKCAM_INPUT());
+                oldState = display_getInputState();
+
+                display_enableBackupCameraInput(1);
+                display_updateInputState(BACKCAM_INPUT());
             }else
             {
-                display_setInputState(0);//_cam_oldstate);
+                display_enableBackupCameraInput(0);
+                display_updateInputState(oldState);
             }
+            _cam_state = CAM_IDLE;
+        }else
+        {
+            ticks++;
 
-            // while camera was switching, we might have received new messages
-            // so whenever camera state is still switching, we are safe to go into idle
-            // otherwise, on the next tick we will reset the output again
-            //BEGIN_ATOMAR;
-                if (_cam_state == CAM_SWITCHING)
-                    _cam_state = CAM_IDLE;
-            //END_ATOMAR;
+            // react after 500ms
+            if (ticks > TICKS_PER_HALFSECOND)
+            {
+                _cam_state = CAM_SWITCHING;
 
-            ticks = 0;
+                // switch camera according to the output we like to have
+                if (state & CAM_ON)
+                {
+                    //_cam_oldstate = display_getInputState();
+                    display_setInputState(BACKCAM_INPUT());
+                }else
+                {
+                    display_setInputState(0);//_cam_oldstate);
+                }
+
+                // while camera was switching, we might have received new messages
+                // so whenever camera state is still switching, we are safe to go into idle
+                // otherwise, on the next tick we will reset the output again
+                //BEGIN_ATOMAR;
+                    if (_cam_state == CAM_SWITCHING)
+                        _cam_state = CAM_IDLE;
+                //END_ATOMAR;
+
+                ticks = 0;
+            }
         }
     }else
         ticks = 0;
@@ -631,8 +701,39 @@ void obms_lights_tick(void)
 }
 
 //------------------------------------------------------------------------------
+void obms_comfort_close(void)
+{
+    // full shutdown of the system if pressed longer than 5 = (3 + 2) seconds
+    if (_comfortCloseTimer > 0 && tick_get() > _comfortCloseTimer + TICKS_PER_X_SECONDS(3))
+        power_prepare_shutdown();
+
+    if (_comfortCloseTimer > 0 && tick_get() > _comfortCloseTimer)
+    {
+        // we indicate that we have run the stop function already  by counting down the mirror fold
+        // this would make it possible to fold the mirrors on certain amount of stop calls
+        //_nextMirrorFold--;
+
+        // ok if we have pressed the close key two times, then we can fold the mirror
+        //if (_nextMirrorFold < -2)
+        {
+            if (_centralLocked == 1 &&
+                (obms_Settings.automaticMirrorFold & AUT_MIRROR_FOLD) != 0)
+            {
+                eeprom_update_byte(&obms_SettingsEEPROM.automaticMirrorFold, obms_Settings.automaticMirrorFold | AUT_MIRROR_RESTORE);
+                obms_Settings.automaticMirrorFold |= AUT_MIRROR_RESTORE;
+
+                obms_set_mirror_fold(1);
+            }
+            //_nextMirrorFold = -1;
+        }
+        _comfortCloseTimer = 0;
+    }
+}
+
+//------------------------------------------------------------------------------
 void obms_tick(void)
 {
+  
     obms_backcam_tick();
 
     // If comfort turn light is active
@@ -676,29 +777,29 @@ void obms_tick(void)
     // if Central Lock feature is enabled
     if (obms_Settings.automaticCentralLock && tick_get() > _centralLockWait)
     {
-        // if we just need to toggle the central lock
-        if (_doToggleCentralLock
+        // if ignition is switched off (or key removed) and central is locked, then unlock it
+        if ((_centralLocked == 1 && ((_ignitionState > 0 && _ignitionState < 3) /*|| _ewsState > 0*/))// && _carHalfSpeed < obms_Settings.automaticCentralLock)
 
         // if the central is locked and hand brake was activated, then open the door
         // open also the door if locked and P-gear was set
-          || (_centralLocked == 1 && _ignitionState > 0 && (_parkingBrake || _selectedGear == PARK))
+          || (_centralLocked == 1 && _ignitionState > 0 && _carHalfSpeed < obms_Settings.automaticCentralLock && (_parkingBrake || _selectedGear == PARK))
 
         // if unlocked and car speed is above certain limit then lock the car
           || (_centralLocked == 0 && _ignitionState > 0 && _carHalfSpeed > obms_Settings.automaticCentralLock))
         {
             obms_toggle_central_lock();
-            _doToggleCentralLock = false;
         }
     }
 
-#if 0
-    // if we are allowed to request the status of a device, then do so
-    if (_reqStatus & DEV_IKE)
+    // Mirror folding
+    if (_nextMirrorFold >= 0)
     {
-        _reqStatus &= ~DEV_IKE;
-        _reqStatus |= DEV_IKE_DONE;
+        if (_nextMirrorFold == 1 && (obms_Settings.automaticMirrorFold & AUT_MIRROR_FOLD))
+            obms_set_mirror_fold(1);
+        else if (_nextMirrorFold == 0 && (obms_Settings.automaticMirrorFold & AUT_MIRROR_UNFOLD))
+            obms_set_mirror_fold(0);
+        _nextMirrorFold = -1;
     }
-#endif
 
     // if we are allowed to request the status of a device, then do so
     if (_ignitionState > -10 && _ignitionState < 0 && _reqIgnitionState > 0 && tick_get() > _reqIgnitionState)
@@ -714,33 +815,51 @@ void obms_tick(void)
         _reqIgnitionState = tick_get() + TICKS_PER_X_SECONDS(2);
     }
 
-    if (_reqStatus & DEV_GM)
+    // if central state is unknown, then it means we should request the state from GM to get it
+    if (_centralLocked > -10 && _centralLocked < 0 && _reqGMState > 0 && tick_get() > _reqGMState)
     {
+        _centralLocked--;
+
         uint8_t data[2] = {IBUS_MSG_GM_STATE_REQ, 0x00};
         ibus_sendMessage(IBUS_DEV_DIA, IBUS_DEV_GM, data, 2, IBUS_TRANSMIT_TRIES);
 
-        _reqStatus &= ~DEV_GM;
-        _reqStatus |= DEV_GM_DONE;
+        _reqGMState = tick_get() + TICKS_PER_X_SECONDS(2);
     }
 
     // if we have a timer activated to close the central lock, then do so
     if (obms_Settings.lockCarUnused)
     {
-        if (_lockCarIfNoDoorOpenedActive && _lockCarIfNoDoorOpened > 0 && tick_get() > _lockCarIfNoDoorOpened)
+        if (_lockCarIfNoDoorOpenedActive)
         {
-            _lockCarIfNoDoorOpened = 0;
-            _lockCarIfNoDoorOpenedActive = false;
-            if (_ignitionState == 0)
+            //led_red_immediate_set(_lockCarIfNoDoorOpened > 0 && tick_get() <= _lockCarIfNoDoorOpened);
+            if (_lockCarIfNoDoorOpened > 0 && tick_get() > _lockCarIfNoDoorOpened)
             {
-                power_prepare_shutdown();
-                if (_centralLocked == 0)
-                    obms_toggle_central_lock();
+                _lockCarIfNoDoorOpened = 0;
+                _lockCarIfNoDoorOpenedActive = false;
+                if (_ignitionState == 0)
+                {
+                    power_prepare_shutdown();
+                    if (_centralLocked == 0 && _catchedKeyReleased == 1)
+                        obms_toggle_central_lock();
+                }
             }
         }
     }
 
+    // if unfolding is enabled, then unfold the mirrors if they were previously folded
+    // and we detected unlocked car as also catched the key up
+    if (_centralLocked == 0 && 
+        _catchedKeyReleased &&
+        (obms_Settings.automaticMirrorFold & (AUT_MIRROR_UNFOLD | AUT_MIRROR_RESTORE)) == (AUT_MIRROR_UNFOLD | AUT_MIRROR_RESTORE))
+    {
+        obms_Settings.automaticMirrorFold &= ~(AUT_MIRROR_RESTORE);
+        eeprom_update_byte(&obms_SettingsEEPROM.automaticMirrorFold, obms_Settings.automaticMirrorFold);
+        obms_set_mirror_fold(0);
+        _nextMirrorFold = -1;
+    }
+
     // emulate CD-changer
-    if (obms_Settings.emulateCDchanger && _cdcState != NO)
+    if (obms_Settings.emulateCDchanger && _cdcState != NO && _ignitionState > 0)
     {
         switch (_cdcState)
         {
@@ -772,14 +891,18 @@ void obms_tick(void)
         }
         _cdcState = NO;
     }
+
+    obms_comfort_close();
 }
+
 
 //------------------------------------------------------------------------------
 void obms_stop(void)
 {
-    _lockCarIfNoDoorOpened = 0;
-    _leavingHome = NO;
-    _lockCarIfNoDoorOpenedActive = false;
+    obms_comfort_close();
+    //_lockCarIfNoDoorOpened = 0;
+    //_leavingHome = NO;
+    //_lockCarIfNoDoorOpenedActive = false;
 }
 
 //------------------------------------------------------------------------------
@@ -794,12 +917,13 @@ void obms_init(void)
     _cdcState = CDC_INIT;
     _centralLockWait = 0;
     _centralLocked = -1;
+    _catchedKeyReleased = 0;
     _parkingBrake = 0;
     _carHalfSpeed = 0;
     _carRPM = 0;
     _cam_state = CAM_IDLE;
     //_cam_oldstate = display_getInputState();
-    _reqStatus = DEV_GM;
+    //_reqStatus = DEV_GM;
     _leavingHome = NO;
     _tippBlinken = 0;
     _tippBlinkenCounter = 0;
@@ -809,17 +933,23 @@ void obms_init(void)
     _lockCarIfNoDoorOpenedActive = true;
     _ignitionState = -1;
     _reqIgnitionState = 1;
+    _reqGMState = 1;
+    _nextMirrorFold = -1;
+    _comfortCloseTimer = 0;
 
     // if run for the first time, then write default data to eeprom
-    if (eeprom_read_byte(&obms_SettingsInit) != 'O')
+    if (eeprom_read_byte(&obms_SettingsInit) != 'R')
     {
+        eeprom_write_byte(&obms_SettingsInit, 'R');
+
         eeprom_update_byte(&obms_SettingsEEPROM.automaticCentralLock, 5);
-        eeprom_update_byte(&obms_SettingsEEPROM.lockCarUnused, 60);
+        eeprom_update_byte(&obms_SettingsEEPROM.automaticMirrorFold, AUT_MIRROR_FOLD | AUT_MIRROR_UNFOLD);
+        eeprom_update_byte(&obms_SettingsEEPROM.lockCarUnused, 120);
 
         eeprom_update_byte(&obms_SettingsEEPROM.comfortTurnLight, 3);
 
         eeprom_update_byte(&obms_SettingsEEPROM.leavingHome, 30);
-        eeprom_update_byte(&obms_SettingsEEPROM.comingHome, 0);
+        eeprom_update_byte(&obms_SettingsEEPROM.comingHome, 10);
         eeprom_update_dword(&obms_SettingsEEPROM.leavingHomeLights,
                          (BACKLIGHT_LEFT | BACKLIGHT_RIGHT |
                           FOGLIGHT_FRONT_LEFT | FOGLIGHT_FRONT_RIGHT |
@@ -828,12 +958,11 @@ void obms_init(void)
                           LICENSE_PLATE));
 
         eeprom_update_byte(&obms_SettingsEEPROM.emulateCDchanger, (DEVICE_CODING2 & EMULATE_CDCHANGER) == EMULATE_CDCHANGER);
-
-        eeprom_write_byte(&obms_SettingsInit, 'O');
     }
 
     // read settings from EEPROM
     obms_Settings.automaticCentralLock = eeprom_read_byte(&obms_SettingsEEPROM.automaticCentralLock);
+    obms_Settings.automaticMirrorFold = eeprom_read_byte(&obms_SettingsEEPROM.automaticMirrorFold);
 
     obms_Settings.lockCarUnused = eeprom_read_byte(&obms_SettingsEEPROM.lockCarUnused);
 

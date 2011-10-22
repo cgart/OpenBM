@@ -4,6 +4,8 @@
 #include "buttons.h"
 #include "config.h"
 #include "include/photo_sensor.h"
+#include "include/config.h"
+#include "include/leds.h"
 #include <avr/eeprom.h>
 #include <math.h>
 
@@ -216,20 +218,21 @@ uint8_t updatePhotoSensor(uint8_t val)
 void photo_init(void)
 {
     // if run for the first time, then write default data to eeprom
-    if (eeprom_read_byte(&photo_SettingsInit) != 'K')
+    if (eeprom_read_byte(&photo_SettingsInit) != 'P')
     {
+        eeprom_write_byte(&photo_SettingsInit, 'P');
+        
         eeprom_update_byte(&photo_SettingsEEPROM.photo_minValue, 0x40);
         eeprom_update_byte(&photo_SettingsEEPROM.photo_maxValue, 0xFF);
-        eeprom_update_byte(&photo_SettingsEEPROM.photo_minCalibValue, 0x02);
-        eeprom_update_byte(&photo_SettingsEEPROM.photo_maxCalibValue, 0x30);
-        eeprom_update_byte(&photo_SettingsEEPROM.photo_useSensor, 0xFF);
+        eeprom_update_byte(&photo_SettingsEEPROM.photo_minCalibValue, 0x70);
+        eeprom_update_byte(&photo_SettingsEEPROM.photo_maxCalibValue, 0xF0);
+        eeprom_update_byte(&photo_SettingsEEPROM.photo_useSensor, USE_PHOTOSENSOR());
         eeprom_update_byte(&photo_SettingsEEPROM.photo_calibChanged, 1);
         eeprom_update_byte(&photo_SettingsEEPROM.photo_sensorLast, 0xFF);
 
         float gamma = 0.35f;
         eeprom_update_block(&gamma, &photo_SettingsEEPROM.photo_Gamma, sizeof(float));
 
-        eeprom_write_byte(&photo_SettingsInit, 'K');
     }
 
     photo_Settings.photo_minValue = eeprom_read_byte(&photo_SettingsEEPROM.photo_minValue);
@@ -252,7 +255,7 @@ void photo_init(void)
 
 //------------------------------------------------------------------------------
 void photo_tick(void)
-{
+{    
     // update photo sensor if its low-pass filtered value has changed
     if (photo_Settings.photo_useSensor)
     {
@@ -264,7 +267,7 @@ void photo_tick(void)
         }
     }
 
-#if 0
+#if 1
     if (button_down(BUTTON_TEL) && button_down(BUTTON_UHR))
     {
         uint8_t data[8] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_PHOTO, photoSensorRawValue, photoSensorSum >> PHOTO_NUM_SAMPLES_EXP, photo_Settings.photo_minValue, photo_Settings.photo_maxValue, photo_Settings.photo_minCalibValue, photo_Settings.photo_maxCalibValue};

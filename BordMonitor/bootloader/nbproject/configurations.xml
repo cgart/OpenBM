@@ -4,7 +4,6 @@
     <df name="bootloader" root=".">
       <df name="obj">
       </df>
-      <in>bootloader.h</in>
       <in>main.c</in>
       <in>xtea.c</in>
       <in>xtea.h</in>

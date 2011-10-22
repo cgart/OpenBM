@@ -60,6 +60,7 @@ extern uint8_t display_getPowerState(void);
 //------------------------------------------------------------------------------
 extern void display_setInputState(uint8_t state);
 extern uint8_t display_getInputState(void);
+extern void display_updateInputState(uint8_t state);
 
 //------------------------------------------------------------------------------
 // Set voltage levels for the power key and input key (12 bit)
@@ -85,6 +86,11 @@ extern uint16_t display_getVoltageSwitch(void);
 //------------------------------------------------------------------------------
 extern void display_setBackgroundLight(uint8_t duty);
 extern uint8_t display_getBackgroundLight(void);
+
+
+// Activate backup camera. This will switch a backup camera on the VGA driver bord
+// Hence supported VGA driver board must be installed
+extern void display_enableBackupCameraInput(uint8_t en);
 
 #ifdef	__cplusplus
 }

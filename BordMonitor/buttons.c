@@ -2,6 +2,7 @@
 #include "i2cmaster.h"
 #include "base.h"
 #include "leds.h"
+#include "include/leds.h"
 
 #define ENABLE_RADIO_BUTTON_LEFT_PART() {PORTC &= ~(1 << 6); PORTC |= (1 << 7);}
 #define ENABLE_RADIO_BUTTON_RIGHT_PART() {PORTC &= ~(1 << 7); PORTC |= (1 << 6);}
@@ -86,13 +87,14 @@ void button_init(void)
         i2c_write(0xFF);    // set all pins as input
         i2c_stop();
     }
+
     if (i2c_start_wait(PORT_EXPANDER_ENC_RADIO + I2C_WRITE, 100) == 0)
     {
         i2c_write(2);       // write to polarity inversion register
         i2c_write(0xFF);    // set all inputs to return inverted polarity
         i2c_stop();
     }
-
+    
     // get current state of encoders so that we have a start value for them
     if (i2c_start(PORT_EXPANDER_ENC_BMBT + I2C_READ) == 0)
     {

@@ -1,101 +1,10 @@
 #ifndef UART_H
 #define UART_H
-/************************************************************************
-Title:    Interrupt UART library with receive/transmit circular buffers
-Author:   Peter Fleury <pfleury@gmx.ch>   http://jump.to/fleury
-File:     $Id: uart.h,v 1.8.2.1 2007/07/01 11:14:38 peter Exp $
-Software: AVR-GCC 4.1, AVR Libc 1.4
-Hardware: any AVR with built-in UART, tested on AT90S8515 & ATmega8 at 4 Mhz
-License:  GNU General Public License 
-Usage:    see Doxygen manual
-
-LICENSE:
-    Copyright (C) 2006 Peter Fleury
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-    
-************************************************************************/
-
-/************************************************************************
-uart_available, uart_flush, uart1_available, and uart1_flush functions
-were adapted from the Arduino HardwareSerial.h library by Tim Sharpe on 
-11 Jan 2009.  The license info for HardwareSerial.h is as follows:
-
-  HardwareSerial.h - Hardware serial library for Wiring
-  Copyright (c) 2006 Nicholas Zambetti.  All right reserved.
-
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
-
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-************************************************************************/
-
-/************************************************************************
-Changelog for modifications made by Tim Sharpe, starting with the current
-  library version on his Web site as of 05/01/2009. 
-
-Date        Description
-=========================================================================
-05/12/2009  Added Arduino-style available() and flush() functions for both
-			supported UARTs.  Really wanted to keep them out of the library, so
-			that it would be as close as possible to Peter Fleury's original
-			library, but has scoping issues accessing internal variables from
-			another program.  Go C!
-
-************************************************************************/
-
-/** 
- *  @defgroup pfleury_uart UART Library
- *  @code #include <uart.h> @endcode
- * 
- *  @brief Interrupt UART library using the built-in UART with transmit and receive circular buffers. 
- *
- *  This library can be used to transmit and receive data through the built in UART. 
- *
- *  An interrupt is generated when the UART has finished transmitting or
- *  receiving a byte. The interrupt handling routines use circular buffers
- *  for buffering received and transmitted data.
- *
- *  The UART_RX_BUFFER_SIZE and UART_TX_BUFFER_SIZE constants define
- *  the size of the circular buffers in bytes. Note that these constants must be a power of 2.
- *  You may need to adapt this constants to your target and your application by adding 
- *  CDEFS += -DUART_RX_BUFFER_SIZE=nn -DUART_RX_BUFFER_SIZE=nn to your Makefile.
- *
- *  @note Based on Atmel Application Note AVR306
- *  @author Peter Fleury pfleury@gmx.ch  http://jump.to/fleury
- */
- 
-/**@{*/
-
-
-//#if (__GNUC__ * 100 + __GNUC_MINOR__) < 304
-//#error "This library requires AVR-GCC 3.4 or later, update to newer AVR-GCC compiler !"
-//#endif
 
  #ifdef __cplusplus
  extern "C" {
  #endif
 
-/*
-** constants and macros
-*/
 
 /** @brief  UART Baudrate Expression
  *  @param  xtalcpu  system clock in Mhz, e.g. 4000000L for 4Mhz          
@@ -115,9 +24,9 @@ Date        Description
 #define UART_RX_BUFFER_SIZE 256
 #endif
 /** Size of the circular transmit buffer, must be power of 2 */
-#ifndef UART_TX_BUFFER_SIZE
-#define UART_TX_BUFFER_SIZE 64
-#endif
+//#ifndef UART_TX_BUFFER_SIZE
+//#define UART_TX_BUFFER_SIZE 64
+//#endif
 
 /* test if the size of the circular buffers fits into SRAM */
 //#if ( (UART_RX_BUFFER_SIZE+UART_TX_BUFFER_SIZE) >= (RAMEND-0x60 ) )
@@ -127,10 +36,11 @@ Date        Description
 /* 
 ** high byte error return code of uart_getc()
 */
-#define UART_FRAME_ERROR      0x0800              /* Framing Error by UART       */
-#define UART_OVERRUN_ERROR    0x0400              /* Overrun condition by UART   */
-#define UART_BUFFER_OVERFLOW  0x0200              /* receive ringbuffer overflow */
-#define UART_NO_DATA          0x0100              /* no receive data available   */
+#define UART_FRAME_ERROR      0x10              /* Framing Error by UART       */
+#define UART_OVERRUN_ERROR    0x08              /* Overrun condition by UART   */
+#define UART_PARENTY_ERROR    0x04              /* Overrun condition by UART   */
+#define UART_BUFFER_OVERFLOW  0x02              /* receive ringbuffer overflow */
+#define UART_NO_DATA          0x01              /* no receive data available   */
 
 
 /*
@@ -171,52 +81,10 @@ extern void uart_init(unsigned int baudrate);
  *             <br>Framing Error by UART
  */
 extern unsigned char uart_getc(void);
+extern unsigned char uart_lastc(void);
 
 extern uint8_t uart_last_error(void);
 extern void uart_clear_error(void);
-
-
-/**
- *  @brief   Put byte to ringbuffer for transmitting via UART
- *  @param   data byte to be transmitted
- *  @return  none
- */
-extern void uart_putc(unsigned char data, unsigned char startDelayed);
-extern void uart_putc_wait(unsigned char data);
-extern void uart_wait_free(void);
-
-#if 0
-/**
- *  @brief   Put string to ringbuffer for transmitting via UART
- *
- *  The string is buffered by the uart library in a circular buffer
- *  and one character at a time is transmitted to the UART using interrupts.
- *  Blocks if it can not write the whole string into the circular buffer.
- * 
- *  @param   s string to be transmitted
- *  @return  none
- */
-extern void uart_puts(const char *s );
-
-
-/**
- * @brief    Put string from program memory to ringbuffer for transmitting via UART.
- *
- * The string is buffered by the uart library in a circular buffer
- * and one character at a time is transmitted to the UART using interrupts.
- * Blocks if it can not write the whole string into the circular buffer.
- *
- * @param    s program memory string to be transmitted
- * @return   none
- * @see      uart_puts_P
- */
-extern void uart_puts_p(const char *s );
-#endif
-
-/**
- * @brief    Macro to automatically put a string constant into program memory
- */
-#define uart_puts_P(__s)       uart_puts_p(PSTR(__s))
 
 /**
  *  @brief   Return number of bytes waiting in the receive buffer
@@ -230,7 +98,7 @@ extern uint8_t uart_available(void);
  *  @param   none
  *  @return  none
  */
-extern void uart_flush(void);
+extern void uart_flush(uint8_t flushInternalFifo);
 
 /**
  * @brief              Set frame format for transmitted data
@@ -246,46 +114,6 @@ extern void uart_setFormat(unsigned char wordLength, unsigned char numStopBits, 
 //extern void uart_setTxRx(unsigned char tx, unsigned char rx);
 extern void uart_setRx(unsigned char rx);
 
-/**
- * @brief set callback which will be called when data recieved
- **/
-extern void uart_setReceiveCallback(void (*cbReceived)(void));
-
-/**
- * @brief set callback which will be called whne transmission is complete, ringbuffer empty
- **/
-extern void uart_setTransmitDoneCallback(void (*cbTransmitted)(void));
-
-/**
- * @brief   Clear transmit buffer. This will stop any transmission.
- **/
-extern void uart_clearTransmissionBuffer(void);
-
-/**
- * @brief start transmission
- **/
-extern void uart_startTransmission(void);
-
-#if 0
-/** @brief  Initialize USART1 (only available on selected ATmegas) @see uart_init */
-extern void uart1_init(unsigned int baudrate);
-/** @brief  Get received byte of USART1 from ringbuffer. (only available on selected ATmega) @see uart_getc */
-extern unsigned int uart1_getc(void);
-/** @brief  Put byte to ringbuffer for transmitting via USART1 (only available on selected ATmega) @see uart_putc */
-extern void uart1_putc(unsigned char data);
-/** @brief  Put string to ringbuffer for transmitting via USART1 (only available on selected ATmega) @see uart_puts */
-extern void uart1_puts(const char *s );
-/** @brief  Put string from program memory to ringbuffer for transmitting via USART1 (only available on selected ATmega) @see uart_puts_p */
-extern void uart1_puts_p(const char *s );
-/** @brief  Macro to automatically put a string constant into program memory */
-#define uart1_puts_P(__s)       uart1_puts_p(PSTR(__s))
-/** @brief   Return number of bytes waiting in the receive buffer */
-extern int uart1_available(void);
-/** @brief   Flush bytes waiting in receive buffer */
-extern void uart1_flush(void);
-#endif
-
-/**@}*/
 
  #ifdef __cplusplus
  }

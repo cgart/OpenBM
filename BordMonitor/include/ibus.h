@@ -113,6 +113,8 @@ extern "C" {
 #define IBUS_MSG_OPENBM_SET_DISPLAY_LIGHT 0x11 // set brightness of display (warning automatic brightness must be disabled)
 #define IBUS_MSG_OPENBM_OBMS_SET    0x12    // setup settings for OBMS
 #define IBUS_MSG_OPENBM_SET_PHOTO   0x13    // setup settings for the photo sensor
+#define IBUS_MSG_OPENBM_SET_DEVICE  0x14    // setup settings for the device (mid, dsp, ...)
+#define IBUS_MSG_OPENBM_SET_IOPINS  0x15    // set values for IO-Pins
 #define IBUS_MSG_OPENBM_SPECIAL_REQ 0xFF    // second data byte: special request message (i.e. update firmware)
 #define IBUS_MSG_OPENBM_SETTINGS    0xFE    // second data byte: write/read settings of OpenBM to/from EEPROM
 
@@ -124,29 +126,34 @@ extern "C" {
 
 #define IBUS_SENSTA_VALUE()           bit_is_set(PIND,2)
 #define IBUS_SENSTA_SETUP()           { DDRD &= ~(1 << DDD2); PORTD |= (1 << 2); }
+#define IBUS_SENSTA_DIS_INT()         { EIMSK &= ~(1 << INT0); }
+#define IBUS_SENSTA_ENA_INT()         { EIMSK |=  (1 << INT0); }
 
 #define IBUS_TIMER0
 
 #ifdef IBUS_TIMER0
     #define IBUS_TIMER_SETUP() { TCCR0B = (1 << CS02) | (1 << CS00); }
 
-    // wait time by collision when transmitting (around 5.0ms)
+    // wait time by collision when transmitting (around 5.5ms)
     #define IBUS_TIMEOUT_COLLISION() ibus_setTimeOut(80);
 
-    // receive timeout (stop receiving when nothing happens) (around 17ms)
+    // receive timeout (stop receiving when nothing happens) (around 17.7ms)
     #define IBUS_TIMEOUT_RECEIVE() ibus_setTimeOut(255);
 
     // wait time when receive error (around 2.7ms)
     #define IBUS_TIMEOUT_RECEIVE_ERROR() ibus_setTimeOut(40);
 
-    // wait when message was transmitted before next message will be transmitted around 2ms
-    #define IBUS_TIMEOUT_AFTER_TRANSMIT() ibus_setTimeOut(30);
+    // wait when message was transmitted before next message will be transmitted around 3.4ms
+    #define IBUS_TIMEOUT_AFTER_TRANSMIT() ibus_setTimeOut(50);
 
     // if we just have received something, then wait until next ibus operation 2.0 ms
     #define IBUS_TIMEOUT_AFTER_RECEIVE() ibus_setTimeOut(30);
 
-    // if we see busy bus, then we wait at least 3.0 ms
-    #define IBUS_TIMEOUT_WAIT_FREE_BUS() ibus_setTimeOut(50);
+    // if we see busy bus, then we wait at least 3.4 ms
+    //#define IBUS_TIMEOUT_WAIT_FREE_BUS() ibus_setTimeOut(50);
+
+    // if we see busy bus, then we wait at least 1.7 ms
+    #define IBUS_TIMEOUT_WAIT_FREE_BUS() ibus_setTimeOut(25);
 
     #define IBUS_TIMER_DISABLE_INTERRUPT() { TIMSK0 &= ~(1 << TOIE0); TIFR0 |= (1 << TOV0); }
     #define IBUS_TIMER_INTERRUPT TIMER0_OVF_vect
@@ -177,7 +184,7 @@ extern "C" {
     
 
 //******* default constants **********
-#define IBUS_TRANSMIT_TRIES 5
+#define IBUS_TRANSMIT_TRIES 16
 #define IBUS_STATE_IDLE 0
 #define IBUS_STATE_WAIT_FREE_BUS  (1 << 0)
 #define IBUS_STATE_RECEIVING  (1 << 1)

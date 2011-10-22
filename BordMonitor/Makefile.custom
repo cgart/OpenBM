@@ -127,13 +127,13 @@ CSTANDARD = -std=gnu99
 # one of the valid "-c PROGRAMMER-ID" values
 # described in the avrdude info page.
 #
-AVRDUDE_PROGRAMMERID=usbasp
+AVRDUDE_PROGRAMMERID=stk500v2
+#usbasp
 
 # port--serial or parallel port to which your
 # hardware programmer is attached
 #
-AVRDUDE_PORT=
-#/dev/ttyS1
+AVRDUDE_PORT=/dev/ttyACM0
 
 
 ####################################################
@@ -159,10 +159,9 @@ CDEFS += -DBOOTLOADERSTARTADR=$(BOOTLOADERSTARTADR)
 #CDEFS += -DBOOTLDRSIZE=$(BOOTLDRSIZE)
 
 # compiler
-CFLAGS=-I. $(INC) -g -mmcu=$(MCU) -O$(OPTLEVEL) \
+CFLAGS=-I. $(INC) -mmcu=$(MCU) -O$(OPTLEVEL) \
 	-fpack-struct -fshort-enums             \
 	-funsigned-bitfields -funsigned-char    \
-	#-funroll-loops \
 	-Wall -Wstrict-prototypes -Werror      \
 	-Wa,-ahlms=$(firstword                  \
 	$(filter %.lst, $(<:.c=.lst)))

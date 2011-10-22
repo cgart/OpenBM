@@ -153,12 +153,12 @@ uint16_t display_getVoltageSwitch(void)
 //------------------------------------------------------------------------------
 void display_init(void)
 {
-    DISP_MOSFET_SETUP;
-    DISP_MOSFET_OFF;
-
     // based on the jumper settings we enable either 3.3V or 5V as idle voltage
     DDRB &= ~(1 << DDB3); // set Jumper pin to input mode
     PORTB |= (1 << 3);    // enable pull-up, will refer to this later, so that we don't get spurious data here
+
+    DISP_MOSFET_SETUP;
+    DISP_MOSFET_OFF;
 
     // disable display per default and read max voltage levels
     if (bit_is_set(PINB,3)) // bit is 1, so pull-up, so 5V as maximum
@@ -167,18 +167,20 @@ void display_init(void)
         g_DisplayState.dac_maxVoltage = 0xA8F; // Data = 3.3V * 4096 / 5V;
 
     // if run for the first time, then write default data to eeprom
-    if (eeprom_read_byte(&g_eeprom_DisplayDataInit) != 'R' || eeprom_read_word(&g_eeprom_DisplayState.dac_maxVoltage) != g_DisplayState.dac_maxVoltage)
+    if (eeprom_read_byte(&g_eeprom_DisplayDataInit) != 'E' || eeprom_read_word(&g_eeprom_DisplayState.dac_maxVoltage) != g_DisplayState.dac_maxVoltage)
     {
+        eeprom_write_byte(&g_eeprom_DisplayDataInit, 'E');
+        
         // default state
         eeprom_write_byte(&g_eeprom_DisplayState.display_Power, 1);
         eeprom_write_byte(&g_eeprom_DisplayState.display_Input, 0);
 
-        #define DEVICE_DISP_SWITCH   ((DEVID_2 << 4L) | ((DEVID_3 & 0xF0) >> 4L) & 0xFFF)
-        #define DEVICE_DISP_POWER    (((DEVID_3 & 0x0F) << 8L) | (DEVID_4 & 0xFF) & 0xFFF)
-        #define DEVICE_DISP_MENU     ((DEVID_5 << 4L) | ((DEVID_6 & 0xF0) >> 4L) & 0xFFF)
-        #define DEVICE_DISP_INC      (((DEVID_6 & 0x0F) << 8L) | (DEVID_7 & 0xFF) & 0xFFF)
-        #define DEVICE_DISP_DEC      ((DEVID_8 << 4L) | ((DEVID_9 & 0xF0) >> 4L) & 0xFFF)
-        #define DEVICE_DISP_IDLE     (((DEVID_9 & 0x0F) << 8L) | (DEVID_10 & 0xFF) & 0xFFF)
+        #define DEVICE_DISP_SWITCH   (((DEVID_2 << 4L) | ((DEVID_3 & 0xF0) >> 4L)) & 0xFFF)
+        #define DEVICE_DISP_POWER    ((((DEVID_3 & 0x0F) << 8L) | (DEVID_4 & 0xFF)) & 0xFFF)
+        #define DEVICE_DISP_MENU     (((DEVID_5 << 4L) | ((DEVID_6 & 0xF0) >> 4L)) & 0xFFF)
+        #define DEVICE_DISP_INC      ((((DEVID_6 & 0x0F) << 8L) | (DEVID_7 & 0xFF)) & 0xFFF)
+        #define DEVICE_DISP_DEC      (((DEVID_8 << 4L) | ((DEVID_9 & 0xF0) >> 4L)) & 0xFFF)
+        #define DEVICE_DISP_IDLE     ((((DEVID_9 & 0x0F) << 8L) | (DEVID_10 & 0xFF)) & 0xFFF)
 
         eeprom_update_word(&g_eeprom_DisplayState.dac_SwitchKey, DEVICE_DISP_SWITCH);
         eeprom_update_word(&g_eeprom_DisplayState.dac_PowerKey, DEVICE_DISP_POWER);
@@ -187,8 +189,6 @@ void display_init(void)
         eeprom_update_word(&g_eeprom_DisplayState.dac_DecKey, DEVICE_DISP_DEC);
         eeprom_update_word(&g_eeprom_DisplayState.dac_idleVoltage, DEVICE_DISP_IDLE);
         
-        // ok, initialized
-        eeprom_write_byte(&g_eeprom_DisplayDataInit, 'R');
     }
 
     // load current display state from the eeprom
@@ -209,8 +209,8 @@ void display_init(void)
     // setup PWM for the bglight
     DDRD |= (1 << DDD7);
     TCCR2A = (1 << COM2A1) | (1 << COM2A0) /*| (1 << WGM21) |*/ |  (1 << WGM20);
-    //TCCR2B = (1 << CS22)  | (0 << CS21) | (0 << CS20);
-    TCCR2B = (0 << CS22)  | (1 << CS21) | (0 << CS20);
+    TCCR2B = (1 << CS22)  | (0 << CS21) | (0 << CS20);
+    //TCCR2B = (0 << CS22)  | (1 << CS21) | (0 << CS20);
     TCNT2 = 0;
     OCR2A = 0x80;//g_DisplayState.bglight_maxDuty;
     PORTD |= (1 << 7);
@@ -231,8 +231,20 @@ void display_init(void)
 void display_ToggleKey(uint16_t keyVoltage)
 {
     display_dac_setVoltage_fast(keyVoltage);
-    _delay_ms(100);
+    _delay_ms(200);
     display_dac_setVoltage_fast(g_DisplayState.dac_idleVoltage);
+}
+
+//------------------------------------------------------------------------------
+void display_enableBackupCameraInput(uint8_t en)
+{
+    uint8_t val = 0xFF;
+    if (en) val &= ~(1 << 4);
+    if (i2c_start(PORT_EXPANDER_ENC_BMBT + I2C_WRITE) == 0)
+    {
+        i2c_write(val);
+        i2c_stop();
+    }
 }
 
 #if 1
@@ -295,6 +307,12 @@ void display_setPowerState(uint8_t state, bool saveEEPROM)
     display_TogglePower(saveEEPROM);
 }
 #endif
+
+//------------------------------------------------------------------------------
+void display_updateInputState(uint8_t state)
+{
+    g_DisplayState.display_Input = state;
+}
 
 //------------------------------------------------------------------------------
 void display_setInputState(uint8_t state)
@@ -388,8 +406,11 @@ void display_updateState(void)
         // emulate keys to browse through OSD menu
         if (button_released(BUTTON_DISP))
         {
-            //display_ToggleKey(g_DisplayState.dac_SwitchKey);
             display_ToggleKey(g_DisplayState.dac_MenuKey);
+            prolong = true;
+        }else if (button_released(BUTTON_INFO_R))
+        {
+            display_ToggleKey(g_DisplayState.dac_SwitchKey);
             prolong = true;
         }
         if (bmbt < 0)

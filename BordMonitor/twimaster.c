@@ -11,6 +11,7 @@
 
 #include <i2cmaster.h>
 #include "base.h"
+#include "include/leds.h"
 
 /* define CPU frequency in Mhz here if not defined in Makefile */
 //#ifndef F_CPU
@@ -21,9 +22,9 @@
 //#define SCL_CLOCK  50000L
 
 //! Return FALSE if (TWINT & (1 << TWINT)) otherwise TRUE
-uint8_t i2c_waitTWINT()
+uint8_t i2c_waitTWINT(void)
 {
-    uint16_t timeout = (F_CPU/SCL_CLOCK) << 4;
+    uint16_t timeout = (F_CPU/SCL_CLOCK) << 6;
     while(timeout > 0)
     {
         if (TWCR & (1<<TWINT)) break;
@@ -31,9 +32,9 @@ uint8_t i2c_waitTWINT()
     }
     return timeout == 0;
 }
-uint8_t i2c_waitTWSTO()
+uint8_t i2c_waitTWSTO(void)
 {
-    uint16_t timeout = (F_CPU/SCL_CLOCK) << 4;
+    uint16_t timeout = (F_CPU/SCL_CLOCK) << 6;
     while(timeout > 0)
     {
         if (TWCR & (1<<TWSTO)) break;
@@ -107,15 +108,15 @@ unsigned char i2c_start_wait(unsigned char address, unsigned char tries)
         // send START condition
         //TWCR = (1<<TWINT) | (1<<TWSTO) | (1<<TWEN);
         TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN);
-    
+
     	// wait until transmission completed
         if (i2c_waitTWINT()) continue;
     	//while(!(TWCR & (1<<TWINT)));
-    
+        
     	// check value of TWI Status Register. Mask prescaler bits.
     	twst = TW_STATUS & 0xF8;
     	if ( (twst != TW_START) && (twst != TW_REP_START)) continue;
-    
+
     	// send device address
     	TWDR = address;
     	TWCR = (1<<TWINT) | (1<<TWEN);

@@ -7,6 +7,8 @@
 #include "leds.h"
 #include "display.h"
 #include "config.h"
+#include "include/leds.h"
+#include "include/config.h"
 
 //------------------------------------------------------------------------------
 static uint8_t _active_mode = 0; // 0x01 init, 0x40 radio, 0xC0=cd, 0x80=tape, 0x60=tone, etc.. this come from Radio
@@ -33,35 +35,47 @@ static ticks_t _pingTicks = 0;
 
 // mapping from button states to MID buttons
 #define MID_MAP_SIZE 15
-uint8_t _button_mapping[MID_MAP_SIZE] PROGMEM = {
+uint8_t _button_mapping_buis[MID_MAP_SIZE] PROGMEM = {
     BUTTON_1,
     BUTTON_2,
     BUTTON_3,
     BUTTON_4,
     BUTTON_5,
     BUTTON_6,
-#if ((DEVICE_CODING2 & RADIO_PROFESSIONAL) == RADIO_PROFESSIONAL)
-    BUTTON_NUM_BUTTONS,
-    BUTTON_NUM_BUTTONS,
-    BUTTON_AM,
-    BUTTON_FM,
-#else
+
     BUTTON_FM,
     BUTTON_AM,
     BUTTON_NUM_BUTTONS,
     BUTTON_NUM_BUTTONS,
-#endif
+    
     BUTTON_INFO_L,
     BUTTON_MODE,
-#if ((DEVICE_CODING2 & REW_FF_ONMID) == REW_FF_ONMID)
     BUTTON_REW,
     BUTTON_FF,
-#else
-    BUTTON_NUM_BUTTONS,
-    BUTTON_NUM_BUTTONS,
-#endif
     BUTTON_NUM_BUTTONS
 };
+
+uint8_t _button_mapping_prof[MID_MAP_SIZE] PROGMEM = {
+    BUTTON_1,
+    BUTTON_2,
+    BUTTON_3,
+    BUTTON_4,
+    BUTTON_5,
+    BUTTON_6,
+
+    BUTTON_NUM_BUTTONS,
+    BUTTON_NUM_BUTTONS,
+    BUTTON_AM,
+    BUTTON_FM,
+
+    BUTTON_INFO_L,
+    BUTTON_MODE,
+    BUTTON_REW,
+    BUTTON_FF,
+    BUTTON_NUM_BUTTONS
+};
+
+
 
 uint8_t _button_mapping_dbyte1_mask[MID_MAP_SIZE] PROGMEM = {
     0xFF,
@@ -81,23 +95,20 @@ uint8_t _button_mapping_dbyte1_mask[MID_MAP_SIZE] PROGMEM = {
     0x00
 };
 
-#if ((DEVICE_CODING2 & REW_FF_ONMID) == REW_FF_ONMID)
-    #define BMBT_RADIO_BUTTONS 9
-    #define BMBT_MAP_SIZE   18
-#else
-    #define BMBT_RADIO_BUTTONS 11
-    #define BMBT_MAP_SIZE   20
+#if 0
+    #if ((DEVICE_CODING2 & REW_FF_ONMID) == REW_FF_ONMID)
+        #define BMBT_RADIO_BUTTONS 9
+        #define BMBT_MAP_SIZE   18
+    #else
+        #define BMBT_RADIO_BUTTONS 11
+        #define BMBT_MAP_SIZE   20
+    #endif
 #endif
-
 
 // original BMBT codes
+#define BMBT_MAP_SIZE 20
 uint8_t _bmbt_button_mapping[BMBT_MAP_SIZE][3] PROGMEM =
 {
-// REW and FF buttons send codes as usual
-#if ((DEVICE_CODING2 & REW_FF_ONMID) != REW_FF_ONMID)
-    {BUTTON_FF,0x68,0x00},
-    {BUTTON_REW,0x68,0x10},
-#endif
     {BUTTON_INFO_R,0xFF,0x03},
     {BUTTON_TONE,0x68,0x04},
     {BUTTON_BMBT_KNOB,0x3B,0x05},
@@ -107,6 +118,12 @@ uint8_t _bmbt_button_mapping[BMBT_MAP_SIZE][3] PROGMEM =
     {BUTTON_SELECT,0x68,0x20},
     {BUTTON_EJECT,0x68,0x24},
     {BUTTON_MENU_LR,0xFF,0x34},
+
+// REW and FF buttons send codes as usual
+//#if ((DEVICE_CODING2 & REW_FF_ONMID) != REW_FF_ONMID)
+    {BUTTON_FF,0x68,0x00},
+    {BUTTON_REW,0x68,0x10},
+//#endif
 
     // Left side
     {BUTTON_INFO_L,0x68,0x07},
@@ -144,14 +161,16 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         {
             _pollStateRecieved[DEV_RADIO]++;
             if (_active_mode == 0) _active_mode = 1; // need to reinitialize the radio
+            _pollStateRecieved[DEV_DSP]++;
         }
+        /*if (src == IBUS_DEV_DSP)
+        {
+            _pollStateRecieved[DEV_DSP]++;
+            if (_active_mode == 0) _active_mode = 1; // need to reinitialize the radio
+        }*/
         if (src == IBUS_DEV_TEL)
         {
             _pollStateRecieved[DEV_TEL]++;
-        }
-        if (src == IBUS_DEV_DSP)
-        {
-            _pollStateRecieved[DEV_DSP]++;
         }
         if (src == IBUS_DEV_IKE)
         {
@@ -184,10 +203,9 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
     // if ignition is off, then stop request on IKE and TEL
     if (src == IBUS_DEV_IKE && dst == IBUS_DEV_GLO && msglen >= 2 && msg[0] == IBUS_MSG_IGNITION)
     {
-        _ignitionState = msg[1];
         _reqIgnitionState = 0;
 
-        if (_ignitionState == 0)
+        if (msg[1] == 0)
         {
             _active_mode = 0;
 
@@ -200,7 +218,22 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
             _pollStateRecieved[DEV_IKE] = 5;
             _pollStateRecieved[DEV_TEL] = 5;
         }
-        
+
+        // if ignition state was unknown before, and has been recieved as active
+        // then we should ping for the radio
+        if (_ignitionState < 0 && msg[1] > 0)
+        {
+            _pollStateRecieved[DEV_RADIO] = 5;
+            _pollStateRecieved[DEV_IKE] = 5;
+            _pollStateRecieved[DEV_DSP] = 5;
+            _pollStateRecieved[DEV_TEL] = 5;
+
+            _active_mode = 1;
+            _pingTicks = 0xFFFFFF;
+        }
+
+        _ignitionState = msg[1];
+
         return;
     }
 
@@ -453,12 +486,27 @@ void mid_tick(void)
         uint8_t i;
         for (i=0; i < MID_MAP_SIZE; i++)
         {
+            void* addr = NULL;
+            if (g_deviceSettings.device_Settings2 & RADIO_PROFESSIONAL)
+                addr = &(_button_mapping_prof[i]);
+            else
+                addr = &(_button_mapping_buis[i]);
+
             // read to which button this one maps to and go to next, if no mapping
-            uint8_t bmap = pgm_read_byte(&(_button_mapping[i]));
+            uint8_t bmap = pgm_read_byte(addr);
             if (bmap >= BUTTON_NUM_BUTTONS) continue;
 
             // send MID buttons, however only if not in CarPC mode (MODE send always)
             if (mid_active_mode() == CARPC_INPUT() && (bmap != BUTTON_MODE && bmap != BUTTON_REW && bmap != BUTTON_FF) ) continue;
+
+            // REW and FF send only as MID button, if this has been set in our device settings
+            else if ((bmap == BUTTON_REW || bmap == BUTTON_FF)
+              //&& mid_active_mode() != CARPC_INPUT()
+              && (g_deviceSettings.device_Settings2 & REW_FF_ONMID) != REW_FF_ONMID) continue;            
+
+            else if ((bmap == BUTTON_REW || bmap == BUTTON_FF)
+              && mid_active_mode() == CARPC_INPUT()
+              && (g_deviceSettings.device_Settings2 & REW_FF_ONMID) == REW_FF_ONMID) continue;
 
             uint8_t bmask = pgm_read_byte(&(_button_mapping_dbyte1_mask[i]));
 
@@ -486,14 +534,33 @@ void mid_tick(void)
         uint8_t i;
         for (i=0; i < BMBT_MAP_SIZE; i++)
         {
+            // find out the button index from which we map the buttons to MID instead of BMBT
+            unsigned midButtonsFrom = 11;
+            if ((g_deviceSettings.device_Settings2 & REW_FF_ONMID) == REW_FF_ONMID)
+                midButtonsFrom = 9;
+
             // if we are in the CarPC mode then send other codes for the MID buttons as usual
-            if (mid_active_mode() != CARPC_INPUT() && i >= BMBT_RADIO_BUTTONS) break;
+            if (mid_active_mode() != CARPC_INPUT() && i >= midButtonsFrom) break;
+            //if (mid_active_mode() != CARPC_INPUT() && i >= BMBT_RADIO_BUTTONS) break;
 
             // read to which button this one maps to and go to next, if no mapping
             uint8_t bmap = pgm_read_byte(&(_bmbt_button_mapping[i][0]));
             uint8_t bdst = pgm_read_byte(&(_bmbt_button_mapping[i][1]));
             uint8_t bcod = pgm_read_byte(&(_bmbt_button_mapping[i][2]));
-            
+
+            /*if ((bmap == BUTTON_REW || bmap == BUTTON_FF)
+              //&& mid_active_mode() != CARPC_INPUT()
+              && (g_deviceSettings.device_Settings2 & REW_FF_ONMID) != REW_FF_ONMID) continue;
+
+            else if ((bmap == BUTTON_REW || bmap == BUTTON_FF)
+              && mid_active_mode() == CARPC_INPUT()
+              && (g_deviceSettings.device_Settings2 & REW_FF_ONMID) == REW_FF_ONMID) continue;
+            */
+            if ((bmap == BUTTON_REW || bmap == BUTTON_FF))
+            {
+              if (mid_active_mode() != CARPC_INPUT() && (g_deviceSettings.device_Settings2 & REW_FF_ONMID) == REW_FF_ONMID) continue;
+            }
+
             // prepare ibus message for this button
             uint8_t data[2] = {IBUS_MSG_BMBT_BUTTON, bcod};
             uint8_t sendmsg = button_pressed(bmap);
@@ -541,19 +608,6 @@ void mid_tick(void)
         ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data, 2, 1);
     }
 
-    // user defined IO-buttons
-    for (int8_t ios = 0; ios < 3; ios++)
-    {
-        buttonIndex_t but = g_deviceSettings.io_assignment[ios];
-        
-        if (but != BUTTON_NUM_BUTTONS)
-        {
-            if (button_down(but))
-                PORTB |= (1 << (5+ios));
-            else if (button_released(but))
-                PORTB &= ~(1 << (5+ios));
-        }
-    }
 
     // MFL emulation if active
     if (_nextSendMFLSignal && tick_get() > _nextSendMFLSignalTick)
@@ -614,9 +668,4 @@ void mid_init(void)
 
     for (int8_t i=0; i < DEV_NUM; i++)
         _pollStateRecieved[i] = 0;
-
-    // Output for IOs
-    DDRB |= (1 << DDB5); PORTB &= ~(1 << 5);
-    DDRB |= (1 << DDB6); PORTB &= ~(1 << 6);
-    DDRB |= (1 << DDB7); PORTB &= ~(1 << 7);
 }
