@@ -565,29 +565,30 @@ void obms_backcam_tick(void)
     uint8_t state = _cam_state;
     if (state & CAM_PREPARE_TO_SWITCH)
     {
-        if (HAS_BACKCAM_SWITCH && BACKCAM_INPUT() == 0x02)
-        {
-            static uint8_t oldState = 0;
-            _cam_state = CAM_SWITCHING;
-            if ((state & CAM_ON) == CAM_ON)
-            {
-                oldState = display_getInputState();
+        ticks++;
 
-                display_enableBackupCameraInput(1);
-                display_updateInputState(BACKCAM_INPUT());
+        // react after 500ms
+        if (ticks > TICKS_PER_HALFSECOND)
+        {
+            if (HAS_BACKCAM_SWITCH && BACKCAM_INPUT() == 0x02)
+            {
+                static uint8_t oldState = 0;
+                _cam_state = CAM_SWITCHING;
+                if ((state & CAM_ON) == CAM_ON)
+                {
+                    oldState = display_getInputState();
+
+                    display_enableBackupCameraInput(1);
+                    display_updateInputState(BACKCAM_INPUT());
+                }else
+                {
+                    display_enableBackupCameraInput(0);
+                    display_updateInputState(oldState);
+                }
+                _cam_state = CAM_IDLE;
             }else
             {
-                display_enableBackupCameraInput(0);
-                display_updateInputState(oldState);
-            }
-            _cam_state = CAM_IDLE;
-        }else
-        {
-            ticks++;
 
-            // react after 500ms
-            if (ticks > TICKS_PER_HALFSECOND)
-            {
                 _cam_state = CAM_SWITCHING;
 
                 // switch camera according to the output we like to have
@@ -607,9 +608,9 @@ void obms_backcam_tick(void)
                     if (_cam_state == CAM_SWITCHING)
                         _cam_state = CAM_IDLE;
                 //END_ATOMAR;
-
-                ticks = 0;
             }
+
+            ticks = 0;
         }
     }else
         ticks = 0;
@@ -705,13 +706,15 @@ void obms_comfort_close(void)
 {
     // full shutdown of the system if pressed longer than 5 = (3 + 2) seconds
     if (_comfortCloseTimer > 0 && tick_get() > _comfortCloseTimer + TICKS_PER_X_SECONDS(3))
-        power_prepare_shutdown();
-
-    if (_comfortCloseTimer > 0 && tick_get() > _comfortCloseTimer)
     {
-        // we indicate that we have run the stop function already  by counting down the mirror fold
-        // this would make it possible to fold the mirrors on certain amount of stop calls
-        //_nextMirrorFold--;
+        led_radioBlinkLock(3);
+        power_prepare_shutdown();
+    }
+
+    if (_comfortCloseTimer > 0 && tick_get() > _comfortCloseTimer && _nextMirrorFold == -1)
+    {
+        // set this to -2, so that we do not send close message again, if we are waiting longer for exampel to shutdown
+        _nextMirrorFold = -2;
 
         // ok if we have pressed the close key two times, then we can fold the mirror
         //if (_nextMirrorFold < -2)
@@ -726,8 +729,12 @@ void obms_comfort_close(void)
             }
             //_nextMirrorFold = -1;
         }
-        _comfortCloseTimer = 0;
+        //_comfortCloseTimer = 0;
     }
+
+    //if (_comfortCloseTimer > 0 && _catchedKeyReleased)
+    //    _comfortCloseTimer = 0;
+
 }
 
 //------------------------------------------------------------------------------
@@ -938,9 +945,9 @@ void obms_init(void)
     _comfortCloseTimer = 0;
 
     // if run for the first time, then write default data to eeprom
-    if (eeprom_read_byte(&obms_SettingsInit) != 'R')
+    if (eeprom_read_byte(&obms_SettingsInit) != EE_CHECK_BYTE)
     {
-        eeprom_write_byte(&obms_SettingsInit, 'R');
+        eeprom_write_byte(&obms_SettingsInit, EE_CHECK_BYTE);
 
         eeprom_update_byte(&obms_SettingsEEPROM.automaticCentralLock, 5);
         eeprom_update_byte(&obms_SettingsEEPROM.automaticMirrorFold, AUT_MIRROR_FOLD | AUT_MIRROR_UNFOLD);

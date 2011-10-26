@@ -22,6 +22,8 @@
 extern "C" {
 #endif
 
+#define RXTX_COMPARE
+    
 //*** Device Codes ***
 #define IBUS_DEV_GM      0X00    // Body Module
 #define IBUS_DEV_CDC     0x18    // CD Changer
@@ -122,20 +124,27 @@ extern "C" {
 #define IBUS_TX_SETUP()               { DDRD |= (1 << DDD1); PORTD |= (1 << 1); }
 #define IBUS_TX_PORT                  PORTD
 #define IBUS_TX_PIN                   1
-#define IBUS_BAUD_DELAY()             { _delay_us(52); _delay_us(52); }
+#define IBUS_BAUD_HDELAY()            { _delay_us(52); }
+#define IBUS_BAUD_DELAY()             {IBUS_BAUD_HDELAY(); IBUS_BAUD_HDELAY();}
 
-#define IBUS_SENSTA_VALUE()           bit_is_set(PIND,2)
-#define IBUS_SENSTA_SETUP()           { DDRD &= ~(1 << DDD2); PORTD |= (1 << 2); }
-#define IBUS_SENSTA_DIS_INT()         { EIMSK &= ~(1 << INT0); }
-#define IBUS_SENSTA_ENA_INT()         { EIMSK |=  (1 << INT0); }
+#ifdef RXTX_COMPARE
+    #define IBUS_RX_VALUE()               (PIND & 1)
+    #define IBUS_RX_DIS_INT()             { PCMSK3 &= ~(1 << PCINT24); }
+    #define IBUS_RX_ENA_INT()             { PCMSK3 |=  (1 << PCINT24); }
+#else
+    #define IBUS_SENSTA_VALUE()           bit_is_set(PIND,2)
+    #define IBUS_SENSTA_SETUP()           { DDRD &= ~(1 << DDD2); PORTD |= (1 << 2); }
+    #define IBUS_SENSTA_DIS_INT()         { EIMSK &= ~(1 << INT0); }
+    #define IBUS_SENSTA_ENA_INT()         { EIMSK |=  (1 << INT0); }
+#endif
 
 #define IBUS_TIMER0
 
 #ifdef IBUS_TIMER0
     #define IBUS_TIMER_SETUP() { TCCR0B = (1 << CS02) | (1 << CS00); }
 
-    // wait time by collision when transmitting (around 5.5ms)
-    #define IBUS_TIMEOUT_COLLISION() ibus_setTimeOut(80);
+    // wait time by collision when transmitting (around 3.4ms)
+    #define IBUS_TIMEOUT_COLLISION() ibus_setTimeOut(50);
 
     // receive timeout (stop receiving when nothing happens) (around 17.7ms)
     #define IBUS_TIMEOUT_RECEIVE() ibus_setTimeOut(255);
@@ -149,7 +158,7 @@ extern "C" {
     // if we just have received something, then wait until next ibus operation 2.0 ms
     #define IBUS_TIMEOUT_AFTER_RECEIVE() ibus_setTimeOut(30);
 
-    // if we see busy bus, then we wait at least 3.4 ms
+    // if we see busy bus, then we wait at least 2.0 ms
     //#define IBUS_TIMEOUT_WAIT_FREE_BUS() ibus_setTimeOut(50);
 
     // if we see busy bus, then we wait at least 1.7 ms

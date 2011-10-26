@@ -2,6 +2,13 @@
 <configurationDescriptor version="69">
   <logicalFolder name="root" displayName="root" projectFiles="true">
     <df name="bootloader" root=".">
+      <df name=".dep">
+        <in>ibus.o.d</in>
+        <in>leds.o.d</in>
+        <in>main.o.d</in>
+        <in>uart.o.d</in>
+        <in>xtea.o.d</in>
+      </df>
       <df name="obj">
       </df>
       <in>main.c</in>

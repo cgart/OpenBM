@@ -22,12 +22,12 @@ extern "C"
 // Version
 #define VERSION_MAJOR 2
 #define VERSION_MINOR 0
-#define VERSION_ADD_STR "[2.0.0-rc4] compiled on " __DATE__ " at " __TIME__
+#define VERSION_ADD_STR "[2.0.0-rc5] compiled on " __DATE__ " at " __TIME__
 
 #define DEVICE_CODING1 DEVID_11
 #define DEVICE_CODING2 DEVID_12
 
-
+#define EE_CHECK_BYTE 'Q'
 
 #define USE_BM_LEDS_BIT       (0b00000100)
 #define CARPC_INPUT_SET(a)    {g_deviceSettings.device_Settings1 &= 0b11100111; g_deviceSettings.device_Settings1 &= (a & 0x03);}

@@ -18,6 +18,9 @@ extern "C"
 #endif
 
 #define DAC_I2C_ADDRESS 0b11000000
+#define DISP_MOSFET_SETUP {DDRB |= (1 << DDB4); PORTB &= ~(1 << 4);}
+#define DISP_MOSFET_OFF {PORTB &= ~(1 << 4);}
+#define DISP_MOSFET_ON  {PORTB |= (1 << 4);}
 
 //------------------------------------------------------------------------------
 // Init display, by loading data from eeprom

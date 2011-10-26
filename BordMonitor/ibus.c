@@ -13,6 +13,7 @@
 #include "uart.h"
 #include "leds.h"
 #include "include/leds.h"
+#include "include/ibus.h"
 
 #define IBUS_USE_SHORT_BUFFER
 
@@ -65,12 +66,15 @@ posptr_t ibus_transmit_msg(posptr_t from, posptr_t len)
 {
     posptr_t oldFrom = from;
 
-    //IBUS_TX_SETUP();
-    
-    if (IBUS_SENSTA_VALUE()) return from;
 
+#ifdef RXTX_COMPARE
+    if (g_ibus_State != IBUS_STATE_TRANSMITTING) return from;
+    IBUS_RX_DIS_INT();
+#else
+    if (IBUS_SENSTA_VALUE()) return from;
     // we currently disable interrupt of TH3122, we will ask it manually here
     IBUS_SENSTA_DIS_INT();
+#endif
 
     while(len > 0)
     {
@@ -81,8 +85,14 @@ posptr_t ibus_transmit_msg(posptr_t from, posptr_t len)
 
         // transmit start bit and check if collision happens
         bit_clear(IBUS_TX_PORT, IBUS_TX_PIN);
-        IBUS_BAUD_DELAY();
-        if (IBUS_SENSTA_VALUE()) goto collision;
+        #ifdef RXTX_COMPARE
+            IBUS_BAUD_HDELAY();
+            if (IBUS_RX_VALUE() != 0) goto collision;
+            IBUS_BAUD_HDELAY();
+        #else
+            IBUS_BAUD_DELAY();
+            if (IBUS_SENSTA_VALUE()) goto collision;
+        #endif
 
         // transmit bitwise and compute parity bit
         // while transmitting check if collision was detected
@@ -94,8 +104,15 @@ posptr_t ibus_transmit_msg(posptr_t from, posptr_t len)
                 bit_set(IBUS_TX_PORT, IBUS_TX_PIN);
             else
                 bit_clear(IBUS_TX_PORT, IBUS_TX_PIN);
-            IBUS_BAUD_DELAY();
-            if (IBUS_SENSTA_VALUE()) goto collision;
+
+            #ifdef RXTX_COMPARE
+                IBUS_BAUD_HDELAY();
+                if (IBUS_RX_VALUE() != (byte & 1)) goto collision;
+                IBUS_BAUD_HDELAY();
+            #else
+                IBUS_BAUD_DELAY();
+                if (IBUS_SENSTA_VALUE()) goto collision;
+            #endif
         }
 
         // send parity bit
@@ -104,13 +121,25 @@ posptr_t ibus_transmit_msg(posptr_t from, posptr_t len)
         else
             bit_clear(IBUS_TX_PORT, IBUS_TX_PIN);
 
-        IBUS_BAUD_DELAY();
-        if (IBUS_SENSTA_VALUE()) goto collision;
+        #ifdef RXTX_COMPARE
+            IBUS_BAUD_HDELAY();
+            if (IBUS_RX_VALUE() != (par & 1)) goto collision;
+            IBUS_BAUD_HDELAY();
+        #else
+            IBUS_BAUD_DELAY();
+            if (IBUS_SENSTA_VALUE()) goto collision;
+        #endif
 
         // send stop bit
         bit_set(IBUS_TX_PORT, IBUS_TX_PIN);
-        IBUS_BAUD_DELAY();
-        if (IBUS_SENSTA_VALUE()) goto collision;
+        #ifdef RXTX_COMPARE
+            IBUS_BAUD_HDELAY();
+            if (IBUS_RX_VALUE() != 1) goto collision;
+            IBUS_BAUD_HDELAY();
+        #else
+            IBUS_BAUD_DELAY();
+            if (IBUS_SENSTA_VALUE()) goto collision;
+        #endif
 
         // update current pointers
         from = inc_posptr_tx(from);
@@ -118,7 +147,7 @@ posptr_t ibus_transmit_msg(posptr_t from, posptr_t len)
 
         // we should have now received the same byte through uart rx
         // check if there was no frame error and if the received byte is the right one
-        if (!uart_available())goto collision;
+        if (!uart_available()) goto collision;
         if (uart_lastc() != sent) goto collision;
         if (uart_last_error()) goto collision;
     }
@@ -131,7 +160,11 @@ posptr_t ibus_transmit_msg(posptr_t from, posptr_t len)
 collision:
 
     IBUS_TX_SETUP();
-    IBUS_SENSTA_ENA_INT();
+    #ifdef RXTX_COMPARE
+        IBUS_RX_ENA_INT();
+    #else
+        IBUS_SENSTA_ENA_INT();
+    #endif
     //END_ATOMAR;
     return oldFrom;
 }
@@ -253,16 +286,18 @@ void ibus_tick()
     if (!ibus_readyToTransmit()) return;
     
     // ok we are idle and we have data in the buffer, then first, wait for free buffer
+    #ifndef RXTX_COMPARE
     if (IBUS_SENSTA_VALUE())
     {
         g_ibus_State = IBUS_STATE_WAIT_FREE_BUS;
         IBUS_TIMEOUT_WAIT_FREE_BUS();
         return;
     }
+    #endif
 
     g_ibus_State = IBUS_STATE_TRANSMITTING;
     uart_clear_error(); // start fresh :)
-
+    
     // ok bus is free, we can submit a message
     posptr_t tryCounterPos = g_ibus_TxReadPos;
     int8_t numberOfTries = g_ibus_TxBuffer[g_ibus_TxReadPos]; g_ibus_TxReadPos = inc_posptr_tx(g_ibus_TxReadPos);
@@ -319,18 +354,25 @@ void ibus_init()
     g_ibus_RxLen = 2;
     g_ibus_State = IBUS_STATE_IDLE;
 
-    IBUS_SENSTA_SETUP();
     IBUS_TIMER_SETUP();
     IBUS_TX_SETUP();
 
     // currently no timer is running
     IBUS_TIMER_DISABLE_INTERRUPT();
 
-    // interrupt on falling edge on SEN/STA pin
-    EIMSK &= ~(1 << INT0);
-    EICRA &= ~(1 << ISC00);
-    EICRA |=  (1 << ISC01);
-    EIFR  |=  (1 << INTF0);
+    #ifdef RXTX_COMPARE
+        PCICR |= (1 << PCIE3);     // pin change interrupt on RxD0 pin
+        PCMSK3 |= (1 << PCINT24);
+        
+    #else
+        IBUS_SENSTA_SETUP();
+
+        // interrupt on falling edge on SEN/STA pin
+        EIMSK &= ~(1 << INT0);
+        EICRA &= ~(1 << ISC00);
+        EICRA |=  (1 << ISC01);
+        EIFR  |=  (1 << INTF0);
+    #endif
 
 }
 
@@ -352,7 +394,11 @@ ISR(IBUS_TIMER_INTERRUPT)
 //--------------------------------------------------------------------------
 // When SEN/STA down, then trigger this interrupt
 //--------------------------------------------------------------------------
+#ifdef RXTX_COMPARE
+ISR(PCINT3_vect)
+#else
 ISR(INT0_vect)
+#endif
 {
     if (g_ibus_State == IBUS_STATE_TRANSMITTING) return;
     

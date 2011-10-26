@@ -35,15 +35,12 @@ static DisplayState g_eeprom_DisplayState EEMEM;
 static uint8_t      g_eeprom_DisplayDataInit EEMEM;
 
 static uint16_t     dac_currentVoltage;
+static uint8_t      _displayTurnedOff;
 
 static ticks_t g_display_NextResponseTime;
 static uint8_t g_displayError;
 
 static ticks_t _nextStopOSD;
-
-#define DISP_MOSFET_SETUP {DDRB |= (1 << DDB4); PORTB &= ~(1 << 4);}
-#define DISP_MOSFET_OFF {PORTB &= ~(1 << 4);}
-#define DISP_MOSFET_ON  {PORTB |= (1 << 4);}
 
 //------------------------------------------------------------------------------
 uint8_t display_getPowerState()
@@ -167,9 +164,9 @@ void display_init(void)
         g_DisplayState.dac_maxVoltage = 0xA8F; // Data = 3.3V * 4096 / 5V;
 
     // if run for the first time, then write default data to eeprom
-    if (eeprom_read_byte(&g_eeprom_DisplayDataInit) != 'E' || eeprom_read_word(&g_eeprom_DisplayState.dac_maxVoltage) != g_DisplayState.dac_maxVoltage)
+    if (eeprom_read_byte(&g_eeprom_DisplayDataInit) != EE_CHECK_BYTE || eeprom_read_word(&g_eeprom_DisplayState.dac_maxVoltage) != g_DisplayState.dac_maxVoltage)
     {
-        eeprom_write_byte(&g_eeprom_DisplayDataInit, 'E');
+        eeprom_write_byte(&g_eeprom_DisplayDataInit, EE_CHECK_BYTE);
         
         // default state
         eeprom_write_byte(&g_eeprom_DisplayState.display_Power, 1);
@@ -188,7 +185,8 @@ void display_init(void)
         eeprom_update_word(&g_eeprom_DisplayState.dac_IncKey, DEVICE_DISP_INC);
         eeprom_update_word(&g_eeprom_DisplayState.dac_DecKey, DEVICE_DISP_DEC);
         eeprom_update_word(&g_eeprom_DisplayState.dac_idleVoltage, DEVICE_DISP_IDLE);
-        
+
+        eeprom_update_word(&g_eeprom_DisplayState.dac_maxVoltage, g_DisplayState.dac_maxVoltage);
     }
 
     // load current display state from the eeprom
@@ -222,6 +220,7 @@ void display_init(void)
     // disable DAC output and switch display mosfet off
     display_dac_sleep();
 
+    _displayTurnedOff = 1;
     // if display was previously off, then don't enable it again
     //if (g_DisplayState.display_Power)
     //    display_powerOn();
@@ -353,6 +352,7 @@ uint8_t display_getBackgroundLight(void)
 //------------------------------------------------------------------------------
 void display_powerOn(void)
 {
+    _displayTurnedOff = 0;
     g_DisplayState.display_Power = 1;
     display_dac_setVoltage(g_DisplayState.dac_idleVoltage);
     DISP_MOSFET_ON;
@@ -364,6 +364,7 @@ void display_powerOn(void)
 void display_powerOff(void)
 {
     g_DisplayState.display_Power = 0;
+    _displayTurnedOff = 1;
 
     // save display settings
     display_savePowerState(g_DisplayState.display_Power);
@@ -376,6 +377,7 @@ void display_powerOff(void)
 //------------------------------------------------------------------------------
 void display_turnOff(void)
 {
+    _displayTurnedOff = 1;
     display_dac_sleep();
     DISP_MOSFET_OFF;
 }
@@ -388,6 +390,7 @@ void display_tryTurnOn(void)
         display_dac_setVoltage(g_DisplayState.dac_idleVoltage);
         DISP_MOSFET_ON;
         g_display_NextResponseTime = tick_get() + TICKS_PER_SECOND - TICKS_PER_QUARTERSECOND;
+        _displayTurnedOff = 0;
     }
 }
 
@@ -473,7 +476,7 @@ void display_updateState(void)
         }
 
         // if display was off, then turn it on
-        if (!g_DisplayState.display_Power)
+        if (!g_DisplayState.display_Power || _displayTurnedOff)
             display_powerOn();
 
         // if display was on, then just switch inputs

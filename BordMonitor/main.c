@@ -63,9 +63,9 @@ void settings_readAndSetup(void)
     #endif
 
     // setup default settings if not in eeprom
-    if (eeprom_read_byte(&g_deviceSettingsEEPROM.initSeed) != 'L')
+    if (eeprom_read_byte(&g_deviceSettingsEEPROM.initSeed) != EE_CHECK_BYTE)
     {
-        eeprom_update_byte(&g_deviceSettingsEEPROM.initSeed, 'L');
+        eeprom_update_byte(&g_deviceSettingsEEPROM.initSeed, EE_CHECK_BYTE);
 
         // --------------------
         // IO-s
@@ -346,11 +346,12 @@ void get_mcusr(void)
 //------------------------------------------------------------------------------
 void initHardware(void)
 {
-    DDRC &= (~(1 << DDC0) & ~(1 << DDC1));
+    /*DDRC &= (~(1 << DDC0) & ~(1 << DDC1));
     DDRD &= ~(1 << DDD3);
     PORTC &= (~(1 << 0) & ~(1 << 1));
     PORTD &= ~(1 << 3);
-    
+    */
+
     // init ibus as soon as possible, so that messages don't get lost while initialization procedure
     ibus_init();
     sei();
@@ -366,6 +367,9 @@ void initHardware(void)
     PRR |= (1 << PRUSART1);   // disable USART-1
     PRR |= (1 << PRSPI);      // disable SPI
 
+    DISP_MOSFET_SETUP;
+    DISP_MOSFET_OFF;
+    
     // set full I/O clock speed regardles of the fuse
     //cli();
     //CLKPR = (1 << CLKPCE);
@@ -373,7 +377,6 @@ void initHardware(void)
     //sei();
 
     // read this firmware version
-    //memcpy_P(&g_bootldrinfo, &bootLdrInfo, sizeof(bootldrinfo_t));
     memcpy_P(&g_bootldrinfo, (PGM_VOID_P)(BOOTLOADERSTARTADR - SPM_PAGESIZE), sizeof(bootldrinfo_t));
 
     // read settings and setup hardware to the settings
