@@ -2,13 +2,12 @@
 #include "emul_mid.h"
 #include <avr/pgmspace.h>
 #include "buttons.h"
-#include "ibus.h"
 #include "include/ibus.h"
-#include "leds.h"
 #include "display.h"
 #include "config.h"
 #include "include/leds.h"
 #include "include/config.h"
+#include "include/obm_special.h"
 
 //------------------------------------------------------------------------------
 static uint8_t _active_mode = 0; // 0x01 init, 0x40 radio, 0xC0=cd, 0x80=tape, 0x60=tone, etc.. this come from Radio
@@ -32,6 +31,9 @@ static uint8_t _ackToSrc = 0;
 static uint8_t _ackAs = 0;
 static uint8_t _ackTextUpdateWithNeg = 0;
 static ticks_t _pingTicks = 0;
+
+static uint8_t _ackBmbtTape[2] = {0,0};
+static uint8_t _ackBmbtPingSrc = 0;
 
 // mapping from button states to MID buttons
 #define MID_MAP_SIZE 15
@@ -141,12 +143,16 @@ uint8_t _bmbt_button_mapping[BMBT_MAP_SIZE][3] PROGMEM =
 static ticks_t _nextSendMFLSignalTick;
 static bool _nextSendMFLSignal;
 
+#define MID_RADIO     0
+#define MID_CDCHANGER 1
+#define MID_TAPE      2
+
 //------------------------------------------------------------------------------
 uint8_t mid_active_mode(void)
 {
-    if (_active_mode == 0x40) return 0; // Radio
-    if (_active_mode == 0xC0) return 1; // CD-Changer
-    if (_active_mode == 0x80) return 2; // Tape
+    if (_active_mode == 0x40) return MID_RADIO; // Radio
+    if (_active_mode == 0xC0) return MID_CDCHANGER; // CD-Changer
+    if (_active_mode == 0x80) return MID_TAPE; // Tape
     return 0xFF;
 }
 
@@ -238,7 +244,7 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
     }
 
     // if ignore MFL ff/rew modus is activated, then send resend this event
-    if (src == IBUS_DEV_MFL && dst == IBUS_DEV_RAD && msg[0] == IBUS_MSG_MFL_BUTTON && msglen >= 2 && mid_active_mode() == CARPC_INPUT() && mid_active_mode() == 2)
+    if (src == IBUS_DEV_MFL && dst == IBUS_DEV_RAD && msg[0] == IBUS_MSG_MFL_BUTTON && msglen >= 2 && mid_active_mode() == CARPC_INPUT() && mid_active_mode() == MID_TAPE)
     {
         _nextSendMFLSignal = 0;
         
@@ -300,9 +306,10 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
     }
 
     // special treatment for messages defined for BMBT/OpenBM
-    if (dst == IBUS_DEV_BMBT && msglen >= 2)
+    if (dst == IBUS_DEV_BMBT)
     {
-        if (msg[0] == IBUS_MSG_LED)
+        // LED messages
+        if (msg[0] == IBUS_MSG_LED && msglen >= 2)
         {
             if (msg[1] & (1 << 0)) led_red_set(0b11111111); else led_red_set(0);
             if (msg[1] & (1 << 1)) led_red_set(0b11110000);
@@ -316,7 +323,7 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
             if (msg[1] & (1 << 6)) led_fan_set(0b11111111); else led_fan_set(0);
             if (msg[1] & (1 << 7)) led_fan_set(0b11110000);
 
-        }else if (msg[0] == IBUS_MSG_LED_SPECIAL)
+        }else if (msg[0] == IBUS_MSG_LED_SPECIAL && msglen >= 2)
         {
             if (msg[1] & (1 << 0))
             {
@@ -331,6 +338,30 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
             if (msg[1] & (1 << 3)) led_green_set(msg[2]);
             if (msg[1] & (1 << 4)) led_fan_set(msg[2]);
             if (msg[1] & (1 << 5)) led_radio_set(msg[2]);
+        }
+
+        // if BMBT emulation is on
+        if (obms_does_emulate_bordmonitor())
+        {
+            // we were asked for the state of the tape
+            if (msg[0] == IBUS_MSG_BMBT_TAPE_STATE && msglen >= 2)
+            {
+                // if we are in the tape mode and carpc is on tape, then say to radio that tape is playing
+                // this would ensure that radio doesn't turn off the audio source
+                if (CARPC_INPUT() == MID_TAPE && mid_active_mode() == CARPC_INPUT())
+                {
+                    _ackBmbtTape[0] = 0x06;
+                    _ackBmbtTape[1] = 0x11;
+                }else
+                {
+                    _ackBmbtTape[0] = 0x05;
+                    _ackBmbtTape[1] = 0x00;
+                }
+            }
+
+            // answer ping messages
+            if (msg[0] == IBUS_MSG_DEV_POLL)
+                _ackBmbtPingSrc = src;
         }
     }
 
@@ -351,6 +382,10 @@ void mid_ping_tick(void)
             if (_pollStateRecieved[DEV_RADIO] > 0)
             {
                 ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data, 1, IBUS_TRANSMIT_TRIES);
+
+                if (obms_does_emulate_bordmonitor())
+                    ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_RAD, data, 1, IBUS_TRANSMIT_TRIES);
+
                 _pollStateRecieved[DEV_RADIO]--;
             }
 
@@ -430,6 +465,25 @@ void mid_tick(void)
         uint8_t data[2] = {IBUS_MSG_MID_ACK_TEXT, ~_ackTextUpdateWithNeg};
         ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data, 2, IBUS_TRANSMIT_TRIES);
         _ackTextUpdateWithNeg = 0;
+    }
+
+    // should we send bmbt tape messages
+    if (_ackBmbtTape[0])
+    {
+        uint8_t data[3] = {IBUS_MSG_BMBT_TAPE_RESP, _ackBmbtTape[0], _ackBmbtTape[1]};
+        uint8_t len = 3;
+        if (_ackBmbtTape[1] == 0) len = 2;
+        ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_RAD, data, len, IBUS_TRANSMIT_TRIES);
+        _ackBmbtTape[0] = 0;
+        _ackBmbtTape[1] = 0;
+    }
+
+    // acknowledge the poll
+    if (_ackBmbtPingSrc)
+    {
+        uint8_t data[2] = {IBUS_MSG_DEV_READY, 0x30};
+        ibus_sendMessage(IBUS_DEV_BMBT, _ackBmbtPingSrc, data, 2, IBUS_TRANSMIT_TRIES);
+        _ackBmbtPingSrc = 0;
     }
 
     // special treatment for the Radio knob button

@@ -93,6 +93,9 @@ extern "C" {
 #define IBUS_MSG_MFL_BUTTON         0x3B    // MFL's button state change
 #define IBUS_MSG_BMBT_BUTTON        0x48    // action with BMBT button
 #define IBUS_MSG_BMBT_ENCODER       0x49    // BMBT encoder was rotated
+#define IBUS_MSG_BMBT_TAPE_STATE    0x4A    // BMBT tape state set or get
+#define IBUS_MSG_BMBT_TAPE_RESP     0x4B    // BMBT tape state response
+#define IBUS_MSG_BMBT_DISP_SET      0x4F    // BMBT set display input and mode
 #define IBUS_MSG_LAMP_STATE         0x5B    // Lamp state
 #define IBUS_MSG_DIMMER_STATE       0x5C    // Dimmer state
 #define IBUS_MSG_GM_KEY_BUTTON      0x72    // state of the buttons on the key

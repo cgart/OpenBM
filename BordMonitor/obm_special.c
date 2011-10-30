@@ -30,7 +30,8 @@ typedef struct _OBMSSettings
     uint32_t leavingHomeLights;
 
     uint8_t emulateCDchanger;
-
+    uint8_t emulateBordmonitor;
+    
     uint8_t  automaticMirrorFold;
 }ObmsSettings;
 
@@ -164,6 +165,25 @@ typedef enum _CDChangerState
     CDC_SEND_STATE_NOTPLAYING = 4
 }CDChangerState;
 static CDChangerState _cdcState = CDC_INIT;
+
+#define BMBT             (1 << 0)
+#define BMBT_LCD_OFF     (1 << 1)
+#define BMBT_LCD_ON      (1 << 2)
+#define BMBT_LCD_GT_1    (1 << 3)
+#define BMBT_LCD_GT_2    (1 << 4)
+#define BMBT_LCD_GT(a)   ((a & 0b00011000) >> 3)
+#define BMBT_LCD_TV_1    (1 << 5)
+#define BMBT_LCD_TV_2    (1 << 6)
+#define BMBT_LCD_TV(a)   ((a & 0b01100000) >> 5)
+
+#define BMBT_INPUT_GT  2
+#define BMBT_INPUT_TV  1
+
+//------------------------------------------------------------------------------
+uint8_t obms_does_emulate_bordmonitor(void)
+{
+    return (obms_Settings.emulateBordmonitor & BMBT);
+}
 
 //------------------------------------------------------------------------------
 void obms_set_mirror_fold(uint8_t fold)
@@ -317,6 +337,28 @@ void obms_lights_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msgl
     {
         _dimmerState = msg[16];
         _lwrState = msg[17];
+    }
+
+    // if BMBT emulation is active and we want to use BMBT LCD messages
+    if (dst == IBUS_DEV_BMBT && msg[0] == IBUS_MSG_BMBT_DISP_SET)
+    {
+        uint8_t on = (msg[1] & 0x10) == 1;
+        if (!on && (obms_Settings.emulateBordmonitor & BMBT_LCD_OFF))
+            display_turnOff();
+        if (on && (obms_Settings.emulateBordmonitor & BMBT_LCD_ON))
+            display_tryTurnOn();
+
+        // switch to this input
+        uint8_t input = msg[1] & 0x03;
+        if (input != 0 && on)
+        {
+            uint8_t gtInput = BMBT_LCD_GT(obms_Settings.emulateBordmonitor);
+            uint8_t tvInput = BMBT_LCD_TV(obms_Settings.emulateBordmonitor);
+            if (input == BMBT_INPUT_GT && gtInput)
+                display_setInputState(gtInput - 1);
+            else if (input == BMBT_INPUT_TV && tvInput)
+                display_setInputState(tvInput - 1);
+        }
     }
 }
 
@@ -530,6 +572,11 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         {
             eeprom_update_byte(&obms_SettingsEEPROM.automaticMirrorFold, msg[3]);
             obms_Settings.automaticMirrorFold = msg[3];
+            ok = 1;
+        }else if (msglen == 4 && msg[2] == 0x09)
+        {
+            eeprom_update_byte(&obms_SettingsEEPROM.emulateBordmonitor, msg[3]);
+            obms_Settings.emulateBordmonitor = msg[3];
             ok = 1;
         }else
         {
@@ -965,6 +1012,10 @@ void obms_init(void)
                           LICENSE_PLATE));
 
         eeprom_update_byte(&obms_SettingsEEPROM.emulateCDchanger, (DEVICE_CODING2 & EMULATE_CDCHANGER) == EMULATE_CDCHANGER);
+        if ((DEVICE_CODING2 & EMULATE_BORDMONITOR) == EMULATE_BORDMONITOR)
+            eeprom_update_byte(&obms_SettingsEEPROM.emulateBordmonitor, BMBT | BMBT_LCD_OFF | BMBT_LCD_ON | BMBT_LCD_GT_2 | BMBT_LCD_TV_1 | BMBT_LCD_TV_2);
+        else
+            eeprom_update_byte(&obms_SettingsEEPROM.emulateBordmonitor, 0);
     }
 
     // read settings from EEPROM
@@ -980,4 +1031,5 @@ void obms_init(void)
     obms_Settings.leavingHomeLights = eeprom_read_dword(&obms_SettingsEEPROM.leavingHomeLights);
 
     obms_Settings.emulateCDchanger = eeprom_read_byte(&obms_SettingsEEPROM.emulateCDchanger);
+    obms_Settings.emulateBordmonitor = eeprom_read_byte(&obms_SettingsEEPROM.emulateBordmonitor);
 }

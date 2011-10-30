@@ -334,6 +334,14 @@ void get_mcusr(void)
     DDRC  |= (1 << DDC3);// | (1 << DDC4);
     PORTC |= (1 << 3);
 
+    DISP_MOSFET_SETUP;
+    DISP_MOSFET_OFF;
+
+    // disable not needed-hardware
+    PRR = 0;                  // enable all hardware
+    PRR |= (1 << PRUSART1);   // disable USART-1
+    PRR |= (1 << PRSPI);      // disable SPI
+
     // disable wdt
     mcusr_mirror = MCUSR;
     MCUSR = 0;
@@ -346,12 +354,6 @@ void get_mcusr(void)
 //------------------------------------------------------------------------------
 void initHardware(void)
 {
-    /*DDRC &= (~(1 << DDC0) & ~(1 << DDC1));
-    DDRD &= ~(1 << DDD3);
-    PORTC &= (~(1 << 0) & ~(1 << 1));
-    PORTD &= ~(1 << 3);
-    */
-
     // init ibus as soon as possible, so that messages don't get lost while initialization procedure
     ibus_init();
     sei();
@@ -361,14 +363,6 @@ void initHardware(void)
 
     led_init();
     led_red_immediate_set(1);
-
-    // disable not needed-hardware
-    PRR = 0;                  // enable all hardware
-    PRR |= (1 << PRUSART1);   // disable USART-1
-    PRR |= (1 << PRSPI);      // disable SPI
-
-    DISP_MOSFET_SETUP;
-    DISP_MOSFET_OFF;
     
     // set full I/O clock speed regardles of the fuse
     //cli();
@@ -395,37 +389,13 @@ void initHardware(void)
     mid_init();
     obms_init();
 
-    led_red_immediate_set(0);
-
     // Output for IOs
     DDRB |= (1 << DDB5); PORTB &= ~(1 << 5);
     DDRB |= (1 << DDB6); PORTB &= ~(1 << 6);
     DDRB |= (1 << DDB7); PORTB &= ~(1 << 7);
 
-/*
-   // Blink Once with LEDs
-    led_radio_immediate_set(1);
-    led_green_immediate_set(1);
-    led_yellow_immediate_set(1);
-    led_red_immediate_set(1);
-    led_fan_immediate_set(1);
-    _delay_ms(500);
-    led_radio_immediate_set(0);
-    led_green_immediate_set(0);
-    led_yellow_immediate_set(0);
+
     led_red_immediate_set(0);
-    led_fan_immediate_set(0);
-
-    display_powerOn();
-    _delay_ms(1000);
-    display_ToggleInput(0);
-    _delay_ms(1000);
-    display_ToggleInput(0);
-    _delay_ms(1000);
-    display_ToggleInput(0);
-
- */
-//    display_powerOn();
 }
 
 // -----------------------------------------------------------------------------
@@ -718,7 +688,7 @@ int main(void)
 
         // ------------ Task timer has shooted, so perfrom repeated task -------
         if (tick_event())
-        {
+        {               
             // update software modules which are independent of setup and running modes
             power_tick();
             button_tick();

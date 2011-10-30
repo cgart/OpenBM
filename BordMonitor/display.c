@@ -150,12 +150,18 @@ uint16_t display_getVoltageSwitch(void)
 //------------------------------------------------------------------------------
 void display_init(void)
 {
+    DISP_MOSFET_SETUP;
+    DISP_MOSFET_OFF;
+
     // based on the jumper settings we enable either 3.3V or 5V as idle voltage
     DDRB &= ~(1 << DDB3); // set Jumper pin to input mode
     PORTB |= (1 << 3);    // enable pull-up, will refer to this later, so that we don't get spurious data here
 
-    DISP_MOSFET_SETUP;
-    DISP_MOSFET_OFF;
+    asm volatile("nop");
+    asm volatile("nop");
+    asm volatile("nop");
+
+    //display_enableBackupCameraInput(0);
 
     // disable display per default and read max voltage levels
     if (bit_is_set(PINB,3)) // bit is 1, so pull-up, so 5V as maximum
@@ -377,15 +383,18 @@ void display_powerOff(void)
 //------------------------------------------------------------------------------
 void display_turnOff(void)
 {
-    _displayTurnedOff = 1;
-    display_dac_sleep();
-    DISP_MOSFET_OFF;
+    if (_displayTurnedOff != 1)
+    {
+        _displayTurnedOff = 1;
+        display_dac_sleep();
+        DISP_MOSFET_OFF;
+    }
 }
 
 //------------------------------------------------------------------------------
 void display_tryTurnOn(void)
 {
-    if (eeprom_read_byte(&g_eeprom_DisplayState.display_Power))
+    if (_displayTurnedOff != 0 && eeprom_read_byte(&g_eeprom_DisplayState.display_Power))
     {
         display_dac_setVoltage(g_DisplayState.dac_idleVoltage);
         DISP_MOSFET_ON;
