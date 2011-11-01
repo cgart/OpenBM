@@ -31,7 +31,7 @@
 
 // global tick counter
 ticks_t g_tickNumber;
-uint8_t g_tickEventHappened;
+uint8_t g_tickEventHappened = 0;
 uint8_t g_setupMode;
 
 // values specific to the DC electric coefficients of the temperature sensor

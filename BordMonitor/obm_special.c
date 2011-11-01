@@ -33,6 +33,7 @@ typedef struct _OBMSSettings
     uint8_t emulateBordmonitor;
     
     uint8_t  automaticMirrorFold;
+    uint8_t  mirrorFoldDelay;
 }ObmsSettings;
 
 
@@ -70,8 +71,14 @@ static Gear _selectedGear = UNKNOWN;
 
 #define AUT_MIRROR_FOLD    (1 << 0)
 #define AUT_MIRROR_UNFOLD  (1 << 1)
-#define AUT_MIRROR_RESTORE (1 << 5)
-static int8_t _nextMirrorFold = -1;
+#define AUT_MIRROR_FLEFT   (1 << 2)
+#define AUT_MIRROR_FRIGHT  (1 << 3)
+#define AUT_MIRROR_ULEFT   (1 << 4)
+#define AUT_MIRROR_URIGHT  (1 << 5)
+#define AUT_MIRROR_RESTORE (1 << 6)
+#define AUT_MIRROR_IGNORE  (1 << 7)
+static int8_t  _nextMirrorFold = 0;
+static ticks_t _nextMirrorFoldTick = 0;
 static ticks_t _comfortCloseTimer = 0;
 
 #define IDLE                     0
@@ -112,6 +119,7 @@ static ticks_t _comfortCloseTimer = 0;
 #define LEFT_INDICATOR           (1L << 23)
 #define RIGHT_INDICATOR          (1L << 24)
 
+#define DIMMER_BACKGROUND        (1L << 25)
 
 #define LIGHT_STATE_CHANGED      (1L << 31)
 
@@ -186,25 +194,27 @@ uint8_t obms_does_emulate_bordmonitor(void)
 }
 
 //------------------------------------------------------------------------------
-void obms_set_mirror_fold(uint8_t fold)
+void obms_set_mirror_fold(uint8_t fold, uint8_t which)
 {
     //Fahrerspiegel ein
-    //3F 06 00 0C 01 31 01 04
-
-    //Fahrerspiegel aus
-    //3F 06 00 0C 01 30 01 05
+    //3F 05 00 0C 01 31 06
 
     //Beifahrerspiegel ein
-    //3F 06 00 0C 02 31 01 07
+    //3F 05 00 0C 02 31 05
+
+    //Fahrerspiegel aus
+    //3F 05 00 0C 01 30 07
 
     //Beifahrerspiegel aus
-    //3F 06 00 0C 02 30 01 06
+    //3F 05 00 0C 02 30 04
 
+    if (which & 1)
     {
         uint8_t data[3] = {IBUS_MSG_VEHICLE_CTRL, 0x01, 0x30 | fold};
         ibus_sendMessage(IBUS_DEV_DIA, IBUS_DEV_GM, data, 3, IBUS_TRANSMIT_TRIES);
     }
-    //_delay_ms(100);
+
+    if (which & 2)
     {
         uint8_t data[3] = {IBUS_MSG_VEHICLE_CTRL, 0x02, 0x30 | fold};
         ibus_sendMessage(IBUS_DEV_DIA, IBUS_DEV_GM, data, 3, IBUS_TRANSMIT_TRIES);
@@ -270,6 +280,8 @@ void obms_set_light_state(void)
     if (_lightState & BRAKE_LEFT) data[5] |= 0x08;
     if (_lightState & BRAKE_RIGHT) data[5] |= 0x10;
     if (_lightState & BRAKE_CENTER) data[7] |= 0x10;
+
+    if (_lightState & DIMMER_BACKGROUND) data[9] |= 0x02;
 
     ibus_sendMessage(IBUS_DEV_DIA, IBUS_DEV_LCM, data, 13, IBUS_TRANSMIT_TRIES);
 
@@ -342,12 +354,12 @@ void obms_lights_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msgl
     // if BMBT emulation is active and we want to use BMBT LCD messages
     if (dst == IBUS_DEV_BMBT && msg[0] == IBUS_MSG_BMBT_DISP_SET)
     {
-        uint8_t on = (msg[1] & 0x10) == 1;
+        uint8_t on = (msg[1] & 0x10) == 0x10;
         if (!on && (obms_Settings.emulateBordmonitor & BMBT_LCD_OFF))
             display_turnOff();
         if (on && (obms_Settings.emulateBordmonitor & BMBT_LCD_ON))
             display_tryTurnOn();
-
+        
         // switch to this input
         uint8_t input = msg[1] & 0x03;
         if (input != 0 && on)
@@ -369,6 +381,7 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
 
     if (src == IBUS_DEV_GM && dst == IBUS_DEV_GLO)
     {
+        // car was closed with the key
         if (msg[0] == IBUS_MSG_GM_KEY_BUTTON && msglen >= 2)
         {
             if (msg[1] & 0x10)
@@ -454,7 +467,7 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
     }
 
     // on valid ews state or valid ignition we stop the leaving home and stop counting door closer
-    if (_ewsState > 0 || _ignitionState > 0)
+    if (_ewsState > 1 || _ignitionState > 0)
     {
         _lockCarIfNoDoorOpened = 0;
         _lockCarIfNoDoorOpenedActive = false;
@@ -577,6 +590,11 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         {
             eeprom_update_byte(&obms_SettingsEEPROM.emulateBordmonitor, msg[3]);
             obms_Settings.emulateBordmonitor = msg[3];
+            ok = 1;
+        }else if (msglen == 4 && msg[2] == 0x0A)
+        {
+            eeprom_update_byte(&obms_SettingsEEPROM.mirrorFoldDelay, msg[3]);
+            obms_Settings.mirrorFoldDelay = msg[3];
             ok = 1;
         }else
         {
@@ -746,25 +764,49 @@ void obms_lights_tick(void)
 
     // set state of light if changed
     obms_set_light_state();
+
+    // Mirror should fold and folding is activated
+    if ((_nextMirrorFold & (AUT_MIRROR_FLEFT | AUT_MIRROR_FRIGHT)) && (obms_Settings.automaticMirrorFold & AUT_MIRROR_FOLD))
+    {
+        // if there is a timer active, then only fold after that timer passes
+        if (!_nextMirrorFoldTick || (_nextMirrorFoldTick && _nextMirrorFoldTick < tick_get()))
+        {
+            obms_set_mirror_fold(1, (_nextMirrorFold & AUT_MIRROR_FLEFT) ? 1 : 2);
+
+            _nextMirrorFoldTick = 0;
+            _nextMirrorFold &= ~AUT_MIRROR_FLEFT;
+            _nextMirrorFold &= ~AUT_MIRROR_FRIGHT;
+        }
+    }
+    if ((_nextMirrorFold & (AUT_MIRROR_ULEFT | AUT_MIRROR_URIGHT)) && (obms_Settings.automaticMirrorFold & AUT_MIRROR_UNFOLD))
+    {
+        if (!_nextMirrorFoldTick || (_nextMirrorFoldTick && _nextMirrorFoldTick < tick_get()))
+        {
+            obms_set_mirror_fold(0, (_nextMirrorFold & AUT_MIRROR_ULEFT) ? 1 : 2);
+
+            _nextMirrorFoldTick = 0;
+            _nextMirrorFold &= ~AUT_MIRROR_ULEFT;
+            _nextMirrorFold &= ~AUT_MIRROR_URIGHT;
+        }
+    }
 }
 
 //------------------------------------------------------------------------------
 void obms_comfort_close(void)
 {
-    // full shutdown of the system if pressed longer than 5 = (3 + 2) seconds
-    if (_comfortCloseTimer > 0 && tick_get() > _comfortCloseTimer + TICKS_PER_X_SECONDS(3))
+    // full shutdown of the system if pressed longer than 7 = (5 + 2) seconds
+    if (_comfortCloseTimer > 0 && tick_get() > _comfortCloseTimer + TICKS_PER_X_SECONDS(5))
     {
         led_radioBlinkLock(3);
         power_prepare_shutdown();
     }
 
-    if (_comfortCloseTimer > 0 && tick_get() > _comfortCloseTimer && _nextMirrorFold == -1)
+    if (_comfortCloseTimer > 0 && tick_get() > _comfortCloseTimer && _nextMirrorFold == 0)
     {
         // set this to -2, so that we do not send close message again, if we are waiting longer for exampel to shutdown
-        _nextMirrorFold = -2;
+        _nextMirrorFold = AUT_MIRROR_IGNORE;
 
         // ok if we have pressed the close key two times, then we can fold the mirror
-        //if (_nextMirrorFold < -2)
         {
             if (_centralLocked == 1 &&
                 (obms_Settings.automaticMirrorFold & AUT_MIRROR_FOLD) != 0)
@@ -772,16 +814,14 @@ void obms_comfort_close(void)
                 eeprom_update_byte(&obms_SettingsEEPROM.automaticMirrorFold, obms_Settings.automaticMirrorFold | AUT_MIRROR_RESTORE);
                 obms_Settings.automaticMirrorFold |= AUT_MIRROR_RESTORE;
 
-                obms_set_mirror_fold(1);
+                // fold left mirror and set timer to be executed to fold the right mirror
+                obms_set_mirror_fold(1, 1);
+
+                _nextMirrorFoldTick = tick_get() + obms_Settings.mirrorFoldDelay;
+                _nextMirrorFold |= AUT_MIRROR_FRIGHT;
             }
-            //_nextMirrorFold = -1;
         }
-        //_comfortCloseTimer = 0;
     }
-
-    //if (_comfortCloseTimer > 0 && _catchedKeyReleased)
-    //    _comfortCloseTimer = 0;
-
 }
 
 //------------------------------------------------------------------------------
@@ -845,16 +885,6 @@ void obms_tick(void)
         }
     }
 
-    // Mirror folding
-    if (_nextMirrorFold >= 0)
-    {
-        if (_nextMirrorFold == 1 && (obms_Settings.automaticMirrorFold & AUT_MIRROR_FOLD))
-            obms_set_mirror_fold(1);
-        else if (_nextMirrorFold == 0 && (obms_Settings.automaticMirrorFold & AUT_MIRROR_UNFOLD))
-            obms_set_mirror_fold(0);
-        _nextMirrorFold = -1;
-    }
-
     // if we are allowed to request the status of a device, then do so
     if (_ignitionState > -10 && _ignitionState < 0 && _reqIgnitionState > 0 && tick_get() > _reqIgnitionState)
     {
@@ -900,18 +930,6 @@ void obms_tick(void)
         }
     }
 
-    // if unfolding is enabled, then unfold the mirrors if they were previously folded
-    // and we detected unlocked car as also catched the key up
-    if (_centralLocked == 0 && 
-        _catchedKeyReleased &&
-        (obms_Settings.automaticMirrorFold & (AUT_MIRROR_UNFOLD | AUT_MIRROR_RESTORE)) == (AUT_MIRROR_UNFOLD | AUT_MIRROR_RESTORE))
-    {
-        obms_Settings.automaticMirrorFold &= ~(AUT_MIRROR_RESTORE);
-        eeprom_update_byte(&obms_SettingsEEPROM.automaticMirrorFold, obms_Settings.automaticMirrorFold);
-        obms_set_mirror_fold(0);
-        _nextMirrorFold = -1;
-    }
-
     // emulate CD-changer
     if (obms_Settings.emulateCDchanger && _cdcState != NO && _ignitionState > 0)
     {
@@ -944,6 +962,19 @@ void obms_tick(void)
                 break;
         }
         _cdcState = NO;
+    }
+
+    // if unfolding is enabled, then unfold the mirrors if they were previously folded
+    // and we detected unlocked car as also catched the key up
+    if (_centralLocked == 0 &&
+        _catchedKeyReleased &&
+        (obms_Settings.automaticMirrorFold & (AUT_MIRROR_UNFOLD | AUT_MIRROR_RESTORE)) == (AUT_MIRROR_UNFOLD | AUT_MIRROR_RESTORE))
+    {
+        obms_Settings.automaticMirrorFold &= ~(AUT_MIRROR_RESTORE);
+        eeprom_update_byte(&obms_SettingsEEPROM.automaticMirrorFold, obms_Settings.automaticMirrorFold);
+        obms_set_mirror_fold(0, 1);
+        _nextMirrorFold = AUT_MIRROR_URIGHT;
+        _nextMirrorFoldTick = tick_get() + obms_Settings.mirrorFoldDelay;
     }
 
     obms_comfort_close();
@@ -988,7 +1019,7 @@ void obms_init(void)
     _ignitionState = -1;
     _reqIgnitionState = 1;
     _reqGMState = 1;
-    _nextMirrorFold = -1;
+    _nextMirrorFold = 0;
     _comfortCloseTimer = 0;
 
     // if run for the first time, then write default data to eeprom
@@ -998,6 +1029,7 @@ void obms_init(void)
 
         eeprom_update_byte(&obms_SettingsEEPROM.automaticCentralLock, 5);
         eeprom_update_byte(&obms_SettingsEEPROM.automaticMirrorFold, AUT_MIRROR_FOLD | AUT_MIRROR_UNFOLD);
+        eeprom_update_byte(&obms_SettingsEEPROM.mirrorFoldDelay, 4);
         eeprom_update_byte(&obms_SettingsEEPROM.lockCarUnused, 120);
 
         eeprom_update_byte(&obms_SettingsEEPROM.comfortTurnLight, 3);
@@ -1009,6 +1041,7 @@ void obms_init(void)
                           FOGLIGHT_FRONT_LEFT | FOGLIGHT_FRONT_RIGHT |
                           PARKINGLIGHT_LEFT | PARKINGLIGHT_RIGHT |
                           //BRAKE_LEFT | BRAKE_RIGHT |
+                          DIMMER_BACKGROUND |
                           LICENSE_PLATE));
 
         eeprom_update_byte(&obms_SettingsEEPROM.emulateCDchanger, (DEVICE_CODING2 & EMULATE_CDCHANGER) == EMULATE_CDCHANGER);
@@ -1021,6 +1054,7 @@ void obms_init(void)
     // read settings from EEPROM
     obms_Settings.automaticCentralLock = eeprom_read_byte(&obms_SettingsEEPROM.automaticCentralLock);
     obms_Settings.automaticMirrorFold = eeprom_read_byte(&obms_SettingsEEPROM.automaticMirrorFold);
+    obms_Settings.mirrorFoldDelay = eeprom_read_byte(&obms_SettingsEEPROM.mirrorFoldDelay);
 
     obms_Settings.lockCarUnused = eeprom_read_byte(&obms_SettingsEEPROM.lockCarUnused);
 
