@@ -1,0 +1,82 @@
+2010-Jul-23 11:20:53.115532: debug: Open serial port
+2010-Jul-23 11:20:53.140262: debug: Start DBus <-> IBus gateway
+2010-Jul-23 11:20:53.140413: debug: Start IBus service
+2010-Jul-23 11:20:53.140746: debug: ibus: Start I/O-Service Thread (serial port communication
+2010-Jul-23 11:20:53.150898: debug: ibus: Start main thread
+2010-Jul-23 11:20:55.920753: info: ibus: Received: 44 05 BF 74 05 01 8E 
+2010-Jul-23 11:20:57.138122: info: ibus: Received: D0 07 BF 5B 00 00 00 00 33 
+2010-Jul-23 11:20:57.259166: info: ibus: Received: 80 04 BF 11 01 2B 
+2010-Jul-23 11:20:57.274266: info: ibus: Received: 80 09 BF 13 00 00 00 00 00 00 25 
+2010-Jul-23 11:20:57.290103: info: ibus: Received: D0 07 BF 5B 00 00 00 00 33 
+2010-Jul-23 11:20:57.302716: info: ibus: Received: D0 05 BF 5C FF 00 C9 
+2010-Jul-23 11:20:57.316505: info: ibus: Received: 80 05 E7 2A 00 00 48 
+2010-Jul-23 11:20:57.330052: info: ibus: Received: 30 04 BF 51 00 DA 
+2010-Jul-23 11:20:57.342029: info: ibus: Received: 00 04 BF 72 06 CF 
+2010-Jul-23 11:20:57.354038: info: ibus: Received: 00 05 BF 7A 11 00 D1 
+2010-Jul-23 11:20:57.370000: info: ibus: Received: 68 03 18 01 72 
+2010-Jul-23 11:20:57.386764: info: ibus: Received: 68 05 18 38 00 00 4D 
+2010-Jul-23 11:20:57.401621: info: ibus: Received: 18 04 FF 02 00 E1 
+2010-Jul-23 11:20:57.418197: info: ibus: Received: 18 0A 68 39 00 02 00 3F 00 03 07 7A 
+2010-Jul-23 11:20:57.430106: info: ibus: Received: C0 06 FF 20 00 B3 00 AA 
+2010-Jul-23 11:20:57.442026: info: ibus: Received: C0 03 80 01 42 
+2010-Jul-23 11:20:57.474133: info: ibus: Received: 80 0E C0 23 01 20 03 31 31 3A 31 39 20 20 04 79 
+2010-Jul-23 11:20:57.498064: info: ibus: Received: 80 05 E7 2A 00 00 48 
+2010-Jul-23 11:20:57.506187: info: ibus: Received: 80 04 BF 02 00 39 
+2010-Jul-23 11:20:57.542709: info: ibus: Received: 68 17 E7 23 40 20 07 20 20 20 20 20 08 20 52 41 44 49 4F 20 20 20 54 20 D1 
+2010-Jul-23 11:20:57.580431: info: ibus: Received: 68 17 E7 21 40 00 68 20 41 4D 05 46 4D 20 05 20 54 50 05 4D 4F 44 45 05 B1 
+2010-Jul-23 11:20:57.626565: info: ibus: Received: 68 1D E7 21 40 00 40 44 4C 46 05 56 4E 4C 05 2A 4C 33 05 53 57 52 05 52 41 4F 05 53 52 20 D2 
+2010-Jul-23 11:20:57.651963: info: ibus: Received: 68 0D E7 21 40 00 06 4D 4C 44 05 20 3E 20 9B 
+2010-Jul-23 11:20:57.682064: info: ibus: Received: C0 04 68 22 02 8C 
+2010-Jul-23 11:20:57.998046: info: ibus: Received: 68 03 18 01 72 
+2010-Jul-23 11:20:58.006013: info: ibus: Received: C8 03 E7 01 2D 
+2010-Jul-23 11:20:58.018065: info: ibus: Received: C0 04 C8 02 00 0E 
+2010-Jul-23 11:20:58.026140: info: ibus: Received: C8 03 3B 01 F1 
+2010-Jul-23 11:20:58.042057: info: ibus: Received: 18 04 FF 02 00 E1 
+2010-Jul-23 11:20:58.050032: info: ibus: Received: C8 03 7F 01 B5 
+2010-Jul-23 11:20:58.058079: info: ibus: Received: C8 04 E7 2C 50 57 
+2010-Jul-23 11:20:58.070023: info: ibus: Received: C8 04 E7 2B 03 03 
+2010-Jul-23 11:20:58.078021: info: ibus: Received: C8 03 80 10 5B 
+2010-Jul-23 11:20:58.094016: info: ibus: Received: 68 03 6A 01 00 
+2010-Jul-23 11:20:58.118033: info: ibus: Received: 80 04 BF 11 01 2B 
+2010-Jul-23 11:20:58.146049: info: ibus: Received: 80 04 BF 11 03 29 
+2010-Jul-23 11:20:58.155621: info: ibus: Received: D0 07 BF 5B 00 00 00 00 33 
+2010-Jul-23 11:20:58.173986: info: ibus: Received: 80 09 BF 13 03 00 00 00 00 00 26 
+2010-Jul-23 11:20:58.200258: info: ibus: Received: 80 06 BF 19 13 68 00 5B 
+2010-Jul-23 11:20:58.222143: info: ibus: Received: 00 04 BF 72 06 CF 
+2010-Jul-23 11:20:58.242071: info: ibus: Received: 80 06 60 07 00 00 00 E1 
+2010-Jul-23 11:20:58.430034: info: ibus: Received: 80 03 D0 53 00 
+2010-Jul-23 11:20:58.456486: info: ibus: Received: D0 10 80 54 47 4E 01 53 60 06 C2 40 4B 00 00 00 7C 9C 
+2010-Jul-23 11:20:58.474198: info: ibus: Received: 80 09 BF 13 03 B0 00 02 00 00 94 
+2010-Jul-23 11:20:58.582038: info: ibus: Received: 50 03 C8 01 9A 
+2010-Jul-23 11:20:58.606087: info: ibus: Received: C8 04 BF 02 30 41 
+2010-Jul-23 11:20:59.194036: info: ibus: Received: 50 03 B0 01 E2 
+2010-Jul-23 11:20:59.442077: info: ibus: Received: 80 05 BF 18 00 00 22 
+2010-Jul-23 11:20:59.926118: info: ibus: Received: C0 03 68 01 AA 
+2010-Jul-23 11:20:59.958046: info: ibus: Received: 68 04 BF 02 00 D1 
+2010-Jul-23 11:21:00.230173: info: ibus: Received: 80 09 BF 13 03 B0 00 00 00 00 96 
+2010-Jul-23 11:21:00.246097: info: ibus: Received: D0 07 BF 5B 00 10 00 00 23 
+2010-Jul-23 11:21:00.546121: info: ibus: Received: D0 07 BF 5B 00 10 00 00 23 
+2010-Jul-23 11:21:01.450367: info: ibus: Received: 80 05 BF 18 00 00 22 
+2010-Jul-23 11:21:01.734123: info: ibus: Received: 50 03 B0 01 E2 
+2010-Jul-23 11:21:02.426189: info: ibus: Received: C0 03 C8 01 0A 
+2010-Jul-23 11:21:02.454156: info: ibus: Received: C8 04 BF 02 30 41 
+2010-Jul-23 11:21:02.525973: info: ibus: Received: 80 09 BF 13 02 B0 00 00 00 00 97 
+2010-Jul-23 11:21:02.605974: info: ibus: Received: 80 09 BF 13 02 00 00 00 00 00 27 
+2010-Jul-23 11:21:02.619019: info: ibus: Received: 80 04 BF 11 01 2B 
+2010-Jul-23 11:21:02.634275: info: ibus: Received: 80 09 BF 13 00 00 00 00 00 00 25 
+2010-Jul-23 11:21:02.694178: info: ibus: Received: 30 04 BF 51 04 DE 
+2010-Jul-23 11:21:03.142056: info: ibus: Received: 80 04 BF 11 00 2A 
+2010-Jul-23 11:21:03.170129: info: ibus: Received: 30 04 BF 51 04 DE 
+2010-Jul-23 11:21:03.186075: info: ibus: Received: 68 06 E7 21 00 00 20 88 
+2010-Jul-23 11:21:03.225991: info: ibus: Received: 30 19 80 1A 30 00 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 83 
+2010-Jul-23 11:21:03.242512: info: ibus: Received: 68 05 E7 23 00 20 89 
+2010-Jul-23 11:21:03.254127: info: ibus: Received: C0 06 FF 20 00 00 00 19 
+2010-Jul-23 11:21:03.269799: info: ibus: Received: 80 04 30 1B 00 AF 
+2010-Jul-23 11:21:03.555810: info: ibus: Received: D0 07 BF 5B 00 10 00 00 23 
+2010-Jul-23 11:21:04.238255: info: ibus: Received: 44 05 BF 74 01 01 8A 
+2010-Jul-23 11:21:04.254046: info: ibus: Received: 30 04 BF 51 00 DA 
+2010-Jul-23 11:21:05.177890: debug: Shutdown DBus <-> IBus gateway ... (please wait)
+2010-Jul-23 11:21:05.198543: debug: Stop IBus service
+2010-Jul-23 11:21:05.198728: debug: ibus: Stop I/O-Service Thread
+2010-Jul-23 11:21:05.198915: debug: ibus: Stop main thread
+2010-Jul-23 11:21:05.199902: debug: Close serial port

@@ -1,0 +1,192 @@
+2010-Jul-23 11:18:55.596307: debug: Open serial port
+2010-Jul-23 11:18:55.626779: debug: Start DBus <-> IBus gateway
+2010-Jul-23 11:18:55.626921: debug: Start IBus service
+2010-Jul-23 11:18:55.627246: debug: ibus: Start I/O-Service Thread (serial port communication
+2010-Jul-23 11:18:55.634898: debug: ibus: Start main thread
+2010-Jul-23 11:18:55.658072: info: ibus: Received: 68 03 18 01 72 
+2010-Jul-23 11:18:55.674953: info: ibus: Received: 18 04 FF 02 00 E1 
+2010-Jul-23 11:18:57.546092: info: ibus: Received: C0 06 68 31 40 00 01 DE 
+2010-Jul-23 11:18:57.658116: info: ibus: Received: 68 17 E7 23 40 20 07 20 20 20 20 20 08 41 6E 74 68 65 6D 20 2F 20 54 20 94 
+2010-Jul-23 11:18:57.678115: info: ibus: Received: 68 08 E7 21 40 00 00 20 31 F7 
+2010-Jul-23 11:18:57.698117: info: ibus: Received: 68 08 E7 21 40 00 01 32 2A FF 
+2010-Jul-23 11:18:57.714281: info: ibus: Received: C0 04 68 22 00 8E 
+2010-Jul-23 11:18:57.726022: info: ibus: Received: C0 04 68 22 00 8E 
+2010-Jul-23 11:18:57.754099: info: ibus: Received: C0 06 68 31 40 00 41 9E 
+2010-Jul-23 11:18:59.058103: info: ibus: Received: C0 06 68 31 40 00 02 DD 
+2010-Jul-23 11:18:59.182166: info: ibus: Received: 68 19 E7 23 40 20 07 20 20 20 20 20 08 46 4D 20 03 20 39 34 2E 32 04 20 20 20 C7 
+2010-Jul-23 11:18:59.206123: info: ibus: Received: 68 08 E7 21 40 00 01 32 20 F5 
+2010-Jul-23 11:18:59.226123: info: ibus: Received: 68 08 E7 21 40 00 02 2A 33 FD 
+2010-Jul-23 11:18:59.246050: info: ibus: Received: C0 04 68 22 00 8E 
+2010-Jul-23 11:18:59.254115: info: ibus: Received: C0 04 68 22 00 8E 
+2010-Jul-23 11:18:59.266075: info: ibus: Received: C0 06 68 31 40 00 42 9D 
+2010-Jul-23 11:18:59.462043: info: ibus: Received: C0 03 80 01 42 
+2010-Jul-23 11:18:59.482049: info: ibus: Received: 80 04 BF 02 00 39 
+2010-Jul-23 11:19:01.038107: info: ibus: Received: C0 06 68 31 40 00 09 D6 
+2010-Jul-23 11:19:01.198108: info: ibus: Received: C0 06 68 31 40 00 49 96 
+2010-Jul-23 11:19:01.270247: info: ibus: Received: 68 19 E7 23 40 20 07 20 20 20 20 20 08 46 4D 20 03 20 39 34 2E 32 04 20 20 20 C7 
+2010-Jul-23 11:19:01.310110: info: ibus: Received: 68 17 E7 21 40 00 68 20 41 4D 05 46 4D 20 05 20 54 50 05 4D 4F 44 45 05 B1 
+2010-Jul-23 11:19:01.358050: info: ibus: Received: 68 1D E7 21 40 00 40 44 4C 46 05 56 4E 4C 05 20 4C 33 05 53 57 52 05 52 41 4F 05 53 52 20 D8 
+2010-Jul-23 11:19:01.382055: info: ibus: Received: 68 0D E7 21 40 00 06 4D 4C 44 05 20 3E 20 9B 
+2010-Jul-23 11:19:01.406041: info: ibus: Received: C0 04 68 22 02 8C 
+2010-Jul-23 11:19:01.966097: info: ibus: Received: C0 03 68 01 AA 
+2010-Jul-23 11:19:01.990048: info: ibus: Received: 68 04 BF 02 00 D1 
+2010-Jul-23 11:19:03.210108: info: ibus: Received: C0 06 68 31 40 00 03 DC 
+2010-Jul-23 11:19:03.358124: info: ibus: Received: 68 17 E7 23 40 20 07 20 20 20 20 20 08 53 57 52 32 20 52 50 20 20 54 20 C6 
+2010-Jul-23 11:19:03.370092: info: ibus: Received: C0 06 68 31 40 00 43 9C 
+2010-Jul-23 11:19:03.442086: info: ibus: Received: 68 1D E7 21 40 00 40 20 31 20 05 20 32 20 05 20 33 20 05 20 20 20 05 44 4C 46 05 56 4E 4C BC 
+2010-Jul-23 11:19:03.470055: info: ibus: Received: 68 0D E7 21 40 00 06 20 4C 33 05 20 3C 20 83 
+2010-Jul-23 11:19:03.485997: info: ibus: Received: 68 03 18 01 72 
+2010-Jul-23 11:19:03.498593: info: ibus: Received: C0 04 68 22 01 8F 
+2010-Jul-23 11:19:03.510037: info: ibus: Received: 18 04 FF 02 00 E1 
+2010-Jul-23 11:19:04.126089: info: ibus: Received: C0 06 68 31 40 00 01 DE 
+2010-Jul-23 11:19:04.282110: info: ibus: Received: C0 06 68 31 40 00 41 9E 
+2010-Jul-23 11:19:04.462023: info: ibus: Received: C0 03 C8 01 0A 
+2010-Jul-23 11:19:04.482034: info: ibus: Received: C8 04 BF 02 30 41 
+2010-Jul-23 11:19:05.098113: info: ibus: Received: C0 06 68 31 40 00 09 D6 
+2010-Jul-23 11:19:05.266115: info: ibus: Received: C0 06 68 31 40 00 49 96 
+2010-Jul-23 11:19:05.458276: info: ibus: Received: 68 17 E7 23 40 20 07 20 20 20 20 20 08 53 57 52 32 20 52 50 20 20 54 20 C6 
+2010-Jul-23 11:19:05.498099: info: ibus: Received: 68 17 E7 21 40 00 68 20 41 4D 05 46 4D 20 05 20 54 50 05 4D 4F 44 45 05 B1 
+2010-Jul-23 11:19:05.546147: info: ibus: Received: 68 1F E7 21 40 00 00 20 31 05 32 20 05 20 33 05 34 20 05 20 35 05 36 20 05 20 37 20 05 20 38 20 FC 
+2010-Jul-23 11:19:05.590065: info: ibus: Received: C0 04 68 22 01 8F 
+2010-Jul-23 11:19:06.566178: info: ibus: Received: C0 06 68 31 40 00 09 D6 
+2010-Jul-23 11:19:06.598048: info: ibus: Received: 80 0C E7 24 01 00 31 31 3A 31 38 20 20 7D 
+2010-Jul-23 11:19:06.718114: info: ibus: Received: C0 06 68 31 40 00 49 96 
+2010-Jul-23 11:19:06.802165: info: ibus: Received: 68 17 E7 23 40 20 07 20 20 20 20 20 08 53 57 52 32 20 52 50 20 20 54 20 C6 
+2010-Jul-23 11:19:06.842311: info: ibus: Received: 68 17 E7 21 40 00 68 20 41 4D 05 46 4D 20 05 20 54 50 05 4D 4F 44 45 05 B1 
+2010-Jul-23 11:19:06.884865: info: ibus: Received: 68 1D E7 21 40 00 40 44 4C 46 05 56 4E 4C 05 20 4C 33 05 53 57 52 05 52 41 4F 05 53 52 20 D8 
+2010-Jul-23 11:19:06.914059: info: ibus: Received: 68 0D E7 21 40 00 06 4D 4C 44 05 20 3E 20 9B 
+2010-Jul-23 11:19:06.938624: info: ibus: Received: C0 04 68 22 02 8C 
+2010-Jul-23 11:19:07.510365: info: ibus: Received: C0 06 68 31 40 00 01 DE 
+2010-Jul-23 11:19:07.598097: info: ibus: Received: C0 06 68 31 40 00 41 9E 
+2010-Jul-23 11:19:07.678241: info: ibus: Received: 68 17 E7 23 40 20 07 20 20 20 20 20 08 20 45 55 52 4F 50 41 20 20 54 20 BC 
+2010-Jul-23 11:19:07.723510: info: ibus: Received: 68 1D E7 21 40 00 40 44 4C 46 05 56 4E 4C 05 2A 4C 33 05 53 57 52 05 52 41 4F 05 53 52 20 D2 
+2010-Jul-23 11:19:07.750078: info: ibus: Received: 68 0D E7 21 40 00 06 4D 4C 44 05 20 3E 20 9B 
+2010-Jul-23 11:19:07.770050: info: ibus: Received: C0 04 68 22 01 8F 
+2010-Jul-23 11:19:08.306131: info: ibus: Received: C0 06 68 31 40 00 0A D5 
+2010-Jul-23 11:19:08.446203: info: ibus: Received: C0 06 68 31 40 00 4A 95 
+2010-Jul-23 11:19:08.602126: info: ibus: Received: 68 17 E7 23 40 20 07 20 20 20 20 20 08 20 45 55 52 4F 50 41 20 20 54 50 CC 
+2010-Jul-23 11:19:08.642180: info: ibus: Received: 68 0A E7 21 40 00 0A 2A 54 50 05 C5 
+2010-Jul-23 11:19:08.658039: info: ibus: Received: C0 04 68 22 00 8E 
+2010-Jul-23 11:19:09.186258: info: ibus: Received: C0 06 68 31 40 00 0A D5 
+2010-Jul-23 11:19:09.346118: info: ibus: Received: C0 06 68 31 40 00 4A 95 
+2010-Jul-23 11:19:09.426104: info: ibus: Received: 68 17 E7 23 40 20 07 20 20 20 20 20 08 20 45 55 52 4F 50 41 20 20 54 20 BC 
+2010-Jul-23 11:19:09.446156: info: ibus: Received: 68 0A E7 21 40 00 0A 20 54 50 05 CF 
+2010-Jul-23 11:19:09.470186: info: ibus: Received: C0 04 68 22 00 8E 
+2010-Jul-23 11:19:09.478011: info: ibus: Received: C0 03 80 01 42 
+2010-Jul-23 11:19:09.498043: info: ibus: Received: 80 04 BF 02 00 39 
+2010-Jul-23 11:19:09.657949: info: ibus: Received: 68 17 E7 23 40 20 07 20 20 20 20 20 08 20 20 53 52 20 31 20 20 20 54 20 B0 
+2010-Jul-23 11:19:10.470104: info: ibus: Received: C0 06 68 31 40 00 0B D4 
+2010-Jul-23 11:19:10.574102: info: ibus: Received: 68 17 E7 21 C0 00 68 20 41 4D 05 46 4D 20 05 20 54 50 05 4D 4F 44 45 05 31 
+2010-Jul-23 11:19:10.602409: info: ibus: Received: 68 0E E7 21 C0 00 06 52 4E 44 20 05 53 43 20 2B 
+2010-Jul-23 11:19:10.642099: info: ibus: Received: 68 17 E7 21 C0 00 00 20 31 05 32 20 05 2A 33 05 34 20 05 20 35 05 36 20 71 
+2010-Jul-23 11:19:10.654090: info: ibus: Received: C0 06 68 31 40 00 4B 94 
+2010-Jul-23 11:19:10.694102: info: ibus: Received: 68 17 E7 23 C0 20 07 20 20 20 20 20 08 43 44 20 33 2D 30 37 20 20 20 20 4A 
+2010-Jul-23 11:19:10.706052: info: ibus: Received: C0 04 68 22 00 8E 
+2010-Jul-23 11:19:11.166107: info: ibus: Received: 68 03 18 01 72 
+2010-Jul-23 11:19:11.178043: info: ibus: Received: 18 04 FF 02 00 E1 
+2010-Jul-23 11:19:11.214548: info: ibus: Received: 68 17 E7 21 C0 00 68 20 41 4D 05 46 4D 20 05 20 54 50 05 4D 4F 44 45 05 31 
+2010-Jul-23 11:19:11.246117: info: ibus: Received: 68 0E E7 21 C0 00 06 52 4E 44 20 05 53 43 20 2B 
+2010-Jul-23 11:19:11.282124: info: ibus: Received: 68 17 E7 21 C0 00 00 20 31 05 32 20 05 2A 33 05 34 20 05 20 35 05 36 20 71 
+2010-Jul-23 11:19:11.298092: info: ibus: Received: C0 04 68 22 01 8F 
+2010-Jul-23 11:19:11.318029: info: ibus: Received: C0 04 68 22 00 8E 
+2010-Jul-23 11:19:11.518109: info: ibus: Received: C0 06 68 31 C0 00 0B 54 
+2010-Jul-23 11:19:11.590114: info: ibus: Received: 68 17 E7 21 80 00 68 20 41 4D 05 46 4D 20 05 20 54 50 05 4D 4F 44 45 05 71 
+2010-Jul-23 11:19:11.613982: info: ibus: Received: 68 09 E7 21 80 00 40 31 C3 32 A7 
+2010-Jul-23 11:19:11.646085: info: ibus: Received: 68 0F E7 21 80 00 04 20 42 20 CD 05 CE 20 43 20 22 
+2010-Jul-23 11:19:11.666164: info: ibus: Received: C0 04 68 22 02 8C 
+2010-Jul-23 11:19:11.678083: info: ibus: Received: C0 06 68 31 C0 00 4B 14 
+2010-Jul-23 11:19:11.714114: info: ibus: Received: 68 17 E7 23 80 20 07 20 20 20 20 20 08 54 41 50 45 20 31 20 20 20 20 20 05 
+2010-Jul-23 11:19:11.962050: info: ibus: Received: C0 03 68 01 AA 
+2010-Jul-23 11:19:11.998060: info: ibus: Received: 68 04 BF 02 00 D1 
+2010-Jul-23 11:19:12.550116: info: ibus: Received: C0 06 68 31 80 00 0B 14 
+2010-Jul-23 11:19:12.678108: info: ibus: Received: 68 17 E7 23 40 20 07 20 20 20 20 20 08 20 20 53 52 20 31 20 20 20 54 20 B0 
+2010-Jul-23 11:19:12.714111: info: ibus: Received: 68 17 E7 21 40 00 68 20 41 4D 05 46 4D 20 05 20 54 50 05 4D 4F 44 45 05 B1 
+2010-Jul-23 11:19:12.762083: info: ibus: Received: 68 1D E7 21 40 00 40 44 4C 46 05 56 4E 4C 05 2A 4C 33 05 53 57 52 05 52 41 4F 05 53 52 20 D2 
+2010-Jul-23 11:19:12.803676: info: ibus: Received: 68 0D E7 21 40 00 06 4D 4C 44 05 20 3E 20 9B 
+2010-Jul-23 11:19:12.818067: info: ibus: Received: C0 06 68 31 80 00 4B 54 
+2010-Jul-23 11:19:12.830444: info: ibus: Received: C0 04 68 22 02 8C 
+2010-Jul-23 11:19:13.174128: info: ibus: Received: 68 17 E7 23 40 20 07 20 20 20 20 20 08 20 45 55 52 4F 50 41 20 20 54 20 BC 
+2010-Jul-23 11:19:14.082204: info: ibus: Received: C0 06 FF 20 04 B2 00 AF 
+2010-Jul-23 11:19:14.118072: info: ibus: Received: 80 0E C0 23 01 20 03 31 31 3A 31 38 20 20 04 78 
+2010-Jul-23 11:19:14.466103: info: ibus: Received: C0 03 C8 01 0A 
+2010-Jul-23 11:19:14.486095: info: ibus: Received: C8 04 BF 02 30 41 
+2010-Jul-23 11:19:15.382113: info: ibus: Received: C0 06 FF 20 02 8E 00 95 
+2010-Jul-23 11:19:15.426084: info: ibus: Received: 80 0E C0 23 01 20 03 31 31 3A 31 38 20 20 04 78 
+2010-Jul-23 11:19:15.458595: info: ibus: Received: C8 17 C0 23 05 20 50 49 4E 2D 43 4F 44 45 20 45 49 4E 47 45 42 45 4E 21 66 
+2010-Jul-23 11:19:15.506214: info: ibus: Received: C8 21 C0 21 05 04 60 20 30 20 05 20 31 20 05 20 32 20 05 20 33 20 05 20 34 20 05 20 35 20 05 20 36 20 5E 
+2010-Jul-23 11:19:15.553973: info: ibus: Received: C8 19 C0 21 05 04 07 20 37 20 05 20 38 20 05 20 39 20 05 43 4C 52 05 53 45 54 1F 
+2010-Jul-23 11:19:15.606079: info: ibus: Received: C0 04 C8 22 01 2F 
+2010-Jul-23 11:19:16.462571: info: ibus: Received: C0 06 FF 20 08 E0 C0 31 
+2010-Jul-23 11:19:16.518143: info: ibus: Received: 80 21 C0 21 02 20 60 06 20 54 49 4D 45 52 20 20 06 4C A3 46 54 20 45 49 4E 06 31 20 5A 45 49 54 20 32 FD 
+2010-Jul-23 11:19:16.558118: info: ibus: Received: 68 17 E7 23 40 20 07 20 20 20 20 20 08 20 45 55 52 4F 50 41 20 20 54 20 BC 
+2010-Jul-23 11:19:16.606098: info: ibus: Received: 80 1D C0 21 02 20 06 06 44 41 54 55 4D 06 4D 45 4D 4F 20 45 49 4E 05 31 32 48 05 53 45 54 70 
+2010-Jul-23 11:19:16.638083: info: ibus: Received: 80 0E C0 23 01 20 03 31 31 3A 31 38 20 20 04 78 
+2010-Jul-23 11:19:16.650049: info: ibus: Received: C0 04 80 22 01 67 
+2010-Jul-23 11:19:16.678068: info: ibus: Received: 80 0D C0 21 02 00 0A 31 32 48 05 53 45 54 68 
+2010-Jul-23 11:19:16.702196: info: ibus: Received: C0 04 80 22 00 66 
+2010-Jul-23 11:19:17.194305: info: ibus: Received: C0 06 FF 20 10 E0 C0 29 
+2010-Jul-23 11:19:17.251084: info: ibus: Received: 80 1F C0 21 01 20 60 06 31 20 56 45 52 42 20 32 06 52 45 49 43 48 57 06 44 49 53 54 20 41 4E 4B 55 
+2010-Jul-23 11:19:17.298041: info: ibus: Received: 80 1C C0 21 01 20 06 06 47 45 53 43 48 57 06 4C 49 4D 49 54 05 43 4F 44 45 05 53 45 54 4D 
+2010-Jul-23 11:19:17.350121: info: ibus: Received: 80 17 C0 23 05 20 56 45 52 42 32 20 03 31 31 2E 36 20 4C 2F 31 30 30 04 2D 
+2010-Jul-23 11:19:17.362034: info: ibus: Received: C0 04 80 22 01 67 
+2010-Jul-23 11:19:18.743149: info: ibus: Received: 68 03 18 01 72 
+2010-Jul-23 11:19:18.762170: info: ibus: Received: 18 04 FF 02 00 E1 
+2010-Jul-23 11:19:18.838107: info: ibus: Received: C0 06 FF 20 04 E0 C0 3D 
+2010-Jul-23 11:19:19.434094: info: ibus: Received: C0 06 FF 20 08 E0 C0 31 
+2010-Jul-23 11:19:19.470107: info: ibus: Received: 80 0E C0 23 01 20 03 31 31 3A 31 38 20 20 04 78 
+2010-Jul-23 11:19:19.482086: info: ibus: Received: C0 03 80 01 42 
+2010-Jul-23 11:19:19.506195: info: ibus: Received: 80 04 BF 02 00 39 
+2010-Jul-23 11:19:20.306248: info: ibus: Received: 68 17 E7 23 40 20 07 20 20 20 20 20 08 20 57 45 4C 4C 45 20 20 20 54 20 D7 
+2010-Jul-23 11:19:21.142136: info: ibus: Received: 68 17 E7 23 40 20 07 20 20 20 20 20 08 20 20 47 41 4E 5A 20 20 20 54 20 B2 
+2010-Jul-23 11:19:21.737896: debug: Shutdown DBus <-> IBus gateway ... (please wait)
+2010-Jul-23 11:19:21.960180: info: ibus: Received: C0 03 68 01 AA 
+2010-Jul-23 11:19:21.985466: debug: Stop IBus service
+2010-Jul-23 11:19:21.985617: debug: ibus: Stop main thread
+2010-Jul-23 11:19:21.985743: debug: ibus: Stop I/O-Service Thread
+2010-Jul-23 11:19:21.985978: debug: Close serial port
+
+ 
+Send to print info in top Row:
+dst = E7
+40 20 07 20 20 20 20 20 08 41 6E 74 68 65 6D 20 2F 20 54 20 -       Anthem / T 
+80 20 07 20 20 20 20 20 08 46 4D 20 03 20 39 34 2E 32 04 20 20 20 -       FM  94.2   
+C0 20 07 20 20 20 20 20 08 53 57 52 32 20 52 50 20 20 54 20 -       SWR2 RP  T 
+
+dst = C0
+05 20 50 49 4E 2D 43 4F 44 45 20 45 49 4E 47 45 42 45 4E 21 -  PIN-CODE EINGEBEN!
+01 20 03 31 31 3A 31 38 20 20 04 -  11:18  
+01 20 03 31 31 3A 31 39 20 20 04 -  11:19  
+05 20 56 45 52 42 32 20 03 31 31 2E 36 20 4C 2F 31 30 30 04 -  VERB2 11.6 L/100
+
+Hacks:
+- If message recieved from Phone and MID was previously set to Phone mode, then displayed messages can be up to a length of 24 letters. (target 0x23)
+- if in radio mode, then only 11 signs
+- messages sent from IKE (0x80) are displayed right aligned with a length of up-to 20 signs
+- bottom line can only be filled by IKE, when MID is set into BC mode
+- there exists following modes: RADIO (incl CD+TAPE), TONE, BC (incl CLOCK), PHONE
+
+
+Top line:
+23 mm 20 cc text
+mm - 00 for RADIO, 01 for BC, 02 for CLOCK, 05 for PHONE
+cc - control and first character
+     if cc == 01 then msg blinks. 
+     if cc == 02 then ignored
+     if cc == 07 then full field is cleared
+     
+     
+Low line (only accept messages if send from the same mode, i.e. RADIO, BC or PHONE)
+21 mm 20 pp cc text cc text cc
+
+mm - 00 for RADIO, 01 for BC, 02 for CLOCK, 05 for PHONE
+
+pp - position: 00 first half of the first field, 03 second half of the second field, first part of pp defines how to treat all other fields. 
+	If pp & 0x00100000 then clear all other fields
+	if pp & 0x01000000 then clear only the field where we write to
+	
+cc - first character and also command. if cc & 0x00000110, then all 8 characters can be used, otherwise only 4 used. 
+     For consecutive cc: 
+		0x00000101 - move writing pointer to next field
+		0x00000110 - move writing pointer to next field pair, and write into both fields 
+
+

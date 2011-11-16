@@ -1,0 +1,17 @@
+"F0 04 3B 49 81 07" = xdotool key Down
+"F0 04 3B 49 01 87" = xdotool key Up
+"F0 04 68 48 00 D4" = xdotool key Right
+"F0 04 68 48 40 94" = xdotool key f
+"F0 04 68 48 10 C4" = xdotool key Left
+"F0 04 68 48 50 84" = xdotool key r
+"F0 04 FF 48 74 37" = xdotool key x
+"F0 04 FF 48 B4 F7" = xdotool key Escape
+"F0 04 68 48 94 40" = xdotool key Tab
+"F0 04 68 48 54 80" = xdotool key u
+"F0 04 68 48 A4 70" = xdotool key BackSpace
+"F0 04 68 48 64 B0" = sudo shutdown -r now
+"F0 04 3B 48 05 82" = xdotool key Return
+"F0 04 3B 48 45 C2" = sudo -u xbmc xbmc&
+"F0 04 68 48 20 F4" = xdotool key Menu
+"F0 04 68 48 46 92" = xdotool key s
+"F0 04 68 48 60 B4" = xdotool key Print

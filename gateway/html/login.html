@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr"> 
+  <head>
+    <title>OpenBM-Gateway - Login</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <link type="text/css" rel="stylesheet" href="/static/style.css"/>
+    <script src="jquery.js"></script>
+    <style type="text/css">
+        body
+        {
+                background: url(/static/login_bg.jpg) no-repeat center center fixed;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
+        }
+        .vcontainer
+        {
+           position: absolute;
+           top: 50%;
+           margin-top: -200px;
+           width: 100%;
+           left: 50%;
+           margin-left: -250px;
+        }
+    </style>
+  </head>
+
+  <body style="height: 100%;">
+  <div class="vcontainer">
+      <div class="box roundedCorners" style="width: 500px;">
+        <span class="headline2">BMW-E39 Login</span>
+        <br />
+      <form method="get" action="/auth">
+        <table border="0" align="center">
+        <tr>
+            <td><input class="textField" style="color: #333333; font-size: 1.8em; height: 1.5em;" type="text" name="username" size="20"/><br /><br /></td>
+            </tr><tr>
+            <td><input class="textField" style="color: #333333; font-size: 1.8em; height: 1.5em;" type="password" name="password" size="20"/></td>
+        </tr><tr>
+        <td align="center">
+            <button type="submit" class="button" style="margin-top: 20px; width: 200px;">Login</button>
+	        </td>
+        </tr>
+        </table>
+      </form>
+      </div>
+  </div>
+  </body>
+</html>

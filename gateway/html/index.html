@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr"> 
+  <head>
+    <title>OpenBM-Gateway</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <link type="text/css" rel="stylesheet" href="/static/style.css"/>
+    <script src="/static/jquery.pack.js"></script>
+    <style type="text/css">
+        body
+        {
+                background: url(/static/panel.jpg) no-repeat center center fixed;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
+                margin: 0;
+        }
+    </style>
+
+    <script type='text/javascript'>
+
+    var xhr = null;
+    
+    $(document).ready(function()
+    {        
+        showInformation();
+    });
+
+    //! utility function to pad number with zeros    
+    function zeroPad(num, places)
+    {
+        var len = 0;
+        if (typeof(num) == 'string') len = num.length;
+        else len = num.toString().length;
+        
+        var zero = places - len + 1;
+        return Array(+(zero > 0 && zero)).join("0") + num;
+    }
+
+    //! Return time formated for ibus log 
+    function getFormattedTime()
+    {
+        var date = new Date();
+        return zeroPad(date.getHours(),2) + ":" 
+              + zeroPad(date.getMinutes(),2) + ":" 
+              + zeroPad(date.getSeconds(),2) + "." 
+              + zeroPad(date.getMilliseconds(),3) + ": ";
+    
+    }
+    
+    //! Format array oif integeres into array of hex values with leading zeros. return string
+    function formatIntToHex(i)
+    {
+        return zeroPad(i.toString(16),2).toUpperCase();
+    }
+    function getFormattedData(data)
+    {
+        var m = "";
+        for (var i=0; i<data.length;i++)
+            m += " " + formatIntToHex(data[i]);
+        return m.toUpperCase();       
+    }
+    
+    //! Request information about the car and show it
+    function showInformation()
+    {
+        if (xhr) xhr.abort();
+        $('.carbox').hide();
+        $('#carDataLoad').show();
+        
+        xhr = $.ajax({
+            url: '/api/sendAndWait?msg=80,D0,53&fsrc=D0&fdst=80&fmsg=54',
+            dataType: 'json',
+            timeout: 10000,
+            success: function(answer)
+            {
+                // parse data retrieved from E39
+                var data = answer.m;
+                var vin = String.fromCharCode(data[1]) + String.fromCharCode(data[2]) + (data[3].toString(16) + data[4].toString(16) + data[5].toString(16)).substr(0,5);
+                var km = (((data[6] << 8) | data[7]) * 100).toString();
+
+                var b = data[8];
+                var r = 1;
+                while (b >>= 1) r = r << 1;
+
+                var litres = ((data[8] & ~r) << 8 | data[9]) * 10;
+                var days = (data[12] << 8 | data[13]);
+                $('#vin').text(vin);
+                $('#tkm').text(km);
+                $('#litres').text(litres);
+                $('#days').text(days);
+                $('#carDataLoad').hide();
+                $('#carData').fadeIn('slow');
+            },
+            error: function(jqxhr, status, errorThrown)
+            {
+                $('#error').text($('#error').text() + ' - ' + status);
+                $('#carDataLoad').hide();
+                $('#error').show();
+                xhr.abort();
+            }
+        });    
+    }
+    
+    //! Show IBus raw request/recieve interface
+    function showIBus()
+    {
+        if (xhr) xhr.abort();
+        
+        $('.carbox').hide();
+        $('#carIBus').fadeIn('slow');
+        
+        showIBus_reqNew(0);
+    }
+
+    //! Put new message into the list of ibus messages 
+    function addIBusMessage(msg)
+    {
+        // format message as readable
+        var m = formatIntToHex(msg.s) + " " + formatIntToHex(msg.m.length+2) + " " + formatIntToHex(msg.d) + getFormattedData(msg.m) + " " + formatIntToHex(msg.c);
+        m = getFormattedTime() + "<b>" + m + "</b>";
+        
+        // add new message in front of the list
+        var counter = 0;
+        var selector = $('li.ibusmsg:first');
+        if (selector.length)
+            counter = parseInt(selector.attr("id").replace("msg", ""));        
+        $('#msgs').prepend('<li class="ibusmsg" style="display:none" id="msg' + counter + '">' + m + '</li>');
+	    $('#msg' + counter).fadeIn();
+	    
+	    // remove last message in the list, if list exceeds a certain size 
+	    if (counter > 20)
+	        $('#msg' + (counter-21)).hide();    
+    }
+    
+    // request new ibus message and update the list
+    function showIBus_reqNew(tid)
+    {
+        xhr = $.ajax({
+            url: '/api/get?time=10000&tid=' + tid,
+            dataType: 'json',
+            timeout: 10000,
+            success: function(res)
+            {
+                for (var i=0; i<res.length;i++)
+                {
+                    var msg = res[i];
+                    addIBusMessage(msg);
+                    tid = msg.tid;
+                }
+                setTimeout(function(){showIBus_reqNew(tid);},1);
+            },
+            error: function(req, status)
+            {
+                if (status == 'timeout')
+                    setTimeout(function(){showIBus_reqNew(tid);},1);            
+            }
+        });    
+    }    
+    
+    //! Send message over ibus
+    function sendIbus(msg)
+    {
+        var str = msg;
+        if (typeof(msg) != 'string')
+            str = msg.value;
+            
+        xhr = $.ajax({
+            url: '/api/sendAndWait?time=0&msg=' + str,
+            dataType: 'json',
+            success: function(msg)
+            {
+                $('#ibusmsg')[0].reset();
+                var counter = 0;
+                var selector = $('li.ibusmsg:first');
+                if (selector.length)
+                    counter = parseInt(selector.attr("id").replace("msg", ""));        
+                    
+                var m = getFormattedTime();
+                m += "send SDM [<b>" + str + "</b>]";
+                $('#msgs').prepend('<li class="ibusmsg" style="display:none" id="msg' + counter + '">' + m + '</li>');
+	            $('#msg' + counter).fadeIn();
+            },
+            error: function()
+            {
+                alert("Cannot parse message: " + msg);
+            }
+        });    
+        return false;
+    }
+
+
+    //! Show IBus raw request/recieve interface
+    function showCar()
+    {
+        if (xhr) xhr.abort();
+        
+        $('.carbox').hide();
+        $('#carMode').fadeIn('slow');
+        
+    }
+    
+    </script>
+  </head>
+
+    <body>
+        <div id="bodyhead"></div>
+        
+        <div class="box roundedCorners hcenter" style="width: 50%; position: relative; top: 100px;">
+            <div style="margin-top: -60px;">
+                <button class="button" style="border: 1px solid black;" onclick="showInformation();">Information</button>
+                <button class="button" style="border: 1px solid black;" onclick="showCar();">Car</button>
+                <button class="button" style="border: 1px solid black;">Multimedia</button>
+                <button class="button" style="border: 1px solid black;">On-Board Computer</button>
+                <button class="button" style="border: 1px solid black;" onclick="showIBus();">IBus</button>
+            </div>
+
+            <div class="carbox" id="carDataLoad">
+                <img src="/static/loading.gif"/>
+            </div>
+
+            <div class="carbox" id="error">
+                <span style="color: red; font-size: 2.5em;">Cannot connect to BMW E39</span><br />
+            </div>
+
+            <!-- BMW Information, like VIN, KM, ... -->
+            <div class="carbox" id="carData" style="text-align:center; font-size: 2.5em">      
+                <table border="0" align="center" cellpadding="10">
+                <tr><td>VIN</td><td id="vin" style="font-weight:bold"></td></tr>
+                <tr><td>Total KM</td><td id="tkm" style="font-weight:bold"></td></tr>
+                <tr><td>Litres since service</td><td id="litres" style="font-weight:bold"></td></tr>
+                <tr><td>Days since service</td><td id="days" style="font-weight:bold"></td></tr>
+                </table>
+            </div>
+
+            <!-- Car setup -->
+            <div class="carbox" id="carMode" style="text-align:center; font-size: 1.2em">      
+            <button class="button" onclick="sendIbus('3f,00,0c,00,0b')">Toggle Central/Lock</button><br />
+            Window driver rear: <button class="button" onclick="sendIbus('3f,00,0c,00,45')">open</button> <button class="button" onclick="sendIbus('3f,00,0c,00,44')">close</button><br />
+            Window passenger rear: <button class="button" onclick="sendIbus('3f,00,0c,00,47')">open</button> <button class="button" onclick="sendIbus('3f,00,0c,00,46')">close</button><br />
+            Windows front: <button class="button" onclick="sendIbus('3f,00,0c,00,65')">open</button><br />
+            Windows back: <button class="button" onclick="sendIbus('3f,00,0c,00,64')">open</button><br />
+            <button class="button" onclick="sendIbus('3f,00,0c,00,40')">Open Trunk</button><br />
+            <button class="button" onclick="sendIbus('3f,00,0c,00,4B')">Windschield water</button><br />
+            <button class="button" onclick="sendIbus('3f,00,0c,00,02')">Windschield water + washer</button>
+            </div>
+            
+            <!-- Raw IBus stream -->
+            <div class="carbox" id="carIBus" style="text-align:left; font-size: 1.2em">      
+            <div style="text-align: center">
+                <form onsubmit="return sendIbus(msg);" id="ibusmsg">
+                SDM-Format: <input class="textField" style="color: #333333; font-size: 1.0em; height: 1.5em;" type="text" name="msg" size="50"/>
+                <button type="submit" class="button" style="font-size: 1.0em; height: 1.8em;">send</button>
+            </form>
+            Filter -  
+            src:<input class="textField" type="text" style="color: #333333; font-size: 1.0em; height: 1.5em;" type="text" name="fsrc" size="2">
+            dst:<input class="textField" type="text" style="color: #333333; font-size: 1.0em; height: 1.5em;" type="text" name="fdst" size="2">
+            msg:<input class="textField" type="text" style="color: #333333; font-size: 1.0em; height: 1.5em;" type="text" name="fmsg" size="2">
+            </div>
+                <ul id="msgs">
+                </ul>
+            </div>
+            
+        </div>
+  </body>
+</html>

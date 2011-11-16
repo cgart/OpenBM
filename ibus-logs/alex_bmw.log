@@ -1,0 +1,235 @@
+2011-Sep-11 12:22:50.355904: debug: Open serial port
+2011-Sep-11 12:22:50.366572: debug: Start TCP/IP <-> IBus gateway
+2011-Sep-11 12:22:50.366762: debug: Start IBus service
+2011-Sep-11 12:22:50.366917: debug: Start web-server at 127.0.0.1:8080
+2011-Sep-11 12:22:50.367362: debug: ibus: Start main thread
+2011-Sep-11 12:22:50.367471: debug: ibus: Start I/O-Service Thread (serial port communication
+2011-Sep-11 12:22:50.367595: debug: Start client acceptor on 127.0.0.1:4287
+2011-Sep-11 12:23:12.635276: info: ibus: Received: D0 07 BF 5B 01 08 00 00 3A 
+2011-Sep-11 12:23:13.091274: info: ibus: Received: 30 19 80 1A 37 0F 20 20 20 20 20 20 4C 69 63 68 74 20 61 6E 20 20 20 20 20 20 FE 
+2011-Sep-11 12:23:13.115242: info: ibus: Received: 80 04 30 1B 00 AF 
+2011-Sep-11 12:23:13.267243: info: ibus: Received: D0 07 BF 5B 00 08 00 00 3B 
+2011-Sep-11 12:23:13.279358: info: ibus: Received: D0 05 BF 5C FF 00 C9 
+2011-Sep-11 12:23:14.167306: info: ibus: Received: 30 05 80 1A 30 00 9F 
+2011-Sep-11 12:23:14.187335: info: ibus: Received: 80 04 30 1B 00 AF 
+2011-Sep-11 12:23:16.839313: info: ibus: Received: 44 05 BF 74 04 00 8E 
+2011-Sep-11 12:23:17.239347: info: ibus: Received: D0 07 BF 5B 00 00 00 00 33 
+2011-Sep-11 12:23:17.247357: info: ibus: Received: 68 04 BF 02 01 D0 
+2011-Sep-11 12:23:17.275321: info: ibus: Received: 80 04 BF 11 00 2A 
+2011-Sep-11 12:23:17.291260: info: ibus: Received: C8 07 7F A9 0B 00 00 01 13 
+2011-Sep-11 12:23:17.303266: info: ibus: Received: C8 04 E7 2B 00 00 
+2011-Sep-11 12:23:17.319269: info: ibus: Received: C8 07 7F A9 0B 00 00 01 13 
+2011-Sep-11 12:23:17.331216: info: ibus: Received: C8 03 80 14 5F 
+2011-Sep-11 12:23:17.347284: info: ibus: Received: 80 05 E7 2A 00 00 48 
+2011-Sep-11 12:23:17.359182: info: ibus: Received: 80 04 BF 11 01 2B 
+2011-Sep-11 12:23:17.379249: info: ibus: Received: 80 09 BF 13 00 00 00 00 00 00 25 
+2011-Sep-11 12:23:17.391176: info: ibus: Received: D0 07 BF 5B 00 00 00 00 33 
+2011-Sep-11 12:23:17.407284: info: ibus: Received: D0 05 BF 5C FF 00 C9 
+2011-Sep-11 12:23:17.419193: info: ibus: Received: 30 04 BF 51 00 DA 
+2011-Sep-11 12:23:17.439355: info: ibus: Received: 80 05 E7 2A 00 00 48 
+2011-Sep-11 12:23:17.459333: info: ibus: Received: 68 03 18 01 72 
+2011-Sep-11 12:23:17.467277: info: ibus: Received: 18 04 FF 02 00 E1 
+2011-Sep-11 12:23:17.491298: info: ibus: Received: 80 07 BF 15 00 04 80 42 EB 
+2011-Sep-11 12:23:17.511312: info: ibus: Received: 00 04 BF 72 02 CB 
+2011-Sep-11 12:23:17.531302: info: ibus: Received: 00 05 BF 7A 13 29 FA 
+2011-Sep-11 12:23:17.543303: info: ibus: Received: 44 05 BF 74 05 00 8F 
+2011-Sep-11 12:23:17.559247: info: ibus: Received: C8 04 FF 02 31 00 
+2011-Sep-11 12:23:17.587173: info: ibus: Received: 80 04 BF 11 01 2B 
+2011-Sep-11 12:23:17.599187: info: ibus: Received: 80 05 E7 2A 00 00 48 
+2011-Sep-11 12:23:17.627320: info: ibus: Received: 68 05 18 38 00 00 4D 
+2011-Sep-11 12:23:17.643174: info: ibus: Received: 18 0A 68 39 02 09 00 20 00 06 99 F7 
+2011-Sep-11 12:23:17.667210: info: ibus: Received: 68 05 18 38 03 00 4E 
+2011-Sep-11 12:23:17.683331: info: ibus: Received: 18 0A 68 39 02 09 00 20 00 06 99 F7 
+2011-Sep-11 12:23:17.703333: info: ibus: Received: 68 03 D0 5D E6 
+2011-Sep-11 12:23:17.727260: info: ibus: Received: D0 05 BF 5C FF 00 C9 
+2011-Sep-11 12:23:17.739366: info: ibus: Received: 80 07 BF 15 00 04 80 42 EB 
+2011-Sep-11 12:23:17.775345: info: ibus: Received: 68 13 C0 21 C0 00 40 20 31 05 20 32 20 05 20 33 05 20 34 20 1B 
+2011-Sep-11 12:23:17.811368: info: ibus: Received: 68 12 C0 21 C0 00 44 20 35 05 20 36 2A 05 46 4D 05 41 4D 34 
+2011-Sep-11 12:23:17.855289: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:17.887530: info: ibus: Received: 68 12 C0 23 40 20 43 44 20 03 36 2D 39 39 04 20 20 20 20 C2 
+2011-Sep-11 12:23:18.051348: info: ibus: Received: A4 06 BF 70 03 00 0A 64 
+2011-Sep-11 12:23:18.479297: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:18.515348: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:18.555310: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:18.571289: info: ibus: Received: E8 04 BF 02 01 50 
+2011-Sep-11 12:23:18.595241: info: ibus: Received: 80 04 BF 11 01 2B 
+2011-Sep-11 12:23:18.607336: info: ibus: Received: 80 05 E7 2A 00 00 48 
+2011-Sep-11 12:23:18.655345: info: ibus: Received: C8 07 7F A9 0B 00 00 03 11 
+2011-Sep-11 12:23:18.667334: info: ibus: Received: C8 04 E7 2B 01 01 
+2011-Sep-11 12:23:18.763323: info: ibus: Received: C8 04 E7 2C D0 D7 
+2011-Sep-11 12:23:19.023360: info: ibus: Received: 80 06 BF 17 E9 AC 02 69 
+2011-Sep-11 12:23:19.191381: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:19.207290: info: ibus: Received: 6A 04 FF 02 01 92 
+2011-Sep-11 12:23:19.247323: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:19.259342: info: ibus: Received: 80 04 BF 11 01 2B 
+2011-Sep-11 12:23:19.279262: info: ibus: Received: 80 05 E7 2A 00 00 48 
+2011-Sep-11 12:23:19.299309: info: ibus: Received: 50 03 B0 01 E2 
+2011-Sep-11 12:23:19.343324: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:19.363286: info: ibus: Received: 68 04 FF 36 AF 0A 
+2011-Sep-11 12:23:19.383262: info: ibus: Received: 68 04 FF 36 30 95 
+2011-Sep-11 12:23:19.403279: info: ibus: Received: 68 04 FF 36 64 C1 
+2011-Sep-11 12:23:19.423339: info: ibus: Received: 68 04 FF 36 CC 69 
+2011-Sep-11 12:23:19.443291: info: ibus: Received: 68 04 FF 36 50 F5 
+2011-Sep-11 12:23:19.463353: info: ibus: Received: 68 04 FF 36 82 27 
+2011-Sep-11 12:23:19.487268: info: ibus: Received: 68 04 FF 36 E2 47 
+2011-Sep-11 12:23:19.503357: info: ibus: Received: 68 04 FF 36 A0 05 
+2011-Sep-11 12:23:19.531234: info: ibus: Received: 68 04 6A 32 31 05 
+2011-Sep-11 12:23:19.559262: info: ibus: Received: 6A 0C C0 23 70 20 20 20 20 20 20 20 20 F5 
+2011-Sep-11 12:23:19.575348: info: ibus: Received: 68 03 18 01 72 
+2011-Sep-11 12:23:19.583221: info: ibus: Received: 18 04 FF 02 00 E1 
+2011-Sep-11 12:23:19.599242: info: ibus: Received: E0 03 80 01 62 
+2011-Sep-11 12:23:19.619249: info: ibus: Received: 68 03 18 01 72 
+2011-Sep-11 12:23:19.627147: info: ibus: Received: 18 04 FF 02 00 E1 
+2011-Sep-11 12:23:19.643199: info: ibus: Received: 80 04 BF 02 00 39 
+2011-Sep-11 12:23:19.667196: info: ibus: Received: 68 03 18 01 72 
+2011-Sep-11 12:23:19.675175: info: ibus: Received: 18 04 FF 02 00 E1 
+2011-Sep-11 12:23:19.691330: info: ibus: Received: 68 03 18 01 72 
+2011-Sep-11 12:23:19.703245: info: ibus: Received: 18 04 FF 02 00 E1 
+2011-Sep-11 12:23:19.719266: info: ibus: Received: 68 03 18 01 72 
+2011-Sep-11 12:23:19.727311: info: ibus: Received: 18 04 FF 02 00 E1 
+2011-Sep-11 12:23:19.767283: info: ibus: Received: 68 12 C0 23 40 20 03 20 20 4E 4F 20 44 49 53 43 20 20 04 C2 
+2011-Sep-11 12:23:19.792579: info: ibus: Received: 68 05 18 38 00 00 4D 
+2011-Sep-11 12:23:19.811169: info: ibus: Received: 18 0A 68 39 02 09 00 20 00 06 99 F7 
+2011-Sep-11 12:23:19.847173: info: ibus: Received: 68 12 C0 23 40 20 43 44 20 03 36 2D 39 39 04 20 20 20 20 C2 
+2011-Sep-11 12:23:19.999323: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:20.035288: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:20.135322: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:20.151281: info: ibus: Received: C8 07 7F A9 0B 00 00 01 13 
+2011-Sep-11 12:23:20.163304: info: ibus: Received: C8 04 E7 2C D0 D7 
+2011-Sep-11 12:23:20.811303: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:20.831341: info: ibus: Received: A4 06 BF 70 02 00 0A 65 
+2011-Sep-11 12:23:20.863340: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:20.903372: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:21.519321: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:21.555274: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:21.595228: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:21.715234: info: ibus: Received: A4 06 BF 70 00 00 1A 77 
+2011-Sep-11 12:23:21.831267: info: ibus: Received: 50 03 B0 01 E2 
+2011-Sep-11 12:23:22.227359: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:22.263306: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:22.303251: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:22.935300: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:22.967373: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:23.007289: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:23.615268: info: ibus: Received: C8 07 7F A9 0B 00 00 04 16 
+2011-Sep-11 12:23:23.627258: info: ibus: Received: C8 04 E7 2B 03 03 
+2011-Sep-11 12:23:23.655343: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:23.691239: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:23.731311: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:24.351202: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:24.387293: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:24.423359: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:25.059358: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:25.091377: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:25.131386: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:25.767344: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:25.799375: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:25.839360: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:26.475330: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:26.511233: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:26.551192: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:26.899232: info: ibus: Received: 50 03 B0 01 E2 
+2011-Sep-11 12:23:27.183307: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:27.219316: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:27.259278: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:27.895245: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:27.927292: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:27.967335: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:28.603253: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:28.635335: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:28.675411: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:29.311220: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:29.343298: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:29.383338: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:29.427343: info: ibus: Received: 68 03 18 01 72 
+2011-Sep-11 12:23:29.439212: info: ibus: Received: 18 04 FF 02 00 E1 
+2011-Sep-11 12:23:29.455295: info: ibus: Received: E0 03 80 01 62 
+2011-Sep-11 12:23:29.483255: info: ibus: Received: 80 04 BF 02 00 39 
+2011-Sep-11 12:23:30.019346: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:30.051369: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:30.091726: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:30.731320: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:30.763298: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:30.803282: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:31.439253: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:31.487356: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:31.527354: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:32.147262: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:32.183321: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:32.223250: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:32.855237: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:32.887277: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:32.927283: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:33.563253: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:33.595185: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:33.635307: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:34.271226: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:34.303303: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:34.343278: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:34.979323: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:35.011401: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:35.051372: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:35.687253: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:35.719288: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:35.759289: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:36.395358: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:36.431287: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:36.471324: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:37.103302: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:37.143230: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:37.183327: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:37.811348: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:37.847271: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:37.883292: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:38.519368: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:38.559297: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:38.595358: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:39.231250: info: ibus: Received: 68 0D C0 21 C0 00 40 20 05 20 05 20 05 20 01 
+2011-Sep-11 12:23:39.263345: info: ibus: Received: 68 11 C0 21 C0 00 44 20 05 20 36 2A 05 46 4D 05 41 4D 02 
+2011-Sep-11 12:23:39.303317: info: ibus: Received: 68 16 C0 21 C0 00 08 52 4E 44 05 20 53 43 05 54 50 20 05 4D 4F 44 45 1D 
+2011-Sep-11 12:23:39.519315: info: ibus: Received: 68 03 18 01 72 
+2011-Sep-11 12:23:39.527229: info: ibus: Received: 18 04 FF 02 00 E1 
+2011-Sep-11 12:23:39.555191: info: ibus: Received: E0 03 80 01 62 
+2011-Sep-11 12:23:39.575351: info: ibus: Received: 68 05 18 38 01 00 4C 
+2011-Sep-11 12:23:39.591355: info: ibus: Received: 18 0A 68 39 00 02 00 3F 00 06 99 E1 
+2011-Sep-11 12:23:39.607346: info: ibus: Received: 80 04 BF 02 00 39 
+2011-Sep-11 12:23:40.539288: info: ibus: Received: 68 04 FF 36 AF 0A 
+2011-Sep-11 12:23:40.567321: info: ibus: Received: 6A 05 C0 23 00 20 AC 
+2011-Sep-11 12:23:49.627263: info: ibus: Received: 68 03 18 01 72 
+2011-Sep-11 12:23:49.635213: info: ibus: Received: 18 04 FF 02 00 E1 
+2011-Sep-11 12:23:49.663213: info: ibus: Received: E0 03 80 01 62 
+2011-Sep-11 12:23:49.687177: info: ibus: Received: 80 04 BF 02 00 39 
+2011-Sep-11 12:23:59.431312: info: ibus: Received: 00 05 BF 7A 53 29 BA 
+2011-Sep-11 12:23:59.735259: info: ibus: Received: 68 03 18 01 72 
+2011-Sep-11 12:23:59.743206: info: ibus: Received: 18 04 FF 02 00 E1 
+2011-Sep-11 12:23:59.771338: info: ibus: Received: E0 03 80 01 62 
+2011-Sep-11 12:23:59.795350: info: ibus: Received: 80 04 BF 02 00 39 
+2011-Sep-11 12:24:00.335230: info: ibus: Received: 00 05 BF 7A 13 29 FA 
+2011-Sep-11 12:24:01.647260: info: ibus: Received: 00 05 BF 7A 53 29 BA 
+2011-Sep-11 12:24:02.343299: info: ibus: Received: 00 05 BF 7A 13 29 FA 
+2011-Sep-11 12:24:03.663222: info: ibus: Received: 80 04 BF 11 00 2A 
+2011-Sep-11 12:24:03.687251: info: ibus: Received: 30 04 BF 51 04 DE 
+2011-Sep-11 12:24:03.735331: info: ibus: Received: 30 19 80 1A 30 00 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 83 
+2011-Sep-11 12:24:03.755301: info: ibus: Received: 80 04 30 1B 00 AF 
+2011-Sep-11 12:24:04.883248: info: ibus: Received: 00 05 BF 7A 53 29 BA 
+2011-Sep-11 12:24:04.895342: info: ibus: Received: D0 05 BF 5C ED 00 DB 
+2011-Sep-11 12:24:05.531247: info: ibus: Received: D0 07 BF 5B 00 08 00 00 3B 
+2011-Sep-11 12:24:05.899380: info: ibus: Received: 00 05 BF 7A 13 29 FA 
+2011-Sep-11 12:24:07.283335: info: ibus: Received: D0 07 BF 5B 01 08 00 00 3A 
+2011-Sep-11 12:24:07.759276: info: ibus: Received: 30 19 80 1A 37 0F 20 20 20 20 20 20 4C 69 63 68 74 20 61 6E 20 20 20 20 20 20 FE 
+2011-Sep-11 12:24:07.779185: info: ibus: Received: 80 04 30 1B 00 AF 
+2011-Sep-11 12:24:08.015450: info: ibus: Received: D0 07 BF 5B 00 08 00 00 3B 
+2011-Sep-11 12:24:08.031210: info: ibus: Received: D0 05 BF 5C FF 00 C9 
+2011-Sep-11 12:24:08.839296: info: ibus: Received: 30 05 80 1A 30 00 9F 
+2011-Sep-11 12:24:08.855367: info: ibus: Received: 80 04 30 1B 00 AF 
+2011-Sep-11 12:24:10.887298: info: ibus: Received: 44 05 BF 74 01 00 8B 
+2011-Sep-11 12:24:10.907244: info: ibus: Received: 30 04 BF 51 00 DA 
+2011-Sep-11 12:24:13.671388: info: ibus: Received: 44 05 BF 74 00 FF 75 
+2011-Sep-11 12:24:41.951290: debug: Shutdown TPC/IP <-> IBus gateway ... (please wait)
+2011-Sep-11 12:24:41.951528: debug: Stop IBus service
+2011-Sep-11 12:24:41.951659: debug: ibus: Stop main thread
+2011-Sep-11 12:24:41.951764: debug: ibus: Stop I/O-Service Thread
+2011-Sep-11 12:24:41.951933: debug: Stop web-server
+2011-Sep-11 12:24:42.124380: debug: Stop acceptor and threads
+2011-Sep-11 12:24:42.124608: debug: Stop client acceptor.
+2011-Sep-11 12:24:42.124759: debug: Close serial port

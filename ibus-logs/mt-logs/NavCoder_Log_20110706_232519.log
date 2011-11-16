@@ -1,0 +1,1991 @@
+06.07.2011 23:25:19.828:  !
+06.07.2011 23:25:19.828:  ! NavCoder v2.8.350 [DE] [i/k-bus] logging started
+06.07.2011 23:25:19.828:  ! Running on Windows XP Professional (Service Pack 3)  [de-DE]
+06.07.2011 23:25:19.828:  ! [Procotol = i/k-bus]
+06.07.2011 23:25:20.078:  68 09 7F A8 30 81 81 91 97 AC 2C
+06.07.2011 23:25:20.078:  RAD  --> NAV : TMC data:    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp,First_Grp Loc=38828 Evnt=401 Dir=Neg Extnt=0 ConIndex=1
+06.07.2011 23:25:22.640:  3B 03 80 01 B9
+06.07.2011 23:25:22.640:  GT   --> IKE : Device status request
+06.07.2011 23:25:22.656:  80 04 BF 02 00 39
+06.07.2011 23:25:22.656:  IKE  --> GLO : Device status ready
+06.07.2011 23:25:23.640:  3B 03 6A 01 53
+06.07.2011 23:25:23.640:  GT   --> DSP : Device status request
+06.07.2011 23:25:23.640:  6A 04 FF 02 00 93
+06.07.2011 23:25:23.640:  DSP  --> LOC : Device status ready
+06.07.2011 23:25:24.921:  68 0F 7F A8 30 01 10 30 C8 8D 30 82 D3 23 54 6B 99
+06.07.2011 23:25:24.921:  RAD  --> NAV : TMC data:    Type30:  Group0Data="01 10 30 C8 8D"    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp,First_Grp Loc=21611 Evnt=803 Dir=Neg Extnt=2 ConIndex=2
+06.07.2011 23:25:25.625:  3B 03 C8 01 F1
+06.07.2011 23:25:25.625:  GT   --> TEL : Device status request
+06.07.2011 23:25:25.640:  C8 04 FF 02 30 01
+06.07.2011 23:25:25.640:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+06.07.2011 23:25:26.203:  F0 03 68 01 9A
+06.07.2011 23:25:26.203:  BMBT --> RAD : Device status request
+06.07.2011 23:25:26.218:  68 04 BF 02 00 D1
+06.07.2011 23:25:26.218:  RAD  --> GLO : Device status ready
+06.07.2011 23:25:29.359:  3B 03 ED 01 D4
+06.07.2011 23:25:29.359:  GT   --> VID : Device status request
+06.07.2011 23:25:29.359:  ED 04 3B 02 00 D0
+06.07.2011 23:25:29.359:  VID  --> GT  : Device status ready
+06.07.2011 23:25:31.171:  68 0F 7F A8 30 82 4E 93 28 00 30 23 D3 23 54 78 38
+06.07.2011 23:25:31.171:  RAD  --> NAV : TMC data:    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp ConIndex=2    Type30:  Group2: Data="23 D3 23 54 78"
+06.07.2011 23:25:32.609:  3B 03 80 01 B9
+06.07.2011 23:25:32.609:  GT   --> IKE : Device status request
+06.07.2011 23:25:32.640:  80 04 BF 02 00 39
+06.07.2011 23:25:32.640:  IKE  --> GLO : Device status ready
+06.07.2011 23:25:33.234:  3F 03 D0 00 EC
+06.07.2011 23:25:33.234:  DIA  --> LCM : Read identity
+06.07.2011 23:25:33.296:  D0 0F 3F A0 08 38 62 08 01 18 13 00 46 99 09 41 87
+06.07.2011 23:25:33.296:  LCM  --> DIA : Diagnostic command acknowledged, Data="08 38 62 08 01 18 13 00 46 99 09 41"    [ 8b     F™ A]
+06.07.2011 23:25:33.390:  3F 04 D0 08 00 E3
+06.07.2011 23:25:33.390:  DIA  --> LCM : Read coding data, Data="00"    [ ]
+06.07.2011 23:25:33.453:  D0 23 3F A0 00 86 00 08 01 00 65 71 00 00 00 00 00 00 00 AD 00 4E 40 90 08 00 0B 80 00 00 00 28 2C 01 00 00 42
+06.07.2011 23:25:33.453:  LCM  --> DIA : Diagnostic command acknowledged, Data="00 86 00 08 01 00 65 71 00 00 00 00 00 00 00 AD 00 4E 40 90 08 00 0B 80 00 00 00 28 2C 01 00 00"    [ †    eq       ­ N@   €   (,   ]
+06.07.2011 23:25:33.562:  ! LKM lesen - LKM Codierung erfolgreich gelesen.  NavCoder wurde mit den aktuellen LKM-Einstellungen aktualisiert.
+06.07.2011 23:25:34.062:  3B 03 6A 01 53
+06.07.2011 23:25:34.062:  GT   --> DSP : Device status request
+06.07.2011 23:25:34.078:  6A 04 FF 02 00 93
+06.07.2011 23:25:34.078:  DSP  --> LOC : Device status ready
+06.07.2011 23:25:35.609:  3B 03 C8 01 F1
+06.07.2011 23:25:35.609:  GT   --> TEL : Device status request
+06.07.2011 23:25:35.609:  C8 04 FF 02 30 01
+06.07.2011 23:25:35.609:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+06.07.2011 23:25:36.218:  F0 03 68 01 9A
+06.07.2011 23:25:36.218:  BMBT --> RAD : Device status request
+06.07.2011 23:25:36.234:  68 04 BF 02 00 D1
+06.07.2011 23:25:36.234:  RAD  --> GLO : Device status ready
+06.07.2011 23:25:37.656:  68 0F 7F A8 30 03 4E 93 28 00 30 A8 0A DF 87 21 9D
+06.07.2011 23:25:37.656:  RAD  --> NAV : TMC data:    Type30:  Group0Data="03 4E 93 28 00"    Type30:  GroupA: Data="A8 0A DF 87 21"
+06.07.2011 23:25:39.328:  3B 03 ED 01 D4
+06.07.2011 23:25:39.328:  GT   --> VID : Device status request
+06.07.2011 23:25:39.343:  ED 04 3B 02 00 D0
+06.07.2011 23:25:39.343:  VID  --> GT  : Device status ready
+06.07.2011 23:25:42.593:  3B 03 80 01 B9
+06.07.2011 23:25:42.593:  GT   --> IKE : Device status request
+06.07.2011 23:25:42.609:  80 04 BF 02 00 39
+06.07.2011 23:25:42.609:  IKE  --> GLO : Device status ready
+06.07.2011 23:25:43.593:  3B 03 6A 01 53
+06.07.2011 23:25:43.593:  GT   --> DSP : Device status request
+06.07.2011 23:25:43.609:  6A 04 FF 02 00 93
+06.07.2011 23:25:43.609:  DSP  --> LOC : Device status ready
+06.07.2011 23:25:44.859:  68 0F 7F A8 30 04 C9 91 D8 9F 30 04 4E 95 86 00 F2
+06.07.2011 23:25:44.859:  RAD  --> NAV : TMC data:    Type30:  Group0Data="04 C9 91 D8 9F"    Type30:  Group0Data="04 4E 95 86 00"
+06.07.2011 23:25:46.640:  3B 03 C8 01 F1
+06.07.2011 23:25:46.640:  GT   --> TEL : Device status request
+06.07.2011 23:25:46.656:  C8 04 FF 02 30 01
+06.07.2011 23:25:46.656:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+06.07.2011 23:25:46.656:  7F 14 C8 A2 00 00 54 20 55 60 00 13 27 44 80 00 00 00 23 25 00 B6
+06.07.2011 23:25:46.656:  NAV  --> TEL : Current position: 54°20'55.6"N  13°27'44.8"E
+06.07.2011 23:25:46.656:  F0 03 68 01 9A
+06.07.2011 23:25:46.656:  BMBT --> RAD : Device status request
+06.07.2011 23:25:46.671:  68 04 BF 02 00 D1
+06.07.2011 23:25:46.671:  RAD  --> GLO : Device status ready
+06.07.2011 23:25:46.687:  7F 23 C8 A4 00 01 50 55 54 42 55 53 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 24
+06.07.2011 23:25:46.687:  NAV  --> TEL : Current location: Town = PUTBUS
+06.07.2011 23:25:46.703:  7F 23 C8 A4 00 02 50 41 52 4B 3B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01
+06.07.2011 23:25:46.703:  NAV  --> TEL : Current location: Street = PARK;
+06.07.2011 23:25:49.312:  3B 03 ED 01 D4
+06.07.2011 23:25:49.312:  GT   --> VID : Device status request
+06.07.2011 23:25:49.312:  ED 04 3B 02 00 D0
+06.07.2011 23:25:49.328:  VID  --> GT  : Device status ready
+06.07.2011 23:25:50.859:  3F 03 C8 00 F4
+06.07.2011 23:25:50.859:  DIA  --> TEL : Read identity
+06.07.2011 23:25:50.921:  C8 0F 3F A0 86 90 70 46 09 00 04 07 00 00 23 11 40
+06.07.2011 23:25:50.921:  TEL  --> DIA : Diagnostic command acknowledged, Data="86 90 70 46 09 00 04 07 00 00 23 11"    [†pF      # ]
+06.07.2011 23:25:52.562:  3B 03 80 01 B9
+06.07.2011 23:25:52.562:  GT   --> IKE : Device status request
+06.07.2011 23:25:52.593:  80 04 BF 02 00 39
+06.07.2011 23:25:52.593:  IKE  --> GLO : Device status ready
+06.07.2011 23:25:53.562:  3B 03 6A 01 53
+06.07.2011 23:25:53.562:  GT   --> DSP : Device status request
+06.07.2011 23:25:53.578:  6A 04 FF 02 00 93
+06.07.2011 23:25:53.578:  DSP  --> LOC : Device status ready
+06.07.2011 23:25:55.562:  3B 03 C8 01 F1
+06.07.2011 23:25:55.562:  GT   --> TEL : Device status request
+06.07.2011 23:25:55.578:  C8 04 FF 02 30 01
+06.07.2011 23:25:55.578:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+06.07.2011 23:25:56.250:  F0 03 68 01 9A
+06.07.2011 23:25:56.250:  BMBT --> RAD : Device status request
+06.07.2011 23:25:56.265:  68 04 BF 02 00 D1
+06.07.2011 23:25:56.281:  RAD  --> GLO : Device status ready
+06.07.2011 23:25:57.296:  68 0F 7F A8 30 85 CC 27 6F 7F 30 06 51 5D 28 0D E1
+06.07.2011 23:25:57.296:  RAD  --> NAV : TMC data:    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp,First_Grp Loc=28543 Evnt=1063 Dir=Neg Extnt=1 ConIndex=5    Type30:  Group0Data="06 51 5D 28 0D"
+06.07.2011 23:25:59.281:  3B 03 ED 01 D4
+06.07.2011 23:25:59.281:  GT   --> VID : Device status request
+06.07.2011 23:25:59.296:  ED 04 3B 02 00 D0
+06.07.2011 23:25:59.296:  VID  --> GT  : Device status ready
+06.07.2011 23:26:02.546:  3B 03 80 01 B9
+06.07.2011 23:26:02.546:  GT   --> IKE : Device status request
+06.07.2011 23:26:02.578:  7F 0B 80 1F 40 21 26 06 00 07 20 11 9C
+06.07.2011 23:26:02.578:  NAV  --> IKE : Time & date: UTC  21:26 06 Juli 2011
+06.07.2011 23:26:02.593:  80 04 BF 02 00 39
+06.07.2011 23:26:02.593:  IKE  --> GLO : Device status ready
+06.07.2011 23:26:02.656:  80 0C E7 24 01 00 32 33 3A 32 36 20 20 71
+06.07.2011 23:26:02.656:  IKE  --> ANZV: Update Text:  Layout=Time  Flags=  F0="23:26  "
+06.07.2011 23:26:03.546:  3B 03 6A 01 53
+06.07.2011 23:26:03.546:  GT   --> DSP : Device status request
+06.07.2011 23:26:03.546:  6A 04 FF 02 00 93
+06.07.2011 23:26:03.546:  DSP  --> LOC : Device status ready
+06.07.2011 23:26:05.531:  3B 03 C8 01 F1
+06.07.2011 23:26:05.531:  GT   --> TEL : Device status request
+06.07.2011 23:26:05.546:  C8 04 FF 02 30 01
+06.07.2011 23:26:05.546:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+06.07.2011 23:26:06.000:  3F 03 C8 00 F4
+06.07.2011 23:26:06.000:  DIA  --> TEL : Read identity
+06.07.2011 23:26:06.062:  C8 0F 3F A0 86 90 70 46 09 00 04 07 00 00 23 11 40
+06.07.2011 23:26:06.062:  TEL  --> DIA : Diagnostic command acknowledged, Data="86 90 70 46 09 00 04 07 00 00 23 11"    [†pF      # ]
+06.07.2011 23:26:06.140:  3F 04 C8 08 00 FB
+06.07.2011 23:26:06.140:  DIA  --> TEL : Read coding data, Data="00"    [ ]
+06.07.2011 23:26:06.203:  C8 0D 3F A0 FF FF FF FF FF FF FF FF FF FF 5A
+06.07.2011 23:26:06.203:  TEL  --> DIA : Diagnostic command acknowledged, Data="FF FF FF FF FF FF FF FF FF FF"    [ÿÿÿÿÿÿÿÿÿÿ]
+06.07.2011 23:26:06.281:  ! ERROR: 
+06.07.2011 23:26:06.281:  ! ERROR: TCU lesen - Fehler - Overflow
+06.07.2011 23:26:06.328:  F0 03 68 01 9A
+06.07.2011 23:26:06.328:  BMBT --> RAD : Device status request
+06.07.2011 23:26:06.828:  68 04 BF 02 00 D1
+06.07.2011 23:26:06.828:  RAD  --> GLO : Device status ready
+06.07.2011 23:26:09.265:  3B 03 ED 01 D4
+06.07.2011 23:26:09.265:  GT   --> VID : Device status request
+06.07.2011 23:26:09.281:  ED 04 3B 02 00 D0
+06.07.2011 23:26:09.281:  VID  --> GT  : Device status ready
+06.07.2011 23:26:10.625:  68 0F 7F A8 30 86 08 30 00 00 30 21 5E 93 2C C0 0E
+06.07.2011 23:26:10.625:  RAD  --> NAV : TMC data:    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp ConIndex=6    Type30:  Group2: Data="21 5E 93 2C C0"
+06.07.2011 23:26:12.531:  3B 03 80 01 B9
+06.07.2011 23:26:12.531:  GT   --> IKE : Device status request
+06.07.2011 23:26:12.546:  80 04 BF 02 00 39
+06.07.2011 23:26:12.546:  IKE  --> GLO : Device status ready
+06.07.2011 23:26:13.546:  3B 03 6A 01 53
+06.07.2011 23:26:13.546:  GT   --> DSP : Device status request
+06.07.2011 23:26:13.546:  6A 04 FF 02 00 93
+06.07.2011 23:26:13.546:  DSP  --> LOC : Device status ready
+06.07.2011 23:26:15.515:  3B 03 C8 01 F1
+06.07.2011 23:26:15.515:  GT   --> TEL : Device status request
+06.07.2011 23:26:15.531:  C8 04 FF 02 30 01
+06.07.2011 23:26:15.531:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+06.07.2011 23:26:16.140:  7F 14 C8 A2 00 00 54 20 55 60 00 13 27 44 80 00 00 00 23 26 00 B5
+06.07.2011 23:26:16.140:  NAV  --> TEL : Current position: 54°20'55.6"N  13°27'44.8"E
+06.07.2011 23:26:16.234:  7F 23 C8 A4 00 01 50 55 54 42 55 53 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 24
+06.07.2011 23:26:16.234:  NAV  --> TEL : Current location: Town = PUTBUS
+06.07.2011 23:26:16.296:  7F 23 C8 A4 00 02 50 41 52 4B 3B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01
+06.07.2011 23:26:16.296:  NAV  --> TEL : Current location: Street = PARK;
+06.07.2011 23:26:16.312:  F0 03 68 01 9A
+06.07.2011 23:26:16.312:  BMBT --> RAD : Device status request
+06.07.2011 23:26:16.343:  68 04 BF 02 00 D1
+06.07.2011 23:26:16.343:  RAD  --> GLO : Device status ready
+06.07.2011 23:26:19.250:  3B 03 ED 01 D4
+06.07.2011 23:26:19.250:  GT   --> VID : Device status request
+06.07.2011 23:26:19.250:  ED 04 3B 02 00 D0
+06.07.2011 23:26:19.250:  VID  --> GT  : Device status ready
+06.07.2011 23:26:22.500:  3B 03 80 01 B9
+06.07.2011 23:26:22.500:  GT   --> IKE : Device status request
+06.07.2011 23:26:22.531:  80 04 BF 02 00 39
+06.07.2011 23:26:22.531:  IKE  --> GLO : Device status ready
+06.07.2011 23:26:23.500:  3B 03 6A 01 53
+06.07.2011 23:26:23.500:  GT   --> DSP : Device status request
+06.07.2011 23:26:23.515:  6A 04 FF 02 00 93
+06.07.2011 23:26:23.515:  DSP  --> LOC : Device status ready
+06.07.2011 23:26:24.859:  68 0F 7F A8 30 83 C1 98 30 53 30 83 48 FA 00 00 38
+06.07.2011 23:26:24.859:  RAD  --> NAV : TMC data:    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp,First_Grp Loc=12371 Evnt=408 Dir=Neg Extnt=0 ConIndex=3    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp ConIndex=3
+06.07.2011 23:26:25.500:  3B 03 C8 01 F1
+06.07.2011 23:26:25.500:  GT   --> TEL : Device status request
+06.07.2011 23:26:25.500:  C8 04 FF 02 30 01
+06.07.2011 23:26:25.500:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+06.07.2011 23:26:26.312:  F0 03 68 01 9A
+06.07.2011 23:26:26.312:  BMBT --> RAD : Device status request
+06.07.2011 23:26:26.421:  68 04 BF 02 00 D1
+06.07.2011 23:26:26.421:  RAD  --> GLO : Device status ready
+06.07.2011 23:26:29.390:  3B 03 ED 01 D4
+06.07.2011 23:26:29.390:  GT   --> VID : Device status request
+06.07.2011 23:26:29.406:  ED 04 3B 02 00 D0
+06.07.2011 23:26:29.406:  VID  --> GT  : Device status ready
+06.07.2011 23:26:30.234:  68 09 7F A8 30 24 C9 91 8B 76 07
+06.07.2011 23:26:30.234:  RAD  --> NAV : TMC data:    Type30:  Group2: Data="24 C9 91 8B 76"
+06.07.2011 23:26:31.640:  3F 03 60 00 5C
+06.07.2011 23:26:31.640:  DIA  --> PDC : Read identity
+06.07.2011 23:26:31.656:  60 0F 3F A0 86 90 40 23 01 03 01 01 43 99 14 13 5A
+06.07.2011 23:26:31.656:  PDC  --> DIA : Diagnostic command acknowledged, Data="86 90 40 23 01 03 01 01 43 99 14 13"    [†@#    C™  ]
+06.07.2011 23:26:32.046:  3F 03 60 1B 47
+06.07.2011 23:26:32.046:  DIA  --> PDC : Read config data
+06.07.2011 23:26:32.062:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:32.062:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:32.265:  3F 03 60 1B 47
+06.07.2011 23:26:32.265:  DIA  --> PDC : Read config data
+06.07.2011 23:26:32.265:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:32.265:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:32.468:  3F 03 60 1B 47
+06.07.2011 23:26:32.468:  DIA  --> PDC : Read config data
+06.07.2011 23:26:32.484:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:32.484:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:32.500:  3B 03 80 01 B9
+06.07.2011 23:26:32.500:  GT   --> IKE : Device status request
+06.07.2011 23:26:32.531:  80 04 BF 02 00 39
+06.07.2011 23:26:32.531:  IKE  --> GLO : Device status ready
+06.07.2011 23:26:32.671:  3F 03 60 1B 47
+06.07.2011 23:26:32.671:  DIA  --> PDC : Read config data
+06.07.2011 23:26:32.703:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:32.703:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:32.875:  3F 03 60 1B 47
+06.07.2011 23:26:32.875:  DIA  --> PDC : Read config data
+06.07.2011 23:26:32.906:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:32.906:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:33.078:  3F 03 60 1B 47
+06.07.2011 23:26:33.078:  DIA  --> PDC : Read config data
+06.07.2011 23:26:33.093:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:33.093:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:33.281:  3F 03 60 1B 47
+06.07.2011 23:26:33.281:  DIA  --> PDC : Read config data
+06.07.2011 23:26:33.296:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:33.296:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:33.484:  3F 03 60 1B 47
+06.07.2011 23:26:33.484:  DIA  --> PDC : Read config data
+06.07.2011 23:26:33.515:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:33.515:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:33.515:  3B 03 6A 01 53
+06.07.2011 23:26:33.515:  GT   --> DSP : Device status request
+06.07.2011 23:26:33.531:  6A 04 FF 02 00 93
+06.07.2011 23:26:33.531:  DSP  --> LOC : Device status ready
+06.07.2011 23:26:33.687:  3F 03 60 1B 47
+06.07.2011 23:26:33.687:  DIA  --> PDC : Read config data
+06.07.2011 23:26:33.718:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:33.718:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:33.890:  3F 03 60 1B 47
+06.07.2011 23:26:33.890:  DIA  --> PDC : Read config data
+06.07.2011 23:26:33.921:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:33.921:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:34.078:  3F 03 60 1B 47
+06.07.2011 23:26:34.078:  DIA  --> PDC : Read config data
+06.07.2011 23:26:34.125:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:34.125:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:34.281:  3F 03 60 1B 47
+06.07.2011 23:26:34.281:  DIA  --> PDC : Read config data
+06.07.2011 23:26:34.328:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:34.328:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:34.500:  3F 03 60 1B 47
+06.07.2011 23:26:34.500:  DIA  --> PDC : Read config data
+06.07.2011 23:26:34.515:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:34.515:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:34.703:  3F 03 60 1B 47
+06.07.2011 23:26:34.703:  DIA  --> PDC : Read config data
+06.07.2011 23:26:34.734:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:34.734:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:34.906:  3F 03 60 1B 47
+06.07.2011 23:26:34.906:  DIA  --> PDC : Read config data
+06.07.2011 23:26:34.921:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:34.921:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:35.109:  3F 03 60 1B 47
+06.07.2011 23:26:35.109:  DIA  --> PDC : Read config data
+06.07.2011 23:26:35.125:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:35.125:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:35.312:  3F 03 60 1B 47
+06.07.2011 23:26:35.312:  DIA  --> PDC : Read config data
+06.07.2011 23:26:35.343:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:35.343:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:35.437:  68 09 7F A8 30 24 0E 00 00 00 AC
+06.07.2011 23:26:35.437:  RAD  --> NAV : TMC data:    Type30:  Group2: Data="24 0E 00 00 00"
+06.07.2011 23:26:35.468:  3B 03 C8 01 F1
+06.07.2011 23:26:35.468:  GT   --> TEL : Device status request
+06.07.2011 23:26:35.484:  C8 04 FF 02 30 01
+06.07.2011 23:26:35.484:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+06.07.2011 23:26:35.515:  3F 03 60 1B 47
+06.07.2011 23:26:35.515:  DIA  --> PDC : Read config data
+06.07.2011 23:26:35.546:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:35.546:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:35.718:  3F 03 60 1B 47
+06.07.2011 23:26:35.718:  DIA  --> PDC : Read config data
+06.07.2011 23:26:35.750:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:35.750:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:35.921:  3F 03 60 1B 47
+06.07.2011 23:26:35.921:  DIA  --> PDC : Read config data
+06.07.2011 23:26:35.937:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:35.937:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:36.125:  3F 03 60 1B 47
+06.07.2011 23:26:36.125:  DIA  --> PDC : Read config data
+06.07.2011 23:26:36.140:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:36.140:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:36.328:  F0 03 68 01 9A
+06.07.2011 23:26:36.328:  BMBT --> RAD : Device status request
+06.07.2011 23:26:36.343:  68 04 BF 02 00 D1
+06.07.2011 23:26:36.343:  RAD  --> GLO : Device status ready
+06.07.2011 23:26:36.546:  3F 03 60 1B 47
+06.07.2011 23:26:36.546:  DIA  --> PDC : Read config data
+06.07.2011 23:26:36.562:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:36.562:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:36.750:  3F 03 60 1B 47
+06.07.2011 23:26:36.750:  DIA  --> PDC : Read config data
+06.07.2011 23:26:36.781:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:36.781:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:36.968:  3F 03 60 1B 47
+06.07.2011 23:26:36.968:  DIA  --> PDC : Read config data
+06.07.2011 23:26:36.984:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:36.984:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:37.171:  3F 03 60 1B 47
+06.07.2011 23:26:37.171:  DIA  --> PDC : Read config data
+06.07.2011 23:26:37.203:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:37.203:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:37.359:  3F 03 60 1B 47
+06.07.2011 23:26:37.359:  DIA  --> PDC : Read config data
+06.07.2011 23:26:37.406:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:37.406:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:37.578:  3F 03 60 1B 47
+06.07.2011 23:26:37.578:  DIA  --> PDC : Read config data
+06.07.2011 23:26:37.593:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:37.593:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:37.781:  3F 03 60 1B 47
+06.07.2011 23:26:37.781:  DIA  --> PDC : Read config data
+06.07.2011 23:26:37.796:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:37.796:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:37.984:  3F 03 60 1B 47
+06.07.2011 23:26:37.984:  DIA  --> PDC : Read config data
+06.07.2011 23:26:38.000:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:38.000:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:38.218:  3F 03 60 1B 47
+06.07.2011 23:26:38.218:  DIA  --> PDC : Read config data
+06.07.2011 23:26:38.234:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:38.234:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:38.421:  3F 03 60 1B 47
+06.07.2011 23:26:38.421:  DIA  --> PDC : Read config data
+06.07.2011 23:26:38.437:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:38.437:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:38.640:  3F 03 60 1B 47
+06.07.2011 23:26:38.640:  DIA  --> PDC : Read config data
+06.07.2011 23:26:38.656:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:38.656:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:38.859:  3F 03 60 1B 47
+06.07.2011 23:26:38.859:  DIA  --> PDC : Read config data
+06.07.2011 23:26:38.875:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:38.875:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:39.093:  3F 03 60 1B 47
+06.07.2011 23:26:39.093:  DIA  --> PDC : Read config data
+06.07.2011 23:26:39.093:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:39.093:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:39.203:  3B 03 ED 01 D4
+06.07.2011 23:26:39.203:  GT   --> VID : Device status request
+06.07.2011 23:26:39.218:  ED 04 3B 02 00 D0
+06.07.2011 23:26:39.218:  VID  --> GT  : Device status ready
+06.07.2011 23:26:39.312:  3F 03 60 1B 47
+06.07.2011 23:26:39.312:  DIA  --> PDC : Read config data
+06.07.2011 23:26:39.328:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:39.328:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:39.531:  3F 03 60 1B 47
+06.07.2011 23:26:39.531:  DIA  --> PDC : Read config data
+06.07.2011 23:26:39.546:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:39.546:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:39.750:  3F 03 60 1B 47
+06.07.2011 23:26:39.750:  DIA  --> PDC : Read config data
+06.07.2011 23:26:39.765:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:39.765:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:39.953:  3F 03 60 1B 47
+06.07.2011 23:26:39.953:  DIA  --> PDC : Read config data
+06.07.2011 23:26:39.968:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:39.968:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:40.156:  3F 03 60 1B 47
+06.07.2011 23:26:40.156:  DIA  --> PDC : Read config data
+06.07.2011 23:26:40.187:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:40.187:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:40.359:  3F 03 60 1B 47
+06.07.2011 23:26:40.359:  DIA  --> PDC : Read config data
+06.07.2011 23:26:40.390:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:40.390:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:40.562:  3F 03 60 1B 47
+06.07.2011 23:26:40.562:  DIA  --> PDC : Read config data
+06.07.2011 23:26:40.578:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:40.578:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:40.765:  3F 03 60 1B 47
+06.07.2011 23:26:40.765:  DIA  --> PDC : Read config data
+06.07.2011 23:26:40.781:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:40.781:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:40.968:  3F 03 60 1B 47
+06.07.2011 23:26:40.968:  DIA  --> PDC : Read config data
+06.07.2011 23:26:40.984:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:40.984:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:41.187:  3F 03 60 1B 47
+06.07.2011 23:26:41.187:  DIA  --> PDC : Read config data
+06.07.2011 23:26:41.187:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:41.187:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:41.375:  3F 03 60 1B 47
+06.07.2011 23:26:41.375:  DIA  --> PDC : Read config data
+06.07.2011 23:26:41.406:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:41.406:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:41.578:  3F 03 60 1B 47
+06.07.2011 23:26:41.578:  DIA  --> PDC : Read config data
+06.07.2011 23:26:41.593:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:41.593:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:41.781:  3F 03 60 1B 47
+06.07.2011 23:26:41.781:  DIA  --> PDC : Read config data
+06.07.2011 23:26:41.796:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:41.796:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:41.984:  3F 03 60 1B 47
+06.07.2011 23:26:41.984:  DIA  --> PDC : Read config data
+06.07.2011 23:26:42.015:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:42.015:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:42.187:  3F 03 60 1B 47
+06.07.2011 23:26:42.187:  DIA  --> PDC : Read config data
+06.07.2011 23:26:42.203:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:42.203:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:42.390:  3F 03 60 1B 47
+06.07.2011 23:26:42.390:  DIA  --> PDC : Read config data
+06.07.2011 23:26:42.406:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:42.406:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:42.484:  3B 03 80 01 B9
+06.07.2011 23:26:42.484:  GT   --> IKE : Device status request
+06.07.2011 23:26:42.484:  80 04 BF 02 00 39
+06.07.2011 23:26:42.484:  IKE  --> GLO : Device status ready
+06.07.2011 23:26:42.609:  3F 03 60 1B 47
+06.07.2011 23:26:42.609:  DIA  --> PDC : Read config data
+06.07.2011 23:26:42.609:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:42.609:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:42.750:  68 15 7F A8 30 85 92 BD 8A DA 30 85 48 99 00 00 30 08 43 9B D4 74 44
+06.07.2011 23:26:42.750:  RAD  --> NAV : TMC data:    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp,First_Grp Loc=35546 Evnt=701 Dir=Neg Extnt=2 ConIndex=5    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp ConIndex=5    Type30:  Group0Data="08 43 9B D4 74"
+06.07.2011 23:26:42.812:  3F 03 60 1B 47
+06.07.2011 23:26:42.812:  DIA  --> PDC : Read config data
+06.07.2011 23:26:42.843:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:42.843:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:43.031:  3F 03 60 1B 47
+06.07.2011 23:26:43.031:  DIA  --> PDC : Read config data
+06.07.2011 23:26:43.046:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:43.046:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:43.234:  3F 03 60 1B 47
+06.07.2011 23:26:43.234:  DIA  --> PDC : Read config data
+06.07.2011 23:26:43.265:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:43.265:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:43.437:  3F 03 60 1B 47
+06.07.2011 23:26:43.437:  DIA  --> PDC : Read config data
+06.07.2011 23:26:43.453:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:43.453:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:43.468:  3B 03 6A 01 53
+06.07.2011 23:26:43.468:  GT   --> DSP : Device status request
+06.07.2011 23:26:43.484:  6A 04 FF 02 00 93
+06.07.2011 23:26:43.484:  DSP  --> LOC : Device status ready
+06.07.2011 23:26:43.640:  3F 03 60 1B 47
+06.07.2011 23:26:43.640:  DIA  --> PDC : Read config data
+06.07.2011 23:26:43.656:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:43.656:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:43.843:  3F 03 60 1B 47
+06.07.2011 23:26:43.843:  DIA  --> PDC : Read config data
+06.07.2011 23:26:43.859:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:43.859:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:44.046:  3F 03 60 1B 47
+06.07.2011 23:26:44.046:  DIA  --> PDC : Read config data
+06.07.2011 23:26:44.062:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:44.062:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:44.265:  3F 03 60 1B 47
+06.07.2011 23:26:44.265:  DIA  --> PDC : Read config data
+06.07.2011 23:26:44.281:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:44.281:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:44.484:  3F 03 60 1B 47
+06.07.2011 23:26:44.484:  DIA  --> PDC : Read config data
+06.07.2011 23:26:44.500:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:44.500:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:44.703:  3F 03 60 1B 47
+06.07.2011 23:26:44.703:  DIA  --> PDC : Read config data
+06.07.2011 23:26:44.718:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:44.718:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:44.906:  3F 03 60 1B 47
+06.07.2011 23:26:44.906:  DIA  --> PDC : Read config data
+06.07.2011 23:26:44.921:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:44.921:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:45.109:  3F 03 60 1B 47
+06.07.2011 23:26:45.109:  DIA  --> PDC : Read config data
+06.07.2011 23:26:45.125:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:45.125:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:45.312:  3F 03 60 1B 47
+06.07.2011 23:26:45.312:  DIA  --> PDC : Read config data
+06.07.2011 23:26:45.328:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:45.328:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:45.453:  3B 03 C8 01 F1
+06.07.2011 23:26:45.453:  GT   --> TEL : Device status request
+06.07.2011 23:26:45.468:  C8 04 FF 02 30 01
+06.07.2011 23:26:45.468:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+06.07.2011 23:26:45.515:  3F 03 60 1B 47
+06.07.2011 23:26:45.515:  DIA  --> PDC : Read config data
+06.07.2011 23:26:45.546:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:45.546:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:45.718:  3F 03 60 1B 47
+06.07.2011 23:26:45.718:  DIA  --> PDC : Read config data
+06.07.2011 23:26:45.734:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:45.734:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:45.921:  3F 03 60 1B 47
+06.07.2011 23:26:45.921:  DIA  --> PDC : Read config data
+06.07.2011 23:26:45.937:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:45.937:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:46.046:  7F 14 C8 A2 00 00 54 20 55 60 00 13 27 44 80 00 00 00 23 26 00 B5
+06.07.2011 23:26:46.046:  NAV  --> TEL : Current position: 54°20'55.6"N  13°27'44.8"E
+06.07.2011 23:26:46.140:  7F 23 C8 A4 00 01 50 55 54 42 55 53 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 24
+06.07.2011 23:26:46.140:  NAV  --> TEL : Current location: Town = PUTBUS
+06.07.2011 23:26:46.218:  7F 23 C8 A4 00 02 50 41 52 4B 3B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01
+06.07.2011 23:26:46.218:  NAV  --> TEL : Current location: Street = PARK;
+06.07.2011 23:26:46.343:  F0 03 68 01 9A
+06.07.2011 23:26:46.343:  BMBT --> RAD : Device status request
+06.07.2011 23:26:46.390:  68 04 BF 02 00 D1
+06.07.2011 23:26:46.390:  RAD  --> GLO : Device status ready
+06.07.2011 23:26:46.562:  3F 03 60 1B 47
+06.07.2011 23:26:46.562:  DIA  --> PDC : Read config data
+06.07.2011 23:26:46.578:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:46.578:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:46.765:  3F 03 60 1B 47
+06.07.2011 23:26:46.765:  DIA  --> PDC : Read config data
+06.07.2011 23:26:46.781:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:46.781:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:46.984:  3F 03 60 1B 47
+06.07.2011 23:26:46.984:  DIA  --> PDC : Read config data
+06.07.2011 23:26:47.000:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:47.000:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:47.203:  3F 03 60 1B 47
+06.07.2011 23:26:47.203:  DIA  --> PDC : Read config data
+06.07.2011 23:26:47.218:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:47.218:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:47.406:  3F 03 60 1B 47
+06.07.2011 23:26:47.406:  DIA  --> PDC : Read config data
+06.07.2011 23:26:47.421:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:47.421:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:47.625:  3F 03 60 1B 47
+06.07.2011 23:26:47.625:  DIA  --> PDC : Read config data
+06.07.2011 23:26:47.640:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:47.640:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:47.828:  3F 03 60 1B 47
+06.07.2011 23:26:47.828:  DIA  --> PDC : Read config data
+06.07.2011 23:26:47.843:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:47.843:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:47.968:  68 09 7F A8 30 A6 C1 96 2B 32 6E
+06.07.2011 23:26:47.968:  RAD  --> NAV : TMC data:    Type30:  GroupA: Data="A6 C1 96 2B 32"
+06.07.2011 23:26:48.031:  3F 03 60 1B 47
+06.07.2011 23:26:48.031:  DIA  --> PDC : Read config data
+06.07.2011 23:26:48.062:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:48.062:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:48.234:  3F 03 60 1B 47
+06.07.2011 23:26:48.234:  DIA  --> PDC : Read config data
+06.07.2011 23:26:48.265:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:48.265:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:48.437:  3F 03 60 1B 47
+06.07.2011 23:26:48.437:  DIA  --> PDC : Read config data
+06.07.2011 23:26:48.453:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:48.453:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:48.640:  3F 03 60 1B 47
+06.07.2011 23:26:48.640:  DIA  --> PDC : Read config data
+06.07.2011 23:26:48.671:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:48.671:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:48.843:  3F 03 60 1B 47
+06.07.2011 23:26:48.843:  DIA  --> PDC : Read config data
+06.07.2011 23:26:48.875:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:48.875:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:49.046:  3F 03 60 1B 47
+06.07.2011 23:26:49.046:  DIA  --> PDC : Read config data
+06.07.2011 23:26:49.062:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:49.062:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:49.171:  3B 03 ED 01 D4
+06.07.2011 23:26:49.171:  GT   --> VID : Device status request
+06.07.2011 23:26:49.187:  ED 04 3B 02 00 D0
+06.07.2011 23:26:49.187:  VID  --> GT  : Device status ready
+06.07.2011 23:26:49.250:  3F 03 60 1B 47
+06.07.2011 23:26:49.250:  DIA  --> PDC : Read config data
+06.07.2011 23:26:49.281:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:49.281:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:49.453:  3F 03 60 1B 47
+06.07.2011 23:26:49.453:  DIA  --> PDC : Read config data
+06.07.2011 23:26:49.484:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:49.484:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:49.656:  3F 03 60 1B 47
+06.07.2011 23:26:49.656:  DIA  --> PDC : Read config data
+06.07.2011 23:26:49.687:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:49.687:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:49.859:  3F 03 60 1B 47
+06.07.2011 23:26:49.859:  DIA  --> PDC : Read config data
+06.07.2011 23:26:49.875:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:49.875:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:50.062:  3F 03 60 1B 47
+06.07.2011 23:26:50.062:  DIA  --> PDC : Read config data
+06.07.2011 23:26:50.078:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:50.078:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:50.281:  3F 03 60 1B 47
+06.07.2011 23:26:50.281:  DIA  --> PDC : Read config data
+06.07.2011 23:26:50.296:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:50.296:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:50.515:  3F 03 60 1B 47
+06.07.2011 23:26:50.515:  DIA  --> PDC : Read config data
+06.07.2011 23:26:50.515:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:50.515:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:50.718:  3F 03 60 1B 47
+06.07.2011 23:26:50.718:  DIA  --> PDC : Read config data
+06.07.2011 23:26:50.734:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:50.734:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:50.921:  3F 03 60 1B 47
+06.07.2011 23:26:50.921:  DIA  --> PDC : Read config data
+06.07.2011 23:26:50.937:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:50.937:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:51.125:  3F 03 60 1B 47
+06.07.2011 23:26:51.125:  DIA  --> PDC : Read config data
+06.07.2011 23:26:51.156:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:51.156:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:51.328:  3F 03 60 1B 47
+06.07.2011 23:26:51.328:  DIA  --> PDC : Read config data
+06.07.2011 23:26:51.359:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:51.359:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:51.515:  3F 03 60 1B 47
+06.07.2011 23:26:51.515:  DIA  --> PDC : Read config data
+06.07.2011 23:26:51.546:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:51.546:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:51.734:  3F 03 60 1B 47
+06.07.2011 23:26:51.734:  DIA  --> PDC : Read config data
+06.07.2011 23:26:51.750:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:51.750:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:51.937:  3F 03 60 1B 47
+06.07.2011 23:26:51.937:  DIA  --> PDC : Read config data
+06.07.2011 23:26:51.953:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:51.953:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:52.156:  3F 03 60 1B 47
+06.07.2011 23:26:52.156:  DIA  --> PDC : Read config data
+06.07.2011 23:26:52.171:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:52.171:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:52.375:  3F 03 60 1B 47
+06.07.2011 23:26:52.375:  DIA  --> PDC : Read config data
+06.07.2011 23:26:52.390:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:52.390:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:52.437:  3B 03 80 01 B9
+06.07.2011 23:26:52.437:  GT   --> IKE : Device status request
+06.07.2011 23:26:52.468:  80 04 BF 02 00 39
+06.07.2011 23:26:52.468:  IKE  --> GLO : Device status ready
+06.07.2011 23:26:52.593:  3F 03 60 1B 47
+06.07.2011 23:26:52.593:  DIA  --> PDC : Read config data
+06.07.2011 23:26:52.609:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:52.609:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:52.796:  3F 03 60 1B 47
+06.07.2011 23:26:52.796:  DIA  --> PDC : Read config data
+06.07.2011 23:26:52.812:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:52.812:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:53.000:  3F 03 60 1B 47
+06.07.2011 23:26:53.000:  DIA  --> PDC : Read config data
+06.07.2011 23:26:53.015:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:53.015:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:53.203:  3F 03 60 1B 47
+06.07.2011 23:26:53.203:  DIA  --> PDC : Read config data
+06.07.2011 23:26:53.218:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:53.218:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:53.406:  3F 03 60 1B 47
+06.07.2011 23:26:53.406:  DIA  --> PDC : Read config data
+06.07.2011 23:26:53.421:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:53.421:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:53.437:  3B 03 6A 01 53
+06.07.2011 23:26:53.437:  GT   --> DSP : Device status request
+06.07.2011 23:26:53.453:  6A 04 FF 02 00 93
+06.07.2011 23:26:53.453:  DSP  --> LOC : Device status ready
+06.07.2011 23:26:53.609:  3F 03 60 1B 47
+06.07.2011 23:26:53.609:  DIA  --> PDC : Read config data
+06.07.2011 23:26:53.625:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:53.625:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:53.812:  3F 03 60 1B 47
+06.07.2011 23:26:53.812:  DIA  --> PDC : Read config data
+06.07.2011 23:26:53.828:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:53.828:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:54.031:  3F 03 60 1B 47
+06.07.2011 23:26:54.031:  DIA  --> PDC : Read config data
+06.07.2011 23:26:54.046:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:54.046:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:54.250:  3F 03 60 1B 47
+06.07.2011 23:26:54.250:  DIA  --> PDC : Read config data
+06.07.2011 23:26:54.265:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:54.265:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:54.468:  3F 03 60 1B 47
+06.07.2011 23:26:54.468:  DIA  --> PDC : Read config data
+06.07.2011 23:26:54.484:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:54.484:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:54.687:  3F 03 60 1B 47
+06.07.2011 23:26:54.687:  DIA  --> PDC : Read config data
+06.07.2011 23:26:54.703:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:54.703:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:54.812:  68 09 7F A8 30 86 58 E5 E9 58 0C
+06.07.2011 23:26:54.812:  RAD  --> NAV : TMC data:    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp ConIndex=6
+06.07.2011 23:26:54.890:  3F 03 60 1B 47
+06.07.2011 23:26:54.890:  DIA  --> PDC : Read config data
+06.07.2011 23:26:54.906:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:54.906:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:55.093:  3F 03 60 1B 47
+06.07.2011 23:26:55.093:  DIA  --> PDC : Read config data
+06.07.2011 23:26:55.109:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:55.109:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:55.312:  3F 03 60 1B 47
+06.07.2011 23:26:55.312:  DIA  --> PDC : Read config data
+06.07.2011 23:26:55.328:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:55.328:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:55.421:  3B 03 C8 01 F1
+06.07.2011 23:26:55.421:  GT   --> TEL : Device status request
+06.07.2011 23:26:55.437:  C8 04 FF 02 30 01
+06.07.2011 23:26:55.437:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+06.07.2011 23:26:55.531:  3F 03 60 1B 47
+06.07.2011 23:26:55.531:  DIA  --> PDC : Read config data
+06.07.2011 23:26:55.531:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:55.531:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:55.734:  3F 03 60 1B 47
+06.07.2011 23:26:55.734:  DIA  --> PDC : Read config data
+06.07.2011 23:26:55.750:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:55.750:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:55.953:  3F 03 60 1B 47
+06.07.2011 23:26:55.953:  DIA  --> PDC : Read config data
+06.07.2011 23:26:55.968:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:55.968:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:56.140:  3F 03 60 1B 47
+06.07.2011 23:26:56.140:  DIA  --> PDC : Read config data
+06.07.2011 23:26:56.187:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:56.187:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:56.359:  3F 03 60 1B 47
+06.07.2011 23:26:56.359:  DIA  --> PDC : Read config data
+06.07.2011 23:26:56.375:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:56.375:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:56.375:  F0 03 68 01 9A
+06.07.2011 23:26:56.375:  BMBT --> RAD : Device status request
+06.07.2011 23:26:56.406:  68 04 BF 02 00 D1
+06.07.2011 23:26:56.406:  RAD  --> GLO : Device status ready
+06.07.2011 23:26:56.562:  3F 03 60 1B 47
+06.07.2011 23:26:56.562:  DIA  --> PDC : Read config data
+06.07.2011 23:26:56.578:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:56.578:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:56.765:  3F 03 60 1B 47
+06.07.2011 23:26:56.765:  DIA  --> PDC : Read config data
+06.07.2011 23:26:56.781:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:56.781:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:56.968:  3F 03 60 1B 47
+06.07.2011 23:26:56.968:  DIA  --> PDC : Read config data
+06.07.2011 23:26:57.000:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:57.000:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:57.156:  3F 03 60 1B 47
+06.07.2011 23:26:57.156:  DIA  --> PDC : Read config data
+06.07.2011 23:26:57.203:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:57.203:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:57.375:  3F 03 60 1B 47
+06.07.2011 23:26:57.375:  DIA  --> PDC : Read config data
+06.07.2011 23:26:57.390:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:57.390:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:57.562:  3F 03 60 1B 47
+06.07.2011 23:26:57.562:  DIA  --> PDC : Read config data
+06.07.2011 23:26:57.609:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:57.609:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:57.781:  3F 03 60 1B 47
+06.07.2011 23:26:57.781:  DIA  --> PDC : Read config data
+06.07.2011 23:26:57.796:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:57.796:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:57.984:  3F 03 60 1B 47
+06.07.2011 23:26:57.984:  DIA  --> PDC : Read config data
+06.07.2011 23:26:58.015:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:58.015:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:58.187:  3F 03 60 1B 47
+06.07.2011 23:26:58.187:  DIA  --> PDC : Read config data
+06.07.2011 23:26:58.218:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:58.218:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:58.390:  3F 03 60 1B 47
+06.07.2011 23:26:58.390:  DIA  --> PDC : Read config data
+06.07.2011 23:26:58.421:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:58.421:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:58.593:  3F 03 60 1B 47
+06.07.2011 23:26:58.593:  DIA  --> PDC : Read config data
+06.07.2011 23:26:58.609:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:58.609:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:58.781:  3F 03 60 1B 47
+06.07.2011 23:26:58.796:  DIA  --> PDC : Read config data
+06.07.2011 23:26:58.812:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:58.812:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:59.000:  3F 03 60 1B 47
+06.07.2011 23:26:59.000:  DIA  --> PDC : Read config data
+06.07.2011 23:26:59.015:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:59.015:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:59.156:  3B 03 ED 01 D4
+06.07.2011 23:26:59.156:  GT   --> VID : Device status request
+06.07.2011 23:26:59.171:  ED 04 3B 02 00 D0
+06.07.2011 23:26:59.171:  VID  --> GT  : Device status ready
+06.07.2011 23:26:59.218:  3F 03 60 1B 47
+06.07.2011 23:26:59.218:  DIA  --> PDC : Read config data
+06.07.2011 23:26:59.234:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:59.234:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:59.406:  3F 03 60 1B 47
+06.07.2011 23:26:59.406:  DIA  --> PDC : Read config data
+06.07.2011 23:26:59.437:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:59.437:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:59.625:  3F 03 60 1B 47
+06.07.2011 23:26:59.625:  DIA  --> PDC : Read config data
+06.07.2011 23:26:59.640:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:59.640:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:26:59.828:  3F 03 60 1B 47
+06.07.2011 23:26:59.828:  DIA  --> PDC : Read config data
+06.07.2011 23:26:59.859:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:26:59.859:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:00.031:  3F 03 60 1B 47
+06.07.2011 23:27:00.031:  DIA  --> PDC : Read config data
+06.07.2011 23:27:00.046:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:00.046:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:00.250:  3F 03 60 1B 47
+06.07.2011 23:27:00.250:  DIA  --> PDC : Read config data
+06.07.2011 23:27:00.265:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:00.265:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:00.375:  68 09 7F A8 30 A6 06 00 00 00 26
+06.07.2011 23:27:00.375:  RAD  --> NAV : TMC data:    Type30:  GroupA: Data="A6 06 00 00 00"
+06.07.2011 23:27:00.468:  3F 03 60 1B 47
+06.07.2011 23:27:00.484:  DIA  --> PDC : Read config data
+06.07.2011 23:27:00.484:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:00.484:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:00.703:  3F 03 60 1B 47
+06.07.2011 23:27:00.703:  DIA  --> PDC : Read config data
+06.07.2011 23:27:00.718:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:00.718:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:00.906:  3F 03 60 1B 47
+06.07.2011 23:27:00.906:  DIA  --> PDC : Read config data
+06.07.2011 23:27:00.921:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:00.921:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:01.109:  3F 03 60 1B 47
+06.07.2011 23:27:01.109:  DIA  --> PDC : Read config data
+06.07.2011 23:27:01.125:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:01.125:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:01.312:  3F 03 60 1B 47
+06.07.2011 23:27:01.312:  DIA  --> PDC : Read config data
+06.07.2011 23:27:01.343:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:01.343:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:01.546:  3F 03 60 1B 47
+06.07.2011 23:27:01.546:  DIA  --> PDC : Read config data
+06.07.2011 23:27:01.562:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:01.562:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:01.765:  3F 03 60 1B 47
+06.07.2011 23:27:01.765:  DIA  --> PDC : Read config data
+06.07.2011 23:27:01.781:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:01.781:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:01.968:  3F 03 60 1B 47
+06.07.2011 23:27:01.968:  DIA  --> PDC : Read config data
+06.07.2011 23:27:01.984:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:01.984:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:02.171:  3F 03 60 1B 47
+06.07.2011 23:27:02.171:  DIA  --> PDC : Read config data
+06.07.2011 23:27:02.187:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:02.187:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:02.375:  7F 0B 80 1F 40 21 27 06 00 07 20 11 9D
+06.07.2011 23:27:02.375:  NAV  --> IKE : Time & date: UTC  21:27 06 Juli 2011
+06.07.2011 23:27:02.390:  3F 03 60 1B 47
+06.07.2011 23:27:02.390:  DIA  --> PDC : Read config data
+06.07.2011 23:27:02.406:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:02.406:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:02.421:  3B 03 80 01 B9
+06.07.2011 23:27:02.421:  GT   --> IKE : Device status request
+06.07.2011 23:27:02.437:  80 04 BF 02 00 39
+06.07.2011 23:27:02.437:  IKE  --> GLO : Device status ready
+06.07.2011 23:27:02.468:  80 0C E7 24 01 00 32 33 3A 32 37 20 20 70
+06.07.2011 23:27:02.468:  IKE  --> ANZV: Update Text:  Layout=Time  Flags=  F0="23:27  "
+06.07.2011 23:27:02.593:  3F 03 60 1B 47
+06.07.2011 23:27:02.593:  DIA  --> PDC : Read config data
+06.07.2011 23:27:02.609:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:02.609:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:02.796:  3F 03 60 1B 47
+06.07.2011 23:27:02.796:  DIA  --> PDC : Read config data
+06.07.2011 23:27:02.828:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:02.828:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:03.000:  3F 03 60 1B 47
+06.07.2011 23:27:03.000:  DIA  --> PDC : Read config data
+06.07.2011 23:27:03.031:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:03.031:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:03.218:  3F 03 60 1B 47
+06.07.2011 23:27:03.218:  DIA  --> PDC : Read config data
+06.07.2011 23:27:03.250:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:03.250:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:03.421:  3B 03 6A 01 53
+06.07.2011 23:27:03.421:  GT   --> DSP : Device status request
+06.07.2011 23:27:03.453:  6A 04 FF 02 00 93
+06.07.2011 23:27:03.453:  DSP  --> LOC : Device status ready
+06.07.2011 23:27:03.656:  3F 03 60 1B 47
+06.07.2011 23:27:03.656:  DIA  --> PDC : Read config data
+06.07.2011 23:27:03.687:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:03.687:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:03.859:  3F 03 60 1B 47
+06.07.2011 23:27:03.859:  DIA  --> PDC : Read config data
+06.07.2011 23:27:03.890:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:03.890:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:04.078:  3F 03 60 1B 47
+06.07.2011 23:27:04.078:  DIA  --> PDC : Read config data
+06.07.2011 23:27:04.109:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:04.109:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:04.281:  3F 03 60 1B 47
+06.07.2011 23:27:04.281:  DIA  --> PDC : Read config data
+06.07.2011 23:27:04.312:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:04.312:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:04.484:  3F 03 60 1B 47
+06.07.2011 23:27:04.484:  DIA  --> PDC : Read config data
+06.07.2011 23:27:04.515:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:04.515:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:04.687:  3F 03 60 1B 47
+06.07.2011 23:27:04.687:  DIA  --> PDC : Read config data
+06.07.2011 23:27:04.718:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:04.718:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:04.906:  3F 03 60 1B 47
+06.07.2011 23:27:04.906:  DIA  --> PDC : Read config data
+06.07.2011 23:27:04.937:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:04.937:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:05.140:  3F 03 60 1B 47
+06.07.2011 23:27:05.140:  DIA  --> PDC : Read config data
+06.07.2011 23:27:05.187:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:05.187:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:05.359:  3F 03 60 1B 47
+06.07.2011 23:27:05.359:  DIA  --> PDC : Read config data
+06.07.2011 23:27:05.390:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:05.390:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:05.437:  3B 03 C8 01 F1
+06.07.2011 23:27:05.437:  GT   --> TEL : Device status request
+06.07.2011 23:27:05.484:  C8 04 FF 02 30 01
+06.07.2011 23:27:05.484:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+06.07.2011 23:27:05.578:  3F 03 60 1B 47
+06.07.2011 23:27:05.578:  DIA  --> PDC : Read config data
+06.07.2011 23:27:05.625:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:05.625:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:05.796:  3F 03 60 1B 47
+06.07.2011 23:27:05.796:  DIA  --> PDC : Read config data
+06.07.2011 23:27:05.843:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:05.843:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:06.015:  3F 03 60 1B 47
+06.07.2011 23:27:06.015:  DIA  --> PDC : Read config data
+06.07.2011 23:27:06.046:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:06.046:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:06.234:  3F 03 60 1B 47
+06.07.2011 23:27:06.234:  DIA  --> PDC : Read config data
+06.07.2011 23:27:06.281:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:06.281:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:06.390:  F0 03 68 01 9A
+06.07.2011 23:27:06.390:  BMBT --> RAD : Device status request
+06.07.2011 23:27:06.437:  68 04 BF 02 00 D1
+06.07.2011 23:27:06.437:  RAD  --> GLO : Device status ready
+06.07.2011 23:27:06.500:  3F 03 60 1B 47
+06.07.2011 23:27:06.500:  DIA  --> PDC : Read config data
+06.07.2011 23:27:06.531:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:06.531:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:06.718:  3F 03 60 1B 47
+06.07.2011 23:27:06.718:  DIA  --> PDC : Read config data
+06.07.2011 23:27:06.750:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:06.750:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:06.921:  3F 03 60 1B 47
+06.07.2011 23:27:06.921:  DIA  --> PDC : Read config data
+06.07.2011 23:27:06.953:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:06.953:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:07.125:  3F 03 60 1B 47
+06.07.2011 23:27:07.125:  DIA  --> PDC : Read config data
+06.07.2011 23:27:07.156:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:07.156:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:07.328:  3F 03 60 1B 47
+06.07.2011 23:27:07.328:  DIA  --> PDC : Read config data
+06.07.2011 23:27:07.375:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:07.375:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:07.562:  3F 03 60 1B 47
+06.07.2011 23:27:07.562:  DIA  --> PDC : Read config data
+06.07.2011 23:27:07.593:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:07.593:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:07.781:  3F 03 60 1B 47
+06.07.2011 23:27:07.781:  DIA  --> PDC : Read config data
+06.07.2011 23:27:07.812:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:07.812:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:08.000:  3F 03 60 1B 47
+06.07.2011 23:27:08.000:  DIA  --> PDC : Read config data
+06.07.2011 23:27:08.031:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:08.031:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:08.218:  3F 03 60 1B 47
+06.07.2011 23:27:08.218:  DIA  --> PDC : Read config data
+06.07.2011 23:27:08.250:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:08.250:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:08.296:  68 0F 7F A8 30 01 86 7D C0 73 30 21 48 F6 00 00 66
+06.07.2011 23:27:08.296:  RAD  --> NAV : TMC data:    Type30:  Group0Data="01 86 7D C0 73"    Type30:  Group2: Data="21 48 F6 00 00"
+06.07.2011 23:27:08.437:  3F 03 60 1B 47
+06.07.2011 23:27:08.437:  DIA  --> PDC : Read config data
+06.07.2011 23:27:08.484:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:08.484:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:08.656:  3F 03 60 1B 47
+06.07.2011 23:27:08.656:  DIA  --> PDC : Read config data
+06.07.2011 23:27:08.687:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:08.687:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:08.859:  3F 03 60 1B 47
+06.07.2011 23:27:08.859:  DIA  --> PDC : Read config data
+06.07.2011 23:27:08.890:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:08.890:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:09.062:  3F 03 60 1B 47
+06.07.2011 23:27:09.062:  DIA  --> PDC : Read config data
+06.07.2011 23:27:09.093:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:09.093:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:09.156:  3B 03 ED 01 D4
+06.07.2011 23:27:09.156:  GT   --> VID : Device status request
+06.07.2011 23:27:09.187:  ED 04 3B 02 00 D0
+06.07.2011 23:27:09.187:  VID  --> GT  : Device status ready
+06.07.2011 23:27:09.250:  3F 03 60 1B 47
+06.07.2011 23:27:09.250:  DIA  --> PDC : Read config data
+06.07.2011 23:27:09.296:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:09.296:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:09.468:  3F 03 60 1B 47
+06.07.2011 23:27:09.468:  DIA  --> PDC : Read config data
+06.07.2011 23:27:09.500:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:09.500:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:09.671:  3F 03 60 1B 47
+06.07.2011 23:27:09.671:  DIA  --> PDC : Read config data
+06.07.2011 23:27:09.703:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:09.703:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:09.890:  3F 03 60 1B 47
+06.07.2011 23:27:09.890:  DIA  --> PDC : Read config data
+06.07.2011 23:27:09.921:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:09.921:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:10.109:  3F 03 60 1B 47
+06.07.2011 23:27:10.109:  DIA  --> PDC : Read config data
+06.07.2011 23:27:10.140:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:10.140:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:10.328:  3F 03 60 1B 47
+06.07.2011 23:27:10.328:  DIA  --> PDC : Read config data
+06.07.2011 23:27:10.359:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:10.359:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:10.531:  3F 03 60 1B 47
+06.07.2011 23:27:10.531:  DIA  --> PDC : Read config data
+06.07.2011 23:27:10.562:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:10.562:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:10.750:  3F 03 60 1B 47
+06.07.2011 23:27:10.750:  DIA  --> PDC : Read config data
+06.07.2011 23:27:10.781:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:10.781:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:10.937:  3F 03 60 1B 47
+06.07.2011 23:27:10.937:  DIA  --> PDC : Read config data
+06.07.2011 23:27:10.968:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:10.968:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:11.140:  3F 03 60 1B 47
+06.07.2011 23:27:11.140:  DIA  --> PDC : Read config data
+06.07.2011 23:27:11.171:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:11.171:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:11.343:  3F 03 60 1B 47
+06.07.2011 23:27:11.343:  DIA  --> PDC : Read config data
+06.07.2011 23:27:11.375:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:11.375:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:11.546:  3F 03 60 1B 47
+06.07.2011 23:27:11.546:  DIA  --> PDC : Read config data
+06.07.2011 23:27:11.578:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:11.578:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:11.750:  3F 03 60 1B 47
+06.07.2011 23:27:11.750:  DIA  --> PDC : Read config data
+06.07.2011 23:27:11.796:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:11.796:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:11.953:  3F 03 60 1B 47
+06.07.2011 23:27:11.953:  DIA  --> PDC : Read config data
+06.07.2011 23:27:11.984:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:11.984:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:12.156:  3F 03 60 1B 47
+06.07.2011 23:27:12.156:  DIA  --> PDC : Read config data
+06.07.2011 23:27:12.187:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:12.187:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:12.359:  3F 03 60 1B 47
+06.07.2011 23:27:12.359:  DIA  --> PDC : Read config data
+06.07.2011 23:27:12.390:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:12.390:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:12.421:  3B 03 80 01 B9
+06.07.2011 23:27:12.421:  GT   --> IKE : Device status request
+06.07.2011 23:27:12.453:  80 04 BF 02 00 39
+06.07.2011 23:27:12.453:  IKE  --> GLO : Device status ready
+06.07.2011 23:27:12.609:  3F 03 60 1B 47
+06.07.2011 23:27:12.609:  DIA  --> PDC : Read config data
+06.07.2011 23:27:12.640:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:12.640:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:12.781:  80 0A BF 17 E0 49 03 80 1F 02 CC D9
+06.07.2011 23:27:12.781:  IKE  --> GLO : Odometer: 215.520 km
+06.07.2011 23:27:12.843:  3F 03 60 1B 47
+06.07.2011 23:27:12.843:  DIA  --> PDC : Read config data
+06.07.2011 23:27:12.875:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:12.875:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:13.046:  3F 03 60 1B 47
+06.07.2011 23:27:13.046:  DIA  --> PDC : Read config data
+06.07.2011 23:27:13.078:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:13.078:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:13.250:  3F 03 60 1B 47
+06.07.2011 23:27:13.250:  DIA  --> PDC : Read config data
+06.07.2011 23:27:13.281:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:13.281:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:13.406:  3B 03 6A 01 53
+06.07.2011 23:27:13.406:  GT   --> DSP : Device status request
+06.07.2011 23:27:13.437:  6A 04 FF 02 00 93
+06.07.2011 23:27:13.437:  DSP  --> LOC : Device status ready
+06.07.2011 23:27:13.484:  3F 03 60 1B 47
+06.07.2011 23:27:13.484:  DIA  --> PDC : Read config data
+06.07.2011 23:27:13.515:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:13.515:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:13.703:  3F 03 60 1B 47
+06.07.2011 23:27:13.703:  DIA  --> PDC : Read config data
+06.07.2011 23:27:13.734:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:13.734:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:13.906:  3F 03 60 1B 47
+06.07.2011 23:27:13.906:  DIA  --> PDC : Read config data
+06.07.2011 23:27:13.953:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:13.953:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:14.125:  3F 03 60 1B 47
+06.07.2011 23:27:14.125:  DIA  --> PDC : Read config data
+06.07.2011 23:27:14.156:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:14.156:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:14.343:  3F 03 60 1B 47
+06.07.2011 23:27:14.343:  DIA  --> PDC : Read config data
+06.07.2011 23:27:14.375:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:14.375:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:14.546:  3F 03 60 1B 47
+06.07.2011 23:27:14.546:  DIA  --> PDC : Read config data
+06.07.2011 23:27:14.578:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:14.578:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:14.750:  3F 03 60 1B 47
+06.07.2011 23:27:14.750:  DIA  --> PDC : Read config data
+06.07.2011 23:27:14.781:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:14.781:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:14.953:  3F 03 60 1B 47
+06.07.2011 23:27:14.953:  DIA  --> PDC : Read config data
+06.07.2011 23:27:14.984:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:14.984:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:15.156:  3F 03 60 1B 47
+06.07.2011 23:27:15.156:  DIA  --> PDC : Read config data
+06.07.2011 23:27:15.187:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:15.187:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:15.359:  3F 03 60 1B 47
+06.07.2011 23:27:15.359:  DIA  --> PDC : Read config data
+06.07.2011 23:27:15.390:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:15.390:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:15.421:  3B 03 C8 01 F1
+06.07.2011 23:27:15.421:  GT   --> TEL : Device status request
+06.07.2011 23:27:15.468:  C8 04 FF 02 30 01
+06.07.2011 23:27:15.468:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+06.07.2011 23:27:15.593:  3F 03 60 1B 47
+06.07.2011 23:27:15.593:  DIA  --> PDC : Read config data
+06.07.2011 23:27:15.625:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:15.625:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:15.765:  68 15 7F A8 30 82 DB 31 AA 03 30 82 5E 93 EB D2 30 82 01 B1 83 00 9C
+06.07.2011 23:27:15.765:  RAD  --> NAV : TMC data:    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp,First_Grp Loc=43523 Evnt=817 Dir=Neg Extnt=3 ConIndex=2    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp ConIndex=2    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp ConIndex=2
+06.07.2011 23:27:15.812:  3F 03 60 1B 47
+06.07.2011 23:27:15.812:  DIA  --> PDC : Read config data
+06.07.2011 23:27:15.843:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:15.843:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:15.953:  7F 14 C8 A2 00 00 54 20 55 60 00 13 27 44 80 00 00 00 23 27 00 B4
+06.07.2011 23:27:15.953:  NAV  --> TEL : Current position: 54°20'55.6"N  13°27'44.8"E
+06.07.2011 23:27:16.031:  7F 23 C8 A4 00 01 50 55 54 42 55 53 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 24
+06.07.2011 23:27:16.031:  NAV  --> TEL : Current location: Town = PUTBUS
+06.07.2011 23:27:16.078:  7F 23 C8 A4 00 02 50 41 52 4B 3B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01
+06.07.2011 23:27:16.078:  NAV  --> TEL : Current location: Street = PARK;
+06.07.2011 23:27:16.250:  3F 03 60 1B 47
+06.07.2011 23:27:16.250:  DIA  --> PDC : Read config data
+06.07.2011 23:27:16.296:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:16.296:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:16.406:  F0 03 68 01 9A
+06.07.2011 23:27:16.406:  BMBT --> RAD : Device status request
+06.07.2011 23:27:16.437:  68 04 BF 02 00 D1
+06.07.2011 23:27:16.437:  RAD  --> GLO : Device status ready
+06.07.2011 23:27:16.484:  3F 03 60 1B 47
+06.07.2011 23:27:16.484:  DIA  --> PDC : Read config data
+06.07.2011 23:27:16.531:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:16.531:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:16.703:  3F 03 60 1B 47
+06.07.2011 23:27:16.703:  DIA  --> PDC : Read config data
+06.07.2011 23:27:16.734:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:16.734:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:16.906:  3F 03 60 1B 47
+06.07.2011 23:27:16.906:  DIA  --> PDC : Read config data
+06.07.2011 23:27:16.937:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:16.937:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:17.109:  3F 03 60 1B 47
+06.07.2011 23:27:17.109:  DIA  --> PDC : Read config data
+06.07.2011 23:27:17.140:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:17.140:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:17.312:  3F 03 60 1B 47
+06.07.2011 23:27:17.312:  DIA  --> PDC : Read config data
+06.07.2011 23:27:17.343:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:17.343:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:17.531:  3F 03 60 1B 47
+06.07.2011 23:27:17.531:  DIA  --> PDC : Read config data
+06.07.2011 23:27:17.562:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:17.562:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:17.750:  3F 03 60 1B 47
+06.07.2011 23:27:17.750:  DIA  --> PDC : Read config data
+06.07.2011 23:27:17.796:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:17.796:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:17.968:  3F 03 60 1B 47
+06.07.2011 23:27:17.968:  DIA  --> PDC : Read config data
+06.07.2011 23:27:18.000:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:18.000:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:18.171:  3F 03 60 1B 47
+06.07.2011 23:27:18.171:  DIA  --> PDC : Read config data
+06.07.2011 23:27:18.203:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:18.203:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:18.375:  3F 03 60 1B 47
+06.07.2011 23:27:18.375:  DIA  --> PDC : Read config data
+06.07.2011 23:27:18.406:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:18.406:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:18.578:  3F 03 60 1B 47
+06.07.2011 23:27:18.578:  DIA  --> PDC : Read config data
+06.07.2011 23:27:18.625:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:18.625:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:18.796:  3F 03 60 1B 47
+06.07.2011 23:27:18.796:  DIA  --> PDC : Read config data
+06.07.2011 23:27:18.843:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:18.843:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:19.031:  3F 03 60 1B 47
+06.07.2011 23:27:19.031:  DIA  --> PDC : Read config data
+06.07.2011 23:27:19.078:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:19.078:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:19.109:  3B 03 ED 01 D4
+06.07.2011 23:27:19.109:  GT   --> VID : Device status request
+06.07.2011 23:27:19.156:  ED 04 3B 02 00 D0
+06.07.2011 23:27:19.156:  VID  --> GT  : Device status ready
+06.07.2011 23:27:19.265:  3F 03 60 1B 47
+06.07.2011 23:27:19.265:  DIA  --> PDC : Read config data
+06.07.2011 23:27:19.312:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:19.312:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:19.484:  3F 03 60 1B 47
+06.07.2011 23:27:19.484:  DIA  --> PDC : Read config data
+06.07.2011 23:27:19.515:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:19.515:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:19.703:  3F 03 60 1B 47
+06.07.2011 23:27:19.703:  DIA  --> PDC : Read config data
+06.07.2011 23:27:19.750:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:19.750:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:19.906:  3F 03 60 1B 47
+06.07.2011 23:27:19.906:  DIA  --> PDC : Read config data
+06.07.2011 23:27:19.953:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:19.953:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:20.109:  3F 03 60 1B 47
+06.07.2011 23:27:20.109:  DIA  --> PDC : Read config data
+06.07.2011 23:27:20.156:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:20.156:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:20.312:  3F 03 60 1B 47
+06.07.2011 23:27:20.312:  DIA  --> PDC : Read config data
+06.07.2011 23:27:20.359:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:20.359:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:20.515:  3F 03 60 1B 47
+06.07.2011 23:27:20.515:  DIA  --> PDC : Read config data
+06.07.2011 23:27:20.546:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:20.562:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:20.734:  3F 03 60 1B 47
+06.07.2011 23:27:20.734:  DIA  --> PDC : Read config data
+06.07.2011 23:27:20.781:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:20.781:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:20.937:  3F 03 60 1B 47
+06.07.2011 23:27:20.937:  DIA  --> PDC : Read config data
+06.07.2011 23:27:20.984:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:20.984:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:21.140:  3F 03 60 1B 47
+06.07.2011 23:27:21.140:  DIA  --> PDC : Read config data
+06.07.2011 23:27:21.203:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:21.203:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:21.250:  68 09 7F A8 30 23 8B 9B 29 B0 2C
+06.07.2011 23:27:21.250:  RAD  --> NAV : TMC data:    Type30:  Group2: Data="23 8B 9B 29 B0"
+06.07.2011 23:27:21.343:  3F 03 60 1B 47
+06.07.2011 23:27:21.343:  DIA  --> PDC : Read config data
+06.07.2011 23:27:21.390:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:21.390:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:21.546:  3F 03 60 1B 47
+06.07.2011 23:27:21.546:  DIA  --> PDC : Read config data
+06.07.2011 23:27:21.593:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:21.593:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:21.781:  3F 03 60 1B 47
+06.07.2011 23:27:21.781:  DIA  --> PDC : Read config data
+06.07.2011 23:27:21.812:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:21.812:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:22.000:  3F 03 60 1B 47
+06.07.2011 23:27:22.000:  DIA  --> PDC : Read config data
+06.07.2011 23:27:22.031:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:22.031:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:22.218:  3F 03 60 1B 47
+06.07.2011 23:27:22.218:  DIA  --> PDC : Read config data
+06.07.2011 23:27:22.265:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:22.265:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:22.375:  3B 03 80 01 B9
+06.07.2011 23:27:22.375:  GT   --> IKE : Device status request
+06.07.2011 23:27:22.406:  80 04 BF 02 00 39
+06.07.2011 23:27:22.406:  IKE  --> GLO : Device status ready
+06.07.2011 23:27:22.468:  3F 03 60 1B 47
+06.07.2011 23:27:22.468:  DIA  --> PDC : Read config data
+06.07.2011 23:27:22.500:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:22.500:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:22.703:  3F 03 60 1B 47
+06.07.2011 23:27:22.703:  DIA  --> PDC : Read config data
+06.07.2011 23:27:22.734:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:22.734:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:22.906:  3F 03 60 1B 47
+06.07.2011 23:27:22.906:  DIA  --> PDC : Read config data
+06.07.2011 23:27:22.937:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:22.937:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:23.125:  3F 03 60 1B 47
+06.07.2011 23:27:23.125:  DIA  --> PDC : Read config data
+06.07.2011 23:27:23.156:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:23.156:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:23.343:  3F 03 60 1B 47
+06.07.2011 23:27:23.343:  DIA  --> PDC : Read config data
+06.07.2011 23:27:23.390:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:23.390:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:23.421:  3B 03 6A 01 53
+06.07.2011 23:27:23.421:  GT   --> DSP : Device status request
+06.07.2011 23:27:23.453:  6A 04 FF 02 00 93
+06.07.2011 23:27:23.453:  DSP  --> LOC : Device status ready
+06.07.2011 23:27:23.578:  3F 03 60 1B 47
+06.07.2011 23:27:23.578:  DIA  --> PDC : Read config data
+06.07.2011 23:27:23.609:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:23.609:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:23.781:  3F 03 60 1B 47
+06.07.2011 23:27:23.781:  DIA  --> PDC : Read config data
+06.07.2011 23:27:23.812:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:23.812:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:24.000:  3F 03 60 1B 47
+06.07.2011 23:27:24.000:  DIA  --> PDC : Read config data
+06.07.2011 23:27:24.031:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:24.031:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:24.218:  3F 03 60 1B 47
+06.07.2011 23:27:24.218:  DIA  --> PDC : Read config data
+06.07.2011 23:27:24.250:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:24.250:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:24.437:  3F 03 60 1B 47
+06.07.2011 23:27:24.437:  DIA  --> PDC : Read config data
+06.07.2011 23:27:24.468:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:24.468:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:24.671:  3F 03 60 1B 47
+06.07.2011 23:27:24.671:  DIA  --> PDC : Read config data
+06.07.2011 23:27:24.703:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:24.703:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:24.875:  3F 03 60 1B 47
+06.07.2011 23:27:24.875:  DIA  --> PDC : Read config data
+06.07.2011 23:27:24.906:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:24.906:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:25.093:  3F 03 60 1B 47
+06.07.2011 23:27:25.093:  DIA  --> PDC : Read config data
+06.07.2011 23:27:25.125:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:25.125:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:25.312:  3F 03 60 1B 47
+06.07.2011 23:27:25.312:  DIA  --> PDC : Read config data
+06.07.2011 23:27:25.343:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:25.343:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:25.375:  3B 03 C8 01 F1
+06.07.2011 23:27:25.375:  GT   --> TEL : Device status request
+06.07.2011 23:27:25.437:  C8 04 FF 02 30 01
+06.07.2011 23:27:25.437:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+06.07.2011 23:27:25.515:  3F 03 60 1B 47
+06.07.2011 23:27:25.515:  DIA  --> PDC : Read config data
+06.07.2011 23:27:25.546:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:25.546:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:25.718:  3F 03 60 1B 47
+06.07.2011 23:27:25.718:  DIA  --> PDC : Read config data
+06.07.2011 23:27:25.765:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:25.765:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:25.921:  3F 03 60 1B 47
+06.07.2011 23:27:25.921:  DIA  --> PDC : Read config data
+06.07.2011 23:27:25.937:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:25.953:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:26.125:  3F 03 60 1B 47
+06.07.2011 23:27:26.125:  DIA  --> PDC : Read config data
+06.07.2011 23:27:26.156:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:26.156:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:26.328:  3F 03 60 1B 47
+06.07.2011 23:27:26.328:  DIA  --> PDC : Read config data
+06.07.2011 23:27:26.359:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:26.359:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:26.421:  F0 03 68 01 9A
+06.07.2011 23:27:26.421:  BMBT --> RAD : Device status request
+06.07.2011 23:27:26.468:  68 04 BF 02 00 D1
+06.07.2011 23:27:26.468:  RAD  --> GLO : Device status ready
+06.07.2011 23:27:26.531:  3F 03 60 1B 47
+06.07.2011 23:27:26.531:  DIA  --> PDC : Read config data
+06.07.2011 23:27:26.562:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:26.562:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:26.734:  3F 03 60 1B 47
+06.07.2011 23:27:26.734:  DIA  --> PDC : Read config data
+06.07.2011 23:27:26.765:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:26.765:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:26.921:  3F 03 60 1B 47
+06.07.2011 23:27:26.937:  DIA  --> PDC : Read config data
+06.07.2011 23:27:26.968:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:26.968:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:27.140:  3F 03 60 1B 47
+06.07.2011 23:27:27.140:  DIA  --> PDC : Read config data
+06.07.2011 23:27:27.171:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:27.171:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:27.343:  3F 03 60 1B 47
+06.07.2011 23:27:27.343:  DIA  --> PDC : Read config data
+06.07.2011 23:27:27.375:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:27.375:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:27.546:  3F 03 60 1B 47
+06.07.2011 23:27:27.546:  DIA  --> PDC : Read config data
+06.07.2011 23:27:27.578:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:27.578:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:27.750:  3F 03 60 1B 47
+06.07.2011 23:27:27.750:  DIA  --> PDC : Read config data
+06.07.2011 23:27:27.781:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:27.781:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:27.953:  3F 03 60 1B 47
+06.07.2011 23:27:27.953:  DIA  --> PDC : Read config data
+06.07.2011 23:27:27.984:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:27.984:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:28.156:  3F 03 60 1B 47
+06.07.2011 23:27:28.156:  DIA  --> PDC : Read config data
+06.07.2011 23:27:28.187:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:28.187:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:28.359:  3F 03 60 1B 47
+06.07.2011 23:27:28.359:  DIA  --> PDC : Read config data
+06.07.2011 23:27:28.390:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:28.390:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:28.578:  3F 03 60 1B 47
+06.07.2011 23:27:28.578:  DIA  --> PDC : Read config data
+06.07.2011 23:27:28.609:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:28.609:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:28.796:  3F 03 60 1B 47
+06.07.2011 23:27:28.796:  DIA  --> PDC : Read config data
+06.07.2011 23:27:28.828:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:28.828:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:29.015:  3F 03 60 1B 47
+06.07.2011 23:27:29.015:  DIA  --> PDC : Read config data
+06.07.2011 23:27:29.046:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:29.046:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:29.093:  3B 03 ED 01 D4
+06.07.2011 23:27:29.093:  GT   --> VID : Device status request
+06.07.2011 23:27:29.125:  ED 04 3B 02 00 D0
+06.07.2011 23:27:29.125:  VID  --> GT  : Device status ready
+06.07.2011 23:27:29.250:  3F 03 60 1B 47
+06.07.2011 23:27:29.250:  DIA  --> PDC : Read config data
+06.07.2011 23:27:29.281:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:29.281:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:29.453:  3F 03 60 1B 47
+06.07.2011 23:27:29.453:  DIA  --> PDC : Read config data
+06.07.2011 23:27:29.484:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:29.484:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:29.687:  3F 03 60 1B 47
+06.07.2011 23:27:29.687:  DIA  --> PDC : Read config data
+06.07.2011 23:27:29.734:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:29.734:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:29.890:  3F 03 60 1B 47
+06.07.2011 23:27:29.890:  DIA  --> PDC : Read config data
+06.07.2011 23:27:29.921:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:29.921:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:30.109:  3F 03 60 1B 47
+06.07.2011 23:27:30.109:  DIA  --> PDC : Read config data
+06.07.2011 23:27:30.140:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:30.140:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:30.328:  3F 03 60 1B 47
+06.07.2011 23:27:30.328:  DIA  --> PDC : Read config data
+06.07.2011 23:27:30.359:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:30.359:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:30.546:  3F 03 60 1B 47
+06.07.2011 23:27:30.546:  DIA  --> PDC : Read config data
+06.07.2011 23:27:30.578:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:30.578:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:30.750:  3F 03 60 1B 47
+06.07.2011 23:27:30.750:  DIA  --> PDC : Read config data
+06.07.2011 23:27:30.796:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:30.796:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:30.968:  3F 03 60 1B 47
+06.07.2011 23:27:30.968:  DIA  --> PDC : Read config data
+06.07.2011 23:27:31.000:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:31.000:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:31.156:  3F 03 60 1B 47
+06.07.2011 23:27:31.156:  DIA  --> PDC : Read config data
+06.07.2011 23:27:31.187:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:31.187:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:31.328:  68 09 7F A8 30 03 46 0C 00 00 CF
+06.07.2011 23:27:31.328:  RAD  --> NAV : TMC data:    Type30:  Group0Data="03 46 0C 00 00"
+06.07.2011 23:27:31.375:  3F 03 60 1B 47
+06.07.2011 23:27:31.375:  DIA  --> PDC : Read config data
+06.07.2011 23:27:31.406:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:31.406:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:31.578:  3F 03 60 1B 47
+06.07.2011 23:27:31.578:  DIA  --> PDC : Read config data
+06.07.2011 23:27:31.609:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:31.609:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:31.781:  3F 03 60 1B 47
+06.07.2011 23:27:31.781:  DIA  --> PDC : Read config data
+06.07.2011 23:27:31.812:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:31.812:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:32.000:  3F 03 60 1B 47
+06.07.2011 23:27:32.000:  DIA  --> PDC : Read config data
+06.07.2011 23:27:32.031:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:32.031:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:32.203:  3F 03 60 1B 47
+06.07.2011 23:27:32.203:  DIA  --> PDC : Read config data
+06.07.2011 23:27:32.234:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:32.234:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:32.359:  3B 03 80 01 B9
+06.07.2011 23:27:32.359:  GT   --> IKE : Device status request
+06.07.2011 23:27:32.406:  80 04 BF 02 00 39
+06.07.2011 23:27:32.406:  IKE  --> GLO : Device status ready
+06.07.2011 23:27:32.500:  3F 03 60 1B 47
+06.07.2011 23:27:32.500:  DIA  --> PDC : Read config data
+06.07.2011 23:27:32.546:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:32.546:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:32.734:  3F 03 60 1B 47
+06.07.2011 23:27:32.734:  DIA  --> PDC : Read config data
+06.07.2011 23:27:32.765:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:32.781:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:32.921:  3F 03 60 1B 47
+06.07.2011 23:27:32.921:  DIA  --> PDC : Read config data
+06.07.2011 23:27:32.968:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:32.968:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:33.140:  3F 03 60 1B 47
+06.07.2011 23:27:33.140:  DIA  --> PDC : Read config data
+06.07.2011 23:27:33.187:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:33.187:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:33.343:  3F 03 60 1B 47
+06.07.2011 23:27:33.343:  DIA  --> PDC : Read config data
+06.07.2011 23:27:33.390:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:33.390:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:33.437:  3B 03 6A 01 53
+06.07.2011 23:27:33.437:  GT   --> DSP : Device status request
+06.07.2011 23:27:33.468:  6A 04 FF 02 00 93
+06.07.2011 23:27:33.468:  DSP  --> LOC : Device status ready
+06.07.2011 23:27:33.562:  3F 03 60 1B 47
+06.07.2011 23:27:33.562:  DIA  --> PDC : Read config data
+06.07.2011 23:27:33.609:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:33.609:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:33.781:  3F 03 60 1B 47
+06.07.2011 23:27:33.781:  DIA  --> PDC : Read config data
+06.07.2011 23:27:33.828:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:33.828:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:33.984:  3F 03 60 1B 47
+06.07.2011 23:27:33.984:  DIA  --> PDC : Read config data
+06.07.2011 23:27:34.015:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:34.015:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:34.203:  3F 03 60 1B 47
+06.07.2011 23:27:34.203:  DIA  --> PDC : Read config data
+06.07.2011 23:27:34.234:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:34.234:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:34.406:  3F 03 60 1B 47
+06.07.2011 23:27:34.406:  DIA  --> PDC : Read config data
+06.07.2011 23:27:34.437:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:34.437:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:34.609:  3F 03 60 1B 47
+06.07.2011 23:27:34.609:  DIA  --> PDC : Read config data
+06.07.2011 23:27:34.656:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:34.656:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:34.843:  3F 03 60 1B 47
+06.07.2011 23:27:34.843:  DIA  --> PDC : Read config data
+06.07.2011 23:27:34.875:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:34.875:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:35.062:  3F 03 60 1B 47
+06.07.2011 23:27:35.062:  DIA  --> PDC : Read config data
+06.07.2011 23:27:35.093:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:35.093:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:35.281:  3F 03 60 1B 47
+06.07.2011 23:27:35.281:  DIA  --> PDC : Read config data
+06.07.2011 23:27:35.328:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:35.328:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:35.359:  3B 03 C8 01 F1
+06.07.2011 23:27:35.375:  GT   --> TEL : Device status request
+06.07.2011 23:27:35.406:  C8 04 FF 02 30 01
+06.07.2011 23:27:35.406:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+06.07.2011 23:27:35.500:  3F 03 60 1B 47
+06.07.2011 23:27:35.500:  DIA  --> PDC : Read config data
+06.07.2011 23:27:35.546:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:35.546:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:35.703:  3F 03 60 1B 47
+06.07.2011 23:27:35.703:  DIA  --> PDC : Read config data
+06.07.2011 23:27:35.750:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:35.750:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:35.921:  3F 03 60 1B 47
+06.07.2011 23:27:35.921:  DIA  --> PDC : Read config data
+06.07.2011 23:27:35.953:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:35.953:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:36.125:  3F 03 60 1B 47
+06.07.2011 23:27:36.125:  DIA  --> PDC : Read config data
+06.07.2011 23:27:36.156:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:36.156:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:36.343:  3F 03 60 1B 47
+06.07.2011 23:27:36.343:  DIA  --> PDC : Read config data
+06.07.2011 23:27:36.390:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:36.390:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:36.437:  F0 03 68 01 9A
+06.07.2011 23:27:36.437:  BMBT --> RAD : Device status request
+06.07.2011 23:27:36.484:  68 04 BF 02 00 D1
+06.07.2011 23:27:36.484:  RAD  --> GLO : Device status ready
+06.07.2011 23:27:36.562:  3F 03 60 1B 47
+06.07.2011 23:27:36.562:  DIA  --> PDC : Read config data
+06.07.2011 23:27:36.609:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:36.609:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:36.781:  3F 03 60 1B 47
+06.07.2011 23:27:36.781:  DIA  --> PDC : Read config data
+06.07.2011 23:27:36.812:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:36.812:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:37.000:  3F 03 60 1B 47
+06.07.2011 23:27:37.000:  DIA  --> PDC : Read config data
+06.07.2011 23:27:37.031:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:37.031:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:37.203:  3F 03 60 1B 47
+06.07.2011 23:27:37.203:  DIA  --> PDC : Read config data
+06.07.2011 23:27:37.234:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:37.234:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:37.406:  3F 03 60 1B 47
+06.07.2011 23:27:37.406:  DIA  --> PDC : Read config data
+06.07.2011 23:27:37.437:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:37.437:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:37.609:  3F 03 60 1B 47
+06.07.2011 23:27:37.609:  DIA  --> PDC : Read config data
+06.07.2011 23:27:37.656:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:37.656:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:37.828:  3F 03 60 1B 47
+06.07.2011 23:27:37.828:  DIA  --> PDC : Read config data
+06.07.2011 23:27:37.859:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:37.859:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:38.015:  68 0F 7F A8 30 84 51 51 CF D2 30 05 81 98 29 94 88
+06.07.2011 23:27:38.015:  RAD  --> NAV : TMC data:    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp ConIndex=4    Type30:  Group0Data="05 81 98 29 94"
+06.07.2011 23:27:38.078:  3F 03 60 1B 47
+06.07.2011 23:27:38.078:  DIA  --> PDC : Read config data
+06.07.2011 23:27:38.109:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:38.109:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:38.281:  3F 03 60 1B 47
+06.07.2011 23:27:38.281:  DIA  --> PDC : Read config data
+06.07.2011 23:27:38.328:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:38.328:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:38.500:  3F 03 60 1B 47
+06.07.2011 23:27:38.500:  DIA  --> PDC : Read config data
+06.07.2011 23:27:38.531:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:38.531:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:38.734:  3F 03 60 1B 47
+06.07.2011 23:27:38.734:  DIA  --> PDC : Read config data
+06.07.2011 23:27:38.765:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:38.765:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:38.937:  3F 03 60 1B 47
+06.07.2011 23:27:38.937:  DIA  --> PDC : Read config data
+06.07.2011 23:27:38.968:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:38.968:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:39.078:  3B 03 ED 01 D4
+06.07.2011 23:27:39.078:  GT   --> VID : Device status request
+06.07.2011 23:27:39.109:  ED 04 3B 02 00 D0
+06.07.2011 23:27:39.109:  VID  --> GT  : Device status ready
+06.07.2011 23:27:39.187:  3F 03 60 1B 47
+06.07.2011 23:27:39.187:  DIA  --> PDC : Read config data
+06.07.2011 23:27:39.218:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:39.218:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:39.390:  3F 03 60 1B 47
+06.07.2011 23:27:39.390:  DIA  --> PDC : Read config data
+06.07.2011 23:27:39.421:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:39.421:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:39.609:  3F 03 60 1B 47
+06.07.2011 23:27:39.609:  DIA  --> PDC : Read config data
+06.07.2011 23:27:39.656:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:39.656:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:39.828:  3F 03 60 1B 47
+06.07.2011 23:27:39.828:  DIA  --> PDC : Read config data
+06.07.2011 23:27:39.859:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:39.859:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:40.046:  3F 03 60 1B 47
+06.07.2011 23:27:40.046:  DIA  --> PDC : Read config data
+06.07.2011 23:27:40.078:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:40.078:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:40.234:  3F 03 60 1B 47
+06.07.2011 23:27:40.250:  DIA  --> PDC : Read config data
+06.07.2011 23:27:40.281:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:40.281:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:40.453:  3F 03 60 1B 47
+06.07.2011 23:27:40.453:  DIA  --> PDC : Read config data
+06.07.2011 23:27:40.484:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:40.484:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:40.656:  3F 03 60 1B 47
+06.07.2011 23:27:40.656:  DIA  --> PDC : Read config data
+06.07.2011 23:27:40.703:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:40.703:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:40.875:  3F 03 60 1B 47
+06.07.2011 23:27:40.875:  DIA  --> PDC : Read config data
+06.07.2011 23:27:40.906:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:40.906:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:41.093:  3F 03 60 1B 47
+06.07.2011 23:27:41.093:  DIA  --> PDC : Read config data
+06.07.2011 23:27:41.125:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:41.125:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:41.328:  3F 03 60 1B 47
+06.07.2011 23:27:41.328:  DIA  --> PDC : Read config data
+06.07.2011 23:27:41.359:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:41.359:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:41.531:  3F 03 60 1B 47
+06.07.2011 23:27:41.531:  DIA  --> PDC : Read config data
+06.07.2011 23:27:41.562:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:41.562:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:41.765:  3F 03 60 1B 47
+06.07.2011 23:27:41.765:  DIA  --> PDC : Read config data
+06.07.2011 23:27:41.796:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:41.796:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:41.968:  3F 03 60 1B 47
+06.07.2011 23:27:41.968:  DIA  --> PDC : Read config data
+06.07.2011 23:27:42.000:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:42.000:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:42.203:  3F 03 60 1B 47
+06.07.2011 23:27:42.203:  DIA  --> PDC : Read config data
+06.07.2011 23:27:42.234:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:42.234:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:42.328:  3B 03 80 01 B9
+06.07.2011 23:27:42.328:  GT   --> IKE : Device status request
+06.07.2011 23:27:42.375:  80 04 BF 02 00 39
+06.07.2011 23:27:42.375:  IKE  --> GLO : Device status ready
+06.07.2011 23:27:42.421:  3F 03 60 1B 47
+06.07.2011 23:27:42.421:  DIA  --> PDC : Read config data
+06.07.2011 23:27:42.468:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:42.468:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:42.625:  3F 03 60 1B 47
+06.07.2011 23:27:42.625:  DIA  --> PDC : Read config data
+06.07.2011 23:27:42.656:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:42.656:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:42.828:  3F 03 60 1B 47
+06.07.2011 23:27:42.828:  DIA  --> PDC : Read config data
+06.07.2011 23:27:42.859:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:42.859:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:43.031:  3F 03 60 1B 47
+06.07.2011 23:27:43.031:  DIA  --> PDC : Read config data
+06.07.2011 23:27:43.062:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:43.062:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:43.234:  3F 03 60 1B 47
+06.07.2011 23:27:43.234:  DIA  --> PDC : Read config data
+06.07.2011 23:27:43.265:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:43.265:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:43.328:  3B 03 6A 01 53
+06.07.2011 23:27:43.328:  GT   --> DSP : Device status request
+06.07.2011 23:27:43.359:  6A 04 FF 02 00 93
+06.07.2011 23:27:43.359:  DSP  --> LOC : Device status ready
+06.07.2011 23:27:43.453:  3F 03 60 1B 47
+06.07.2011 23:27:43.453:  DIA  --> PDC : Read config data
+06.07.2011 23:27:43.484:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:43.484:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:43.656:  3F 03 60 1B 47
+06.07.2011 23:27:43.656:  DIA  --> PDC : Read config data
+06.07.2011 23:27:43.703:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:43.703:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:43.765:  68 0F 7F A8 30 25 58 84 E9 64 30 05 06 00 00 00 C7
+06.07.2011 23:27:43.765:  RAD  --> NAV : TMC data:    Type30:  Group2: Data="25 58 84 E9 64"    Type30:  Group0Data="05 06 00 00 00"
+06.07.2011 23:27:43.859:  3F 03 60 1B 47
+06.07.2011 23:27:43.859:  DIA  --> PDC : Read config data
+06.07.2011 23:27:43.890:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:43.890:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:44.062:  3F 03 60 1B 47
+06.07.2011 23:27:44.062:  DIA  --> PDC : Read config data
+06.07.2011 23:27:44.093:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:44.093:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:44.265:  3F 03 60 1B 47
+06.07.2011 23:27:44.265:  DIA  --> PDC : Read config data
+06.07.2011 23:27:44.296:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:44.296:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:44.468:  3F 03 60 1B 47
+06.07.2011 23:27:44.468:  DIA  --> PDC : Read config data
+06.07.2011 23:27:44.500:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:44.500:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:44.671:  3F 03 60 1B 47
+06.07.2011 23:27:44.671:  DIA  --> PDC : Read config data
+06.07.2011 23:27:44.718:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:44.718:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:44.890:  3F 03 60 1B 47
+06.07.2011 23:27:44.890:  DIA  --> PDC : Read config data
+06.07.2011 23:27:44.921:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:44.921:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:45.093:  3F 03 60 1B 47
+06.07.2011 23:27:45.093:  DIA  --> PDC : Read config data
+06.07.2011 23:27:45.109:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:45.109:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:45.296:  3F 03 60 1B 47
+06.07.2011 23:27:45.296:  DIA  --> PDC : Read config data
+06.07.2011 23:27:45.328:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:45.328:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:45.359:  3B 03 C8 01 F1
+06.07.2011 23:27:45.359:  GT   --> TEL : Device status request
+06.07.2011 23:27:45.390:  C8 04 FF 02 30 01
+06.07.2011 23:27:45.390:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+06.07.2011 23:27:45.515:  3F 03 60 1B 47
+06.07.2011 23:27:45.515:  DIA  --> PDC : Read config data
+06.07.2011 23:27:45.546:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:45.546:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:45.734:  3F 03 60 1B 47
+06.07.2011 23:27:45.734:  DIA  --> PDC : Read config data
+06.07.2011 23:27:45.781:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:45.781:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:45.828:  7F 14 C8 A2 00 00 54 20 55 60 00 13 27 44 80 00 00 00 23 27 00 B4
+06.07.2011 23:27:45.828:  NAV  --> TEL : Current position: 54°20'55.6"N  13°27'44.8"E
+06.07.2011 23:27:45.875:  7F 23 C8 A4 00 01 50 55 54 42 55 53 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 24
+06.07.2011 23:27:45.875:  NAV  --> TEL : Current location: Town = PUTBUS
+06.07.2011 23:27:45.921:  7F 23 C8 A4 00 02 50 41 52 4B 3B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01
+06.07.2011 23:27:45.921:  NAV  --> TEL : Current location: Street = PARK;
+06.07.2011 23:27:46.203:  3F 03 60 1B 47
+06.07.2011 23:27:46.203:  DIA  --> PDC : Read config data
+06.07.2011 23:27:46.234:  60 0E 3F A0 00 FF FF FF FF FF FF FF FF C6 02 35
+06.07.2011 23:27:46.234:  PDC  --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF FF FF FF FF FF C6 02"    [ ÿÿÿÿÿÿÿÿÆ ]
+06.07.2011 23:27:46.468:  F0 03 68 01 9A
+06.07.2011 23:27:46.468:  BMBT --> RAD : Device status request
+06.07.2011 23:27:46.500:  68 04 BF 02 00 D1
+06.07.2011 23:27:46.500:  RAD  --> GLO : Device status ready
+06.07.2011 23:27:49.000:  68 0F 7F A8 30 A6 D3 31 30 32 30 A6 67 46 86 5E A9
+06.07.2011 23:27:49.000:  RAD  --> NAV : TMC data:    Type30:  GroupA: Data="A6 D3 31 30 32"    Type30:  GroupA: Data="A6 67 46 86 5E"
+06.07.2011 23:27:49.062:  3B 03 ED 01 D4
+06.07.2011 23:27:49.062:  GT   --> VID : Device status request
+06.07.2011 23:27:49.109:  ED 04 3B 02 00 D0
+06.07.2011 23:27:49.109:  VID  --> GT  : Device status ready
+06.07.2011 23:27:52.312:  3B 03 80 01 B9
+06.07.2011 23:27:52.312:  GT   --> IKE : Device status request
+06.07.2011 23:27:52.343:  80 04 BF 02 00 39
+06.07.2011 23:27:52.343:  IKE  --> GLO : Device status ready
+06.07.2011 23:27:53.312:  3B 03 6A 01 53
+06.07.2011 23:27:53.312:  GT   --> DSP : Device status request
+06.07.2011 23:27:53.343:  6A 04 FF 02 00 93
+06.07.2011 23:27:53.343:  DSP  --> LOC : Device status ready
+06.07.2011 23:27:55.312:  3B 03 C8 01 F1
+06.07.2011 23:27:55.312:  GT   --> TEL : Device status request
+06.07.2011 23:27:55.343:  C8 04 FF 02 30 01
+06.07.2011 23:27:55.343:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+06.07.2011 23:27:57.437:  F0 03 68 01 9A
+06.07.2011 23:27:57.437:  BMBT --> RAD : Device status request
+06.07.2011 23:27:57.468:  68 04 BF 02 00 D1
+06.07.2011 23:27:57.468:  RAD  --> GLO : Device status ready
+06.07.2011 23:27:59.031:  3B 03 ED 01 D4
+06.07.2011 23:27:59.031:  GT   --> VID : Device status request
+06.07.2011 23:27:59.046:  ED 04 3B 02 00 D0
+06.07.2011 23:27:59.046:  VID  --> GT  : Device status ready
+06.07.2011 23:28:02.281:  3B 03 80 01 B9
+06.07.2011 23:28:02.281:  GT   --> IKE : Device status request
+06.07.2011 23:28:02.312:  80 04 BF 02 00 39
+06.07.2011 23:28:02.312:  IKE  --> GLO : Device status ready
+06.07.2011 23:28:02.500:  80 0C E7 24 01 00 32 33 3A 32 38 20 20 7F
+06.07.2011 23:28:02.500:  IKE  --> ANZV: Update Text:  Layout=Time  Flags=  F0="23:28  "
+06.07.2011 23:28:03.125:  7F 0B 80 1F 40 21 28 06 00 07 20 11 92
+06.07.2011 23:28:03.125:  NAV  --> IKE : Time & date: UTC  21:28 06 Juli 2011
+06.07.2011 23:28:03.281:  3B 03 6A 01 53
+06.07.2011 23:28:03.281:  GT   --> DSP : Device status request
+06.07.2011 23:28:03.312:  6A 04 FF 02 00 93
+06.07.2011 23:28:03.312:  DSP  --> LOC : Device status ready
+06.07.2011 23:28:05.281:  3B 03 C8 01 F1
+06.07.2011 23:28:05.281:  GT   --> TEL : Device status request
+06.07.2011 23:28:05.296:  C8 04 FF 02 30 01
+06.07.2011 23:28:05.296:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+06.07.2011 23:28:06.500:  F0 03 68 01 9A
+06.07.2011 23:28:06.500:  BMBT --> RAD : Device status request
+06.07.2011 23:28:06.531:  68 04 BF 02 00 D1
+06.07.2011 23:28:06.531:  RAD  --> GLO : Device status ready
+06.07.2011 23:28:09.015:  3B 03 ED 01 D4
+06.07.2011 23:28:09.015:  GT   --> VID : Device status request
+06.07.2011 23:28:09.031:  ED 04 3B 02 00 D0
+06.07.2011 23:28:09.031:  VID  --> GT  : Device status ready
+06.07.2011 23:28:10.562:  68 0F 7F A8 30 01 0A 00 00 00 30 A2 D2 04 19 BE 68
+06.07.2011 23:28:10.562:  RAD  --> NAV : TMC data:    Type30:  Group0Data="01 0A 00 00 00"    Type30:  GroupA: Data="A2 D2 04 19 BE"
+06.07.2011 23:28:12.281:  3B 03 80 01 B9
+06.07.2011 23:28:12.281:  GT   --> IKE : Device status request
+06.07.2011 23:28:12.296:  80 04 BF 02 00 39
+06.07.2011 23:28:12.296:  IKE  --> GLO : Device status ready
+06.07.2011 23:28:13.265:  3B 03 6A 01 53
+06.07.2011 23:28:13.265:  GT   --> DSP : Device status request
+06.07.2011 23:28:13.296:  6A 04 FF 02 00 93
+06.07.2011 23:28:13.296:  DSP  --> LOC : Device status ready
+06.07.2011 23:28:15.265:  3B 03 C8 01 F1
+06.07.2011 23:28:15.265:  GT   --> TEL : Device status request
+06.07.2011 23:28:15.281:  C8 04 FF 02 30 01
+06.07.2011 23:28:15.281:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+06.07.2011 23:28:15.718:  7F 14 C8 A2 00 00 54 20 55 60 00 13 27 44 80 00 00 00 23 28 00 BB
+06.07.2011 23:28:15.718:  NAV  --> TEL : Current position: 54°20'55.6"N  13°27'44.8"E
+06.07.2011 23:28:15.781:  7F 23 C8 A4 00 01 50 55 54 42 55 53 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 24
+06.07.2011 23:28:15.781:  NAV  --> TEL : Current location: Town = PUTBUS
+06.07.2011 23:28:15.828:  7F 23 C8 A4 00 02 50 41 52 4B 3B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01
+06.07.2011 23:28:15.828:  NAV  --> TEL : Current location: Street = PARK;
+06.07.2011 23:28:16.515:  F0 03 68 01 9A
+06.07.2011 23:28:16.515:  BMBT --> RAD : Device status request
+06.07.2011 23:28:16.531:  68 04 BF 02 00 D1
+06.07.2011 23:28:16.531:  RAD  --> GLO : Device status ready
+06.07.2011 23:28:18.984:  3B 03 ED 01 D4
+06.07.2011 23:28:18.984:  GT   --> VID : Device status request
+06.07.2011 23:28:19.000:  ED 04 3B 02 00 D0
+06.07.2011 23:28:19.000:  VID  --> GT  : Device status ready
+06.07.2011 23:28:21.578:  ! Navigation - Navi lesen
+06.07.2011 23:28:21.609:  3F 03 3B 00 07
+06.07.2011 23:28:21.609:  DIA  --> GT  : Read identity
+06.07.2011 23:28:22.015:  3F 03 3B 00 07
+06.07.2011 23:28:22.015:  DIA  --> GT  : Read identity
+06.07.2011 23:28:22.156:  3B 22 3F A0 34 31 30 35 30 36 32 32 31 30 32 30 32 30 39 34 35 39 39 30 31 30 33 37 30 38 2E 32 31 38 31 A0
+06.07.2011 23:28:22.156:  GT   --> DIA : Diagnostic command acknowledged, Data="34 31 30 35 30 36 32 32 31 30 32 30 32 30 39 34 35 39 39 30 31 30 33 37 30 38 2E 32 31 38 31"    [41050622102020945990103708.2181]
+06.07.2011 23:28:22.250:  3F 03 3B 11 16
+06.07.2011 23:28:22.250:  DIA  --> GT  : Read OS boot mode
+06.07.2011 23:28:22.281:  3B 03 80 01 B9
+06.07.2011 23:28:22.281:  GT   --> IKE : Device status request
+06.07.2011 23:28:22.296:  80 04 BF 02 00 39
+06.07.2011 23:28:22.296:  IKE  --> GLO : Device status ready
+06.07.2011 23:28:22.390:  68 09 7F A8 30 82 0B D2 00 40 9D
+06.07.2011 23:28:22.390:  RAD  --> NAV : TMC data:    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp ConIndex=2
+06.07.2011 23:28:22.484:  3B 22 3F A0 34 31 30 35 30 36 32 32 31 30 32 30 32 30 39 34 35 39 39 30 31 30 33 37 30 38 2E 32 31 38 31 A0
+06.07.2011 23:28:22.484:  GT   --> DIA : Diagnostic command acknowledged, Data="34 31 30 35 30 36 32 32 31 30 32 30 32 30 39 34 35 39 39 30 31 30 33 37 30 38 2E 32 31 38 31"    [41050622102020945990103708.2181]
+06.07.2011 23:28:22.640:  3F 03 3B 11 16
+06.07.2011 23:28:22.640:  DIA  --> GT  : Read OS boot mode
+06.07.2011 23:28:22.734:  3F 06 3B 08 00 00 20 2A
+06.07.2011 23:28:22.734:  DIA  --> GT  : Read coding data, Data="00 00 20"    [   ]
+06.07.2011 23:28:22.812:  3B 10 3F A0 00 FF FF FF 47 47 38 37 39 37 33 11 03 6B
+06.07.2011 23:28:22.812:  GT   --> DIA : Diagnostic command acknowledged, Data="00 FF FF FF 47 47 38 37 39 37 33 11 03"    [ ÿÿÿGG87973  ]
+06.07.2011 23:28:22.953:  ! Navi lesen - Navi-Einstellungen erfolgreich gelesen.  NavCoder zeigt den aktuellen Navi-Einstellungen an.  Achtung: SMS- und Kundendienst-Nummern können von diesem Navi (Mk3 oder älterer) nicht gelesen worden, diese Einstellungen sind nicht geändert worden. 
+06.07.2011 23:28:23.250:  3B 03 6A 01 53
+06.07.2011 23:28:23.250:  GT   --> DSP : Device status request
+06.07.2011 23:28:23.265:  6A 04 FF 02 00 93
+06.07.2011 23:28:23.265:  DSP  --> LOC : Device status ready
+06.07.2011 23:28:25.234:  3B 03 C8 01 F1
+06.07.2011 23:28:25.234:  GT   --> TEL : Device status request
+06.07.2011 23:28:25.265:  C8 04 FF 02 30 01
+06.07.2011 23:28:25.265:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+06.07.2011 23:28:26.531:  F0 03 68 01 9A
+06.07.2011 23:28:26.531:  BMBT --> RAD : Device status request
+06.07.2011 23:28:26.562:  68 04 BF 02 00 D1
+06.07.2011 23:28:26.562:  RAD  --> GLO : Device status ready
+06.07.2011 23:28:28.968:  3B 03 ED 01 D4
+06.07.2011 23:28:28.968:  GT   --> VID : Device status request
+06.07.2011 23:28:28.984:  ED 04 3B 02 00 D0
+06.07.2011 23:28:28.984:  VID  --> GT  : Device status ready
+06.07.2011 23:28:30.312:  68 09 7F A8 30 03 51 51 AB D2 FC
+06.07.2011 23:28:30.312:  RAD  --> NAV : TMC data:    Type30:  Group0Data="03 51 51 AB D2"
+06.07.2011 23:28:32.218:  3B 03 80 01 B9
+06.07.2011 23:28:32.218:  GT   --> IKE : Device status request
+06.07.2011 23:28:32.250:  80 04 BF 02 00 39
+06.07.2011 23:28:32.250:  IKE  --> GLO : Device status ready
+06.07.2011 23:28:33.218:  3B 03 6A 01 53
+06.07.2011 23:28:33.218:  GT   --> DSP : Device status request
+06.07.2011 23:28:33.234:  6A 04 FF 02 00 93
+06.07.2011 23:28:33.234:  DSP  --> LOC : Device status ready
+06.07.2011 23:28:35.218:  3B 03 C8 01 F1
+06.07.2011 23:28:35.218:  GT   --> TEL : Device status request
+06.07.2011 23:28:35.234:  C8 04 FF 02 30 01
+06.07.2011 23:28:35.234:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+06.07.2011 23:28:35.500:  68 15 7F A8 30 84 82 BD AD FE 30 84 06 61 81 00 30 25 8A 02 D1 FF 93
+06.07.2011 23:28:35.500:  RAD  --> NAV : TMC data:    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp,First_Grp Loc=44542 Evnt=701 Dir=Neg Extnt=0 ConIndex=4    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp ConIndex=4    Type30:  Group2: Data="25 8A 02 D1 FF"
+06.07.2011 23:28:36.546:  F0 03 68 01 9A
+06.07.2011 23:28:36.546:  BMBT --> RAD : Device status request
+06.07.2011 23:28:36.578:  68 04 BF 02 00 D1
+06.07.2011 23:28:36.578:  RAD  --> GLO : Device status ready
+06.07.2011 23:28:38.937:  3B 03 ED 01 D4
+06.07.2011 23:28:38.937:  GT   --> VID : Device status request
+06.07.2011 23:28:38.968:  ED 04 3B 02 00 D0
+06.07.2011 23:28:38.968:  VID  --> GT  : Device status ready
+06.07.2011 23:28:42.203:  3B 03 80 01 B9
+06.07.2011 23:28:42.203:  GT   --> IKE : Device status request
+06.07.2011 23:28:42.218:  80 04 BF 02 00 39
+06.07.2011 23:28:42.218:  IKE  --> GLO : Device status ready
+06.07.2011 23:28:43.203:  3B 03 6A 01 53
+06.07.2011 23:28:43.203:  GT   --> DSP : Device status request
+06.07.2011 23:28:43.218:  6A 04 FF 02 00 93
+06.07.2011 23:28:43.218:  DSP  --> LOC : Device status ready
+06.07.2011 23:28:45.187:  3B 03 C8 01 F1
+06.07.2011 23:28:45.187:  GT   --> TEL : Device status request
+06.07.2011 23:28:45.203:  C8 04 FF 02 30 01
+06.07.2011 23:28:45.203:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+06.07.2011 23:28:45.625:  7F 14 C8 A2 00 00 54 20 55 60 00 13 27 44 80 00 00 00 23 28 00 BB
+06.07.2011 23:28:45.625:  NAV  --> TEL : Current position: 54°20'55.6"N  13°27'44.8"E
+06.07.2011 23:28:45.687:  7F 23 C8 A4 00 01 50 55 54 42 55 53 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 24
+06.07.2011 23:28:45.687:  NAV  --> TEL : Current location: Town = PUTBUS
+06.07.2011 23:28:45.734:  7F 23 C8 A4 00 02 50 41 52 4B 3B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01
+06.07.2011 23:28:45.734:  NAV  --> TEL : Current location: Street = PARK;
+06.07.2011 23:28:46.578:  F0 03 68 01 9A
+06.07.2011 23:28:46.578:  BMBT --> RAD : Device status request
+06.07.2011 23:28:46.593:  68 04 BF 02 00 D1
+06.07.2011 23:28:46.593:  RAD  --> GLO : Device status ready
+06.07.2011 23:28:47.296:  68 09 7F A8 30 25 0A F4 00 00 5D
+06.07.2011 23:28:47.296:  RAD  --> NAV : TMC data:    Type30:  Group2: Data="25 0A F4 00 00"
+06.07.2011 23:28:48.921:  3B 03 ED 01 D4
+06.07.2011 23:28:48.921:  GT   --> VID : Device status request
+06.07.2011 23:28:48.937:  ED 04 3B 02 00 D0
+06.07.2011 23:28:48.937:  VID  --> GT  : Device status ready
+06.07.2011 23:28:52.187:  3B 03 80 01 B9
+06.07.2011 23:28:52.187:  GT   --> IKE : Device status request
+06.07.2011 23:28:52.234:  80 04 BF 02 00 39
+06.07.2011 23:28:52.234:  IKE  --> GLO : Device status ready
+06.07.2011 23:28:53.187:  3B 03 6A 01 53
+06.07.2011 23:28:53.187:  GT   --> DSP : Device status request
+06.07.2011 23:28:53.203:  6A 04 FF 02 00 93
+06.07.2011 23:28:53.203:  DSP  --> LOC : Device status ready
+06.07.2011 23:28:55.171:  3B 03 C8 01 F1
+06.07.2011 23:28:55.171:  GT   --> TEL : Device status request
+06.07.2011 23:28:55.203:  C8 04 FF 02 30 01
+06.07.2011 23:28:55.203:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+06.07.2011 23:28:56.593:  F0 03 68 01 9A
+06.07.2011 23:28:56.593:  BMBT --> RAD : Device status request
+06.07.2011 23:28:56.625:  68 04 BF 02 00 D1
+06.07.2011 23:28:56.625:  RAD  --> GLO : Device status ready
+06.07.2011 23:28:58.906:  3B 03 ED 01 D4
+06.07.2011 23:28:58.906:  GT   --> VID : Device status request
+06.07.2011 23:28:58.921:  ED 04 3B 02 00 D0
+06.07.2011 23:28:58.921:  VID  --> GT  : Device status ready
+06.07.2011 23:29:02.171:  3B 03 80 01 B9
+06.07.2011 23:29:02.171:  GT   --> IKE : Device status request
+06.07.2011 23:29:02.218:  80 04 BF 02 00 39
+06.07.2011 23:29:02.218:  IKE  --> GLO : Device status ready
+06.07.2011 23:29:02.906:  7F 0B 80 1F 40 21 29 06 00 07 20 11 93
+06.07.2011 23:29:02.906:  NAV  --> IKE : Time & date: UTC  21:29 06 Juli 2011
+06.07.2011 23:29:03.031:  80 0C E7 24 01 00 32 33 3A 32 39 20 20 7E
+06.07.2011 23:29:03.031:  IKE  --> ANZV: Update Text:  Layout=Time  Flags=  F0="23:29  "
+06.07.2011 23:29:03.203:  ! NavCoder logging stopped, NavCoder closed
+06.07.2011 23:29:03.203:  !

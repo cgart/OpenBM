@@ -1,0 +1,135 @@
+.roundedCorners
+{
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+.textField:hover
+{
+    background: #bbb;
+}
+
+.textField
+{
+    background: #ccc;
+    border: none;
+    color: #333333;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
+.headline
+{
+    display: block;
+    font-size: 2.8em;
+    font-weight: bold;
+    color: #00bb00;
+    margin-bottom: 20px;
+    margin-left: 10px;
+}
+
+.headline2
+{
+    display: block;
+    font-size: 2.4em;
+    font-weight: bold;
+    color: black;
+    margin-top: 20px;
+    margin-left: 10px;
+    text-shadow: #333 0px 1px 1px;
+}
+
+.button
+{
+    background: #00bb00; 
+    cursor: pointer;
+    padding: 5px;
+    border: none;
+    color: white;
+    text-align: center;
+    margin: 5px;
+    height: 50px;
+    font-size: 1.5em;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    -moz-box-shadow: 0 0 2px #888;
+    -webkit-box-shadow: 0 0 2px #888;
+    box-shadow: 0 0 2px #888;
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.97, rgb(120,200,240)),
+        color-stop(0.35, rgb(40,150,200))
+    );
+    background-image: -moz-linear-gradient(
+        center bottom,
+        rgb(40,150,200) 35%,
+        rgb(120,200,240) 97%
+    );
+}
+
+.button:hover
+{
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.97, rgb(60,100,120)),
+        color-stop(0.35, rgb(20,75,100))
+    );
+    background-image: -moz-linear-gradient(
+        center bottom,
+        rgb(20,75,100) 35%,
+        rgb(60,100,120) 97%
+    );
+}
+
+#bodyhead
+{
+    background: url('/static/bmw_panel.png') no-repeat center;
+    height: 150px;
+    width: 100%;
+    background-color: black;
+    -moz-box-shadow: 0 0 20px #000;
+    -webkit-box-shadow: 0 0 20px #000;
+    box-shadow: 0 5px 20px #000;
+}
+
+.box
+{
+    background-color: #efefef;
+    opacity: 0.95;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.hcenter
+{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.carbox
+{
+    display: none;
+}
+
+#msgs {
+	border-top: 1px solid #CCC;
+	list-style-position: outside;
+	list-style-type: none;
+	padding:0px;
+	margin:0px;
+}
+#msgs li {
+	margin: 0px;
+	padding: 5px;
+	background:#efefef;
+	border-bottom:1px solid #CCC;
+	display:block;
+	cursor:pointer;
+}
+#msgs li:hover {
+	background:#FFC;
+}
+
