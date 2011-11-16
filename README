@@ -1,0 +1,91 @@
+OpenBM-Gateway is a daemon running in the background and acting as a
+gateway between BMW's IBus and local clients connected over a network TCP
+stack. In this case an IBus interface is connected to the PC's serial port
+or to a virtual serial port through an USB device.
+The interface must support CTS line. Hence some hardware collision
+detection, or at least a simple bit comparator must be implemented. This
+function is provided for example by the TH3122 ic.
+
+Features:
+ - low CPU and memory usage (one thread per client + 4 server threads)
+ - forward IBus messages to connected clients over TCP/IPv4 and vice versa
+ - retransmit messages on collision
+ - completely asynchronous (receive and send messages over IBus and TCP/IP without blocking or intercepting)
+ - can act as a simple IBus logger
+ - code is actually platform independent (except of some extensions I had
+    to made for  boost's asio library). So there is a possibility to
+    implement this on Windows too. 
+
+1. Functionality
+The daemon can also act as a simple IBus logger. This can be usefull if you
+just want to log ibus messages passend on the bus. In order to run the
+daemon as simple logger execute it as
+
+./>openbm-gateway -l 4 -f ibus.log
+
+2. Server (gateway)
+
+Per default server accept up-to 8 client connections and bind itself to
+127.0.0.1:4287. Here the port number 4287 corresponds to IBUS as if it were
+typed with phone keys. Any clients connected to the server will communicate
+with the server over consecutive port number, i.e. client 0 communicate
+through 4288, client 5 through 4293 and so on. In order to bind the server
+on another address and port, you can do following:
+
+.>/openbm-gateway -p 33001 -i 192.168.0.1
+
+This will bind the server to address 192.168.0.1:33001. Usually the server
+is only used for local process communication and it does not make much sense
+to bind the server to any other address rather than 127.0.0.1.
+
+WARNING: Currently server does not support any authentication mechanism, so
+be aware to bind the server to external addresses or to global address
+0.0.0.0 for example. This will make your IBus traffic visible to the outside
+world and is very dangerous if somebody get used to hack it. 
+
+
+3. Client (client)
+
+Client can be any application or an external computer communicating over TCP
+with the machine running the server. A client must send Ping messages every
+3 seconds to the server, otherwise server will discard the connection.
+Client application might be for example a plugin controlling your preferred
+multimedia application (as I do with XBMC for example). A client can also
+parse IBus messages and translate them to keyboard presses for example.
+There is actually nothing really more to say about clients. 
+
+
+4. TCP/IP Protocol
+In order to be able to connect to the gateway server we have to make sure
+that server and client speaks the same language. The low-level protocol used
+for communication between the server (OpenBM-Gateway) and any client is TCP.
+On top of this a simple, really simple protocol is used to understand sent
+messages. Here is a small overview over the protocol: 
+
+Header:
+  Ident: 	src 	dst 	len 	lenx 	priority 	x 	x
+  Byte:		1 	2 	3 	4 	5 	6 	7 	8
+
+Data:
+  Ident:   	data
+  Byte:  1 	... 	len
+
+
+Every message sent over the network and to/from the server must have this
+form. Here x indicates reserved/non-used bytes (lenx is a second reserved
+byte for the length indication). src and dst are the IBus-Device identifiers
+(i.e. 0x18 for CD-Changer, 0x00 for GM, 0x68 for Radio, etc...) for source
+and destination respectively. len indicates the amount of bytes passed in
+the data field. Data field can be send in another TCP frame or together with
+the header. priority sets the priority of a message to be sent over IBus.
+
+There are also exists special messages sent between server and the client.
+This special messages are required for establishing communication and
+checking if client is still alive for example. Every message in which header
+len is set to 0, is a special message. There are currently exist following
+special message types: 
+
+ - Ping: src=0xAA, dst=0xAA - is sent by a client every 3 seconds to indicate that the client is still alive
+ - Hello: src='h' , dst='i' - is sent by a client to the server before any other message. Server response to this message with a Connect message and creates a socket connection on a reserved port.
+ - Connect: src='c' , dst='t' - is sent by a server to client to indicate that connection is established. The priority field of the header contains the port number to which client's socket has to connect to.
+ - Disconnect: src=0, dst=0 - is sent by a client to the server, to indicate that client is disconnecting. Server will free resources and mark the used port as free again. 
