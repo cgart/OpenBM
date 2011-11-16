@@ -44,6 +44,15 @@ be aware to bind the server to external addresses or to global address
 world and is very dangerous if somebody get used to hack it. 
 
 
+3.1 HTML-Server (not-stable)
+
+When gateway is running it will provide a webserver on the 8080 port, e.g.
+http://127.0.0.1:8080 
+The default credentials are: login = bmw, password = e39
+
+The HTML server is not in a stable state yet.
+
+
 3. Client (client)
 
 Client can be any application or an external computer communicating over TCP
@@ -53,6 +62,19 @@ Client application might be for example a plugin controlling your preferred
 multimedia application (as I do with XBMC for example). A client can also
 parse IBus messages and translate them to keyboard presses for example.
 There is actually nothing really more to say about clients. 
+
+The client found in the client/ directory shows a very simple implementation
+of a client for the OpenBM-Gateway. It can send message with the SDM-format.
+SDM-Format is something which I refer to as
+Source,Destination,Message-Format. For example:
+
+.>/openbm-client -m 3f,d0,0a,01
+
+This will send an IBus message from 3F (DIA) as source to D0 (LCM) as
+destination. The message contains of 2 bytes with 0A and 01. Full IBus
+message will hence look like (here XX is a checksum):
+
+3F 04 D0 0A 01 XX
 
 
 4. TCP/IP Protocol

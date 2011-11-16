@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=OpenBM-Gateway
+PROJECTNAME=gateway
 
 # Active Configuration
 DEFAULTCONF=Debug

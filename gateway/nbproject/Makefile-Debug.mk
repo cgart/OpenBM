@@ -35,8 +35,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/Application.o \
-	${OBJECTDIR}/_ext/2043845659/mongoose.o \
 	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/mongoose.o \
 	${OBJECTDIR}/Log.o \
 	${OBJECTDIR}/ApplicationClient.o \
 	${OBJECTDIR}/IBus.o
@@ -60,34 +60,34 @@ LDLIBSOPTIONS=/usr/lib/libboost_date_time.a /usr/lib/libboost_system-mt.a /usr/l
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/openbm-gateway
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gateway
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/openbm-gateway: /usr/lib/libboost_date_time.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gateway: /usr/lib/libboost_date_time.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/openbm-gateway: /usr/lib/libboost_system-mt.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gateway: /usr/lib/libboost_system-mt.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/openbm-gateway: /usr/lib/libboost_thread-mt.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gateway: /usr/lib/libboost_thread-mt.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/openbm-gateway: /usr/lib/libboost_program_options-mt.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gateway: /usr/lib/libboost_program_options-mt.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/openbm-gateway: ${OBJECTFILES}
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gateway: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/openbm-gateway ${OBJECTFILES} ${LDLIBSOPTIONS} 
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gateway ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/Application.o: Application.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/Application.o Application.cpp
 
-${OBJECTDIR}/_ext/2043845659/mongoose.o: /media/sda6/home/tevs/src/psyBMW_trunk/OpenBM-Gateway/mongoose.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/2043845659
-	${RM} $@.d
-	$(COMPILE.c) -g -Werror -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/2043845659/mongoose.o /media/sda6/home/tevs/src/psyBMW_trunk/OpenBM-Gateway/mongoose.c
-
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+
+${OBJECTDIR}/mongoose.o: mongoose.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -g -Werror -MMD -MP -MF $@.d -o ${OBJECTDIR}/mongoose.o mongoose.c
 
 ${OBJECTDIR}/Log.o: Log.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -110,7 +110,7 @@ ${OBJECTDIR}/IBus.o: IBus.cpp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/openbm-gateway
+	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gateway
 
 # Subprojects
 .clean-subprojects:

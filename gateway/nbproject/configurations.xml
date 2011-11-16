@@ -25,7 +25,7 @@
       <itemPath>IBus.cpp</itemPath>
       <itemPath>Log.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
-      <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/OpenBM-Gateway/mongoose.c</itemPath>
+      <itemPath>mongoose.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

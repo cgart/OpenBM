@@ -22,6 +22,9 @@
 #include <boost/asio/serial_port.hpp>
 #include <boost/asio/detail/descriptor_ops.hpp>
 #include <boost/asio/serial_port_base.hpp>
+#include <boost/asio/placeholders.hpp>
+#include <boost/asio/read.hpp>
+#include <boost/asio/write.hpp>
 
 #if defined(GENERATING_DOCUMENTATION)
 # define BOOST_ASIO_OPTION_STORAGE implementation_defined
@@ -120,8 +123,12 @@ namespace extserial
             GettableSerialPortBit& bit, boost::system::error_code& ec)
         {
             int status;
-
-            boost::asio::detail::descriptor_ops::ioctl(native(impl), TIOCMGET, &status, ec);
+            //boost::asio::detail::descriptor_ops::state_type state;
+            
+            //int res = 
+            boost::asio::detail::descriptor_ops::error_wrapper(::ioctl(native(impl), TIOCMGET, &status), ec);
+            //ec = boost::system::error_code();
+            //boost::asio::detail::descriptor_ops::ioctl(native(impl), state, TIOCMGET, &status, ec);
             if (ec) return ec;
 
             return bit.load(status, ec);
@@ -147,7 +154,7 @@ namespace extserial
         #if defined(BOOST_WINDOWS) || defined(__CYGWIN__)
             #error "Not implemented for windows system currently!"
         #else
-            boost::asio::detail::descriptor_ops::error_wrapper(::tcdrain(native(impl)), ec);
+            //boost::asio::detail::descriptor_ops::error_wrapper(::tcdrain(native(impl)), ec);
         #endif
             return ec;
         }
@@ -204,4 +211,3 @@ namespace extserial
 #undef BOOST_ASIO_OPTION_STORAGE
 
 #endif	/* _EXTSERIAL_H */
-

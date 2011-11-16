@@ -26,8 +26,9 @@
 #include <boost/tokenizer.hpp>
 #include <boost/algorithm/string/trim.hpp>
 #include <execinfo.h>
+#include <signal.h>
 
-#define VERSION_MINOR 6
+#define VERSION_MINOR 8
 #define VERSION_MAJOR 1
 #define VERSION_NAME "OpenBM-Gateway"
 
@@ -88,7 +89,7 @@ int main(int argc, char** argv)
         ("alivetimeout,t", value<unsigned>(&aliveTimeout)->default_value(openbm::ClientAliveTimeout/1000), "Time in sec to close client connection if not received any ping message from client. The default value is set according to IBus-Gateway protocol.")
 
         ("webport,o", value<unsigned short>(&webport)->default_value(openbm::WebPort), "Port used for built-in webserver.")
-        ("webroot,r", value<std::string>(&webroot)->default_value("/usr/share/openbm/html"), "HTML root directory of the OpenBM gateway server")
+        ("webroot,r", value<std::string>(&webroot)->default_value("html/"), "HTML root directory of the OpenBM gateway server")
         ("webuser", value<std::string>(&webuser)->default_value("bmw"), "Default username to use for the webserver")
         ("webpassword", value<std::string>(&webpassword)->default_value("e39"), "Default password to use for the webserver")
         ("webqueue", value<unsigned int>(&webqueuesize)->default_value(100), "Number of IBus messages to hold in the queue for web interface. This makes sure that no message got lost.")

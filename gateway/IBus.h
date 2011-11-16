@@ -24,6 +24,7 @@
 #include <string>
 #include <boost/function.hpp>
 #include <boost/thread.hpp>
+#include <boost/array.hpp>
 #include <boost/asio/deadline_timer.hpp>
 #include "ExtSerial.h"
 
