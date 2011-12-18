@@ -439,7 +439,7 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
             _reqIgnitionState = 0;
         }
 
-        if (msglen == 7 && msg[0] == IBUS_MSG_IKE_STATE)
+        if (msglen >= 7 && msg[0] == IBUS_MSG_IKE_STATE)
         {
             // hand brake
             _parkingBrake = msg[1] & 1;
