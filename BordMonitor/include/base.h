@@ -26,6 +26,7 @@
 //--------------------------------------------------------------------------
 #include <avr/io.h>
 #include <inttypes.h>
+#define __DELAY_BACKWARD_COMPATIBLE__
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include <stdlib.h>
@@ -38,6 +39,7 @@
 #define is_bit_set(a,b) ((a >> b) & 1)
 #define bit_set(a,b)   a|=(1<<b)   // sbi
 #define bit_clear(a,b) a&=~(1<<b)  // cbi
+#define nop() asm volatile ("nop")
 
 #define false 0
 #define true 1

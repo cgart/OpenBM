@@ -16,8 +16,22 @@ RunningMode _runningMode = INIT;
 
 uint8_t _lastKeyPressed = 0;
 ticks_t _nextIbusTick;
+uint8_t _hwIgnitionState = 0;
+
 
 #define UPDATE_SLEEP_COUNTER() { _nextIbusTick = tick_get() + TICKS_PER_X_SECONDS(300L); }
+
+//------------------------------------------------------------------------------
+void power_setHWIgnitionState(uint8_t state)
+{
+    _hwIgnitionState = state;
+}
+
+//------------------------------------------------------------------------------
+uint8_t power_getHWIgnitionState(void)
+{
+    return _hwIgnitionState;
+}
 
 //------------------------------------------------------------------------------
 // Reset cpu by watchdog, full reset is performed
@@ -35,6 +49,11 @@ void power_reset_cpu(void)
 //------------------------------------------------------------------------------
 void shutDown(void)
 {
+    // shut down main mosfet for the PC
+    PORTB &= ~(1 << 0);    
+    nop();
+    DDRD &= ~(1 << 0);
+    
     cli();
     led_fan_immediate_set(0);
     led_green_immediate_set(0);
@@ -46,14 +65,18 @@ void shutDown(void)
 
     // shut down main board (HACK because of broken TH3122??? need to set TX to low also)
     DDRC |= (1 << DDC3);
+    nop();
     PORTC &= ~(1 << 3);
+
     bit_clear(IBUS_TX_PORT, IBUS_TX_PIN);
+    nop();
+    IBUS_TX_DISOUT();    
 
     _delay_ms(100);
 
     // debug
-    set_sleep_mode(SLEEP_MODE_IDLE);
-    //set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+    //set_sleep_mode(SLEEP_MODE_IDLE);
+    set_sleep_mode(SLEEP_MODE_PWR_DOWN);
     sleep_mode();
     power_reset_cpu();
 }
@@ -195,9 +218,13 @@ void power_resume(void)
 //------------------------------------------------------------------------------
 void power_init(void)
 {
+    DDRB |= (1 << 0);
+    
     _nextIbusTick = 0;
     _lastKeyPressed = 0;
     UPDATE_SLEEP_COUNTER();
+    
+    PORTB |= (1 << 0);    
 }
 
 //------------------------------------------------------------------------------
@@ -206,7 +233,7 @@ void power_init(void)
 // that there is something happening with the buttons
 //------------------------------------------------------------------------------
 ISR(INT1_vect)
-{
+{    
     UPDATE_SLEEP_COUNTER();
     button_isr();
 }

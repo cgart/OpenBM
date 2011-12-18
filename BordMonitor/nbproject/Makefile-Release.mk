@@ -10,37 +10,42 @@
 # Environment
 MKDIR=mkdir
 CP=cp
+GREP=grep
+NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
 CC=avr-gcc
 CCC=avr-g++
 CXX=avr-g++
-FC=
+FC=gfortran
 AS=avr-as
 
 # Macros
 CND_PLATFORM=AVR-Linux-x86
 CND_CONF=Release
 CND_DISTDIR=dist
+CND_BUILDDIR=build
 
 # Include project Makefile
 include Makefile
 
 # Object Directory
-OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
+OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/obm_special.o \
-	${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/ibus.o \
-	${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/main.o \
-	${OBJECTDIR}/buttons.o \
-	${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/uart.o \
-	${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/twimaster.o \
-	${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/photo_sensor.o \
-	${OBJECTDIR}/leds.o \
+	${OBJECTDIR}/ibus.o \
+	${OBJECTDIR}/obm_special.o \
 	${OBJECTDIR}/display.o \
-	${OBJECTDIR}/emul_mid.o
+	${OBJECTDIR}/buttons.o \
+	${OBJECTDIR}/twimaster.o \
+	${OBJECTDIR}/power_module.o \
+	${OBJECTDIR}/emul_mid.o \
+	${OBJECTDIR}/uart.o \
+	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/photo_sensor.o \
+	${OBJECTDIR}/leds.o
+
 
 # C Compiler Flags
 CFLAGS=
@@ -60,69 +65,74 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	${MAKE}  -f nbproject/Makefile-Release.mk dist/Release/AVR-Linux-x86/bordmonitor
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bordmonitor
 
-dist/Release/AVR-Linux-x86/bordmonitor: ${OBJECTFILES}
-	${MKDIR} -p dist/Release/AVR-Linux-x86
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bordmonitor: ${OBJECTFILES}
+	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bordmonitor ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
-${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/obm_special.o: nbproject/Makefile-${CND_CONF}.mk /media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/obm_special.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor
-	${RM} $@.d
-	$(COMPILE.c) -O2 -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/obm_special.o /media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/obm_special.c
-
-${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/ibus.o: nbproject/Makefile-${CND_CONF}.mk /media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/ibus.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor
-	${RM} $@.d
-	$(COMPILE.c) -O2 -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/ibus.o /media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/ibus.c
-
-${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/main.o: nbproject/Makefile-${CND_CONF}.mk /media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/main.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor
-	${RM} $@.d
-	$(COMPILE.c) -O2 -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/main.o /media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/main.c
-
-${OBJECTDIR}/buttons.o: nbproject/Makefile-${CND_CONF}.mk buttons.c 
+${OBJECTDIR}/ibus.o: ibus.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.c) -O2 -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/buttons.o buttons.c
+	$(COMPILE.c) -O2 -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/ibus.o ibus.c
 
-${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/uart.o: nbproject/Makefile-${CND_CONF}.mk /media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/uart.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor
-	${RM} $@.d
-	$(COMPILE.c) -O2 -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/uart.o /media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/uart.c
-
-${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/twimaster.o: nbproject/Makefile-${CND_CONF}.mk /media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/twimaster.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor
-	${RM} $@.d
-	$(COMPILE.c) -O2 -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/twimaster.o /media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/twimaster.c
-
-${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/photo_sensor.o: nbproject/Makefile-${CND_CONF}.mk /media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/photo_sensor.c 
-	${MKDIR} -p ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor
-	${RM} $@.d
-	$(COMPILE.c) -O2 -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/photo_sensor.o /media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/photo_sensor.c
-
-${OBJECTDIR}/leds.o: nbproject/Makefile-${CND_CONF}.mk leds.c 
+${OBJECTDIR}/obm_special.o: obm_special.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.c) -O2 -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/leds.o leds.c
+	$(COMPILE.c) -O2 -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/obm_special.o obm_special.c
 
-${OBJECTDIR}/display.o: nbproject/Makefile-${CND_CONF}.mk display.c 
+${OBJECTDIR}/display.o: display.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.c) -O2 -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/display.o display.c
 
-${OBJECTDIR}/emul_mid.o: nbproject/Makefile-${CND_CONF}.mk emul_mid.c 
+${OBJECTDIR}/buttons.o: buttons.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -O2 -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/buttons.o buttons.c
+
+${OBJECTDIR}/twimaster.o: twimaster.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -O2 -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/twimaster.o twimaster.c
+
+${OBJECTDIR}/power_module.o: power_module.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -O2 -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/power_module.o power_module.c
+
+${OBJECTDIR}/emul_mid.o: emul_mid.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.c) -O2 -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/emul_mid.o emul_mid.c
+
+${OBJECTDIR}/uart.o: uart.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -O2 -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/uart.o uart.c
+
+${OBJECTDIR}/main.o: main.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -O2 -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.c
+
+${OBJECTDIR}/photo_sensor.o: photo_sensor.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -O2 -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/photo_sensor.o photo_sensor.c
+
+${OBJECTDIR}/leds.o: leds.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -O2 -I./include -MMD -MP -MF $@.d -o ${OBJECTDIR}/leds.o leds.c
 
 # Subprojects
 .build-subprojects:
 
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
-	${RM} -r build/Release
-	${RM} dist/Release/AVR-Linux-x86/bordmonitor
+	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
+	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bordmonitor
 
 # Subprojects
 .clean-subprojects:

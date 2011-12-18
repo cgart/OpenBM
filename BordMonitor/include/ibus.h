@@ -65,6 +65,8 @@ extern "C" {
 #define IBUS_DEV_RLS     0xE8    // Rain/Light-Sensor
 #define IBUS_DEV_TV      0xED    // Television
 #define IBUS_DEV_BMBT    0xF0    // On-board monitor operating part
+#define IBUS_DEV_EBMBT   0xF1    // On-board monitor operating part (CarPC)
+#define IBUS_DEV_CARPC   0xF2    // On-board monitor operating part (CarPC)
 #define IBUS_DEV_CSU     0xF5    // unknown
 #define IBUS_DEV_LOC     0xFF    // Local
 
@@ -124,7 +126,8 @@ extern "C" {
 #define IBUS_MSG_OPENBM_SETTINGS    0xFE    // second data byte: write/read settings of OpenBM to/from EEPROM
 
 //*** iBus Settings ***
-#define IBUS_TX_SETUP()               { DDRD |= (1 << DDD1); PORTD |= (1 << 1); }
+#define IBUS_TX_SETUP()               { DDRD |= (1 << DDD1); nop(); PORTD |= (1 << 1); }
+#define IBUS_TX_DISOUT()              { DDRD &= ~(1 << DDD1); }
 #define IBUS_TX_PORT                  PORTD
 #define IBUS_TX_PIN                   1
 #define IBUS_BAUD_HDELAY()            { _delay_us(52); }

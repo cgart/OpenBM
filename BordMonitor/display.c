@@ -212,9 +212,9 @@ void display_init(void)
 
     // setup PWM for the bglight
     DDRD |= (1 << DDD7);
-    TCCR2A = (1 << COM2A1) | (1 << COM2A0) /*| (1 << WGM21) |*/ |  (1 << WGM20);
-    TCCR2B = (1 << CS22)  | (0 << CS21) | (0 << CS20);
-    //TCCR2B = (0 << CS22)  | (1 << CS21) | (0 << CS20);
+    TCCR2A = (1 << COM2A1) | (1 << COM2A0) /*| (1 << WGM21)*/ |  (1 << WGM20);
+    TCCR2B = (1 << CS22)  | (0 << CS21) | (0 << CS20); // 450Hz
+    //TCCR2B = (0 << CS22)  | (1 << CS21) | (0 << CS20); // 3.5kHz - no noise, however brightness troubles due to short pulses
     TCNT2 = 0;
     OCR2A = 0x80;//g_DisplayState.bglight_maxDuty;
     PORTD |= (1 << 7);
@@ -244,7 +244,8 @@ void display_ToggleKey(uint16_t keyVoltage)
 void display_enableBackupCameraInput(uint8_t en)
 {
     uint8_t val = 0xFF;
-    if (en) val &= ~(1 << 4);
+    // TODO / HACK / VERSION - should be (1 << 4) for the openbm < HW2.0 (green pcbs)
+    if (en) val &= ~(1 << 3);
     if (i2c_start(PORT_EXPANDER_ENC_BMBT + I2C_WRITE) == 0)
     {
         i2c_write(val);
@@ -346,6 +347,18 @@ void display_setInputState(uint8_t state)
 //------------------------------------------------------------------------------
 void display_setBackgroundLight(uint8_t duty)
 {
+    /*static uint8_t lastDuty = 0;
+    if (duty > 0xF0 && lastDuty < 0xF0)
+    {
+        TCCR2B = (1 << CS22)  | (0 << CS21) | (0 << CS20); // 450Hz
+        //TCCR2B = (0 << CS22)  | (1 << CS21) | (0 << CS20);
+        lastDuty = duty;
+    }else if (duty < 0xF0 && lastDuty > 0xF0)
+    {
+        //TCCR2B = (1 << CS22)  | (0 << CS21) | (0 << CS20); // 450Hz
+        TCCR2B = (0 << CS22)  | (1 << CS21) | (0 << CS20);
+        lastDuty = duty;        
+    }*/
     OCR2A = duty;
 }
 

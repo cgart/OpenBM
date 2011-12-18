@@ -36,8 +36,8 @@ uint8_t photoSensorLast;
 uint8_t photoSensorRawValue;
 //_aAccum photoSensorRangeFactor;
 
-#define CACHE_RANGE 32
-#define CACHE_FACTOR 5
+#define CACHE_RANGE 64
+#define CACHE_FACTOR 6
 
 //------------------------------------------------------------------------------
 uint8_t photo_calibTableEEPROM[256] EEMEM;
@@ -222,10 +222,10 @@ void photo_init(void)
     {
         eeprom_write_byte(&photo_SettingsInit, EE_CHECK_BYTE);
         
-        eeprom_update_byte(&photo_SettingsEEPROM.photo_minValue, 0x40);
+        eeprom_update_byte(&photo_SettingsEEPROM.photo_minValue, 0x40); // 0x90 if 3.5kHz for duty cycles
         eeprom_update_byte(&photo_SettingsEEPROM.photo_maxValue, 0xFF);
-        eeprom_update_byte(&photo_SettingsEEPROM.photo_minCalibValue, 0x02);
-        eeprom_update_byte(&photo_SettingsEEPROM.photo_maxCalibValue, 0x10);
+        eeprom_update_byte(&photo_SettingsEEPROM.photo_minCalibValue, 0x06);
+        eeprom_update_byte(&photo_SettingsEEPROM.photo_maxCalibValue, 0x13);
         eeprom_update_byte(&photo_SettingsEEPROM.photo_useSensor, USE_PHOTOSENSOR());
         eeprom_update_byte(&photo_SettingsEEPROM.photo_calibChanged, 1);
         eeprom_update_byte(&photo_SettingsEEPROM.photo_sensorLast, 0xFF);

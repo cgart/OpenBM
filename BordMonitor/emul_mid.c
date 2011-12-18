@@ -97,15 +97,6 @@ uint8_t _button_mapping_dbyte1_mask[MID_MAP_SIZE] PROGMEM = {
     0x00
 };
 
-#if 0
-    #if ((DEVICE_CODING2 & REW_FF_ONMID) == REW_FF_ONMID)
-        #define BMBT_RADIO_BUTTONS 9
-        #define BMBT_MAP_SIZE   18
-    #else
-        #define BMBT_RADIO_BUTTONS 11
-        #define BMBT_MAP_SIZE   20
-    #endif
-#endif
 
 // original BMBT codes
 #define BMBT_MAP_SIZE 20
@@ -121,11 +112,8 @@ uint8_t _bmbt_button_mapping[BMBT_MAP_SIZE][3] PROGMEM =
     {BUTTON_EJECT,0x68,0x24},
     {BUTTON_MENU_LR,0xFF,0x34},
 
-// REW and FF buttons send codes as usual
-//#if ((DEVICE_CODING2 & REW_FF_ONMID) != REW_FF_ONMID)
     {BUTTON_FF,0x68,0x00},
     {BUTTON_REW,0x68,0x10},
-//#endif
 
     // Left side
     {BUTTON_INFO_L,0x68,0x07},
@@ -137,7 +125,6 @@ uint8_t _bmbt_button_mapping[BMBT_MAP_SIZE][3] PROGMEM =
     {BUTTON_6,0x68,0x03},
     {BUTTON_AM,0x68,0x21},
     {BUTTON_FM,0x68,0x31}
-//    {BUTTON_MODE,0x68,0x23}
 };
 
 static ticks_t _nextSendMFLSignalTick;
@@ -601,20 +588,21 @@ void mid_tick(void)
             uint8_t bmap = pgm_read_byte(&(_bmbt_button_mapping[i][0]));
             uint8_t bdst = pgm_read_byte(&(_bmbt_button_mapping[i][1]));
             uint8_t bcod = pgm_read_byte(&(_bmbt_button_mapping[i][2]));
-
-            /*if ((bmap == BUTTON_REW || bmap == BUTTON_FF)
-              //&& mid_active_mode() != CARPC_INPUT()
-              && (g_deviceSettings.device_Settings2 & REW_FF_ONMID) != REW_FF_ONMID) continue;
-
-            else if ((bmap == BUTTON_REW || bmap == BUTTON_FF)
-              && mid_active_mode() == CARPC_INPUT()
-              && (g_deviceSettings.device_Settings2 & REW_FF_ONMID) == REW_FF_ONMID) continue;
-            */
+            
             if ((bmap == BUTTON_REW || bmap == BUTTON_FF))
             {
               if (mid_active_mode() != CARPC_INPUT() && (g_deviceSettings.device_Settings2 & REW_FF_ONMID) == REW_FF_ONMID) continue;
             }
 
+            uint8_t src = IBUS_DEV_BMBT;
+            
+            // TODO
+            /*if (obms_does_send_different_buttoncodes() && display_getInputState() == 0)
+            {
+                src = IBUS_DEV_EBMBT;
+                bdst = IBUS_DEV_CARPC;
+            }*/
+            
             // prepare ibus message for this button
             uint8_t data[2] = {IBUS_MSG_BMBT_BUTTON, bcod};
             uint8_t sendmsg = button_pressed(bmap);
@@ -630,7 +618,7 @@ void mid_tick(void)
 
             // send message if one of the buttons is set
             if (sendmsg)
-                ibus_sendMessage(IBUS_DEV_BMBT, bdst, data, 2, IBUS_TRANSMIT_TRIES);
+                ibus_sendMessage(src, bdst, data, 2, IBUS_TRANSMIT_TRIES);
         }
     }
 

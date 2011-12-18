@@ -35,6 +35,9 @@ extern void power_set_running_mode(RunningMode);
 //! Prepare to shutdown. The main module will shutdown after 2 seconds
 extern void power_prepare_shutdown(void);
 
+extern void power_setHWIgnitionState(uint8_t state);
+extern uint8_t power_getHWIgnitionState(void);
+
 #ifdef	__cplusplus
 }
 #endif

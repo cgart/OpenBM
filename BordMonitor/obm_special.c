@@ -183,6 +183,7 @@ static CDChangerState _cdcState = CDC_INIT;
 #define BMBT_LCD_TV_1    (1 << 5)
 #define BMBT_LCD_TV_2    (1 << 6)
 #define BMBT_LCD_TV(a)   ((a & 0b01100000) >> 5)
+#define BMBT_DIFF_KEYS   (1 << 7)
 
 #define BMBT_INPUT_GT  2
 #define BMBT_INPUT_TV  1
@@ -191,6 +192,12 @@ static CDChangerState _cdcState = CDC_INIT;
 uint8_t obms_does_emulate_bordmonitor(void)
 {
     return (obms_Settings.emulateBordmonitor & BMBT);
+}
+
+//------------------------------------------------------------------------------
+uint8_t obms_does_send_different_buttoncodes(void)
+{
+    return (obms_Settings.emulateBordmonitor & BMBT_DIFF_KEYS);    
 }
 
 //------------------------------------------------------------------------------
@@ -931,7 +938,7 @@ void obms_tick(void)
     }
 
     // emulate CD-changer
-    if (obms_Settings.emulateCDchanger && _cdcState != NO && _ignitionState > 0)
+    if (obms_Settings.emulateCDchanger && _cdcState != CDC_INIT && _ignitionState > 0)
     {
         switch (_cdcState)
         {
@@ -961,7 +968,7 @@ void obms_tick(void)
             default:
                 break;
         }
-        _cdcState = NO;
+        _cdcState = CDC_INIT;
     }
 
     // if unfolding is enabled, then unfold the mirrors if they were previously folded
@@ -1027,26 +1034,27 @@ void obms_init(void)
     {
         eeprom_write_byte(&obms_SettingsInit, EE_CHECK_BYTE);
 
-        eeprom_update_byte(&obms_SettingsEEPROM.automaticCentralLock, 5);
+        eeprom_update_byte(&obms_SettingsEEPROM.automaticCentralLock, 0);
         eeprom_update_byte(&obms_SettingsEEPROM.automaticMirrorFold, AUT_MIRROR_FOLD | AUT_MIRROR_UNFOLD);
         eeprom_update_byte(&obms_SettingsEEPROM.mirrorFoldDelay, 4);
-        eeprom_update_byte(&obms_SettingsEEPROM.lockCarUnused, 120);
+        eeprom_update_byte(&obms_SettingsEEPROM.lockCarUnused, 250);
 
         eeprom_update_byte(&obms_SettingsEEPROM.comfortTurnLight, 3);
 
         eeprom_update_byte(&obms_SettingsEEPROM.leavingHome, 30);
-        eeprom_update_byte(&obms_SettingsEEPROM.comingHome, 10);
+        eeprom_update_byte(&obms_SettingsEEPROM.comingHome, 20);
         eeprom_update_dword(&obms_SettingsEEPROM.leavingHomeLights,
                          (BACKLIGHT_LEFT | BACKLIGHT_RIGHT |
                           FOGLIGHT_FRONT_LEFT | FOGLIGHT_FRONT_RIGHT |
                           PARKINGLIGHT_LEFT | PARKINGLIGHT_RIGHT |
+                          REARGEAR_LEFT | REARGEAR_RIGHT |
                           //BRAKE_LEFT | BRAKE_RIGHT |
                           DIMMER_BACKGROUND |
                           LICENSE_PLATE));
 
         eeprom_update_byte(&obms_SettingsEEPROM.emulateCDchanger, (DEVICE_CODING2 & EMULATE_CDCHANGER) == EMULATE_CDCHANGER);
         if ((DEVICE_CODING2 & EMULATE_BORDMONITOR) == EMULATE_BORDMONITOR)
-            eeprom_update_byte(&obms_SettingsEEPROM.emulateBordmonitor, BMBT | BMBT_LCD_OFF | BMBT_LCD_ON | BMBT_LCD_GT_2 | BMBT_LCD_TV_1 | BMBT_LCD_TV_2);
+            eeprom_update_byte(&obms_SettingsEEPROM.emulateBordmonitor, BMBT /*| BMBT_LCD_OFF | BMBT_LCD_ON | BMBT_LCD_GT_2 | BMBT_LCD_TV_1 | BMBT_LCD_TV_2*/ | BMBT_DIFF_KEYS);
         else
             eeprom_update_byte(&obms_SettingsEEPROM.emulateBordmonitor, 0);
     }

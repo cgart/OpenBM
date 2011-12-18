@@ -6,17 +6,11 @@
  */
 
 #include "base.h"
-#include "config.h"
-#include "ibus.h"
 #include "display.h"
 #include "include/config.h"
 #include "buttons.h"
-#include "leds.h"
 #include "emul_mid.h"
 #include "uart.h"
-#include "obm_special.h"
-#include "photo_sensor.h"
-#include "power_module.h"
 #include <i2cmaster.h>
 #include <avr/boot.h>
 #include <avr/sleep.h>
@@ -669,6 +663,7 @@ void checkSetupMode(void)
 //------------------------------------------------------------------------------
 // Set FUSES correctrly ( http://www.engbedded.com/fusecalc/):
 // avrdude -c usbasp -p atmega324p -F -U lfuse:w:0xff:m -U hfuse:w:0xd8:m  (ext crystal, disable jtag, ckopt, boot reset)
+// avrdude -c stk500v2 -p atmega324p -F -U lfuse:w:0xff:m -U hfuse:w:0xd8:m  (ext crystal, disable jtag, ckopt, boot reset)
 //------------------------------------------------------------------------------
 int main(void)
 {
@@ -712,6 +707,8 @@ int main(void)
             // Enable Setup-Mode, i.e. settable settings per buttons
             checkSetupMode();
 
+            //led_yellow_immediate_set(power_getHWIgnitionState());
+            
             // user defined IO-buttons
             for (int8_t ios = 0; ios < 3; ios++)
             {
@@ -725,7 +722,7 @@ int main(void)
                         PORTB &= ~(1 << (5+ios));
                 }
             }
-
+                        
             // perform global tick
             button_after_tick();
             tick();

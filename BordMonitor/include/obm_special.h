@@ -26,6 +26,7 @@ extern void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msgl
 extern void obms_lights_tick(void);
 extern void obms_lights_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen);
 extern uint8_t obms_does_emulate_bordmonitor(void);
+extern uint8_t obms_does_send_different_buttoncodes(void);
 
 #ifdef	__cplusplus
 }

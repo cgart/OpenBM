@@ -7,18 +7,29 @@ CND_BASEDIR=`pwd`
 CND_BUILDDIR=build
 CND_DISTDIR=dist
 # Debug configuration
-CND_PLATFORM_Debug=
-CND_ARTIFACT_DIR_Debug=dist/Debug/
+CND_PLATFORM_Debug=AVR-Linux-x86
+CND_ARTIFACT_DIR_Debug=dist/Debug/AVR-Linux-x86
 CND_ARTIFACT_NAME_Debug=bordmonitor
-CND_ARTIFACT_PATH_Debug=dist/Debug//bordmonitor
-CND_PACKAGE_DIR_Debug=dist/Debug//package
+CND_ARTIFACT_PATH_Debug=dist/Debug/AVR-Linux-x86/bordmonitor
+CND_PACKAGE_DIR_Debug=dist/Debug/AVR-Linux-x86/package
 CND_PACKAGE_NAME_Debug=bordmonitor.tar
-CND_PACKAGE_PATH_Debug=dist/Debug//package/bordmonitor.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/AVR-Linux-x86/package/bordmonitor.tar
 # Release configuration
-CND_PLATFORM_Release=
-CND_ARTIFACT_DIR_Release=dist/Release/
+CND_PLATFORM_Release=AVR-Linux-x86
+CND_ARTIFACT_DIR_Release=dist/Release/AVR-Linux-x86
 CND_ARTIFACT_NAME_Release=bordmonitor
-CND_ARTIFACT_PATH_Release=dist/Release//bordmonitor
-CND_PACKAGE_DIR_Release=dist/Release//package
+CND_ARTIFACT_PATH_Release=dist/Release/AVR-Linux-x86/bordmonitor
+CND_PACKAGE_DIR_Release=dist/Release/AVR-Linux-x86/package
 CND_PACKAGE_NAME_Release=bordmonitor.tar
-CND_PACKAGE_PATH_Release=dist/Release//package/bordmonitor.tar
+CND_PACKAGE_PATH_Release=dist/Release/AVR-Linux-x86/package/bordmonitor.tar
+#
+# include compiler specific variables
+#
+# dmake command
+ROOT:sh = test -f nbproject/private/Makefile-variables.mk || \
+	(mkdir -p nbproject/private && touch nbproject/private/Makefile-variables.mk)
+#
+# gmake command
+.PHONY: $(shell test -f nbproject/private/Makefile-variables.mk || (mkdir -p nbproject/private && touch nbproject/private/Makefile-variables.mk))
+#
+include nbproject/private/Makefile-variables.mk
