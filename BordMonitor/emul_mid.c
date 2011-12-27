@@ -11,8 +11,9 @@
 
 //------------------------------------------------------------------------------
 static uint8_t _active_mode = 0; // 0x01 init, 0x40 radio, 0xC0=cd, 0x80=tape, 0x60=tone, etc.. this come from Radio
-static int8_t _ignitionState = -1;
+static int8_t  _ignitionState = -1;
 static ticks_t _reqIgnitionState = 0;
+static int8_t _powerOnOff = 0;
 
 typedef enum _DevicePollState
 {
@@ -25,15 +26,15 @@ typedef enum _DevicePollState
     DEV_NUM = 4
 }DevicePollState;
 static DevicePollState _pollState = DEV_FIRST;
+static ticks_t _pingTicks = 0;
+static bool    _pollStateRecieved[DEV_NUM];
 
-static bool _pollStateRecieved[DEV_NUM];
+static uint8_t _ackBmbtTape[2] = {0,0};
+
 static uint8_t _ackToSrc = 0;
 static uint8_t _ackAs = 0;
 static uint8_t _ackTextUpdateWithNeg = 0;
-static ticks_t _pingTicks = 0;
 
-static uint8_t _ackBmbtTape[2] = {0,0};
-static uint8_t _ackBmbtPingSrc = 0;
 
 // mapping from button states to MID buttons
 #define MID_MAP_SIZE 15
@@ -99,10 +100,10 @@ uint8_t _button_mapping_dbyte1_mask[MID_MAP_SIZE] PROGMEM = {
 
 
 // original BMBT codes
-#define BMBT_MAP_SIZE 20
+#define BMBT_MAP_SIZE 22
 uint8_t _bmbt_button_mapping[BMBT_MAP_SIZE][3] PROGMEM =
 {
-    {BUTTON_INFO_R,0xFF,0x03},
+    {BUTTON_INFO_R,0xFF,0x09},
     {BUTTON_TONE,0x68,0x04},
     {BUTTON_BMBT_KNOB,0x3B,0x05},
     {BUTTON_UHR,0xFF,0x07},
@@ -124,7 +125,11 @@ uint8_t _bmbt_button_mapping[BMBT_MAP_SIZE][3] PROGMEM =
     {BUTTON_5,0x68,0x13},
     {BUTTON_6,0x68,0x03},
     {BUTTON_AM,0x68,0x21},
-    {BUTTON_FM,0x68,0x31}
+    {BUTTON_FM,0x68,0x31},
+    
+    
+    {BUTTON_MODE,0x68,0x23},
+    {BUTTON_RADIO_KNOB,0x68,0x06}
 };
 
 static ticks_t _nextSendMFLSignalTick;
@@ -134,8 +139,23 @@ static bool _nextSendMFLSignal;
 #define MID_CDCHANGER 1
 #define MID_TAPE      2
 
+static uint8_t _emulation = 0;
+
+#define EMUL_MID  (1 << 0)
+#define EMUL_BMBT (1 << 1)
+
 //------------------------------------------------------------------------------
-uint8_t mid_active_mode(void)
+static inline uint8_t does_emulate_mid(void)
+{
+    return (_emulation & EMUL_MID) == EMUL_MID;
+}
+static inline uint8_t does_emulate_bmbt(void)
+{
+    return (_emulation & EMUL_BMBT) == EMUL_BMBT;
+}
+
+//------------------------------------------------------------------------------
+uint8_t get_active_mode(void)
 {
     if (_active_mode == 0x40) return MID_RADIO; // Radio
     if (_active_mode == 0xC0) return MID_CDCHANGER; // CD-Changer
@@ -171,15 +191,14 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         }
     }
 
-    // answer to request messages C8 03 E7 01 2D -> C0 04 C8 02 00 0E
-    // as soon as any request has been recieved
+    // as soon as any request has been received, mark sender as has been seen
     if (dst == IBUS_DEV_ANZV || dst == IBUS_DEV_MID || dst == IBUS_DEV_GT || dst == IBUS_DEV_BMBT)
     {
         // if we need to poll the answer, then do so
         if (msg[0] == IBUS_MSG_DEV_POLL)
         {
             _ackAs = dst;
-            _ackToSrc = src;
+            _ackToSrc = src;        
         }
 
         if (src == IBUS_DEV_IKE && !_pollStateRecieved[DEV_IKE])
@@ -212,7 +231,7 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
             _pollStateRecieved[DEV_TEL] = 5;
         }
 
-        // if ignition state was unknown before, and has been recieved as active
+        // if ignition state was unknown before, and has been received as active
         // then we should ping for the radio
         if (_ignitionState < 0 && msg[1] > 0)
         {
@@ -230,8 +249,8 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         return;
     }
 
-    // if ignore MFL ff/rew modus is activated, then send resend this event
-    if (src == IBUS_DEV_MFL && dst == IBUS_DEV_RAD && msg[0] == IBUS_MSG_MFL_BUTTON && msglen >= 2 && mid_active_mode() == CARPC_INPUT() && mid_active_mode() == MID_TAPE)
+    // if current input is on CarPC and this is tape and MFL has been pressed, then emulate MFL press again later
+    if (src == IBUS_DEV_MFL && dst == IBUS_DEV_RAD && msg[0] == IBUS_MSG_MFL_BUTTON && msglen >= 2 && get_active_mode() == CARPC_INPUT() && get_active_mode() == MID_TAPE)
     {
         _nextSendMFLSignal = 0;
         
@@ -328,14 +347,14 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         }
 
         // if BMBT emulation is on
-        if (obms_does_emulate_bordmonitor())
+        if (does_emulate_bmbt())
         {
             // we were asked for the state of the tape
             if (msg[0] == IBUS_MSG_BMBT_TAPE_STATE && msglen >= 2)
             {
                 // if we are in the tape mode and carpc is on tape, then say to radio that tape is playing
                 // this would ensure that radio doesn't turn off the audio source
-                if (CARPC_INPUT() == MID_TAPE && mid_active_mode() == CARPC_INPUT())
+                if (CARPC_INPUT() == MID_TAPE && get_active_mode() == CARPC_INPUT())
                 {
                     _ackBmbtTape[0] = 0x06;
                     _ackBmbtTape[1] = 0x11;
@@ -344,14 +363,23 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
                     _ackBmbtTape[0] = 0x05;
                     _ackBmbtTape[1] = 0x00;
                 }
+                
+                // check power On/Off message
+                if (msg[1] == 0xFF)
+                    _powerOnOff = 1;
+                else if (msg[1] == 0x00)
+                    _powerOnOff = -1; // hier ev. 0 by Power Off message from Radio
             }
-
-            // answer ping messages
-            if (msg[0] == IBUS_MSG_DEV_POLL)
-                _ackBmbtPingSrc = src;
         }
+        
     }
 
+    if (src == IBUS_DEV_RAD && msg[0] == IBUS_MSG_RADIO_SRC && msglen >= 2)
+    {
+        if (msg[1] == 0xA0) _active_mode = 0xC0;
+        if (msg[1] == 0xA1) _active_mode = 0x40;
+        if (msg[1] == 0xAF) _active_mode = 0;        
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -368,11 +396,11 @@ void mid_ping_tick(void)
         {
             if (_pollStateRecieved[DEV_RADIO] > 0)
             {
-                ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data, 1, IBUS_TRANSMIT_TRIES);
-
-                if (obms_does_emulate_bordmonitor())
+                if (does_emulate_bmbt())
                     ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_RAD, data, 1, IBUS_TRANSMIT_TRIES);
-
+                else if (does_emulate_mid())
+                    ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data, 1, IBUS_TRANSMIT_TRIES);
+                    
                 _pollStateRecieved[DEV_RADIO]--;
             }
 
@@ -380,7 +408,7 @@ void mid_ping_tick(void)
 
         }else if (_pollState == DEV_IKE)
         {
-            if (_pollStateRecieved[DEV_IKE] > 0)
+            if (_pollStateRecieved[DEV_IKE] > 0 && does_emulate_mid())
             {
                 ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_IKE, data, 1, IBUS_TRANSMIT_TRIES);
                 _pollStateRecieved[DEV_IKE]--;
@@ -390,7 +418,7 @@ void mid_ping_tick(void)
 
         }else if (_pollState == DEV_DSP)
         {
-            if (_pollStateRecieved[DEV_DSP] > 0)
+            if (_pollStateRecieved[DEV_DSP] > 0 && does_emulate_mid())
             {
                 ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_DSP, data, 1, IBUS_TRANSMIT_TRIES);
                 _pollStateRecieved[DEV_DSP]--;
@@ -400,7 +428,7 @@ void mid_ping_tick(void)
 
         }else if (_pollState == DEV_TEL)
         {
-            if (_pollStateRecieved[DEV_TEL] > 0)
+            if (_pollStateRecieved[DEV_TEL] > 0 && does_emulate_mid())
             {
                 ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_TEL, data, 1, IBUS_TRANSMIT_TRIES);
                 _pollStateRecieved[DEV_TEL]--;
@@ -413,18 +441,21 @@ void mid_ping_tick(void)
     }
 
     // if radio has been detected however haven't been asked for its state, do this
-    if (_active_mode == 1)
+    if (_active_mode == 1 )
     {
-        // mein BMW Prof, ohne DSP C0 06 FF 20 20 B0 00 89
-        // Alex BMW Buis,  mit DSP C0 06 FF 20 00 B3 20 8A
+        if (does_emulate_mid())
+        {
+            // mein BMW Prof, ohne DSP C0 06 FF 20 20 B0 00 89
+            // Alex BMW Buis,  mit DSP C0 06 FF 20 00 B3 20 8A
 
-        //uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x20, 0xB2, 0x00 /* DSP 0x20 */};
-        uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x00, 0xB3, 0x20};
+            //uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x20, 0xB2, 0x00 /* DSP 0x20 */};
+            uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x00, 0xB3, 0x20};
 
-        //if (g_deviceSettings.device_Settings2 & RADIO_PROFESSIONAL)
-        //    data[2] |= 0xB2;
+            //if (g_deviceSettings.device_Settings2 & RADIO_PROFESSIONAL)
+            //    data[2] |= 0xB2;
 
-        ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_LOC, data, 4, IBUS_TRANSMIT_TRIES);
+            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_LOC, data, 4, IBUS_TRANSMIT_TRIES);
+        }
         _active_mode = 0;
     }
 }
@@ -435,12 +466,17 @@ void mid_tick(void)
     mid_ping_tick();
     
     // turn ON, radio LED if in RADIO mode
-    led_radio_immediate_set(_active_mode == 0x40);
+    led_radio_immediate_set(get_active_mode() == MID_RADIO);
 
-    // send ACK message if MID has been requested
+    // send ACK message if requested
     if (_ackToSrc)
     {
         uint8_t data[2] = {IBUS_MSG_DEV_READY, 0x00};
+        
+        // acknowledge the poll as BMBT (BMBT seems to ack always with 30)
+        if (_ackAs == IBUS_DEV_BMBT)
+            data[1] = 0x30;
+        
         ibus_sendMessage(_ackAs, _ackToSrc, data, 2, IBUS_TRANSMIT_TRIES);
         _ackToSrc = 0;
     }
@@ -465,51 +501,31 @@ void mid_tick(void)
         _ackBmbtTape[1] = 0;
     }
 
-    // acknowledge the poll
-    if (_ackBmbtPingSrc)
-    {
-        uint8_t data[2] = {IBUS_MSG_DEV_READY, 0x30};
-        ibus_sendMessage(IBUS_DEV_BMBT, _ackBmbtPingSrc, data, 2, IBUS_TRANSMIT_TRIES);
-        _ackBmbtPingSrc = 0;
-    }
 
     // special treatment for the Radio knob button
     // If radio knob is pressed shortly, then on release a message will be sent
     // the same as it was pressed on the MID (turn off message)
     // if radio knob is hold long, then another type of the message will be sent
     // and the release event will be ignored.
+    if (does_emulate_mid())
     {
         static uint8_t ignoreReleaseEvent = 0;
 
         if (button_down_long(BUTTON_RADIO_KNOB))
-        {
+        {       
             ignoreReleaseEvent = 1;
             uint8_t data[2] = {IBUS_MSG_BMBT_BUTTON, 0x46};
             ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_RAD, data, 2, IBUS_TRANSMIT_TRIES);
+            
         }else if (button_released(BUTTON_RADIO_KNOB) && _ignitionState >= 1)
         {
             if (ignoreReleaseEvent == 0)
             {
                 if (_active_mode)
-                {
-                    _pollStateRecieved[DEV_RADIO] = 0;
-                    _pollStateRecieved[DEV_DSP] = 0;
-                    _active_mode = 0;
-
-                    display_powerOff();
-                }else
-                {
-                    _pollStateRecieved[DEV_RADIO] = 5;
-                    _pollStateRecieved[DEV_IKE] = 5;
-                    _pollStateRecieved[DEV_DSP] = 5;
-                    _pollStateRecieved[DEV_TEL] = 5;
-
-                    _active_mode = 1;
-                    _pingTicks = 0xFFFFFF;
-
-                    display_powerOn();
-                }
-
+                    _powerOnOff = -1;
+                else
+                    _powerOnOff = 1;
+                
                 //uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x20, 0xB0, 0x00};
                 uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x20, 0xB2, 0x00};
 
@@ -523,6 +539,32 @@ void mid_tick(void)
         }
     }
 
+    // check whenever we are turned off or on
+    if (_powerOnOff < 0)
+    {
+        _pollStateRecieved[DEV_RADIO] = 0;
+        _pollStateRecieved[DEV_DSP] = 0;
+        _active_mode = 0;
+
+        display_powerOff();
+        
+    }else if (_powerOnOff > 0)
+    {
+        _pollStateRecieved[DEV_RADIO] = 5;
+        _pollStateRecieved[DEV_IKE] = 5;
+        _pollStateRecieved[DEV_DSP] = 5;
+        _pollStateRecieved[DEV_TEL] = 5;
+
+        _active_mode = 1;
+        _pingTicks = 0xFFFFFF;
+
+        display_powerOn();        
+    }        
+    _powerOnOff = 0;    
+
+    
+    // emulate MID buttons, however only if we are emulating MID
+    if (does_emulate_mid())
     {
         uint8_t i;
         for (i=0; i < MID_MAP_SIZE; i++)
@@ -538,15 +580,15 @@ void mid_tick(void)
             if (bmap >= BUTTON_NUM_BUTTONS) continue;
 
             // send MID buttons, however only if not in CarPC mode (MODE send always)
-            if (mid_active_mode() == CARPC_INPUT() && (bmap != BUTTON_MODE && bmap != BUTTON_REW && bmap != BUTTON_FF) ) continue;
+            if (get_active_mode() == CARPC_INPUT() && (bmap != BUTTON_MODE && bmap != BUTTON_REW && bmap != BUTTON_FF) ) continue;
 
             // REW and FF send only as MID button, if this has been set in our device settings
             else if ((bmap == BUTTON_REW || bmap == BUTTON_FF)
-              //&& mid_active_mode() != CARPC_INPUT()
+              //&& get_active_mode() != CARPC_INPUT()
               && (g_deviceSettings.device_Settings2 & REW_FF_ONMID) != REW_FF_ONMID) continue;            
 
             else if ((bmap == BUTTON_REW || bmap == BUTTON_FF)
-              && mid_active_mode() == CARPC_INPUT()
+              && get_active_mode() == CARPC_INPUT()
               && (g_deviceSettings.device_Settings2 & REW_FF_ONMID) == REW_FF_ONMID) continue;
 
             uint8_t bmask = pgm_read_byte(&(_button_mapping_dbyte1_mask[i]));
@@ -571,6 +613,7 @@ void mid_tick(void)
     }
 
     // check BMBT buttons and transmit message
+    // these are transmitted always, however based on emulation MID or BMBT it can react differently
     {
         uint8_t i;
         for (i=0; i < BMBT_MAP_SIZE; i++)
@@ -580,28 +623,21 @@ void mid_tick(void)
             if ((g_deviceSettings.device_Settings2 & REW_FF_ONMID) == REW_FF_ONMID)
                 midButtonsFrom = 9;
 
-            // if we are in the CarPC mode then send other codes for the MID buttons as usual
-            if (mid_active_mode() != CARPC_INPUT() && i >= midButtonsFrom) break;
-            //if (mid_active_mode() != CARPC_INPUT() && i >= BMBT_RADIO_BUTTONS) break;
+            // if we are not in the CarPC mode then send other codes for the MID buttons as usual
+            if (!does_emulate_bmbt() && get_active_mode() != CARPC_INPUT() && i >= midButtonsFrom) break;
 
             // read to which button this one maps to and go to next, if no mapping
             uint8_t bmap = pgm_read_byte(&(_bmbt_button_mapping[i][0]));
             uint8_t bdst = pgm_read_byte(&(_bmbt_button_mapping[i][1]));
             uint8_t bcod = pgm_read_byte(&(_bmbt_button_mapping[i][2]));
             
-            if ((bmap == BUTTON_REW || bmap == BUTTON_FF))
+            if (!does_emulate_bmbt() && (bmap == BUTTON_REW || bmap == BUTTON_FF))
             {
-              if (mid_active_mode() != CARPC_INPUT() && (g_deviceSettings.device_Settings2 & REW_FF_ONMID) == REW_FF_ONMID) continue;
+                if (get_active_mode() != CARPC_INPUT() && (g_deviceSettings.device_Settings2 & REW_FF_ONMID) == REW_FF_ONMID) continue;
             }
 
             uint8_t src = IBUS_DEV_BMBT;
             
-            // TODO
-            /*if (obms_does_send_different_buttoncodes() && display_getInputState() == 0)
-            {
-                src = IBUS_DEV_EBMBT;
-                bdst = IBUS_DEV_CARPC;
-            }*/
             
             // prepare ibus message for this button
             uint8_t data[2] = {IBUS_MSG_BMBT_BUTTON, bcod};
@@ -622,6 +658,7 @@ void mid_tick(void)
         }
     }
 
+    
     // Bordmonitor knob
     int8_t bmbt = button_encoder(ENC_BMBT);
     if (bmbt)
@@ -639,15 +676,21 @@ void mid_tick(void)
     // radio knob
     int encradio = button_encoder(ENC_RADIO);
     if (encradio)
-    {
+    {        
         uint8_t data[2] = {IBUS_MSG_RADIO_ENCODER, 0x00};
 
         if (encradio < 0)
             data[1] = ((-encradio) << 4);
         else
             data[1] = (encradio << 4) + 0x01;
-
-        ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data, 2, 1);
+            
+        // radio knob rotation, however only if BMBT emulation is active
+        if (does_emulate_bmbt())
+            ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_RAD, data, 2, 1);
+        
+        // radio encoder when emulating MID
+        else if (does_emulate_mid())
+            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data, 2, 1);
     }
 
 
@@ -707,7 +750,14 @@ void mid_init(void)
     _pingTicks = 0;
     _ignitionState = -1;
     _reqIgnitionState = 1;
-
+    
+    _emulation = 0;
+        
+    _emulation |= obms_does_emulate_mid() ? EMUL_MID : 0;
+    _emulation |= obms_does_emulate_bordmonitor() ? EMUL_BMBT : 0;
+    
+    _powerOnOff = 0;
+    
     for (int8_t i=0; i < DEV_NUM; i++)
         _pollStateRecieved[i] = 0;
 }

@@ -21,13 +21,14 @@ extern "C"
 
 // Version
 #define VERSION_MAJOR 2
-#define VERSION_MINOR 1
-#define VERSION_ADD_STR "[2.1-rc0] compiled on " __DATE__ " at " __TIME__
+#define VERSION_MINOR 2
+#define VERSION_ADD_STR "[2.2] compiled on " __DATE__ " at " __TIME__ " for " CUSTOMER
 
 #define DEVICE_CODING1 DEVID_11
 #define DEVICE_CODING2 DEVID_12
+#define DEVICE_CODING3 DEVID_13
 
-#define EE_CHECK_BYTE 'E'
+#define EE_CHECK_BYTE 'W'
 
 #define USE_BM_LEDS_BIT       (0b00000100)
 #define CARPC_INPUT_SET(a)    {g_deviceSettings.device_Settings1 &= 0b11100111; g_deviceSettings.device_Settings1 &= (a & 0x03);}
@@ -40,14 +41,20 @@ extern "C"
 #define USE_PHOTOSENSOR()   (g_deviceSettings.device_Settings1 & 0b01000000)   // use photo sensor per default
 
 // Settings (DEVID_12)
-//#define RADIO_BUISINESS    (1 << 0)
+#define EMULATE_MID         (1 << 0)
 #define RADIO_PROFESSIONAL  (1 << 1)
 #define DSP_AMPLIFIER       (1 << 2)
 #define EMULATE_BORDMONITOR (1 << 3)
 #define REW_FF_ONMID        (1 << 4)
 #define EMULATE_CDCHANGER   (1 << 5)
 #define HAS_BACKCAM_SWITCH  ((DEVID_12 & (1 << 6)) == (1 << 6))
+#define OPENBM_HW_1         ((DEVID_12 & (1 << 7)) == (1 << 7))
 
+    
+    
+// Additional Device Settings (DEVID_13)
+#define OBMS_AUT_CENTRALLOCK (1 << 0)
+    
 // -----------------------------------------------------------------------------
 typedef struct _DeviceSettings
 {

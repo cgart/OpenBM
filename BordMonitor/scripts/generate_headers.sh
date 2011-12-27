@@ -47,8 +47,8 @@ cfg=$1
    echo "Customer: " $surname, $name
    echo "Device ID: " $DEVID_1
    echo "Voltage Settings: " $DEVID_2 $DEVID_3 $DEVID_4 $DEVID_5 $DEVID_6 $DEVID_7 $DEVID_8 $DEVID_9 $DEVID_10
-   echo "Device Codings: " $DEVID_11 $DEVID_12
-
+   echo "Device Codings: " $DEVID_11 $DEVID_12 $DEVID_13
+   
    # generate config file, which customer specific
    rm -f $OUTPUT
    touch $OUTPUT
@@ -71,6 +71,7 @@ cfg=$1
    echo "#define DEVID_10 0x"$DEVID_10 >> $OUTPUT
    echo "#define DEVID_11 0x"$DEVID_11 >> $OUTPUT
    echo "#define DEVID_12 0x"$DEVID_12 >> $OUTPUT
+   echo "#define DEVID_13 0x"$DEVID_13 >> $OUTPUT
    echo " " >> $OUTPUT
    echo "// full device id" >> $OUTPUT 
    echo "#define DEVID \""$DEVID_1$DEVID_2$DEVID_3$DEVID_4$DEVID_5$DEVID_6$DEVID_7$DEVID_8$DEVID_9$DEVID_10$DEVID_11$DEVID_12"\"" >> $OUTPUT

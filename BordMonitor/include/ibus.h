@@ -90,6 +90,7 @@ extern "C" {
 #define IBUS_MSG_LED_SPECIAL        0x2D    // set status-LED state (special function, defining blink ratio)
 #define IBUS_MSG_BUTTON             0x31    // MID's button state change
 #define IBUS_MSG_RADIO_ENCODER      0x32    // MID's radio encoder was rotated
+#define IBUS_MSG_RADIO_SRC          0x36    // Radio let us know which source is active
 #define IBUS_MSG_RADIO_CDC          0x38    // Radio asks for cd-changer state
 #define IBUS_MSG_CDC_STATE          0x39    // CD-changer send its state
 #define IBUS_MSG_MFL_BUTTON         0x3B    // MFL's button state change

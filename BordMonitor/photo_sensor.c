@@ -222,7 +222,7 @@ void photo_init(void)
     {
         eeprom_write_byte(&photo_SettingsInit, EE_CHECK_BYTE);
         
-        eeprom_update_byte(&photo_SettingsEEPROM.photo_minValue, 0x40); // 0x90 if 3.5kHz for duty cycles
+        eeprom_update_byte(&photo_SettingsEEPROM.photo_minValue, 0x35); // 0x90 if 3.5kHz for duty cycles
         eeprom_update_byte(&photo_SettingsEEPROM.photo_maxValue, 0xFF);
         eeprom_update_byte(&photo_SettingsEEPROM.photo_minCalibValue, 0x06);
         eeprom_update_byte(&photo_SettingsEEPROM.photo_maxCalibValue, 0x13);

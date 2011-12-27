@@ -34,6 +34,7 @@ extern void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msgle
 extern void mid_stop(void);
 extern void mid_resume(void);
 
+extern void mid_setEmulation(uint8_t mid, uint8_t bmbt);
 
 #ifdef	__cplusplus
 }

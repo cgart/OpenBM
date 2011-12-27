@@ -323,10 +323,10 @@ void get_mcusr(void) \
   __attribute__((naked)) \
   __attribute__((section(".init3")));
 void get_mcusr(void)
-{
+{            
     // enable main MOSFET to control hardware power
     DDRC  |= (1 << DDC3);// | (1 << DDC4);
-    PORTC |= (1 << 3);
+    PORTC |= (1 << 3);// | (1 << 4);
 
     DISP_MOSFET_SETUP;
     DISP_MOSFET_OFF;
@@ -348,6 +348,8 @@ void get_mcusr(void)
 //------------------------------------------------------------------------------
 void initHardware(void)
 {
+    led_init();
+    led_radio_immediate_set(1);
     // init ibus as soon as possible, so that messages don't get lost while initialization procedure
     ibus_init();
     sei();
@@ -380,8 +382,8 @@ void initHardware(void)
     photo_init();
 
     // init software modules
-    mid_init();
     obms_init();
+    mid_init();
 
     // Output for IOs
     DDRB |= (1 << DDB5); PORTB &= ~(1 << 5);

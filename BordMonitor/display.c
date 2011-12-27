@@ -245,7 +245,9 @@ void display_enableBackupCameraInput(uint8_t en)
 {
     uint8_t val = 0xFF;
     // TODO / HACK / VERSION - should be (1 << 4) for the openbm < HW2.0 (green pcbs)
-    if (en) val &= ~(1 << 3);
+    if (en)
+    val &= (OPENBM_HW_1 ? ~(1 << 4) : ~(1 << 3));
+    
     if (i2c_start(PORT_EXPANDER_ENC_BMBT + I2C_WRITE) == 0)
     {
         i2c_write(val);

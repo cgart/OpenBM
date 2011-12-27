@@ -31,6 +31,7 @@ typedef struct _OBMSSettings
 
     uint8_t emulateCDchanger;
     uint8_t emulateBordmonitor;
+    uint8_t emulateMID;
     
     uint8_t  automaticMirrorFold;
     uint8_t  mirrorFoldDelay;
@@ -192,6 +193,12 @@ static CDChangerState _cdcState = CDC_INIT;
 uint8_t obms_does_emulate_bordmonitor(void)
 {
     return (obms_Settings.emulateBordmonitor & BMBT);
+}
+
+//------------------------------------------------------------------------------
+uint8_t obms_does_emulate_mid(void)
+{
+    return (obms_Settings.emulateMID) != 0;
 }
 
 //------------------------------------------------------------------------------
@@ -404,13 +411,6 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         {
             _reqGMState = 0;
 
-            // central unlocked   00 05 BF 7A [dd1=10] [dd2=00] xx // dd1 = bit8 - trunk, bit7 = kl50, bit6=locked, bit5=?, bit4-bit1=door, dd2 = bit6 - trunk opened, bit4-1 windows
-            // central locked     00 05 BF 7A 20 00 xx
-            /*if (msg[1] & 0x20)
-                _centralLocked = 1;
-            else
-                _centralLocked = 0;*/
-
             if ((msg[1] & 0xF0) && _lockCarIfNoDoorOpenedActive)
                 _lockCarIfNoDoorOpened = tick_get() + TICKS_PER_X_SECONDS(obms_Settings.lockCarUnused);
 
@@ -480,6 +480,8 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         _lockCarIfNoDoorOpenedActive = false;
         if (_leavingHome == HOLD)
             _leavingHome = STOP;
+        else
+            _leavingHome = DISABLED;
     }
 
     // update of the lamp state
@@ -602,6 +604,11 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         {
             eeprom_update_byte(&obms_SettingsEEPROM.mirrorFoldDelay, msg[3]);
             obms_Settings.mirrorFoldDelay = msg[3];
+            ok = 1;
+        }else if (msglen == 4 && msg[2] == 0x0B)
+        {
+            eeprom_update_byte(&obms_SettingsEEPROM.emulateMID, msg[3]);
+            obms_Settings.emulateMID = msg[3];
             ok = 1;
         }else
         {
@@ -1034,15 +1041,15 @@ void obms_init(void)
     {
         eeprom_write_byte(&obms_SettingsInit, EE_CHECK_BYTE);
 
-        eeprom_update_byte(&obms_SettingsEEPROM.automaticCentralLock, 0);
+        eeprom_update_byte(&obms_SettingsEEPROM.automaticCentralLock, (DEVICE_CODING3 & OBMS_AUT_CENTRALLOCK) == OBMS_AUT_CENTRALLOCK ? 5 : 0);
         eeprom_update_byte(&obms_SettingsEEPROM.automaticMirrorFold, AUT_MIRROR_FOLD | AUT_MIRROR_UNFOLD);
         eeprom_update_byte(&obms_SettingsEEPROM.mirrorFoldDelay, 4);
-        eeprom_update_byte(&obms_SettingsEEPROM.lockCarUnused, 250);
+        eeprom_update_byte(&obms_SettingsEEPROM.lockCarUnused, 160);
 
         eeprom_update_byte(&obms_SettingsEEPROM.comfortTurnLight, 3);
 
         eeprom_update_byte(&obms_SettingsEEPROM.leavingHome, 30);
-        eeprom_update_byte(&obms_SettingsEEPROM.comingHome, 20);
+        eeprom_update_byte(&obms_SettingsEEPROM.comingHome, 10);
         eeprom_update_dword(&obms_SettingsEEPROM.leavingHomeLights,
                          (BACKLIGHT_LEFT | BACKLIGHT_RIGHT |
                           FOGLIGHT_FRONT_LEFT | FOGLIGHT_FRONT_RIGHT |
@@ -1053,10 +1060,13 @@ void obms_init(void)
                           LICENSE_PLATE));
 
         eeprom_update_byte(&obms_SettingsEEPROM.emulateCDchanger, (DEVICE_CODING2 & EMULATE_CDCHANGER) == EMULATE_CDCHANGER);
+        eeprom_update_byte(&obms_SettingsEEPROM.emulateMID, (DEVICE_CODING2 & EMULATE_MID) == EMULATE_MID);
+        
         if ((DEVICE_CODING2 & EMULATE_BORDMONITOR) == EMULATE_BORDMONITOR)
             eeprom_update_byte(&obms_SettingsEEPROM.emulateBordmonitor, BMBT /*| BMBT_LCD_OFF | BMBT_LCD_ON | BMBT_LCD_GT_2 | BMBT_LCD_TV_1 | BMBT_LCD_TV_2*/ | BMBT_DIFF_KEYS);
         else
             eeprom_update_byte(&obms_SettingsEEPROM.emulateBordmonitor, 0);
+        
     }
 
     // read settings from EEPROM
@@ -1074,4 +1084,5 @@ void obms_init(void)
 
     obms_Settings.emulateCDchanger = eeprom_read_byte(&obms_SettingsEEPROM.emulateCDchanger);
     obms_Settings.emulateBordmonitor = eeprom_read_byte(&obms_SettingsEEPROM.emulateBordmonitor);
+    obms_Settings.emulateMID = eeprom_read_byte(&obms_SettingsEEPROM.emulateMID);
 }
