@@ -1063,7 +1063,7 @@ void obms_init(void)
         eeprom_update_byte(&obms_SettingsEEPROM.emulateMID, (DEVICE_CODING2 & EMULATE_MID) == EMULATE_MID);
         
         if ((DEVICE_CODING2 & EMULATE_BORDMONITOR) == EMULATE_BORDMONITOR)
-            eeprom_update_byte(&obms_SettingsEEPROM.emulateBordmonitor, BMBT /*| BMBT_LCD_OFF | BMBT_LCD_ON | BMBT_LCD_GT_2 | BMBT_LCD_TV_1 | BMBT_LCD_TV_2*/ | BMBT_DIFF_KEYS);
+            eeprom_update_byte(&obms_SettingsEEPROM.emulateBordmonitor, BMBT | BMBT_LCD_OFF | BMBT_LCD_ON /*| BMBT_LCD_GT_2 | BMBT_LCD_TV_1 | BMBT_LCD_TV_2*/ | BMBT_DIFF_KEYS);
         else
             eeprom_update_byte(&obms_SettingsEEPROM.emulateBordmonitor, 0);
         

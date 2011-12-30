@@ -86,6 +86,7 @@ extern "C" {
 #define IBUS_MSG_MID_ACK_TEXT       0x22    // mid aknowledges that text was received
 #define IBUS_MSG_UPDATE_MID_TOP     0x23    // update information on text display
 #define IBUS_MSG_UPDATE_MID_TOP_FREQ 0x24   // update frequency field of the radio
+#define IBUS_MSG_LED_AUX_HEATING    0x2A    // set aux heating-LED state
 #define IBUS_MSG_LED                0x2B    // set status-LED state
 #define IBUS_MSG_LED_SPECIAL        0x2D    // set status-LED state (special function, defining blink ratio)
 #define IBUS_MSG_BUTTON             0x31    // MID's button state change
@@ -94,6 +95,7 @@ extern "C" {
 #define IBUS_MSG_RADIO_CDC          0x38    // Radio asks for cd-changer state
 #define IBUS_MSG_CDC_STATE          0x39    // CD-changer send its state
 #define IBUS_MSG_MFL_BUTTON         0x3B    // MFL's button state change
+#define IBUS_MSG_BMBT_BUTTON_SPEC   0x47    // action with special BMBT button (INFO and SELECT)
 #define IBUS_MSG_BMBT_BUTTON        0x48    // action with BMBT button
 #define IBUS_MSG_BMBT_ENCODER       0x49    // BMBT encoder was rotated
 #define IBUS_MSG_BMBT_TAPE_STATE    0x4A    // BMBT tape state set or get

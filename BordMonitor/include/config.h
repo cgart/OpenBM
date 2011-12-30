@@ -28,7 +28,7 @@ extern "C"
 #define DEVICE_CODING2 DEVID_12
 #define DEVICE_CODING3 DEVID_13
 
-#define EE_CHECK_BYTE 'W'
+#define EE_CHECK_BYTE 'R'
 
 #define USE_BM_LEDS_BIT       (0b00000100)
 #define CARPC_INPUT_SET(a)    {g_deviceSettings.device_Settings1 &= 0b11100111; g_deviceSettings.device_Settings1 &= (a & 0x03);}

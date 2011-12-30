@@ -103,13 +103,13 @@ uint8_t _button_mapping_dbyte1_mask[MID_MAP_SIZE] PROGMEM = {
 #define BMBT_MAP_SIZE 22
 uint8_t _bmbt_button_mapping[BMBT_MAP_SIZE][3] PROGMEM =
 {
-    {BUTTON_INFO_R,0xFF,0x09},
+    {BUTTON_INFO_R,0x68,0x30},
     {BUTTON_TONE,0x68,0x04},
     {BUTTON_BMBT_KNOB,0x3B,0x05},
     {BUTTON_UHR,0xFF,0x07},
     {BUTTON_TEL,0xFF,0x08},
     {BUTTON_PRG,0x68,0x14},
-    {BUTTON_SELECT,0x68,0x20},
+    {BUTTON_SELECT,0xFF,0x0F}, //   used earlier as of Alextronic {BUTTON_SELECT,0x68,0x20},
     {BUTTON_EJECT,0x68,0x24},
     {BUTTON_MENU_LR,0xFF,0x34},
 
@@ -117,7 +117,7 @@ uint8_t _bmbt_button_mapping[BMBT_MAP_SIZE][3] PROGMEM =
     {BUTTON_REW,0x68,0x10},
 
     // Left side
-    {BUTTON_INFO_L,0x68,0x07},
+    {BUTTON_INFO_L,0xFF,0x38}, //    used earlier as of Alextronic {BUTTON_INFO_L,0x68,0x07},
     {BUTTON_1,0x68,0x11},
     {BUTTON_2,0x68,0x01},
     {BUTTON_3,0x68,0x12},
@@ -306,6 +306,9 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
 
             if (msg[1] & (1 << 6)) led_fan_set(0b11111111); else led_fan_set(0);
             if (msg[1] & (1 << 7)) led_fan_set(0b11110000);
+        }else if (msg[0] == IBUS_MSG_LED_AUX_HEATING && USE_BM_LEDS() && msglen >= 3)
+        {
+            if (msg[2] & 0x08) led_fan_set(0b11110000); else led_fan_set(0);
         }
 
         return;
@@ -366,14 +369,21 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
                 
                 // check power On/Off message
                 if (msg[1] == 0xFF)
-                    _powerOnOff = 1;
-                else if (msg[1] == 0x00)
-                    _powerOnOff = -1; // hier ev. 0 by Power Off message from Radio
+                {
+                //    _powerOnOff = 1;
+                    _active_mode = 0x40; // here emulate Radio enable, so that the Radio LED lits as soon as Audio is on
+                }else if (msg[1] == 0x00)
+                {
+                //    _powerOnOff = -1; // hier ev. 0 by Power Off message from Radio
+                    _active_mode = 0; // here we disable active mode, since radio is also disabled
+                }
             }
         }
         
     }
 
+
+    // try to find out current active audio source
     if (src == IBUS_DEV_RAD && msg[0] == IBUS_MSG_RADIO_SRC && msglen >= 2)
     {
         if (msg[1] == 0xA0) _active_mode = 0xC0;
@@ -637,24 +647,45 @@ void mid_tick(void)
             }
 
             uint8_t src = IBUS_DEV_BMBT;
+            uint8_t datalen = 2;
             
-            
-            // prepare ibus message for this button
-            uint8_t data[2] = {IBUS_MSG_BMBT_BUTTON, bcod};
             uint8_t sendmsg = button_pressed(bmap);
-            if (button_released(bmap))
+            uint8_t data[3] = {IBUS_MSG_BMBT_BUTTON, bcod, bcod};
+                
+            // special treatment for the SELECT and INFO buttons
+            if (bmap == BUTTON_INFO_L || bmap == BUTTON_SELECT)
             {
-                data[1] += 0x80;
-                sendmsg = 1;
-            }else if (button_down_long(bmap))
-            {
-                data[1] += 0x40;
-                sendmsg = 1;
+                datalen = 3;
+                data[0] = IBUS_MSG_BMBT_BUTTON_SPEC;
+                data[1] = 0;
+                
+                if (button_released(bmap))
+                {
+                    data[2] += 0x80;
+                    sendmsg = 1;
+                }else if (button_down_long(bmap))
+                {
+                    data[2] += 0x40;
+                    sendmsg = 1;
+                }
+                
+            }else
+            {            
+                datalen = 2;
+                if (button_released(bmap))
+                {
+                    data[1] += 0x80;
+                    sendmsg = 1;
+                }else if (button_down_long(bmap))
+                {
+                    data[1] += 0x40;
+                    sendmsg = 1;
+                }
             }
-
+            
             // send message if one of the buttons is set
             if (sendmsg)
-                ibus_sendMessage(src, bdst, data, 2, IBUS_TRANSMIT_TRIES);
+                ibus_sendMessage(src, bdst, data, datalen, IBUS_TRANSMIT_TRIES);
         }
     }
 
