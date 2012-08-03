@@ -1,0 +1,1675 @@
+2012-02-04 11:04:02.236:  !
+2012-02-04 11:04:02.236:  ! NavCoder v2.9.154.Beta [DE] [Multi-protocol] logging started
+2012-02-04 11:04:02.236:  ! Running on Windows XP Professional (Service Pack 3)  [de-DE]
+2012-02-04 11:04:02.236:  ! [Debug Mode]
+2012-02-04 11:04:02.236:  ! [Multi-procotol enabled]
+2012-02-04 11:04:02.236:  ! [Procotol = i/k-bus]
+2012-02-04 11:04:04.570:  7F 04 68 A7 10 A4
+2012-02-04 11:04:04.570:  NAV  --> RAD : TMC status request, Update_Class=10
+2012-02-04 11:04:04.580:  7F 04 68 A7 30 84
+2012-02-04 11:04:04.580:  NAV  --> RAD : TMC status request, Update_Class=30
+2012-02-04 11:04:09.557:  44 05 BF 74 00 FF 75
+2012-02-04 11:04:09.557:  EWS  --> GLO : Immobiliser status, No_key_detected Vehicle_immobilised
+2012-02-04 11:04:09.597:  30 04 BF 51 00 DA
+2012-02-04 11:04:09.597:  CCM  --> GLO : Checkcontrol sensors, 
+2012-02-04 11:04:09.857:  44 05 BF 74 04 01 8F
+2012-02-04 11:04:09.857:  EWS  --> GLO : Immobiliser status, Valid_key_detected Key_1
+2012-02-04 11:04:09.877:  44 05 BF 74 00 FF 75
+2012-02-04 11:04:09.877:  EWS  --> GLO : Immobiliser status, No_key_detected Vehicle_immobilised
+2012-02-04 11:04:10.068:  44 05 BF 74 04 01 8F
+2012-02-04 11:04:10.068:  EWS  --> GLO : Immobiliser status, Valid_key_detected Key_1
+2012-02-04 11:04:10.348:  E8 05 D0 59 10 00 74
+2012-02-04 11:04:10.348:  RLS  --> LCM : Light control status, Control: Turn_lights_off Sensor_OK Level_Signal_invalid Reason:Data="10 00"
+2012-02-04 11:04:10.398:  80 04 BF 11 01 2B
+2012-02-04 11:04:10.398:  IKE  --> GLO : Ignition status, Pos1_Acc
+2012-02-04 11:04:10.408:  ED 05 F0 4F 12 11 54
+2012-02-04 11:04:10.408:  VID  --> BMBT: RGB control, LCD_on GT
+2012-02-04 11:04:10.428:  D0 07 BF 5B 00 00 00 00 33
+2012-02-04 11:04:10.428:  LCM  --> GLO : Lamp status, All_Off  All_OK
+2012-02-04 11:04:10.458:  80 0A BF 13 00 00 00 00 00 00 3F 19
+2012-02-04 11:04:10.458:  IKE  --> GLO : IKE sensor status, 
+2012-02-04 11:04:10.468:  D0 05 BF 5C FF 00 C9
+2012-02-04 11:04:10.468:  LCM  --> GLO : Light dimmer, 255 (max)
+2012-02-04 11:04:10.478:  3B 04 BF 02 40 C2
+2012-02-04 11:04:10.478:  GT   --> GLO : Device status ready, Bit6
+2012-02-04 11:04:10.498:  3B 05 68 4E 00 00 18
+2012-02-04 11:04:10.498:  GT   --> RAD : Audio source selection, 
+2012-02-04 11:04:10.498:  3F 03 D0 0B E7
+2012-02-04 11:04:10.498:  DIA  --> LCM : Read IO status
+2012-02-04 11:04:10.508:  30 04 BF 51 04 DE
+2012-02-04 11:04:10.508:  CCM  --> GLO : Checkcontrol sensors, Key_in_Ignition
+2012-02-04 11:04:10.518:  7F 04 43 AB 21 B2
+2012-02-04 11:04:10.518:  NAV  --> GTF : Remote control status, , Data="21"
+2012-02-04 11:04:10.528:  3B 03 46 01 7F
+2012-02-04 11:04:10.528:  GT   --> CID : Device status request
+2012-02-04 11:04:10.538:  3B 05 BB 4F 02 00 C8
+2012-02-04 11:04:10.538:  GT   --> NAJ : RGB control, LCD_off GT
+2012-02-04 11:04:10.588:  D0 23 3F A0 C1 C0 00 00 00 00 00 00 00 A2 BF 00 00 00 00 E4 FF 00 08 00 00 00 00 00 00 00 00 00 00 FF FF FE 9D
+2012-02-04 11:04:10.588:  LCM  --> DIA : Diagnostic command acknowledged, Data="C1 C0 00 00 00 00 00 00 00 A2 BF 00 00 00 00 E4 FF 00 08 00 00 00 00 00 00 00 00 00 00 FF FF FE"    [ÁÀ       ¢¿    äÿ            ÿÿþ]
+2012-02-04 11:04:10.618:  3B 04 F0 4A 90 15
+2012-02-04 11:04:10.618:  GT   --> BMBT: Cassette control, State_unknown, Data="90"
+2012-02-04 11:04:10.628:  3B 04 68 45 11 03
+2012-02-04 11:04:10.628:  GT   --> RAD : Radio status request, Data="11"
+2012-02-04 11:04:10.628:  7F 05 68 A7 1F 00 AA
+2012-02-04 11:04:10.628:  NAV  --> RAD : TMC status request, Update_Class=1F
+2012-02-04 11:04:10.638:  F0 04 68 4B 05 D2
+2012-02-04 11:04:10.638:  BMBT --> RAD : Cassette status, No_Tape
+2012-02-04 11:04:10.648:  7F 05 68 A7 3F 00 8A
+2012-02-04 11:04:10.648:  NAV  --> RAD : TMC status request, Update_Class=3F
+2012-02-04 11:04:10.648:  C8 07 7F A9 0B 00 01 01 12
+2012-02-04 11:04:10.648:  TEL  --> NAV : Telephone data, Data="0B 00 01 01"
+2012-02-04 11:04:10.668:  C8 04 E7 2B 00 00
+2012-02-04 11:04:10.668:  TEL  --> ANZV: Telephone indicators, All_off
+2012-02-04 11:04:10.688:  C8 07 7F A9 0B 00 00 01 13
+2012-02-04 11:04:10.688:  TEL  --> NAV : Telephone data, Data="0B 00 00 01"
+2012-02-04 11:04:10.698:  C8 04 E7 2C 00 07
+2012-02-04 11:04:10.698:  TEL  --> ANZV: Telephone status, Phone_Inactive
+2012-02-04 11:04:10.708:  C8 03 80 14 5F
+2012-02-04 11:04:10.708:  TEL  --> IKE : Country coding status request
+2012-02-04 11:04:10.718:  C8 07 7F A9 0B 00 00 05 17
+2012-02-04 11:04:10.718:  TEL  --> NAV : Telephone data, Data="0B 00 00 05"
+2012-02-04 11:04:10.738:  C8 04 E7 2C 00 07
+2012-02-04 11:04:10.738:  TEL  --> ANZV: Telephone status, Phone_Inactive
+2012-02-04 11:04:10.738:  C8 04 E7 2B 00 00
+2012-02-04 11:04:10.738:  TEL  --> ANZV: Telephone indicators, All_off
+2012-02-04 11:04:10.759:  C8 04 FF 02 31 00
+2012-02-04 11:04:10.759:  TEL  --> LOC : Device status ready, after Reset Assist_ready_after_Reset Bit5
+2012-02-04 11:04:10.769:  80 05 E7 2A 00 00 48
+2012-02-04 11:04:10.769:  IKE  --> ANZV: On-board computer special indicators, Aux_Heating_LED = Off
+2012-02-04 11:04:10.789:  E8 05 D0 59 50 00 34
+2012-02-04 11:04:10.789:  RLS  --> LCM : Light control status, Control: Turn_lights_off Sensor_OK Level_Signal_invalid Reason:Data="50 00"
+2012-02-04 11:04:10.809:  00 04 BF 72 02 CB
+2012-02-04 11:04:10.809:  GM   --> GLO : ChkCtrl Remote Central Locking, No_Button_Pressed
+2012-02-04 11:04:10.809:  44 05 BF 74 05 01 8E
+2012-02-04 11:04:10.809:  EWS  --> GLO : Immobiliser status, Immobilisation_deactivated Valid_key_detected Key_1
+2012-02-04 11:04:10.839:  00 05 BF 7A 10 1F CF
+2012-02-04 11:04:10.839:  GM   --> GLO : Doors/flaps status, Open:  WndwDvr WndwPgr WndwDvrRr WndwPgrRr Sunroof   Ctrl_Locking: Unlocked
+2012-02-04 11:04:10.859:  A4 06 BF 70 03 00 0A 64
+2012-02-04 11:04:10.859:  AB   --> GLO : Remote control central locking status, Data="03 00 0A"
+2012-02-04 11:04:10.869:  B0 03 7F 01 CD
+2012-02-04 11:04:10.869:  SES  --> NAV : Device status request
+2012-02-04 11:04:10.879:  80 07 BF 15 00 04 00 42 6B
+2012-02-04 11:04:10.879:  IKE  --> GLO : Country coding status, Ntwk=E38/E39 Lang=DE_German Clock=24h OutTemp=°C AvgSpd=km/h Limit=km Dist=km ArrTime=24h Consump=l/100_km Motor=Petrol
+2012-02-04 11:04:10.889:  80 04 BF 11 01 2B
+2012-02-04 11:04:10.889:  IKE  --> GLO : Ignition status, Pos1_Acc
+2012-02-04 11:04:10.899:  7F 04 B0 02 40 89
+2012-02-04 11:04:10.899:  NAV  --> SES : Device status ready, Bit6
+2012-02-04 11:04:10.909:  68 05 BF 02 01 03 D2
+2012-02-04 11:04:10.909:  RAD  --> GLO : Device status ready, after Reset
+2012-02-04 11:04:10.919:  68 05 76 38 00 00 23
+2012-02-04 11:04:10.919:  RAD  --> CDCD: CD_control, Status_Request
+2012-02-04 11:04:10.929:  68 04 3B 46 08 19
+2012-02-04 11:04:10.929:  RAD  --> GT  : LCD clear, : Tone menu off
+2012-02-04 11:04:10.939:  68 04 3B 46 04 15
+2012-02-04 11:04:10.939:  RAD  --> GT  : LCD clear, : Select menu off
+2012-02-04 11:04:10.949:  50 04 FF 3B 00 90
+2012-02-04 11:04:10.949:  MFL  --> LOC : Radio/Telephone control, No_buttons_pressed
+2012-02-04 11:04:10.959:  3B 04 68 45 11 03
+2012-02-04 11:04:10.959:  GT   --> RAD : Radio status request, Data="11"
+2012-02-04 11:04:10.969:  3B 05 68 4E 00 00 18
+2012-02-04 11:04:10.969:  GT   --> RAD : Audio source selection, 
+2012-02-04 11:04:10.979:  80 05 E7 2A 00 00 48
+2012-02-04 11:04:10.979:  IKE  --> ANZV: On-board computer special indicators, Aux_Heating_LED = Off
+2012-02-04 11:04:11.009:  68 04 F0 4A FF 29
+2012-02-04 11:04:11.009:  RAD  --> BMBT: Cassette control, Power_On
+2012-02-04 11:04:11.019:  68 05 7F 02 01 03 12
+2012-02-04 11:04:11.019:  RAD  --> NAV : Device status ready, after Reset
+2012-02-04 11:04:11.019:  F0 04 68 4B 05 D2
+2012-02-04 11:04:11.019:  BMBT --> RAD : Cassette status, No_Tape
+2012-02-04 11:04:11.029:  68 04 3B 46 01 10
+2012-02-04 11:04:11.029:  RAD  --> GT  : LCD clear, : No display required
+2012-02-04 11:04:11.059:  80 04 BF 11 01 2B
+2012-02-04 11:04:11.059:  IKE  --> GLO : Ignition status, Pos1_Acc
+2012-02-04 11:04:11.059:  80 05 E7 2A 00 00 48
+2012-02-04 11:04:11.059:  IKE  --> ANZV: On-board computer special indicators, Aux_Heating_LED = Off
+2012-02-04 11:04:11.089:  E8 05 D0 59 50 00 34
+2012-02-04 11:04:11.089:  RLS  --> LCM : Light control status, Control: Turn_lights_off Sensor_OK Level_Signal_invalid Reason:Data="50 00"
+2012-02-04 11:04:12.321:  80 0A BF 17 E2 87 02 80 10 32 CC 2B
+2012-02-04 11:04:12.321:  IKE  --> GLO : Odometer, 165.858 kms  [103.059 mls]
+2012-02-04 11:04:12.381:  50 03 B0 01 E2
+2012-02-04 11:04:12.381:  MFL  --> SES : Device status request
+2012-02-04 11:04:12.391:  B0 04 50 02 00 E6
+2012-02-04 11:04:12.391:  SES  --> MFL : Device status ready, 
+2012-02-04 11:04:12.411:  3B 03 F0 01 C9
+2012-02-04 11:04:12.411:  GT   --> BMBT: Device status request
+2012-02-04 11:04:12.451:  F0 04 3B 02 30 FD
+2012-02-04 11:04:12.451:  BMBT --> GT  : Device status ready, Bit4 Bit5
+2012-02-04 11:04:12.932:  68 04 F0 4A 90 46
+2012-02-04 11:04:12.932:  RAD  --> BMBT: Cassette control, State_unknown, Data="90"
+2012-02-04 11:04:12.952:  68 03 18 01 72
+2012-02-04 11:04:12.952:  RAD  --> CDC : Device status request
+2012-02-04 11:04:12.962:  F0 04 68 4B 05 D2
+2012-02-04 11:04:12.962:  BMBT --> RAD : Cassette status, No_Tape
+2012-02-04 11:04:12.972:  18 04 FF 02 00 E1
+2012-02-04 11:04:12.972:  CDC  --> LOC : Device status ready, 
+2012-02-04 11:04:12.982:  68 03 76 01 1C
+2012-02-04 11:04:12.982:  RAD  --> CDCD: Device status request
+2012-02-04 11:04:12.992:  68 04 F0 4A 48 9E
+2012-02-04 11:04:12.992:  RAD  --> BMBT: Cassette control, State_unknown, Data="48"
+2012-02-04 11:04:13.022:  F0 04 68 4B 05 D2
+2012-02-04 11:04:13.022:  BMBT --> RAD : Cassette status, No_Tape
+2012-02-04 11:04:13.172:  68 04 F0 4A FF 29
+2012-02-04 11:04:13.172:  RAD  --> BMBT: Cassette control, Power_On
+2012-02-04 11:04:13.192:  F0 04 68 4B 05 D2
+2012-02-04 11:04:13.192:  BMBT --> RAD : Cassette status, No_Tape
+2012-02-04 11:04:13.202:  68 04 F0 4A 48 9E
+2012-02-04 11:04:13.202:  RAD  --> BMBT: Cassette control, State_unknown, Data="48"
+2012-02-04 11:04:13.222:  F0 04 68 4B 05 D2
+2012-02-04 11:04:13.222:  BMBT --> RAD : Cassette status, No_Tape
+2012-02-04 11:04:13.372:  68 03 6A 01 00
+2012-02-04 11:04:13.372:  RAD  --> DSP : Device status request
+2012-02-04 11:04:13.442:  C8 04 E7 2B 00 00
+2012-02-04 11:04:13.442:  TEL  --> ANZV: Telephone indicators, All_off
+2012-02-04 11:04:13.472:  C8 07 7F A9 0B 00 00 03 11
+2012-02-04 11:04:13.472:  TEL  --> NAV : Telephone data, Data="0B 00 00 03"
+2012-02-04 11:04:13.482:  C8 04 E7 2B 01 01
+2012-02-04 11:04:13.482:  TEL  --> ANZV: Telephone indicators, Red
+2012-02-04 11:04:14.143:  C8 04 E7 2C 90 97
+2012-02-04 11:04:14.143:  TEL  --> ANZV: Telephone status, Phone_On
+2012-02-04 11:04:14.183:  A4 06 BF 70 02 00 0A 65
+2012-02-04 11:04:14.183:  AB   --> GLO : Remote control central locking status, Data="02 00 0A"
+2012-02-04 11:04:14.584:  A4 06 BF 70 02 00 3A 55
+2012-02-04 11:04:14.584:  AB   --> GLO : Remote control central locking status, Data="02 00 3A"
+2012-02-04 11:04:14.694:  A4 06 BF 70 03 00 3A 54
+2012-02-04 11:04:14.694:  AB   --> GLO : Remote control central locking status, Data="03 00 3A"
+2012-02-04 11:04:15.575:  7F 14 C8 A2 01 00 50 48 11 40 00 11 34 52 00 01 82 00 10 04 12 BB
+2012-02-04 11:04:15.575:  NAV  --> TEL : Current position, GPS fix; 50°48'11.4"N  11°34'52.0"E; Alt 182m;  UTC 10:04:12
+2012-02-04 11:04:15.626:  7F 23 C8 A4 00 01 50 45 52 4E 49 4B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 3A
+2012-02-04 11:04:15.626:  NAV  --> TEL : Current location, Town = PERNIK
+2012-02-04 11:04:15.646:  A4 06 BF 70 01 00 1A 76
+2012-02-04 11:04:15.646:  AB   --> GLO : Remote control central locking status, Data="01 00 1A"
+2012-02-04 11:04:19.812:  F0 04 3B 49 81 07
+2012-02-04 11:04:19.812:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:04:20.342:  E8 05 D0 59 50 00 34
+2012-02-04 11:04:20.342:  RLS  --> LCM : Light control status, Control: Turn_lights_off Sensor_OK Level_Signal_invalid Reason:Data="50 00"
+2012-02-04 11:04:20.422:  7F 06 C8 A9 03 30 30 1B
+2012-02-04 11:04:20.422:  NAV  --> TEL : Telephone data, Current_network_request Count_0
+2012-02-04 11:04:20.953:  68 05 7F A8 37 13 9E
+2012-02-04 11:04:20.953:  RAD  --> NAV : TMC data, Type37: Data="13"
+2012-02-04 11:04:21.504:  F0 03 68 01 9A
+2012-02-04 11:04:21.504:  BMBT --> RAD : Device status request
+2012-02-04 11:04:21.524:  68 05 BF 02 00 03 D3
+2012-02-04 11:04:21.524:  RAD  --> GLO : Device status ready, 
+2012-02-04 11:04:22.405:  3B 03 80 01 B9
+2012-02-04 11:04:22.405:  GT   --> IKE : Device status request
+2012-02-04 11:04:22.445:  80 04 BF 02 00 39
+2012-02-04 11:04:22.445:  IKE  --> GLO : Device status ready, 
+2012-02-04 11:04:22.465:  3B 03 80 14 AC
+2012-02-04 11:04:22.465:  GT   --> IKE : Country coding status request
+2012-02-04 11:04:22.475:  3B 05 80 41 0C 02 F1
+2012-02-04 11:04:22.475:  GT   --> IKE : On-board computer data request, Memo: status request
+2012-02-04 11:04:22.485:  3B 05 80 41 07 01 F9
+2012-02-04 11:04:22.485:  GT   --> IKE : On-board computer data request, Distance: current value request
+2012-02-04 11:04:22.495:  3B 03 D0 5A B2
+2012-02-04 11:04:22.495:  GT   --> LCM : Lamp status request
+2012-02-04 11:04:22.505:  D0 07 BF 5B 00 00 00 00 33
+2012-02-04 11:04:22.505:  LCM  --> GLO : Lamp status, All_Off  All_OK
+2012-02-04 11:04:22.525:  80 07 BF 15 00 04 00 42 6B
+2012-02-04 11:04:22.525:  IKE  --> GLO : Country coding status, Ntwk=E38/E39 Lang=DE_German Clock=24h OutTemp=°C AvgSpd=km/h Limit=km Dist=km ArrTime=24h Consump=l/100_km Motor=Petrol
+2012-02-04 11:04:22.535:  80 05 E7 2A 00 00 48
+2012-02-04 11:04:22.535:  IKE  --> ANZV: On-board computer special indicators, Aux_Heating_LED = Off
+2012-02-04 11:04:22.565:  80 0D E7 24 07 00 20 20 20 30 20 4B 4D 20 5F
+2012-02-04 11:04:22.565:  IKE  --> ANZV: Update Text, Layout=Distance  Flags=  F0="   0 KM "
+2012-02-04 11:04:22.575:  F0 04 68 48 04 D0
+2012-02-04 11:04:22.575:  BMBT --> RAD : BM Button, TONE_pressed
+2012-02-04 11:04:22.596:  3B 06 80 40 07 00 00 FA
+2012-02-04 11:04:22.596:  GT   --> IKE : On-board computer set data, : Set Distance = 0 km
+2012-02-04 11:04:22.626:  80 0C E7 24 08 00 2D 2D 3A 2D 2D 20 20 7D
+2012-02-04 11:04:22.626:  IKE  --> ANZV: Update Text, Layout=Arrival  Flags=  F0="--:--  "
+2012-02-04 11:04:22.696:  80 0C E7 24 08 00 2D 2D 3A 2D 2D 20 20 7D
+2012-02-04 11:04:22.696:  IKE  --> ANZV: Update Text, Layout=Arrival  Flags=  F0="--:--  "
+2012-02-04 11:04:22.726:  F0 04 68 48 84 50
+2012-02-04 11:04:22.726:  BMBT --> RAD : BM Button, TONE_released
+2012-02-04 11:04:22.756:  68 07 3B 37 90 10 10 00 F3
+2012-02-04 11:04:22.756:  RAD  --> GT  : Select Menu, 
+2012-02-04 11:04:22.786:  68 0B 3B A5 62 01 41 20 46 4D 44 20 90
+2012-02-04 11:04:22.786:  RAD  --> GT  : Screen Text, Layout=RadioDisplay  FC2=0x01  Fld1,PartTx=" FMD "
+2012-02-04 11:04:22.806:  68 0B 3B A5 62 01 42 20 50 20 31 20 9D
+2012-02-04 11:04:22.806:  RAD  --> GT  : Screen Text, Layout=RadioDisplay  FC2=0x01  Fld2,PartTx=" P 1 "
+2012-02-04 11:04:22.836:  68 0B 3B A5 62 01 43 20 52 45 47 20 8D
+2012-02-04 11:04:22.836:  RAD  --> GT  : Screen Text, Layout=RadioDisplay  FC2=0x01  Fld3,PartTx=" REG "
+2012-02-04 11:04:22.856:  68 0B 3B A5 62 01 44 20 20 20 20 20 FA
+2012-02-04 11:04:22.856:  RAD  --> GT  : Screen Text, Layout=RadioDisplay  FC2=0x01  Fld4,PartTx="     "
+2012-02-04 11:04:22.886:  68 0D 3B A5 62 01 45 20 20 52 44 53 20 20 98
+2012-02-04 11:04:22.886:  RAD  --> GT  : Screen Text, Layout=RadioDisplay  FC2=0x01  Fld5,PartTx="  RDS  "
+2012-02-04 11:04:22.936:  68 1A 3B A5 62 01 46 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 C9
+2012-02-04 11:04:22.936:  RAD  --> GT  : Screen Text, Layout=RadioDisplay  FC2=0x01  Fld6,PartTx="                    "
+2012-02-04 11:04:22.976:  68 1A 3B A5 62 01 07 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 88
+2012-02-04 11:04:22.976:  RAD  --> GT  : Screen Text, Layout=RadioDisplay  FC2=0x01  Fld7,EndTx="                    "
+2012-02-04 11:04:23.006:  68 12 3B 23 62 10 03 20 39 30 2E 39 04 20 4D 48 7A 20 20 76
+2012-02-04 11:04:23.006:  RAD  --> GT  : Display Text, Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 90.9"   F4:" MHz  "
+2012-02-04 11:04:23.016:  3B 05 68 22 00 06 72
+2012-02-04 11:04:23.016:  GT   --> RAD : Text display confirmation, Screen Text: 7 text messages acknowledged
+2012-02-04 11:04:25.129:  F0 04 3B 48 05 82
+2012-02-04 11:04:25.129:  BMBT --> GT  : BM Button, BM_Knob_pressed
+2012-02-04 11:04:25.249:  F0 04 3B 48 85 02
+2012-02-04 11:04:25.249:  BMBT --> GT  : BM Button, BM_Knob_released
+2012-02-04 11:04:25.269:  68 04 3B 36 70 11
+2012-02-04 11:04:25.269:  RAD  --> GT  : Audio_control, Bass = 0
+2012-02-04 11:04:25.890:  F0 04 3B 49 81 07
+2012-02-04 11:04:25.890:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:04:25.990:  68 04 3B 36 62 03
+2012-02-04 11:04:25.990:  RAD  --> GT  : Audio_control, Bass = +2
+2012-02-04 11:04:26.050:  F0 04 3B 49 81 07
+2012-02-04 11:04:26.050:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:04:26.101:  68 04 3B 36 64 05
+2012-02-04 11:04:26.101:  RAD  --> GT  : Audio_control, Bass = +4
+2012-02-04 11:04:26.181:  F0 04 3B 49 81 07
+2012-02-04 11:04:26.181:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:04:26.201:  68 04 3B 36 66 07
+2012-02-04 11:04:26.201:  RAD  --> GT  : Audio_control, Bass = +6
+2012-02-04 11:04:26.281:  F0 04 3B 49 81 07
+2012-02-04 11:04:26.281:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:04:26.311:  68 04 3B 36 68 09
+2012-02-04 11:04:26.311:  RAD  --> GT  : Audio_control, Bass = +8
+2012-02-04 11:04:26.401:  F0 04 3B 49 81 07
+2012-02-04 11:04:26.401:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:04:26.431:  68 04 3B 36 6A 0B
+2012-02-04 11:04:26.431:  RAD  --> GT  : Audio_control, Bass = +10
+2012-02-04 11:04:26.501:  F0 04 3B 49 81 07
+2012-02-04 11:04:26.501:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:04:26.541:  68 04 3B 36 6C 0D
+2012-02-04 11:04:26.541:  RAD  --> GT  : Audio_control, Bass = +12
+2012-02-04 11:04:26.561:  F0 04 3B 49 81 07
+2012-02-04 11:04:26.561:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:04:26.651:  68 04 3B 36 6C 0D
+2012-02-04 11:04:26.651:  RAD  --> GT  : Audio_control, Bass = +12
+2012-02-04 11:04:26.661:  F0 04 3B 49 81 07
+2012-02-04 11:04:26.661:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:04:26.762:  68 04 3B 36 6C 0D
+2012-02-04 11:04:26.762:  RAD  --> GT  : Audio_control, Bass = +12
+2012-02-04 11:04:27.202:  F0 04 3B 49 81 07
+2012-02-04 11:04:27.202:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:04:27.232:  68 04 3B 36 6C 0D
+2012-02-04 11:04:27.232:  RAD  --> GT  : Audio_control, Bass = +12
+2012-02-04 11:04:27.272:  F0 04 3B 49 81 07
+2012-02-04 11:04:27.272:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:04:27.332:  68 04 3B 36 6C 0D
+2012-02-04 11:04:27.332:  RAD  --> GT  : Audio_control, Bass = +12
+2012-02-04 11:04:27.873:  F0 04 3B 48 05 82
+2012-02-04 11:04:27.873:  BMBT --> GT  : BM Button, BM_Knob_pressed
+2012-02-04 11:04:27.973:  F0 04 3B 48 85 02
+2012-02-04 11:04:27.973:  BMBT --> GT  : BM Button, BM_Knob_released
+2012-02-04 11:04:27.993:  68 04 3B 37 C0 A0
+2012-02-04 11:04:27.993:  RAD  --> GT  : Select Menu, 
+2012-02-04 11:04:28.023:  C8 04 E7 2C 10 17
+2012-02-04 11:04:28.023:  TEL  --> ANZV: Telephone status, Phone_On
+2012-02-04 11:04:28.033:  C8 04 E7 2B 00 00
+2012-02-04 11:04:28.033:  TEL  --> ANZV: Telephone indicators, All_off
+2012-02-04 11:04:28.614:  F0 04 3B 49 81 07
+2012-02-04 11:04:28.614:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:04:28.634:  68 04 3B 37 D0 B0
+2012-02-04 11:04:28.634:  RAD  --> GT  : Select Menu, 
+2012-02-04 11:04:29.255:  F0 04 3B 48 05 82
+2012-02-04 11:04:29.255:  BMBT --> GT  : BM Button, BM_Knob_pressed
+2012-02-04 11:04:29.385:  F0 04 3B 48 85 02
+2012-02-04 11:04:29.385:  BMBT --> GT  : BM Button, BM_Knob_released
+2012-02-04 11:04:29.405:  68 04 3B 36 D0 B1
+2012-02-04 11:04:29.405:  RAD  --> GT  : Audio_control, Treble = 0
+2012-02-04 11:04:29.866:  F0 04 3B 49 81 07
+2012-02-04 11:04:29.866:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:04:29.886:  68 04 3B 36 C2 A3
+2012-02-04 11:04:29.886:  RAD  --> GT  : Audio_control, Treble = +2
+2012-02-04 11:04:29.926:  F0 04 3B 49 81 07
+2012-02-04 11:04:29.926:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:04:29.986:  68 04 3B 36 C4 A5
+2012-02-04 11:04:29.986:  RAD  --> GT  : Audio_control, Treble = +4
+2012-02-04 11:04:29.996:  F0 04 3B 49 81 07
+2012-02-04 11:04:29.996:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:04:30.026:  F0 04 3B 49 81 07
+2012-02-04 11:04:30.026:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:04:30.096:  68 04 3B 36 C8 A9
+2012-02-04 11:04:30.096:  RAD  --> GT  : Audio_control, Treble = +8
+2012-02-04 11:04:30.186:  F0 04 3B 49 81 07
+2012-02-04 11:04:30.186:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:04:30.206:  68 04 3B 36 CA AB
+2012-02-04 11:04:30.206:  RAD  --> GT  : Audio_control, Treble = +10
+2012-02-04 11:04:30.277:  F0 04 3B 49 81 07
+2012-02-04 11:04:30.277:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:04:30.307:  68 04 3B 36 CC AD
+2012-02-04 11:04:30.307:  RAD  --> GT  : Audio_control, Treble = +12
+2012-02-04 11:04:30.357:  E8 05 D0 59 50 00 34
+2012-02-04 11:04:30.357:  RLS  --> LCM : Light control status, Control: Turn_lights_off Sensor_OK Level_Signal_invalid Reason:Data="50 00"
+2012-02-04 11:04:30.377:  F0 04 3B 49 81 07
+2012-02-04 11:04:30.377:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:04:30.407:  68 04 3B 36 CC AD
+2012-02-04 11:04:30.407:  RAD  --> GT  : Audio_control, Treble = +12
+2012-02-04 11:04:30.497:  7F 06 C8 A9 03 30 30 1B
+2012-02-04 11:04:30.497:  NAV  --> TEL : Telephone data, Current_network_request Count_0
+2012-02-04 11:04:30.697:  F0 04 3B 49 81 07
+2012-02-04 11:04:30.697:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:04:30.717:  68 04 3B 36 CC AD
+2012-02-04 11:04:30.717:  RAD  --> GT  : Audio_control, Treble = +12
+2012-02-04 11:04:30.757:  F0 04 3B 49 81 07
+2012-02-04 11:04:30.757:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:04:30.817:  68 04 3B 36 CC AD
+2012-02-04 11:04:30.817:  RAD  --> GT  : Audio_control, Treble = +12
+2012-02-04 11:04:30.827:  F0 04 3B 49 81 07
+2012-02-04 11:04:30.827:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:04:30.928:  68 04 3B 36 CC AD
+2012-02-04 11:04:30.928:  RAD  --> GT  : Audio_control, Treble = +12
+2012-02-04 11:04:30.958:  68 03 6A 01 00
+2012-02-04 11:04:30.958:  RAD  --> DSP : Device status request
+2012-02-04 11:04:30.968:  68 05 7F A8 37 13 9E
+2012-02-04 11:04:30.968:  RAD  --> NAV : TMC data, Type37: Data="13"
+2012-02-04 11:04:31.018:  7F 04 68 A7 10 A4
+2012-02-04 11:04:31.018:  NAV  --> RAD : TMC status request, Update_Class=10
+2012-02-04 11:04:31.028:  7F 04 68 A7 30 84
+2012-02-04 11:04:31.028:  NAV  --> RAD : TMC status request, Update_Class=30
+2012-02-04 11:04:31.048:  68 05 7F A8 37 13 9E
+2012-02-04 11:04:31.048:  RAD  --> NAV : TMC data, Type37: Data="13"
+2012-02-04 11:04:31.058:  68 05 7F A8 3F 00 85
+2012-02-04 11:04:31.058:  RAD  --> NAV : TMC data, Type3F: Data="00"
+2012-02-04 11:04:31.068:  7F 05 68 A7 31 00 84
+2012-02-04 11:04:31.068:  NAV  --> RAD : TMC status request, Update_Class=31
+2012-02-04 11:04:31.078:  68 05 7F A8 32 08 80
+2012-02-04 11:04:31.078:  RAD  --> NAV : TMC data, Type32: Data="08"
+2012-02-04 11:04:31.088:  7F 04 68 A7 30 84
+2012-02-04 11:04:31.088:  NAV  --> RAD : TMC status request, Update_Class=30
+2012-02-04 11:04:31.108:  68 05 7F A8 37 13 9E
+2012-02-04 11:04:31.108:  RAD  --> NAV : TMC data, Type37: Data="13"
+2012-02-04 11:04:31.128:  7F 05 68 A7 31 03 87
+2012-02-04 11:04:31.128:  NAV  --> RAD : TMC status request, Update_Class=31
+2012-02-04 11:04:31.138:  68 07 7F A8 32 38 3F 04 89
+2012-02-04 11:04:31.138:  RAD  --> NAV : TMC data, Type32: Data="38"   Type3F: Data="04"
+2012-02-04 11:04:31.158:  7F 09 68 A7 32 80 01 D0 00 00 DA
+2012-02-04 11:04:31.158:  NAV  --> RAD : TMC status request, Update_Class=32
+2012-02-04 11:04:31.188:  68 13 7F A8 32 30 33 05 01 07 D3 C2 33 03 01 03 D6 F1 32 38 90
+2012-02-04 11:04:31.188:  RAD  --> NAV : TMC data, Type32: Data="30"   Type33:  Group0Data="05 01 07 D3 C2"   Type33:  Group0Data="03 01 03 D6 F1"   Type32: Data="38"
+2012-02-04 11:04:31.218:  7F 0A 68 A7 33 00 85 00 00 D3 C2 1D
+2012-02-04 11:04:31.218:  NAV  --> RAD : TMC status request, Update_Class=33
+2012-02-04 11:04:31.238:  68 0D 7F A8 32 34 33 C5 01 07 D3 C2 32 38 5F
+2012-02-04 11:04:31.248:  RAD  --> NAV : TMC data, Type32: Data="34"   Type33:  GroupC: Data="C5 01 07 D3 C2"   Type32: Data="38"
+2012-02-04 11:04:31.268:  7F 0A 68 A7 33 01 85 00 D7 D3 C2 CB
+2012-02-04 11:04:31.268:  NAV  --> RAD : TMC status request, Update_Class=33
+2012-02-04 11:04:31.278:  7F 04 68 A7 37 83
+2012-02-04 11:04:31.278:  NAV  --> RAD : TMC status request, Update_Class=37
+2012-02-04 11:04:31.528:  F0 04 3B 48 05 82
+2012-02-04 11:04:31.528:  BMBT --> GT  : BM Button, BM_Knob_pressed
+2012-02-04 11:04:31.689:  F0 04 3B 48 85 02
+2012-02-04 11:04:31.689:  BMBT --> GT  : BM Button, BM_Knob_released
+2012-02-04 11:04:31.709:  68 04 3B 37 D0 B0
+2012-02-04 11:04:31.709:  RAD  --> GT  : Select Menu, 
+2012-02-04 11:04:31.879:  F0 03 68 01 9A
+2012-02-04 11:04:31.879:  BMBT --> RAD : Device status request
+2012-02-04 11:04:31.899:  68 05 BF 02 00 03 D3
+2012-02-04 11:04:31.899:  RAD  --> GLO : Device status ready, 
+2012-02-04 11:04:32.390:  3B 03 6A 01 53
+2012-02-04 11:04:32.390:  GT   --> DSP : Device status request
+2012-02-04 11:04:32.490:  F0 04 68 32 21 8F
+2012-02-04 11:04:32.490:  BMBT --> RAD : Volume Control, Increase 2 steps
+2012-02-04 11:04:32.520:  F0 04 68 32 11 BF
+2012-02-04 11:04:32.520:  BMBT --> RAD : Volume Control, Increase 1 step
+2012-02-04 11:04:32.650:  F0 04 68 32 11 BF
+2012-02-04 11:04:32.650:  BMBT --> RAD : Volume Control, Increase 1 step
+2012-02-04 11:04:32.780:  F0 04 68 32 21 8F
+2012-02-04 11:04:32.780:  BMBT --> RAD : Volume Control, Increase 2 steps
+2012-02-04 11:04:32.950:  F0 04 3F
+2012-02-04 11:04:32.950:  WARNING: Discarded 3 bytes: [F0 04 3F]
+2012-02-04 11:04:32.970:  68 05 76 38 00 00 23
+2012-02-04 11:04:32.970:  RAD  --> CDCD: CD_control, Status_Request
+2012-02-04 11:04:32.980:  68 05 18 38 00 00 4D
+2012-02-04 11:04:32.980:  RAD  --> CDC : CD_control, Status_Request
+2012-02-04 11:04:32.990:  F0 04 68 32 11 BF
+2012-02-04 11:04:32.990:  BMBT --> RAD : Volume Control, Increase 1 step
+2012-02-04 11:04:33.101:  F0 04 68 32 11 BF
+2012-02-04 11:04:33.101:  BMBT --> RAD : Volume Control, Increase 1 step
+2012-02-04 11:04:33.191:  F0 04 68 32 11 BF
+2012-02-04 11:04:33.191:  BMBT --> RAD : Volume Control, Increase 1 step
+2012-02-04 11:04:33.221:  F0 04 68 32 11 BF
+2012-02-04 11:04:33.221:  BMBT --> RAD : Volume Control, Increase 1 step
+2012-02-04 11:04:33.321:  F0 04 68 32 11 BF
+2012-02-04 11:04:33.321:  BMBT --> RAD : Volume Control, Increase 1 step
+2012-02-04 11:04:33.481:  F0 04 68 32 11 BF
+2012-02-04 11:04:33.481:  BMBT --> RAD : Volume Control, Increase 1 step
+2012-02-04 11:04:33.862:  F0 04 68 32 11 BF
+2012-02-04 11:04:33.862:  BMBT --> RAD : Volume Control, Increase 1 step
+2012-02-04 11:04:33.902:  F0 04 68 32 11 BF
+2012-02-04 11:04:33.902:  BMBT --> RAD : Volume Control, Increase 1 step
+2012-02-04 11:04:34.282:  F0 04 68 32 11 BF
+2012-02-04 11:04:34.282:  BMBT --> RAD : Volume Control, Increase 1 step
+2012-02-04 11:04:34.693:  F0 04 68 32 11 BF
+2012-02-04 11:04:34.703:  BMBT --> RAD : Volume Control, Increase 1 step
+2012-02-04 11:04:35.083:  F0 04 68 32 11 BF
+2012-02-04 11:04:35.083:  BMBT --> RAD : Volume Control, Increase 1 step
+2012-02-04 11:04:35.164:  F0 3F
+2012-02-04 11:04:35.164:  WARNING: Discarded 2 bytes: [F0 3F]
+2012-02-04 11:04:35.184:  F0 04 68 32 11 BF
+2012-02-04 11:04:35.184:  BMBT --> RAD : Volume Control, Increase 1 step
+2012-02-04 11:04:35.194:  F0 04 68 32 11 BF
+2012-02-04 11:04:35.194:  BMBT --> RAD : Volume Control, Increase 1 step
+2012-02-04 11:04:36.265:  68 09 7F A8 33 05 81 07 D3 C2 17
+2012-02-04 11:04:36.265:  RAD  --> NAV : TMC data, Type33:  Group0Data="05 81 07 D3 C2"
+2012-02-04 11:04:36.295:  7F 09 68 A7 32 80 01 D0 00 00 DA
+2012-02-04 11:04:36.295:  NAV  --> RAD : TMC status request, Update_Class=32
+2012-02-04 11:04:36.325:  68 13 7F A8 32 32 33 05 01 07 D3 C2 33 03 01 03 D6 F1 32 3A 90
+2012-02-04 11:04:36.325:  RAD  --> NAV : TMC data, Type32: Data="32"   Type33:  Group0Data="05 01 07 D3 C2"   Type33:  Group0Data="03 01 03 D6 F1"   Type32: Data="3A"
+2012-02-04 11:04:36.345:  7F 0A 68 A7 33 00 85 00 00 D3 C2 1D
+2012-02-04 11:04:36.345:  NAV  --> RAD : TMC status request, Update_Class=33
+2012-02-04 11:04:36.375:  68 0D 7F A8 32 36 33 C5 81 07 D3 C2 32 3A DF
+2012-02-04 11:04:36.375:  RAD  --> NAV : TMC data, Type32: Data="36"   Type33:  GroupC: Data="C5 81 07 D3 C2"   Type32: Data="3A"
+2012-02-04 11:04:36.395:  7F 0A 68 A7 33 01 85 00 D7 D3 C2 CB
+2012-02-04 11:04:36.395:  NAV  --> RAD : TMC status request, Update_Class=33
+2012-02-04 11:04:36.405:  7F 04 68 A7 37 83
+2012-02-04 11:04:36.405:  NAV  --> RAD : TMC status request, Update_Class=37
+2012-02-04 11:04:38.619:  80 04 BF 11 00 2A
+2012-02-04 11:04:38.619:  IKE  --> GLO : Ignition status, Off
+2012-02-04 11:04:38.629:  68 03 80 10 FB
+2012-02-04 11:04:38.629:  RAD  --> IKE : Ignition status request
+2012-02-04 11:04:38.659:  80 04 BF 11 00 2A
+2012-02-04 11:04:38.659:  IKE  --> GLO : Ignition status, Off
+2012-02-04 11:04:38.689:  30 19 80 1A 30 00 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 83
+2012-02-04 11:04:38.689:  CCM  --> IKE : IKE Text/Gong, "                    " Immediate Clear Gong_off Warning_symbol_off
+2012-02-04 11:04:38.699:  7F 05 68 A7 31 00 84
+2012-02-04 11:04:38.699:  NAV  --> RAD : TMC status request, Update_Class=31
+2012-02-04 11:04:38.709:  30 04 BF 51 04 DE
+2012-02-04 11:04:38.709:  CCM  --> GLO : Checkcontrol sensors, Key_in_Ignition
+2012-02-04 11:04:38.729:  68 04 F0 4A 48 9E
+2012-02-04 11:04:38.729:  RAD  --> BMBT: Cassette control, State_unknown, Data="48"
+2012-02-04 11:04:38.739:  68 04 F0 4A 00 D6
+2012-02-04 11:04:38.739:  RAD  --> BMBT: Cassette control, Power_Off
+2012-02-04 11:04:38.749:  F0 04 68 4B 05 D2
+2012-02-04 11:04:38.749:  BMBT --> RAD : Cassette status, No_Tape
+2012-02-04 11:04:38.759:  A4 06 BF 70 01 00 1B 77
+2012-02-04 11:04:38.759:  AB   --> GLO : Remote control central locking status, Data="01 00 1B"
+2012-02-04 11:04:38.779:  F0 04 68 4B 05 D2
+2012-02-04 11:04:38.779:  BMBT --> RAD : Cassette status, No_Tape
+2012-02-04 11:04:38.789:  68 04 3B 46 02 13
+2012-02-04 11:04:38.789:  RAD  --> GT  : LCD clear, : Radio display off
+2012-02-04 11:04:38.809:  A4 06 BF 70 01 00 1F 73
+2012-02-04 11:04:38.809:  AB   --> GLO : Remote control central locking status, Data="01 00 1F"
+2012-02-04 11:04:38.819:  80 04 30 1B 00 AF
+2012-02-04 11:04:38.819:  IKE  --> CCM : IKE text status, 0 text messages acknowledged
+2012-02-04 11:04:39.640:  44 05 BF 74 04 01 8F
+2012-02-04 11:04:39.640:  EWS  --> GLO : Immobiliser status, Valid_key_detected Key_1
+2012-02-04 11:04:40.792:  44 05 BF 74 00 FF 75
+2012-02-04 11:04:40.792:  EWS  --> GLO : Immobiliser status, No_key_detected Vehicle_immobilised
+2012-02-04 11:04:40.852:  30 04 BF 51 00 DA
+2012-02-04 11:04:40.852:  CCM  --> GLO : Checkcontrol sensors, 
+2012-02-04 11:04:42.644:  00 05 BF 7A 11 1F CE
+2012-02-04 11:04:42.644:  GM   --> GLO : Doors/flaps status, Open:  DvrDoorFr WndwDvr WndwPgr WndwDvrRr WndwPgrRr Sunroof   Ctrl_Locking: Unlocked
+2012-02-04 11:04:42.744:  00 05 BF 7A 51 1F 8E
+2012-02-04 11:04:42.744:  GM   --> GLO : Doors/flaps status, Open:  DvrDoorFr WndwDvr WndwPgr WndwDvrRr WndwPgrRr Sunroof   Ctrl_Locking: Unlocked
+2012-02-04 11:04:47.241:  00 05 BF 7A 50 1F 8F
+2012-02-04 11:04:47.241:  GM   --> GLO : Doors/flaps status, Open:  WndwDvr WndwPgr WndwDvrRr WndwPgrRr Sunroof   Ctrl_Locking: Unlocked
+2012-02-04 11:04:48.863:  00 04 BF 72 12 DB
+2012-02-04 11:04:48.863:  GM   --> GLO : ChkCtrl Remote Central Locking, Lock_Pressed
+2012-02-04 11:04:48.903:  00 04 BF 76 02 CF
+2012-02-04 11:04:48.903:  GM   --> GLO : Crash Alarm, DB1=0x02
+2012-02-04 11:04:48.983:  00 05 BF 7A 30 1F EF
+2012-02-04 11:04:48.983:  GM   --> GLO : Doors/flaps status, Open:  WndwDvr WndwPgr WndwDvrRr WndwPgrRr Sunroof   Ctrl_Locking: Unlocked
+2012-02-04 11:04:49.284:  00 04 BF 76 00 CD
+2012-02-04 11:04:49.284:  GM   --> GLO : Crash Alarm, No_Crash
+2012-02-04 11:04:50.055:  00 05 BF 7A 30 1F EF
+2012-02-04 11:04:50.055:  GM   --> GLO : Doors/flaps status, Open:  WndwDvr WndwPgr WndwDvrRr WndwPgrRr Sunroof   Ctrl_Locking: Unlocked
+2012-02-04 11:04:50.095:  44 05 BF 74 00 FF 75
+2012-02-04 11:04:50.095:  EWS  --> GLO : Immobiliser status, No_key_detected Vehicle_immobilised
+2012-02-04 11:04:50.265:  00 04 BF 72 02 CB
+2012-02-04 11:04:50.265:  GM   --> GLO : ChkCtrl Remote Central Locking, No_Button_Pressed
+2012-02-04 11:24:31.193:  00 3F
+2012-02-04 11:24:31.193:  WARNING: Discarded 2 bytes: [00 3F]
+2012-02-04 11:24:31.213:  80 04 BF 02 00 39
+2012-02-04 11:24:31.213:  IKE  --> GLO : Device status ready, 
+2012-02-04 11:24:31.264:  60 03 80 10 F3
+2012-02-04 11:24:31.264:  PDC  --> IKE : Ignition status request
+2012-02-04 11:24:31.284:  3F 03 D0 0B E7
+2012-02-04 11:24:31.284:  DIA  --> LCM : Read IO status
+2012-02-04 11:24:31.354:  D0 23 3F A0 81 C0 01 00 00 00 00 00 00 A4 BF 00 00 00 00 E4 FF 00 0A 00 00 00 00 00 00 00 00 00 00 FF FF FE D8
+2012-02-04 11:24:31.354:  LCM  --> DIA : Diagnostic command acknowledged, Data="81 C0 01 00 00 00 00 00 00 A4 BF 00 00 00 00 E4 FF 00 0A 00 00 00 00 00 00 00 00 00 00 FF FF FE"    [À       ¤¿    äÿ            ÿÿþ]
+2012-02-04 11:24:31.374:  3F 04 80 10 00 AB
+2012-02-04 11:24:31.374:  DIA  --> IKE : Clear memory, Data="00"    [ ]
+2012-02-04 11:24:31.384:  3F 04 80 12 00 A9
+2012-02-04 11:24:31.384:  DIA  --> IKE : Reset control unit, Data="00"    [ ]
+2012-02-04 11:24:31.394:  3F 04 80 10 00 AB
+2012-02-04 11:24:31.394:  DIA  --> IKE : Clear memory, Data="00"    [ ]
+2012-02-04 11:24:31.404:  3F 04 00 79 00 42
+2012-02-04 11:24:31.404:  DIA  --> GM  : Cmd_0x79, Data="00"    [ ]
+2012-02-04 11:24:31.574:  80 04 BF 11 00 2A
+2012-02-04 11:24:31.574:  IKE  --> GLO : Ignition status, Off
+2012-02-04 11:24:31.604:  80 0A BF 13 00 00 00 00 00 00 3F 19
+2012-02-04 11:24:31.604:  IKE  --> GLO : IKE sensor status, 
+2012-02-04 11:24:31.614:  80 05 E7 2A 00 00 48
+2012-02-04 11:24:31.614:  IKE  --> ANZV: On-board computer special indicators, Aux_Heating_LED = Off
+2012-02-04 11:24:31.644:  00 04 BF 02 00 B9
+2012-02-04 11:24:31.644:  GM   --> GLO : Device status ready, 
+2012-02-04 11:24:31.644:  00 04 BF 72 22 EB
+2012-02-04 11:24:31.644:  GM   --> GLO : ChkCtrl Remote Central Locking, Unlock_Pressed
+2012-02-04 11:24:31.664:  00 05 BF 7A 70 1F AF
+2012-02-04 11:24:31.664:  GM   --> GLO : Doors/flaps status, Open:  WndwDvr WndwPgr WndwDvrRr WndwPgrRr Sunroof   Ctrl_Locking: Unlocked
+2012-02-04 11:24:31.674:  00 04 BF 76 00 CD
+2012-02-04 11:24:31.674:  GM   --> GLO : Crash Alarm, No_Crash
+2012-02-04 11:24:31.684:  00 04 BF 72 22 EB
+2012-02-04 11:24:31.684:  GM   --> GLO : ChkCtrl Remote Central Locking, Unlock_Pressed
+2012-02-04 11:24:31.694:  00 05 BF 7A 50 1F 8F
+2012-02-04 11:24:31.694:  GM   --> GLO : Doors/flaps status, Open:  WndwDvr WndwPgr WndwDvrRr WndwPgrRr Sunroof   Ctrl_Locking: Unlocked
+2012-02-04 11:24:31.814:  ED 05 80 41 1B 02 30
+2012-02-04 11:24:31.814:  VID  --> IKE : On-board computer data request, Aux_Heat/Vent: status request
+2012-02-04 11:24:31.834:  80 05 E7 2A 00 00 48
+2012-02-04 11:24:31.834:  IKE  --> ANZV: On-board computer special indicators, Aux_Heating_LED = Off
+2012-02-04 11:24:31.874:  80 06 BF 19 F8 45 00 9D
+2012-02-04 11:24:31.874:  IKE  --> GLO : Temperature, Outside -8°C [18°F], Coolant 69°C [156°F]
+2012-02-04 11:24:31.914:  30 06 44 73 00 00 80 81
+2012-02-04 11:24:31.914:  CCM  --> EWS : Immobiliser status request, Data="00 00 80"
+2012-02-04 11:24:31.975:  44 05 BF 74 00 FF 75
+2012-02-04 11:24:31.975:  EWS  --> GLO : Immobiliser status, No_key_detected Vehicle_immobilised
+2012-02-04 11:24:32.025:  30 04 BF 51 00 DA
+2012-02-04 11:24:32.025:  CCM  --> GLO : Checkcontrol sensors, 
+2012-02-04 11:24:32.255:  60 04 BF 02 01 D8
+2012-02-04 11:24:32.255:  PDC  --> GLO : Device status ready, after Reset
+2012-02-04 11:24:32.275:  80 04 BF 11 00 2A
+2012-02-04 11:24:32.275:  IKE  --> GLO : Ignition status, Off
+2012-02-04 11:24:32.295:  80 05 E7 2A 00 00 48
+2012-02-04 11:24:32.295:  IKE  --> ANZV: On-board computer special indicators, Aux_Heating_LED = Off
+2012-02-04 11:24:32.465:  44 05 BF 74 00 FF 75
+2012-02-04 11:24:32.465:  EWS  --> GLO : Immobiliser status, No_key_detected Vehicle_immobilised
+2012-02-04 11:24:32.495:  00 05 BF 7A 50 1F 8F
+2012-02-04 11:24:32.495:  GM   --> GLO : Doors/flaps status, Open:  WndwDvr WndwPgr WndwDvrRr WndwPgrRr Sunroof   Ctrl_Locking: Unlocked
+2012-02-04 11:24:32.525:  ED 04 FF 02 01 15
+2012-02-04 11:24:32.525:  VID  --> LOC : Device status ready, after Reset
+2012-02-04 11:24:32.535:  ED 05 80 41 01 01 29
+2012-02-04 11:24:32.535:  VID  --> IKE : On-board computer data request, Time: current value request
+2012-02-04 11:24:32.555:  80 04 BF 11 00 2A
+2012-02-04 11:24:32.555:  IKE  --> GLO : Ignition status, Off
+2012-02-04 11:24:32.565:  ED 03 80 12 7C
+2012-02-04 11:24:32.565:  VID  --> IKE : IKE sensor status request
+2012-02-04 11:24:32.575:  ED 05 80 41 02 01 2A
+2012-02-04 11:24:32.575:  VID  --> IKE : On-board computer data request, Date: current value request
+2012-02-04 11:24:32.585:  ED 03 F0 01 1F
+2012-02-04 11:24:32.585:  VID  --> BMBT: Device status request
+2012-02-04 11:24:32.595:  80 05 E7 2A 00 00 48
+2012-02-04 11:24:32.595:  IKE  --> ANZV: On-board computer special indicators, Aux_Heating_LED = Off
+2012-02-04 11:24:32.605:  F0 04 ED 02 30 2B
+2012-02-04 11:24:32.605:  BMBT --> VID : Device status ready, Bit4 Bit5
+2012-02-04 11:24:32.635:  80 0C E7 24 01 00 31 31 3A 32 36 20 20 70
+2012-02-04 11:24:32.635:  IKE  --> ANZV: Update Text, Layout=Time  Flags=  F0="11:26  "
+2012-02-04 11:24:32.676:  80 0F E7 24 02 00 30 34 2E 30 32 2E 32 30 31 32 49
+2012-02-04 11:24:32.676:  IKE  --> ANZV: Update Text, Layout=Date  Flags=  F0="04.02.2012"
+2012-02-04 11:24:32.706:  80 0A BF 13 00 00 00 00 00 00 3F 19
+2012-02-04 11:24:32.706:  IKE  --> GLO : IKE sensor status, 
+2012-02-04 11:24:32.716:  00 04 BF 72 02 CB
+2012-02-04 11:24:32.716:  GM   --> GLO : ChkCtrl Remote Central Locking, No_Button_Pressed
+2012-02-04 11:24:32.736:  3F 04 80 10 00 AB
+2012-02-04 11:24:32.736:  DIA  --> IKE : Clear memory, Data="00"    [ ]
+2012-02-04 11:24:32.746:  3F 03 D0 0B E7
+2012-02-04 11:24:32.746:  DIA  --> LCM : Read IO status
+2012-02-04 11:24:32.756:  3F 04 80 12 00 A9
+2012-02-04 11:24:32.756:  DIA  --> IKE : Reset control unit, Data="00"    [ ]
+2012-02-04 11:24:32.766:  80 04 BF 11 00 2A
+2012-02-04 11:24:32.766:  IKE  --> GLO : Ignition status, Off
+2012-02-04 11:24:32.786:  3F 04 80 10 00 AB
+2012-02-04 11:24:32.786:  DIA  --> IKE : Clear memory, Data="00"    [ ]
+2012-02-04 11:24:32.816:  D0 23 3F A0 81 C0 01 00 00 00 00 00 00 A3 BF 00 00 00 00 E4 FF 00 0A 00 00 00 00 00 00 00 00 00 00 FF FF FE DF
+2012-02-04 11:24:32.816:  LCM  --> DIA : Diagnostic command acknowledged, Data="81 C0 01 00 00 00 00 00 00 A3 BF 00 00 00 00 E4 FF 00 0A 00 00 00 00 00 00 00 00 00 00 FF FF FE"    [À       £¿    äÿ            ÿÿþ]
+2012-02-04 11:24:32.826:  3F 04 00 79 00 42
+2012-02-04 11:24:32.826:  DIA  --> GM  : Cmd_0x79, Data="00"    [ ]
+2012-02-04 11:24:32.846:  80 04 BF 11 00 2A
+2012-02-04 11:24:32.846:  IKE  --> GLO : Ignition status, Off
+2012-02-04 11:24:32.866:  80 0A BF 13 00 00 00 00 00 00 3F 19
+2012-02-04 11:24:32.866:  IKE  --> GLO : IKE sensor status, 
+2012-02-04 11:24:32.876:  00 05 BF 7A 50 1F 8F
+2012-02-04 11:24:32.876:  GM   --> GLO : Doors/flaps status, Open:  WndwDvr WndwPgr WndwDvrRr WndwPgrRr Sunroof   Ctrl_Locking: Unlocked
+2012-02-04 11:24:34.348:  00 05 BF 7A 51 1F 8E
+2012-02-04 11:24:34.348:  GM   --> GLO : Doors/flaps status, Open:  DvrDoorFr WndwDvr WndwPgr WndwDvrRr WndwPgrRr Sunroof   Ctrl_Locking: Unlocked
+2012-02-04 11:24:39.175:  7F 04 68 02 01 10
+2012-02-04 11:24:39.175:  NAV  --> RAD : Device status ready, after Reset
+2012-02-04 11:24:39.255:  3B 04 BF 02 41 C3
+2012-02-04 11:24:39.255:  GT   --> GLO : Device status ready, after Reset Bit6
+2012-02-04 11:24:39.265:  3B 03 80 10 A8
+2012-02-04 11:24:39.265:  GT   --> IKE : Ignition status request
+2012-02-04 11:24:39.285:  80 04 BF 11 00 2A
+2012-02-04 11:24:39.285:  IKE  --> GLO : Ignition status, Off
+2012-02-04 11:24:39.315:  80 05 E7 2A 00 00 48
+2012-02-04 11:24:39.315:  IKE  --> ANZV: On-board computer special indicators, Aux_Heating_LED = Off
+2012-02-04 11:24:39.315:  80 04 BF 11 00 2A
+2012-02-04 11:24:39.315:  IKE  --> GLO : Ignition status, Off
+2012-02-04 11:24:40.116:  3B 03 80 14 AC
+2012-02-04 11:24:40.116:  GT   --> IKE : Country coding status request
+2012-02-04 11:24:40.126:  3B 05 80 41 01 01 FF
+2012-02-04 11:24:40.126:  GT   --> IKE : On-board computer data request, Time: current value request
+2012-02-04 11:24:40.136:  3B 05 80 41 02 01 FC
+2012-02-04 11:24:40.136:  GT   --> IKE : On-board computer data request, Date: current value request
+2012-02-04 11:24:40.166:  80 07 BF 15 00 04 00 42 6B
+2012-02-04 11:24:40.166:  IKE  --> GLO : Country coding status, Ntwk=E38/E39 Lang=DE_German Clock=24h OutTemp=°C AvgSpd=km/h Limit=km Dist=km ArrTime=24h Consump=l/100_km Motor=Petrol
+2012-02-04 11:24:40.196:  80 0F E7 24 02 00 30 34 2E 30 32 2E 32 30 31 32 49
+2012-02-04 11:24:40.196:  IKE  --> ANZV: Update Text, Layout=Date  Flags=  F0="04.02.2012"
+2012-02-04 11:24:40.216:  80 0C E7 24 01 00 31 31 3A 32 36 20 20 70
+2012-02-04 11:24:40.216:  IKE  --> ANZV: Update Text, Layout=Time  Flags=  F0="11:26  "
+2012-02-04 11:24:41.128:  00 05 BF 7A 50 1F 8F
+2012-02-04 11:24:41.128:  GM   --> GLO : Doors/flaps status, Open:  WndwDvr WndwPgr WndwDvrRr WndwPgrRr Sunroof   Ctrl_Locking: Unlocked
+2012-02-04 11:24:43.231:  7F 04 BF 02 41 87
+2012-02-04 11:24:43.231:  NAV  --> GLO : Device status ready, after Reset Bit6
+2012-02-04 11:24:43.251:  80 04 BF 11 00 2A
+2012-02-04 11:24:43.251:  IKE  --> GLO : Ignition status, Off
+2012-02-04 11:24:43.281:  80 05 E7 2A 00 00 48
+2012-02-04 11:24:43.281:  IKE  --> ANZV: On-board computer special indicators, Aux_Heating_LED = Off
+2012-02-04 11:24:43.892:  44 05 BF 74 04 01 8F
+2012-02-04 11:24:43.892:  EWS  --> GLO : Immobiliser status, Valid_key_detected Key_1
+2012-02-04 11:24:45.464:  E8 05 D0 59 10 00 74
+2012-02-04 11:24:45.464:  RLS  --> LCM : Light control status, Control: Turn_lights_off Sensor_OK Level_Signal_invalid Reason:Data="10 00"
+2012-02-04 11:24:45.514:  80 04 BF 11 01 2B
+2012-02-04 11:24:45.514:  IKE  --> GLO : Ignition status, Pos1_Acc
+2012-02-04 11:24:45.524:  ED 05 F0 4F 12 11 54
+2012-02-04 11:24:45.524:  VID  --> BMBT: RGB control, LCD_on GT
+2012-02-04 11:24:45.534:  D0 07 BF 5B 00 00 00 00 33
+2012-02-04 11:24:45.534:  LCM  --> GLO : Lamp status, All_Off  All_OK
+2012-02-04 11:24:45.544:  3B 04 BF 02 40 C2
+2012-02-04 11:24:45.544:  GT   --> GLO : Device status ready, Bit6
+2012-02-04 11:24:45.554:  D0 05 BF 5C FF 00 C9
+2012-02-04 11:24:45.554:  LCM  --> GLO : Light dimmer, 255 (max)
+2012-02-04 11:24:45.574:  3B 05 68 4E 00 00 18
+2012-02-04 11:24:45.574:  GT   --> RAD : Audio source selection, 
+2012-02-04 11:24:45.584:  3F 03 D0 0B E7
+2012-02-04 11:24:45.584:  DIA  --> LCM : Read IO status
+2012-02-04 11:24:45.594:  30 04 BF 51 04 DE
+2012-02-04 11:24:45.594:  CCM  --> GLO : Checkcontrol sensors, Key_in_Ignition
+2012-02-04 11:24:45.604:  3B 03 46 01 7F
+2012-02-04 11:24:45.604:  GT   --> CID : Device status request
+2012-02-04 11:24:45.644:  D0 23 3F A0 C1 C0 00 00 00 00 00 00 00 A0 BF 00 00 00 00 E4 FF 00 08 00 00 00 00 00 00 00 00 00 00 FF FF FE 9F
+2012-02-04 11:24:45.644:  LCM  --> DIA : Diagnostic command acknowledged, Data="C1 C0 00 00 00 00 00 00 00 A0 BF 00 00 00 00 E4 FF 00 08 00 00 00 00 00 00 00 00 00 00 FF FF FE"    [ÁÀ        ¿    äÿ            ÿÿþ]
+2012-02-04 11:24:45.674:  80 0A BF 13 00 00 00 00 00 00 3F 19
+2012-02-04 11:24:45.674:  IKE  --> GLO : IKE sensor status, 
+2012-02-04 11:24:45.684:  3B 05 BB 4F 02 00 C8
+2012-02-04 11:24:45.684:  GT   --> NAJ : RGB control, LCD_off GT
+2012-02-04 11:24:45.694:  3B 04 F0 4A 90 15
+2012-02-04 11:24:45.694:  GT   --> BMBT: Cassette control, State_unknown, Data="90"
+2012-02-04 11:24:45.704:  3B 04 68 45 11 03
+2012-02-04 11:24:45.704:  GT   --> RAD : Radio status request, Data="11"
+2012-02-04 11:24:45.714:  F0 04 68 4B 05 D2
+2012-02-04 11:24:45.714:  BMBT --> RAD : Cassette status, No_Tape
+2012-02-04 11:24:45.724:  7F 05 68 A7 1F 00 AA
+2012-02-04 11:24:45.724:  NAV  --> RAD : TMC status request, Update_Class=1F
+2012-02-04 11:24:45.744:  7F 05 68 A7 3F 00 8A
+2012-02-04 11:24:45.744:  NAV  --> RAD : TMC status request, Update_Class=3F
+2012-02-04 11:24:45.754:  80 05 E7 2A 00 00 48
+2012-02-04 11:24:45.754:  IKE  --> ANZV: On-board computer special indicators, Aux_Heating_LED = Off
+2012-02-04 11:24:45.764:  C8 07 7F A9 0B 00 01 01 12
+2012-02-04 11:24:45.764:  TEL  --> NAV : Telephone data, Data="0B 00 01 01"
+2012-02-04 11:24:45.774:  C8 04 E7 2B 00 00
+2012-02-04 11:24:45.774:  TEL  --> ANZV: Telephone indicators, All_off
+2012-02-04 11:24:45.784:  C8 07 7F A9 0B 00 00 01 13
+2012-02-04 11:24:45.784:  TEL  --> NAV : Telephone data, Data="0B 00 00 01"
+2012-02-04 11:24:45.804:  C8 04 E7 2C 00 07
+2012-02-04 11:24:45.804:  TEL  --> ANZV: Telephone status, Phone_Inactive
+2012-02-04 11:24:45.814:  C8 03 80 14 5F
+2012-02-04 11:24:45.814:  TEL  --> IKE : Country coding status request
+2012-02-04 11:24:45.824:  E8 05 D0 59 50 00 34
+2012-02-04 11:24:45.824:  RLS  --> LCM : Light control status, Control: Turn_lights_off Sensor_OK Level_Signal_invalid Reason:Data="50 00"
+2012-02-04 11:24:45.834:  C8 07 7F A9 0B 00 00 05 17
+2012-02-04 11:24:45.834:  TEL  --> NAV : Telephone data, Data="0B 00 00 05"
+2012-02-04 11:24:45.844:  C8 04 E7 2C 00 07
+2012-02-04 11:24:45.844:  TEL  --> ANZV: Telephone status, Phone_Inactive
+2012-02-04 11:24:45.854:  C8 04 E7 2B 00 00
+2012-02-04 11:24:45.854:  TEL  --> ANZV: Telephone indicators, All_off
+2012-02-04 11:24:45.875:  C8 04 FF 02 31 00
+2012-02-04 11:24:45.875:  TEL  --> LOC : Device status ready, after Reset Assist_ready_after_Reset Bit5
+2012-02-04 11:24:45.885:  00 04 BF 72 02 CB
+2012-02-04 11:24:45.885:  GM   --> GLO : ChkCtrl Remote Central Locking, No_Button_Pressed
+2012-02-04 11:24:45.895:  00 05 BF 7A 50 1F 8F
+2012-02-04 11:24:45.895:  GM   --> GLO : Doors/flaps status, Open:  WndwDvr WndwPgr WndwDvrRr WndwPgrRr Sunroof   Ctrl_Locking: Unlocked
+2012-02-04 11:24:45.905:  00 05 BF 7A 10 1F CF
+2012-02-04 11:24:45.905:  GM   --> GLO : Doors/flaps status, Open:  WndwDvr WndwPgr WndwDvrRr WndwPgrRr Sunroof   Ctrl_Locking: Unlocked
+2012-02-04 11:24:45.925:  44 05 BF 74 05 01 8E
+2012-02-04 11:24:45.925:  EWS  --> GLO : Immobiliser status, Immobilisation_deactivated Valid_key_detected Key_1
+2012-02-04 11:24:45.935:  A4 06 BF 70 03 00 0F 61
+2012-02-04 11:24:45.935:  AB   --> GLO : Remote control central locking status, Data="03 00 0F"
+2012-02-04 11:24:45.955:  80 07 BF 15 00 04 00 42 6B
+2012-02-04 11:24:45.955:  IKE  --> GLO : Country coding status, Ntwk=E38/E39 Lang=DE_German Clock=24h OutTemp=°C AvgSpd=km/h Limit=km Dist=km ArrTime=24h Consump=l/100_km Motor=Petrol
+2012-02-04 11:24:45.975:  80 04 BF 11 01 2B
+2012-02-04 11:24:45.975:  IKE  --> GLO : Ignition status, Pos1_Acc
+2012-02-04 11:24:45.985:  80 05 E7 2A 00 00 48
+2012-02-04 11:24:45.985:  IKE  --> ANZV: On-board computer special indicators, Aux_Heating_LED = Off
+2012-02-04 11:24:45.995:  B0 03 7F 01 CD
+2012-02-04 11:24:45.995:  SES  --> NAV : Device status request
+2012-02-04 11:24:46.005:  7F 04 B0 02 40 89
+2012-02-04 11:24:46.005:  NAV  --> SES : Device status ready, Bit6
+2012-02-04 11:24:46.035:  68 05 BF 02 01 03 D2
+2012-02-04 11:24:46.035:  RAD  --> GLO : Device status ready, after Reset
+2012-02-04 11:24:46.045:  68 05 76 38 00 00 23
+2012-02-04 11:24:46.045:  RAD  --> CDCD: CD_control, Status_Request
+2012-02-04 11:24:46.055:  68 04 3B 46 08 19
+2012-02-04 11:24:46.055:  RAD  --> GT  : LCD clear, : Tone menu off
+2012-02-04 11:24:46.065:  68 04 3B 46 04 15
+2012-02-04 11:24:46.065:  RAD  --> GT  : LCD clear, : Select menu off
+2012-02-04 11:24:46.075:  68 04 F0 4A FF 29
+2012-02-04 11:24:46.075:  RAD  --> BMBT: Cassette control, Power_On
+2012-02-04 11:24:46.095:  50 04 FF 3B 00 90
+2012-02-04 11:24:46.095:  MFL  --> LOC : Radio/Telephone control, No_buttons_pressed
+2012-02-04 11:24:46.105:  F0 04 68 4B 05 D2
+2012-02-04 11:24:46.105:  BMBT --> RAD : Cassette status, No_Tape
+2012-02-04 11:24:46.115:  3B 04 68 45 11 03
+2012-02-04 11:24:46.115:  GT   --> RAD : Radio status request, Data="11"
+2012-02-04 11:24:46.125:  3B 05 68 4E 00 00 18
+2012-02-04 11:24:46.125:  GT   --> RAD : Audio source selection, 
+2012-02-04 11:24:46.135:  68 05 7F 02 01 03 12
+2012-02-04 11:24:46.135:  RAD  --> NAV : Device status ready, after Reset
+2012-02-04 11:24:46.145:  68 04 3B 46 01 10
+2012-02-04 11:24:46.145:  RAD  --> GT  : LCD clear, : No display required
+2012-02-04 11:24:46.155:  80 04 BF 11 01 2B
+2012-02-04 11:24:46.155:  IKE  --> GLO : Ignition status, Pos1_Acc
+2012-02-04 11:24:46.175:  80 05 E7 2A 00 00 48
+2012-02-04 11:24:46.175:  IKE  --> ANZV: On-board computer special indicators, Aux_Heating_LED = Off
+2012-02-04 11:24:46.185:  E8 05 D0 59 50 00 34
+2012-02-04 11:24:46.185:  RLS  --> LCM : Light control status, Control: Turn_lights_off Sensor_OK Level_Signal_invalid Reason:Data="50 00"
+2012-02-04 11:24:46.195:  50 03 D0 5D DE
+2012-02-04 11:24:46.195:  MFL  --> LCM : Light dimmer status request
+2012-02-04 11:24:46.205:  D0 05 BF 5C FF 00 C9
+2012-02-04 11:24:46.205:  LCM  --> GLO : Light dimmer, 255 (max)
+2012-02-04 11:24:46.215:  3F 03 D0 0B E7
+2012-02-04 11:24:46.215:  DIA  --> LCM : Read IO status
+2012-02-04 11:24:46.265:  D0 23 3F A0 C1 C0 00 00 00 00 00 00 00 A0 BF 00 00 00 00 E5 FF 00 08 00 00 00 00 00 00 00 00 00 00 FF FF FE 9E
+2012-02-04 11:24:46.265:  LCM  --> DIA : Diagnostic command acknowledged, Data="C1 C0 00 00 00 00 00 00 00 A0 BF 00 00 00 00 E5 FF 00 08 00 00 00 00 00 00 00 00 00 00 FF FF FE"    [ÁÀ        ¿    åÿ            ÿÿþ]
+2012-02-04 11:24:47.196:  3B 04 68 45 10 02
+2012-02-04 11:24:47.196:  GT   --> RAD : Radio status request, Data="10"
+2012-02-04 11:24:47.206:  7F 04 43 AB 21 B2
+2012-02-04 11:24:47.206:  NAV  --> GTF : Remote control status, , Data="21"
+2012-02-04 11:24:47.477:  80 0A BF 17 E2 87 02 80 10 32 CC 2B
+2012-02-04 11:24:47.477:  IKE  --> GLO : Odometer, 165.858 kms  [103.059 mls]
+2012-02-04 11:24:47.497:  50 03 B0 01 E2
+2012-02-04 11:24:47.497:  MFL  --> SES : Device status request
+2012-02-04 11:24:47.517:  B0 04 50 02 00 E6
+2012-02-04 11:24:47.517:  SES  --> MFL : Device status ready, 
+2012-02-04 11:24:47.527:  3B 03 F0 01 C9
+2012-02-04 11:24:47.527:  GT   --> BMBT: Device status request
+2012-02-04 11:24:47.557:  F0 04 3B 02 30 FD
+2012-02-04 11:24:47.557:  BMBT --> GT  : Device status ready, Bit4 Bit5
+2012-02-04 11:24:47.998:  68 04 F0 4A 90 46
+2012-02-04 11:24:47.998:  RAD  --> BMBT: Cassette control, State_unknown, Data="90"
+2012-02-04 11:24:48.028:  68 03 18 01 72
+2012-02-04 11:24:48.028:  RAD  --> CDC : Device status request
+2012-02-04 11:24:48.038:  68 03 76 01 1C
+2012-02-04 11:24:48.038:  RAD  --> CDCD: Device status request
+2012-02-04 11:24:48.048:  F0 04 68 4B 05 D2
+2012-02-04 11:24:48.048:  BMBT --> RAD : Cassette status, No_Tape
+2012-02-04 11:24:48.058:  18 04 FF 02 00 E1
+2012-02-04 11:24:48.058:  CDC  --> LOC : Device status ready, 
+2012-02-04 11:24:48.248:  68 04 F0 4A FF 29
+2012-02-04 11:24:48.248:  RAD  --> BMBT: Cassette control, Power_On
+2012-02-04 11:24:48.278:  68 04 F0 4A 48 9E
+2012-02-04 11:24:48.278:  RAD  --> BMBT: Cassette control, State_unknown, Data="48"
+2012-02-04 11:24:48.298:  68 0B 3B A5 62 01 41 20 46 4D 44 20 90
+2012-02-04 11:24:48.298:  RAD  --> GT  : Screen Text, Layout=RadioDisplay  FC2=0x01  Fld1,PartTx=" FMD "
+2012-02-04 11:24:48.308:  F0 04 68 4B 05 D2
+2012-02-04 11:24:48.308:  BMBT --> RAD : Cassette status, No_Tape
+2012-02-04 11:24:48.338:  68 0B 3B A5 62 01 42 20 20 20 20 20 FC
+2012-02-04 11:24:48.338:  RAD  --> GT  : Screen Text, Layout=RadioDisplay  FC2=0x01  Fld2,PartTx="     "
+2012-02-04 11:24:48.358:  68 0B 3B A5 62 01 43 20 52 45 47 20 8D
+2012-02-04 11:24:48.358:  RAD  --> GT  : Screen Text, Layout=RadioDisplay  FC2=0x01  Fld3,PartTx=" REG "
+2012-02-04 11:24:48.388:  68 0B 3B A5 62 01 44 20 20 20 20 20 FA
+2012-02-04 11:24:48.388:  RAD  --> GT  : Screen Text, Layout=RadioDisplay  FC2=0x01  Fld4,PartTx="     "
+2012-02-04 11:24:48.418:  68 0D 3B A5 62 01 45 20 20 52 44 53 20 20 98
+2012-02-04 11:24:48.418:  RAD  --> GT  : Screen Text, Layout=RadioDisplay  FC2=0x01  Fld5,PartTx="  RDS  "
+2012-02-04 11:24:48.458:  68 1A 3B A5 62 01 46 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 C9
+2012-02-04 11:24:48.458:  RAD  --> GT  : Screen Text, Layout=RadioDisplay  FC2=0x01  Fld6,PartTx="                    "
+2012-02-04 11:24:48.508:  68 1A 3B A5 62 01 07 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 88
+2012-02-04 11:24:48.508:  RAD  --> GT  : Screen Text, Layout=RadioDisplay  FC2=0x01  Fld7,EndTx="                    "
+2012-02-04 11:24:48.528:  68 12 3B 23 62 10 03 20 39 30 2E 39 04 20 4D 48 7A 20 20 76
+2012-02-04 11:24:48.528:  RAD  --> GT  : Display Text, Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 90.9"   F4:" MHz  "
+2012-02-04 11:24:48.578:  68 21 3B D4 03 03 00 4D 44 52 20 4A 55 4D 50 00 4C 41 4E 44 45 53 57 2E 00 4D 44 52 20 54 48 55 45 00 C0
+2012-02-04 11:24:48.578:  RAD  --> GT  : NG Radio Station list, Station_List: StnList0="MDR JUMP", "LANDESW.", "MDR THUE" Btn3_EndTx
+2012-02-04 11:24:48.588:  68 04 F0 4A 48 9E
+2012-02-04 11:24:48.588:  RAD  --> BMBT: Cassette control, State_unknown, Data="48"
+2012-02-04 11:24:48.598:  68 03 6A 01 00
+2012-02-04 11:24:48.598:  RAD  --> DSP : Device status request
+2012-02-04 11:24:48.618:  3B 05 68 22 00 06 72
+2012-02-04 11:24:48.618:  GT   --> RAD : Text display confirmation, Screen Text: 7 text messages acknowledged
+2012-02-04 11:24:48.628:  F0 04 68 4B 05 D2
+2012-02-04 11:24:48.628:  BMBT --> RAD : Cassette status, No_Tape
+2012-02-04 11:24:48.638:  C8 04 E7 2B 00 00
+2012-02-04 11:24:48.638:  TEL  --> ANZV: Telephone indicators, All_off
+2012-02-04 11:24:48.649:  C8 07 7F A9 0B 00 00 03 11
+2012-02-04 11:24:48.649:  TEL  --> NAV : Telephone data, Data="0B 00 00 03"
+2012-02-04 11:24:48.669:  C8 04 E7 2B 01 01
+2012-02-04 11:24:48.669:  TEL  --> ANZV: Telephone indicators, Red
+2012-02-04 11:24:48.679:  3B 04 68 D4 02 81
+2012-02-04 11:24:48.679:  GT   --> RAD : NG Radio Station list,  Station_List_Acknowledged
+2012-02-04 11:24:49.189:  F0 04 68 32 10 BE
+2012-02-04 11:24:49.189:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:24:49.279:  F0 04 68 32 10 BE
+2012-02-04 11:24:49.279:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:24:49.309:  A4 06 BF 70 02 00 0F 60
+2012-02-04 11:24:49.309:  AB   --> GLO : Remote control central locking status, Data="02 00 0F"
+2012-02-04 11:24:49.329:  C8 04 E7 2C 90 97
+2012-02-04 11:24:49.329:  TEL  --> ANZV: Telephone status, Phone_On
+2012-02-04 11:24:49.339:  A4 06 BF 70 02 00 0A 65
+2012-02-04 11:24:49.339:  AB   --> GLO : Remote control central locking status, Data="02 00 0A"
+2012-02-04 11:24:49.360:  F0 04 68 32 20 8E
+2012-02-04 11:24:49.360:  BMBT --> RAD : Volume Control, Decrease 2 steps
+2012-02-04 11:24:49.410:  F0 04 68 32 10 BE
+2012-02-04 11:24:49.410:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:24:49.470:  F0 04 68 32 10 BE
+2012-02-04 11:24:49.470:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:24:49.510:  F0 04 68 32 10 BE
+2012-02-04 11:24:49.510:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:24:49.600:  F0 04 68 32 20 8E
+2012-02-04 11:24:49.600:  BMBT --> RAD : Volume Control, Decrease 2 steps
+2012-02-04 11:24:49.670:  F0 04 68 32 10 BE
+2012-02-04 11:24:49.670:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:24:49.700:  F0 04 68 32 10 BE
+2012-02-04 11:24:49.700:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:24:49.720:  A4 06 BF 70 02 00 3A 55
+2012-02-04 11:24:49.720:  AB   --> GLO : Remote control central locking status, Data="02 00 3A"
+2012-02-04 11:24:49.760:  F0 04 68 32 10 BE
+2012-02-04 11:24:49.760:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:24:49.810:  A4 06 BF 70 03 00 3A 54
+2012-02-04 11:24:49.810:  AB   --> GLO : Remote control central locking status, Data="03 00 3A"
+2012-02-04 11:24:49.860:  F0 04 68 32 10 BE
+2012-02-04 11:24:49.860:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:24:49.890:  F0 04 68 32 10 BE
+2012-02-04 11:24:49.890:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:24:49.920:  F0 04 68 32 10 BE
+2012-02-04 11:24:49.920:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:24:49.990:  F0 04 68 32 10 BE
+2012-02-04 11:24:49.990:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:24:50.020:  F0 04 68 32 10 BE
+2012-02-04 11:24:50.020:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:24:50.111:  F0 04 68 32 20 8E
+2012-02-04 11:24:50.111:  BMBT --> RAD : Volume Control, Decrease 2 steps
+2012-02-04 11:24:50.181:  F0 04 68 32 10 BE
+2012-02-04 11:24:50.181:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:24:50.551:  F0 04 3F
+2012-02-04 11:24:50.551:  WARNING: Discarded 3 bytes: [F0 04 3F]
+2012-02-04 11:24:50.571:  F0 04 68 32 10 BE
+2012-02-04 11:24:50.571:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:24:50.581:  F0 04 68 32 10 BE
+2012-02-04 11:24:50.581:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:24:50.601:  F0 04 68 32 10 BE
+2012-02-04 11:24:50.601:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:24:50.711:  A4 06 BF 70 01 00 1A 76
+2012-02-04 11:24:50.711:  AB   --> GLO : Remote control central locking status, Data="01 00 1A"
+2012-02-04 11:24:50.822:  F0 04 68 32 10 BE
+2012-02-04 11:24:50.822:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:24:51.072:  F0 04 68 32 20 8E
+2012-02-04 11:24:51.072:  BMBT --> RAD : Volume Control, Decrease 2 steps
+2012-02-04 11:24:52.514:  F0 04 F2 4C 04 4E
+2012-02-04 11:24:52.514:  BMBT --> 0xF2: Cmd_0x4C, Data="04"
+2012-02-04 11:24:52.644:  F0 04 F2 4C 84 CE
+2012-02-04 11:24:52.644:  BMBT --> 0xF2: Cmd_0x4C, Data="84"
+2012-02-04 11:24:55.458:  E8 05 D0 59 50 00 34
+2012-02-04 11:24:55.458:  RLS  --> LCM : Light control status, Control: Turn_lights_off Sensor_OK Level_Signal_invalid Reason:Data="50 00"
+2012-02-04 11:24:55.659:  7F 06 C8 A9 0A 30 30 12
+2012-02-04 11:24:55.659:  NAV  --> TEL : Telephone data, Current_phone_status Count_0
+2012-02-04 11:24:55.669:  C8 07 7F A9 0B 00 00 03 11
+2012-02-04 11:24:55.669:  TEL  --> NAV : Telephone data, Data="0B 00 00 03"
+2012-02-04 11:24:55.749:  7F 06 C8 A9 03 30 30 1B
+2012-02-04 11:24:55.749:  NAV  --> TEL : Telephone data, Current_network_request Count_0
+2012-02-04 11:24:55.909:  F0 03 68 01 9A
+2012-02-04 11:24:55.909:  BMBT --> RAD : Device status request
+2012-02-04 11:24:55.929:  68 05 BF 02 00 03 D3
+2012-02-04 11:24:55.929:  RAD  --> GLO : Device status ready, 
+2012-02-04 11:24:56.079:  68 05 7F A8 37 13 9E
+2012-02-04 11:24:56.079:  RAD  --> NAV : TMC data, Type37: Data="13"
+2012-02-04 11:24:56.109:  F0 04 F2 4C 04 4E
+2012-02-04 11:24:56.109:  BMBT --> 0xF2: Cmd_0x4C, Data="04"
+2012-02-04 11:24:56.330:  F0 04 F2 4C 84 CE
+2012-02-04 11:24:56.330:  BMBT --> 0xF2: Cmd_0x4C, Data="84"
+2012-02-04 11:24:57.421:  F0 04 F2 4C 04 4E
+2012-02-04 11:24:57.421:  BMBT --> 0xF2: Cmd_0x4C, Data="04"
+2012-02-04 11:24:57.511:  3B 03 80 01 B9
+2012-02-04 11:24:57.511:  GT   --> IKE : Device status request
+2012-02-04 11:24:57.541:  80 04 BF 02 00 39
+2012-02-04 11:24:57.541:  IKE  --> GLO : Device status ready, 
+2012-02-04 11:24:57.551:  3B 03 80 14 AC
+2012-02-04 11:24:57.551:  GT   --> IKE : Country coding status request
+2012-02-04 11:24:57.571:  3B 05 80 41 0C 02 F1
+2012-02-04 11:24:57.571:  GT   --> IKE : On-board computer data request, Memo: status request
+2012-02-04 11:24:57.581:  3B 05 80 41 07 01 F9
+2012-02-04 11:24:57.581:  GT   --> IKE : On-board computer data request, Distance: current value request
+2012-02-04 11:24:57.591:  3B 03 D0 5A B2
+2012-02-04 11:24:57.591:  GT   --> LCM : Lamp status request
+2012-02-04 11:24:57.601:  D0 07 BF 5B 00 00 00 00 33
+2012-02-04 11:24:57.601:  LCM  --> GLO : Lamp status, All_Off  All_OK
+2012-02-04 11:24:57.621:  80 07 BF 15 00 04 00 42 6B
+2012-02-04 11:24:57.621:  IKE  --> GLO : Country coding status, Ntwk=E38/E39 Lang=DE_German Clock=24h OutTemp=°C AvgSpd=km/h Limit=km Dist=km ArrTime=24h Consump=l/100_km Motor=Petrol
+2012-02-04 11:24:57.651:  80 0D E7 24 07 00 20 20 20 30 20 4B 4D 20 5F
+2012-02-04 11:24:57.651:  IKE  --> ANZV: Update Text, Layout=Distance  Flags=  F0="   0 KM "
+2012-02-04 11:24:57.681:  3B 06 80 40 07 00 00 FA
+2012-02-04 11:24:57.681:  GT   --> IKE : On-board computer set data, : Set Distance = 0 km
+2012-02-04 11:24:57.692:  F0 04 F2 4C 84 CE
+2012-02-04 11:24:57.692:  BMBT --> 0xF2: Cmd_0x4C, Data="84"
+2012-02-04 11:24:57.702:  80 05 E7 2A 00 00 48
+2012-02-04 11:24:57.702:  IKE  --> ANZV: On-board computer special indicators, Aux_Heating_LED = Off
+2012-02-04 11:24:57.722:  80 0C E7 24 08 00 2D 2D 3A 2D 2D 20 20 7D
+2012-02-04 11:24:57.722:  IKE  --> ANZV: Update Text, Layout=Arrival  Flags=  F0="--:--  "
+2012-02-04 11:24:57.792:  80 0C E7 24 08 00 2D 2D 3A 2D 2D 20 20 7D
+2012-02-04 11:24:57.792:  IKE  --> ANZV: Update Text, Layout=Arrival  Flags=  F0="--:--  "
+2012-02-04 11:24:58.513:  80 0C E7 24 01 00 31 31 3A 32 37 20 20 71
+2012-02-04 11:24:58.513:  IKE  --> ANZV: Update Text, Layout=Time  Flags=  F0="11:27  "
+2012-02-04 11:24:58.573:  F0 04 F2 4C 04 4E
+2012-02-04 11:24:58.573:  BMBT --> 0xF2: Cmd_0x4C, Data="04"
+2012-02-04 11:24:58.763:  F0 04 F2 4C 84 CE
+2012-02-04 11:24:58.763:  BMBT --> 0xF2: Cmd_0x4C, Data="84"
+2012-02-04 11:24:59.374:  F0 04 F2 49 81 CE
+2012-02-04 11:24:59.374:  BMBT --> 0xF2: BM_Knob, Right 1 step
+2012-02-04 11:24:59.594:  F0 04 F2 49 81 CE
+2012-02-04 11:24:59.594:  BMBT --> 0xF2: BM_Knob, Right 1 step
+2012-02-04 11:24:59.724:  F0 04 F2 49 81 CE
+2012-02-04 11:24:59.724:  BMBT --> 0xF2: BM_Knob, Right 1 step
+2012-02-04 11:25:00.075:  F0 04 F2 49 01 4E
+2012-02-04 11:25:00.075:  BMBT --> 0xF2: BM_Knob, Left 1 step
+2012-02-04 11:25:00.135:  F0 04 F2 49 01 4E
+2012-02-04 11:25:00.135:  BMBT --> 0xF2: BM_Knob, Left 1 step
+2012-02-04 11:25:00.235:  F0 04 F2 49 01 4E
+2012-02-04 11:25:00.235:  BMBT --> 0xF2: BM_Knob, Left 1 step
+2012-02-04 11:25:00.936:  F0 04 F2 4C 34 7E
+2012-02-04 11:25:00.936:  BMBT --> 0xF2: Cmd_0x4C, Data="34"
+2012-02-04 11:25:01.096:  F0 04 F2 4C B4 FE
+2012-02-04 11:25:01.096:  BMBT --> 0xF2: Cmd_0x4C, Data="B4"
+2012-02-04 11:25:01.898:  F0 04 F2 4C 34 7E
+2012-02-04 11:25:01.898:  BMBT --> 0xF2: Cmd_0x4C, Data="34"
+2012-02-04 11:25:02.028:  F0 04 F2 4C B4 FE
+2012-02-04 11:25:02.028:  BMBT --> 0xF2: Cmd_0x4C, Data="B4"
+2012-02-04 11:25:02.218:  F0 04 F2 4C 34 7E
+2012-02-04 11:25:02.218:  BMBT --> 0xF2: Cmd_0x4C, Data="34"
+2012-02-04 11:25:02.348:  F0 04 F2 4C B4 FE
+2012-02-04 11:25:02.348:  BMBT --> 0xF2: Cmd_0x4C, Data="B4"
+2012-02-04 11:25:03.270:  C8 04 E7 2C 10 17
+2012-02-04 11:25:03.270:  TEL  --> ANZV: Telephone status, Phone_On
+2012-02-04 11:25:03.280:  C8 04 E7 2B 00 00
+2012-02-04 11:25:03.280:  TEL  --> ANZV: Telephone indicators, All_off
+2012-02-04 11:25:05.483:  E8 05 D0 59 50 00 34
+2012-02-04 11:25:05.483:  RLS  --> LCM : Light control status, Control: Turn_lights_off Sensor_OK Level_Signal_invalid Reason:Data="50 00"
+2012-02-04 11:25:05.733:  7F 06 C8 A9 03 30 30 1B
+2012-02-04 11:25:05.733:  NAV  --> TEL : Telephone data, Current_network_request Count_0
+2012-02-04 11:25:06.084:  7F 04 68 A7 10 A4
+2012-02-04 11:25:06.084:  NAV  --> RAD : TMC status request, Update_Class=10
+2012-02-04 11:25:06.094:  7F 04 68 A7 30 84
+2012-02-04 11:25:06.094:  NAV  --> RAD : TMC status request, Update_Class=30
+2012-02-04 11:25:06.104:  68 03 6A 01 00
+2012-02-04 11:25:06.104:  RAD  --> DSP : Device status request
+2012-02-04 11:25:06.124:  68 05 7F A8 37 13 9E
+2012-02-04 11:25:06.124:  RAD  --> NAV : TMC data, Type37: Data="13"
+2012-02-04 11:25:06.144:  68 05 7F A8 37 13 9E
+2012-02-04 11:25:06.144:  RAD  --> NAV : TMC data, Type37: Data="13"
+2012-02-04 11:25:06.174:  68 05 7F A8 3F 00 85
+2012-02-04 11:25:06.174:  RAD  --> NAV : TMC data, Type3F: Data="00"
+2012-02-04 11:25:06.194:  7F 05 68 A7 31 00 84
+2012-02-04 11:25:06.194:  NAV  --> RAD : TMC status request, Update_Class=31
+2012-02-04 11:25:06.214:  68 05 7F A8 32 08 80
+2012-02-04 11:25:06.214:  RAD  --> NAV : TMC data, Type32: Data="08"
+2012-02-04 11:25:06.985:  F0 03 68 01 9A
+2012-02-04 11:25:06.985:  BMBT --> RAD : Device status request
+2012-02-04 11:25:07.015:  68 05 BF 02 00 03 D3
+2012-02-04 11:25:07.015:  RAD  --> GLO : Device status ready, 
+2012-02-04 11:25:07.496:  3B 03 6A 01 53
+2012-02-04 11:25:07.496:  GT   --> DSP : Device status request
+2012-02-04 11:25:07.986:  68 05 76 38 00 00 23
+2012-02-04 11:25:07.986:  RAD  --> CDCD: CD_control, Status_Request
+2012-02-04 11:25:08.006:  68 05 18 38 00 00 4D
+2012-02-04 11:25:08.006:  RAD  --> CDC : CD_control, Status_Request
+2012-02-04 11:25:08.036:  18 0A 68 39 02 09 00 20 00 06 99 F7
+2012-02-04 11:25:08.036:  CDC  --> RAD : CD_status, Play  Request=Play  CD=6  Track=99  CDs_Loaded=P6
+2012-02-04 11:25:08.056:  68 05 18 38 01 00 4C
+2012-02-04 11:25:08.056:  RAD  --> CDC : CD_control, Stop
+2012-02-04 11:25:08.076:  18 0A 68 39 00 02 00 3F 00 06 99 E1
+2012-02-04 11:25:08.076:  CDC  --> RAD : CD_status, Stop  Request=Pause  CD=6  Track=99  CDs_Loaded=P1,P2,P3,P4,P5,P6
+2012-02-04 11:25:10.069:  7F 14 C8 A2 01 00 50 48 11 40 00 11 34 52 00 01 83 00 10 25 06 8F
+2012-02-04 11:25:10.069:  NAV  --> TEL : Current position, GPS fix; 50°48'11.4"N  11°34'52.0"E; Alt 183m;  UTC 10:25:06
+2012-02-04 11:25:10.109:  7F 23 C8 A4 00 01 50 45 52 4E 49 4B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 3A
+2012-02-04 11:25:10.109:  NAV  --> TEL : Current location, Town = PERNIK
+2012-02-04 11:25:10.220:  7F 0B 80 1F 40 10 25 04 00 02 20 12 AA
+2012-02-04 11:25:10.220:  NAV  --> IKE : Time & date, UTC  10:25 04 Februar 2012
+2012-02-04 11:25:15.497:  E8 05 D0 59 50 00 34
+2012-02-04 11:25:15.497:  RLS  --> LCM : Light control status, Control: Turn_lights_off Sensor_OK Level_Signal_invalid Reason:Data="50 00"
+2012-02-04 11:25:15.818:  7F 06 C8 A9 03 30 30 1B
+2012-02-04 11:25:15.818:  NAV  --> TEL : Telephone data, Current_network_request Count_0
+2012-02-04 11:25:16.048:  F0 04 68 48 04 D0
+2012-02-04 11:25:16.048:  BMBT --> RAD : BM Button, TONE_pressed
+2012-02-04 11:25:16.208:  F0 04 68 48 84 50
+2012-02-04 11:25:16.208:  BMBT --> RAD : BM Button, TONE_released
+2012-02-04 11:25:16.238:  68 07 3B 37 8C 0C 10 00 F3
+2012-02-04 11:25:16.238:  RAD  --> GT  : Select Menu, 
+2012-02-04 11:25:16.268:  68 0B 3B A5 62 01 41 20 46 4D 44 20 90
+2012-02-04 11:25:16.268:  RAD  --> GT  : Screen Text, Layout=RadioDisplay  FC2=0x01  Fld1,PartTx=" FMD "
+2012-02-04 11:25:16.288:  68 0B 3B A5 62 01 42 20 50 20 31 20 9D
+2012-02-04 11:25:16.288:  RAD  --> GT  : Screen Text, Layout=RadioDisplay  FC2=0x01  Fld2,PartTx=" P 1 "
+2012-02-04 11:25:16.318:  68 0B 3B A5 62 01 43 20 52 45 47 20 8D
+2012-02-04 11:25:16.318:  RAD  --> GT  : Screen Text, Layout=RadioDisplay  FC2=0x01  Fld3,PartTx=" REG "
+2012-02-04 11:25:16.338:  68 0B 3B A5 62 01 44 20 20 20 20 20 FA
+2012-02-04 11:25:16.338:  RAD  --> GT  : Screen Text, Layout=RadioDisplay  FC2=0x01  Fld4,PartTx="     "
+2012-02-04 11:25:16.368:  68 0D 3B A5 62 01 45 20 20 52 44 53 20 20 98
+2012-02-04 11:25:16.368:  RAD  --> GT  : Screen Text, Layout=RadioDisplay  FC2=0x01  Fld5,PartTx="  RDS  "
+2012-02-04 11:25:16.418:  68 1A 3B A5 62 01 46 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 C9
+2012-02-04 11:25:16.418:  RAD  --> GT  : Screen Text, Layout=RadioDisplay  FC2=0x01  Fld6,PartTx="                    "
+2012-02-04 11:25:16.458:  68 1A 3B A5 62 01 07 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 88
+2012-02-04 11:25:16.458:  RAD  --> GT  : Screen Text, Layout=RadioDisplay  FC2=0x01  Fld7,EndTx="                    "
+2012-02-04 11:25:16.489:  68 12 3B 23 62 10 03 20 39 30 2E 39 04 20 4D 48 7A 20 20 76
+2012-02-04 11:25:16.489:  RAD  --> GT  : Display Text, Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 90.9"   F4:" MHz  "
+2012-02-04 11:25:16.509:  3B 05 68 22 00 06 72
+2012-02-04 11:25:16.509:  GT   --> RAD : Text display confirmation, Screen Text: 7 text messages acknowledged
+2012-02-04 11:25:17.490:  3B 03 C8 01 F1
+2012-02-04 11:25:17.490:  GT   --> TEL : Device status request
+2012-02-04 11:25:17.510:  C8 04 FF 02 30 01
+2012-02-04 11:25:17.510:  TEL  --> LOC : Device status ready, Assist_ready_after_Reset Bit5
+2012-02-04 11:25:17.540:  C8 03 3B 01 F1
+2012-02-04 11:25:17.540:  TEL  --> GT  : Device status request
+2012-02-04 11:25:17.560:  3B 04 C8 02 40 B5
+2012-02-04 11:25:17.560:  GT   --> TEL : Device status ready, Bit6
+2012-02-04 11:25:17.590:  C8 03 7F 01 B5
+2012-02-04 11:25:17.590:  TEL  --> NAV : Device status request
+2012-02-04 11:25:17.610:  7F 04 C8 02 40 F1
+2012-02-04 11:25:17.610:  NAV  --> TEL : Device status ready, Bit6
+2012-02-04 11:25:17.640:  3B 04 C8 02 00 F5
+2012-02-04 11:25:17.640:  GT   --> TEL : Device status ready, 
+2012-02-04 11:25:17.660:  C8 04 7F A1 00 12
+2012-02-04 11:25:17.660:  TEL  --> NAV : Current position request, 
+2012-02-04 11:25:17.690:  C8 04 7F A3 00 10
+2012-02-04 11:25:17.690:  TEL  --> NAV : Current location request, 
+2012-02-04 11:25:17.710:  7F 14 C8 A2 01 00 50 48 11 40 00 11 34 52 00 01 82 00 10 25 14 9C
+2012-02-04 11:25:17.710:  NAV  --> TEL : Current position, GPS fix; 50°48'11.4"N  11°34'52.0"E; Alt 182m;  UTC 10:25:14
+2012-02-04 11:25:17.730:  7F 0B C8 1F 40 10 25 04 00 02 20 12 E2
+2012-02-04 11:25:17.730:  NAV  --> TEL : Time & date, UTC  10:25 04 Februar 2012
+2012-02-04 11:25:17.750:  7F 23 C8 A4 00 01 50 45 52 4E 49 4B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 3A
+2012-02-04 11:25:17.750:  NAV  --> TEL : Current location, Town = PERNIK
+2012-02-04 11:25:18.121:  F0 04 3B 48 05 82
+2012-02-04 11:25:18.121:  BMBT --> GT  : BM Button, BM_Knob_pressed
+2012-02-04 11:25:18.251:  F0 04 3B 48 85 02
+2012-02-04 11:25:18.251:  BMBT --> GT  : BM Button, BM_Knob_released
+2012-02-04 11:25:18.271:  68 04 3B 36 6C 0D
+2012-02-04 11:25:18.271:  RAD  --> GT  : Audio_control, Bass = +12
+2012-02-04 11:25:18.762:  F0 04 3B 49 01 87
+2012-02-04 11:25:18.762:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:25:18.792:  68 04 3B 36 6A 0B
+2012-02-04 11:25:18.792:  RAD  --> GT  : Audio_control, Bass = +10
+2012-02-04 11:25:18.992:  F0 04 3B 49 01 87
+2012-02-04 11:25:18.992:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:25:19.012:  68 04 3B 36 68 09
+2012-02-04 11:25:19.012:  RAD  --> GT  : Audio_control, Bass = +8
+2012-02-04 11:25:19.212:  F0 04 3B 49 01 87
+2012-02-04 11:25:19.212:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:25:19.242:  68 04 3B 36 66 07
+2012-02-04 11:25:19.242:  RAD  --> GT  : Audio_control, Bass = +6
+2012-02-04 11:25:19.443:  F0 04 3B 49 01 87
+2012-02-04 11:25:19.443:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:25:19.463:  68 04 3B 36 64 05
+2012-02-04 11:25:19.463:  RAD  --> GT  : Audio_control, Bass = +4
+2012-02-04 11:25:19.483:  F0 03 68 01 9A
+2012-02-04 11:25:19.483:  BMBT --> RAD : Device status request
+2012-02-04 11:25:19.503:  68 05 BF 02 00 03 D3
+2012-02-04 11:25:19.503:  RAD  --> GLO : Device status ready, 
+2012-02-04 11:25:19.673:  7F 04 43 AB 11 82
+2012-02-04 11:25:19.673:  NAV  --> GTF : Remote control status, , Data="11"
+2012-02-04 11:25:19.693:  F0 04 3B 49 01 87
+2012-02-04 11:25:19.693:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:25:19.723:  68 04 3B 36 62 03
+2012-02-04 11:25:19.723:  RAD  --> GT  : Audio_control, Bass = +2
+2012-02-04 11:25:20.304:  7F 04 68 A7 30 84
+2012-02-04 11:25:20.304:  NAV  --> RAD : TMC status request, Update_Class=30
+2012-02-04 11:25:20.324:  68 05 7F A8 37 13 9E
+2012-02-04 11:25:20.324:  RAD  --> NAV : TMC data, Type37: Data="13"
+2012-02-04 11:25:20.354:  7F 05 68 A7 31 03 87
+2012-02-04 11:25:20.354:  NAV  --> RAD : TMC status request, Update_Class=31
+2012-02-04 11:25:20.374:  68 07 7F A8 32 38 3F 04 89
+2012-02-04 11:25:20.374:  RAD  --> NAV : TMC data, Type32: Data="38"   Type3F: Data="04"
+2012-02-04 11:25:20.394:  7F 09 68 A7 32 80 01 D0 00 00 DA
+2012-02-04 11:25:20.394:  NAV  --> RAD : TMC status request, Update_Class=32
+2012-02-04 11:25:20.424:  68 13 7F A8 32 30 33 05 01 07 D3 C2 33 03 01 03 D6 F1 32 38 90
+2012-02-04 11:25:20.424:  RAD  --> NAV : TMC data, Type32: Data="30"   Type33:  Group0Data="05 01 07 D3 C2"   Type33:  Group0Data="03 01 03 D6 F1"   Type32: Data="38"
+2012-02-04 11:25:20.444:  7F 0A 68 A7 33 00 85 00 00 D3 C2 1D
+2012-02-04 11:25:20.444:  NAV  --> RAD : TMC status request, Update_Class=33
+2012-02-04 11:25:20.474:  F0 04 3B 49 81 07
+2012-02-04 11:25:20.474:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:25:20.494:  68 0D 7F A8 32 34 33 C5 01 07 D3 C2 32 38 5F
+2012-02-04 11:25:20.494:  RAD  --> NAV : TMC data, Type32: Data="34"   Type33:  GroupC: Data="C5 01 07 D3 C2"   Type32: Data="38"
+2012-02-04 11:25:20.514:  68 04 3B 36 64 05
+2012-02-04 11:25:20.514:  RAD  --> GT  : Audio_control, Bass = +4
+2012-02-04 11:25:20.544:  7F 0A 68 A7 33 01 85 00 D7 D3 C2 CB
+2012-02-04 11:25:20.544:  NAV  --> RAD : TMC status request, Update_Class=33
+2012-02-04 11:25:20.564:  7F 04 68 A7 37 83
+2012-02-04 11:25:20.564:  NAV  --> RAD : TMC status request, Update_Class=37
+2012-02-04 11:25:20.745:  7F 04 B0 AF 01 65
+2012-02-04 11:25:20.745:  NAV  --> SES : Cmd_0xAF, Data="01"
+2012-02-04 11:25:21.135:  F0 04 3B 49 01 87
+2012-02-04 11:25:21.135:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:25:21.155:  68 04 3B 36 62 03
+2012-02-04 11:25:21.155:  RAD  --> GT  : Audio_control, Bass = +2
+2012-02-04 11:25:22.928:  F0 04 3B 49 01 87
+2012-02-04 11:25:22.928:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:25:22.948:  68 04 3B 36 70 11
+2012-02-04 11:25:22.948:  RAD  --> GT  : Audio_control, Bass = 0
+2012-02-04 11:25:23.539:  F0 04 3B 48 05 82
+2012-02-04 11:25:23.539:  BMBT --> GT  : BM Button, BM_Knob_pressed
+2012-02-04 11:25:23.629:  F0 04 3B 48 85 02
+2012-02-04 11:25:23.629:  BMBT --> GT  : BM Button, BM_Knob_released
+2012-02-04 11:25:23.659:  68 04 3B 37 C0 A0
+2012-02-04 11:25:23.659:  RAD  --> GT  : Select Menu, 
+2012-02-04 11:25:24.140:  F0 04 3B 49 81 07
+2012-02-04 11:25:24.140:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:25:24.170:  68 04 3B 37 D0 B0
+2012-02-04 11:25:24.170:  RAD  --> GT  : Select Menu, 
+2012-02-04 11:25:24.620:  F0 04 3B 48 05 82
+2012-02-04 11:25:24.620:  BMBT --> GT  : BM Button, BM_Knob_pressed
+2012-02-04 11:25:24.750:  F0 04 3B 48 85 02
+2012-02-04 11:25:24.750:  BMBT --> GT  : BM Button, BM_Knob_released
+2012-02-04 11:25:24.770:  68 04 3B 36 CC AD
+2012-02-04 11:25:24.770:  RAD  --> GT  : Audio_control, Treble = +12
+2012-02-04 11:25:25.141:  F0 04 3B 49 01 87
+2012-02-04 11:25:25.141:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:25:25.161:  68 04 3B 36 CA AB
+2012-02-04 11:25:25.161:  RAD  --> GT  : Audio_control, Treble = +10
+2012-02-04 11:25:25.201:  F0 04 3B 49 01 87
+2012-02-04 11:25:25.201:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:25:25.231:  F0 04 3B 49 01 87
+2012-02-04 11:25:25.231:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:25:25.271:  68 04 3B 36 C6 A7
+2012-02-04 11:25:25.271:  RAD  --> GT  : Audio_control, Treble = +6
+2012-02-04 11:25:25.421:  F0 04 3B 49 01 87
+2012-02-04 11:25:25.421:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:25:25.451:  68 04 3B 36 C4 A5
+2012-02-04 11:25:25.451:  RAD  --> GT  : Audio_control, Treble = +4
+2012-02-04 11:25:25.481:  68 09 7F A8 33 C5 81 07 D3 C2 D7
+2012-02-04 11:25:25.481:  RAD  --> NAV : TMC data, Type33:  GroupC: Data="C5 81 07 D3 C2"
+2012-02-04 11:25:25.512:  E8 05 D0 59 50 00 34
+2012-02-04 11:25:25.512:  RLS  --> LCM : Light control status, Control: Turn_lights_off Sensor_OK Level_Signal_invalid Reason:Data="50 00"
+2012-02-04 11:25:25.532:  7F 05 68 A7 34 03 82
+2012-02-04 11:25:25.532:  NAV  --> RAD : TMC status request, Update_Class=34
+2012-02-04 11:25:25.552:  68 05 7F A8 34 03 8D
+2012-02-04 11:25:25.552:  RAD  --> NAV : TMC data, Type34: Data="03"
+2012-02-04 11:25:25.582:  7F 09 68 A7 32 80 01 D0 00 00 DA
+2012-02-04 11:25:25.582:  NAV  --> RAD : TMC status request, Update_Class=32
+2012-02-04 11:25:25.602:  68 13 7F A8 32 32 33 05 81 07 D3 C2 33 03 81 03 D6 F1 32 3A 90
+2012-02-04 11:25:25.602:  RAD  --> NAV : TMC data, Type32: Data="32"   Type33:  Group0Data="05 81 07 D3 C2"   Type33:  Group0Data="03 81 03 D6 F1"   Type32: Data="3A"
+2012-02-04 11:25:25.632:  F0 04 3B 49 01 87
+2012-02-04 11:25:25.632:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:25:25.652:  68 04 3B 36 C2 A3
+2012-02-04 11:25:25.652:  RAD  --> GT  : Audio_control, Treble = +2
+2012-02-04 11:25:25.682:  7F 0A 68 A7 33 00 85 00 00 D3 C2 1D
+2012-02-04 11:25:25.682:  NAV  --> RAD : TMC status request, Update_Class=33
+2012-02-04 11:25:25.702:  68 0D 7F A8 32 36 33 C5 81 07 D3 C2 32 3A DF
+2012-02-04 11:25:25.702:  RAD  --> NAV : TMC data, Type32: Data="36"   Type33:  GroupC: Data="C5 81 07 D3 C2"   Type32: Data="3A"
+2012-02-04 11:25:25.722:  7F 0A 68 A7 33 01 85 00 D7 D3 C2 CB
+2012-02-04 11:25:25.722:  NAV  --> RAD : TMC status request, Update_Class=33
+2012-02-04 11:25:25.742:  7F 04 68 A7 37 83
+2012-02-04 11:25:25.742:  NAV  --> RAD : TMC status request, Update_Class=37
+2012-02-04 11:25:25.842:  F0 04 3B 49 01 87
+2012-02-04 11:25:25.842:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:25:25.862:  68 04 3B 36 D0 B1
+2012-02-04 11:25:25.862:  RAD  --> GT  : Audio_control, Treble = 0
+2012-02-04 11:25:25.902:  7F 06 C8 A9 03 30 30 1B
+2012-02-04 11:25:25.902:  NAV  --> TEL : Telephone data, Current_network_request Count_0
+2012-02-04 11:25:26.082:  68 03 6A 01 00
+2012-02-04 11:25:26.082:  RAD  --> DSP : Device status request
+2012-02-04 11:25:27.054:  F0 04 3B 48 05 82
+2012-02-04 11:25:27.054:  BMBT --> GT  : BM Button, BM_Knob_pressed
+2012-02-04 11:25:27.214:  F0 04 3B 48 85 02
+2012-02-04 11:25:27.214:  BMBT --> GT  : BM Button, BM_Knob_released
+2012-02-04 11:25:27.314:  68 04 3B 37 D0 B0
+2012-02-04 11:25:27.314:  RAD  --> GT  : Select Menu, 
+2012-02-04 11:25:27.474:  3B 03 ED 01 D4
+2012-02-04 11:25:27.484:  GT   --> VID : Device status request
+2012-02-04 11:25:27.504:  ED 04 3B 02 00 D0
+2012-02-04 11:25:27.504:  VID  --> GT  : Device status ready, 
+2012-02-04 11:25:27.985:  68 05 18 38 00 00 4D
+2012-02-04 11:25:27.985:  RAD  --> CDC : CD_control, Status_Request
+2012-02-04 11:25:28.025:  18 0A 68 39 02 09 00 20 00 06 99 F7
+2012-02-04 11:25:28.025:  CDC  --> RAD : CD_status, Play  Request=Play  CD=6  Track=99  CDs_Loaded=P6
+2012-02-04 11:25:28.336:  F0 04 68 32 21 8F
+2012-02-04 11:25:28.336:  BMBT --> RAD : Volume Control, Increase 2 steps
+2012-02-04 11:25:28.496:  F0 04 68 32 11 BF
+2012-02-04 11:25:28.496:  BMBT --> RAD : Volume Control, Increase 1 step
+2012-02-04 11:25:28.686:  F0 04 68 32 21 8F
+2012-02-04 11:25:28.686:  BMBT --> RAD : Volume Control, Increase 2 steps
+2012-02-04 11:25:28.816:  F0 04 68 32 11 BF
+2012-02-04 11:25:28.816:  BMBT --> RAD : Volume Control, Increase 1 step
+2012-02-04 11:25:29.107:  F0 04 68 3F
+2012-02-04 11:25:29.107:  WARNING: Discarded 4 bytes: [F0 04 68 3F]
+2012-02-04 11:25:29.137:  F0 04 68 32 11 BF
+2012-02-04 11:25:29.137:  BMBT --> RAD : Volume Control, Increase 1 step
+2012-02-04 11:25:29.157:  F0 04 68 32 11 BF
+2012-02-04 11:25:29.157:  BMBT --> RAD : Volume Control, Increase 1 step
+2012-02-04 11:25:29.848:  F0 03 68 01 9A
+2012-02-04 11:25:29.848:  BMBT --> RAD : Device status request
+2012-02-04 11:25:29.868:  68 05 BF 02 00 03 D3
+2012-02-04 11:25:29.868:  RAD  --> GLO : Device status ready, 
+2012-02-04 11:25:30.048:  F0 04 68 32 11 BF
+2012-02-04 11:25:30.048:  BMBT --> RAD : Volume Control, Increase 1 step
+2012-02-04 11:25:30.389:  F0 04 68 32 21 8F
+2012-02-04 11:25:30.389:  BMBT --> RAD : Volume Control, Increase 2 steps
+2012-02-04 11:25:30.429:  F0 04 68 32 11 BF
+2012-02-04 11:25:30.429:  BMBT --> RAD : Volume Control, Increase 1 step
+2012-02-04 11:25:30.699:  68 0F 7F A8 33 C5 81 07 D3 C2 30 81 05 7A 00 00 1F
+2012-02-04 11:25:30.699:  RAD  --> NAV : TMC data, Type33:  GroupC: Data="C5 81 07 D3 C2"   Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp ConIndex=1
+2012-02-04 11:25:30.719:  7F 05 68 A7 34 03 82
+2012-02-04 11:25:30.719:  NAV  --> RAD : TMC status request, Update_Class=34
+2012-02-04 11:25:30.749:  68 05 7F A8 34 03 8D
+2012-02-04 11:25:30.749:  RAD  --> NAV : TMC data, Type34: Data="03"
+2012-02-04 11:25:34.895:  68 04 3B 46 02 13
+2012-02-04 11:25:34.895:  RAD  --> GT  : LCD clear, : Radio display off
+2012-02-04 11:25:34.915:  68 04 3B 46 0C 1D
+2012-02-04 11:25:34.915:  RAD  --> GT  : LCD clear, : Select menu off: Tone menu off
+2012-02-04 11:25:35.025:  3B 04 68 45 11 03
+2012-02-04 11:25:35.025:  GT   --> RAD : Radio status request, Data="11"
+2012-02-04 11:25:35.045:  7F 04 43 AB 21 B2
+2012-02-04 11:25:35.045:  NAV  --> GTF : Remote control status, , Data="21"
+2012-02-04 11:25:35.065:  68 04 3B 46 01 10
+2012-02-04 11:25:35.065:  RAD  --> GT  : LCD clear, : No display required
+2012-02-04 11:25:35.526:  E8 05 D0 59 50 00 34
+2012-02-04 11:25:35.526:  RLS  --> LCM : Light control status, Control: Turn_lights_off Sensor_OK Level_Signal_invalid Reason:Data="50 00"
+2012-02-04 11:25:35.977:  7F 06 C8 A9 03 30 30 1B
+2012-02-04 11:25:35.977:  NAV  --> TEL : Telephone data, Current_network_request Count_0
+2012-02-04 11:25:37.489:  3B 03 F0 01 C9
+2012-02-04 11:25:37.489:  GT   --> BMBT: Device status request
+2012-02-04 11:25:37.519:  F0 04 3B 02 30 FD
+2012-02-04 11:25:37.519:  BMBT --> GT  : Device status ready, Bit4 Bit5
+2012-02-04 11:25:37.539:  C8 07 7F A9 0B 00 00 C0 D2
+2012-02-04 11:25:37.539:  TEL  --> NAV : Telephone data, Data="0B 00 00 C0"
+2012-02-04 11:25:37.559:  C8 04 7F A1 00 12
+2012-02-04 11:25:37.559:  TEL  --> NAV : Current position request, 
+2012-02-04 11:25:37.589:  C8 04 7F A3 00 10
+2012-02-04 11:25:37.589:  TEL  --> NAV : Current location request, 
+2012-02-04 11:25:37.609:  C8 06 7F A9 31 00 00 29
+2012-02-04 11:25:37.609:  TEL  --> NAV : Telephone data, Telematics_settings_request
+2012-02-04 11:25:37.639:  7F 14 C8 A2 01 00 50 48 11 40 00 11 34 52 00 01 80 00 10 25 34 BE
+2012-02-04 11:25:37.639:  NAV  --> TEL : Current position, GPS fix; 50°48'11.4"N  11°34'52.0"E; Alt 180m;  UTC 10:25:34
+2012-02-04 11:25:37.659:  7F 0B C8 1F 40 10 25 04 00 02 20 12 E2
+2012-02-04 11:25:37.659:  NAV  --> TEL : Time & date, UTC  10:25 04 Februar 2012
+2012-02-04 11:25:37.689:  7F 23 C8 A4 00 01 50 45 52 4E 49 4B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 3A
+2012-02-04 11:25:37.689:  NAV  --> TEL : Current location, Town = PERNIK
+2012-02-04 11:25:37.709:  7F 0D C8 A9 32 00 00 42 5A 39 30 33 34 34 03
+2012-02-04 11:25:37.709:  NAV  --> TEL : Telephone data, Telematics_settings, VIN = BZ90344
+2012-02-04 11:25:37.809:  7F 11 C8 A9 33 00 00 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 2D 11
+2012-02-04 11:25:37.809:  NAV  --> TEL : Telephone data, Telematics_settings, Reg_number = -----------
+2012-02-04 11:25:37.889:  7F 0C C8 A9 34 00 00 35 65 72 20 20 20 24
+2012-02-04 11:25:37.889:  NAV  --> TEL : Telephone data, Telematics_settings, Vehicle_type = 5er
+2012-02-04 11:25:37.949:  C8 05 E7 A6 F0 00 7C
+2012-02-04 11:25:37.949:  TEL  --> ANZV: Special indicators, Acknowledge
+2012-02-04 11:25:37.969:  C8 05 E7 A6 F0 00 7C
+2012-02-04 11:25:37.969:  TEL  --> ANZV: Special indicators, Acknowledge
+2012-02-04 11:25:38.040:  7F 10 C8 A9 35 00 00 55 4E 42 45 4B 41 4E 4E 54 20 59
+2012-02-04 11:25:38.040:  NAV  --> TEL : Telephone data, Telematics_settings, Colour = UNBEKANNT
+2012-02-04 11:25:38.650:  7F 06 C8 A9 01 30 30 19
+2012-02-04 11:25:38.650:  NAV  --> TEL : Telephone data, SIM_card_request Count_0
+2012-02-04 11:25:38.690:  C8 1A 7F A9 02 00 00 38 39 34 39 30 32 34 30 30 30 31 35 38 37 39 31 37 33 33 32 0A
+2012-02-04 11:25:38.690:  TEL  --> NAV : Telephone data, SIM_card_S/N: 89490240001587917332
+2012-02-04 11:25:38.791:  7F 06 C8 A9 1C 30 30 04
+2012-02-04 11:25:38.791:  NAV  --> TEL : Telephone data, Home_network_request Count_0
+2012-02-04 11:25:38.811:  C8 0B 7F A9 1D 00 00 32 36 32 30 31 3F
+2012-02-04 11:25:38.811:  TEL  --> NAV : Telephone data, Home_network_ID: 26201
+2012-02-04 11:25:38.901:  68 0F 7F A8 30 02 4E 96 44 00 30 A3 81 96 28 3B 89
+2012-02-04 11:25:38.901:  RAD  --> NAV : TMC data, Type30:  Group0Data="02 4E 96 44 00"   Type30:  GroupA: Data="A3 81 96 28 3B"
+2012-02-04 11:25:39.522:  C8 05 E7 A6 F0 00 7C
+2012-02-04 11:25:39.522:  TEL  --> ANZV: Special indicators, Acknowledge
+2012-02-04 11:25:40.012:  7F 14 C8 A2 01 00 50 48 11 40 00 11 34 52 00 01 80 00 10 25 36 BC
+2012-02-04 11:25:40.012:  NAV  --> TEL : Current position, GPS fix; 50°48'11.4"N  11°34'52.0"E; Alt 180m;  UTC 10:25:36
+2012-02-04 11:25:40.062:  7F 23 C8 A4 00 01 50 45 52 4E 49 4B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 3A
+2012-02-04 11:25:40.062:  NAV  --> TEL : Current location, Town = PERNIK
+2012-02-04 11:25:40.223:  F0 03 68 01 9A
+2012-02-04 11:25:40.223:  BMBT --> RAD : Device status request
+2012-02-04 11:25:40.243:  68 05 BF 02 00 03 D3
+2012-02-04 11:25:40.243:  RAD  --> GLO : Device status ready, 
+2012-02-04 11:25:45.550:  E8 05 D0 59 50 00 34
+2012-02-04 11:25:45.550:  RLS  --> LCM : Light control status, Control: Turn_lights_off Sensor_OK Level_Signal_invalid Reason:Data="50 00"
+2012-02-04 11:25:46.081:  68 03 6A 01 00
+2012-02-04 11:25:46.081:  RAD  --> DSP : Device status request
+2012-02-04 11:25:46.502:  68 15 7F A8 30 83 5E 93 2F D2 30 83 0A F4 00 00 30 24 81 97 30 36 60
+2012-02-04 11:25:46.502:  RAD  --> NAV : TMC data, Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp ConIndex=3   Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp ConIndex=3   Type30:  Group2: Data="24 81 97 30 36"
+2012-02-04 11:25:47.463:  3B 03 80 01 B9
+2012-02-04 11:25:47.463:  GT   --> IKE : Device status request
+2012-02-04 11:25:47.493:  80 04 BF 02 00 39
+2012-02-04 11:25:47.493:  IKE  --> GLO : Device status ready, 
+2012-02-04 11:25:47.984:  68 05 18 38 00 00 4D
+2012-02-04 11:25:47.984:  RAD  --> CDC : CD_control, Status_Request
+2012-02-04 11:25:48.014:  18 0A 68 39 02 09 00 20 00 06 99 F7
+2012-02-04 11:25:48.014:  CDC  --> RAD : CD_status, Play  Request=Play  CD=6  Track=99  CDs_Loaded=P6
+2012-02-04 11:25:49.376:  F0 04 3B 49 81 07
+2012-02-04 11:25:49.376:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:25:49.756:  F0 04 3B 49 81 07
+2012-02-04 11:25:49.756:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:25:50.367:  F0 04 3B 49 01 87
+2012-02-04 11:25:50.367:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:25:50.497:  F0 04 3B 49 01 87
+2012-02-04 11:25:50.497:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:25:50.588:  F0 03 68 01 9A
+2012-02-04 11:25:50.588:  BMBT --> RAD : Device status request
+2012-02-04 11:25:50.618:  68 05 BF 02 00 03 D3
+2012-02-04 11:25:50.618:  RAD  --> GLO : Device status ready, 
+2012-02-04 11:25:50.758:  F0 04 3B 49 81 07
+2012-02-04 11:25:50.758:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:25:51.068:  F0 04 3B 49 81 07
+2012-02-04 11:25:51.068:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:25:51.709:  F0 04 3B 48 05 82
+2012-02-04 11:25:51.709:  BMBT --> GT  : BM Button, BM_Knob_pressed
+2012-02-04 11:25:51.839:  F0 04 3B 48 85 02
+2012-02-04 11:25:51.839:  BMBT --> GT  : BM Button, BM_Knob_released
+2012-02-04 11:25:51.859:  3B 05 FF 20 02 0C EF
+2012-02-04 11:25:51.859:  GT   --> LOC : Display status, TEL_short Show_TEL_Menu Show_TEL_Main
+2012-02-04 11:25:51.909:  C8 1F 3B 21 80 01 20 06 4B 6F 6E 74 6F 73 74 61 6E 64 06 58 74 72 61 20 4B 6F 6E 74 6F 73 65 72 7B
+2012-02-04 11:25:51.909:  TEL  --> GT  : Menu Text, Layout=0x80:  Flags=CLS  F0=  Btn1"Kontostand"  Btn2"Xtra Kontoser"
+2012-02-04 11:25:51.940:  C8 05 3B 23 81 20 74
+2012-02-04 11:25:51.940:  TEL  --> GT  : Display Text, Layout=0x81:  Flags=CLS  F0=
+2012-02-04 11:25:52.030:  3B 04 C8 22 00 D5
+2012-02-04 11:25:52.030:  GT   --> TEL : Text display confirmation, Menu Text: 1 text message acknowledged
+2012-02-04 11:25:52.871:  F0 04 3B 49 01 87
+2012-02-04 11:25:52.871:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:25:53.702:  F0 04 3B 49 01 87
+2012-02-04 11:25:53.702:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:25:53.802:  68 0F 7F A8 30 24 5B 01 0A E9 30 04 05 7A 00 00 56
+2012-02-04 11:25:53.802:  RAD  --> NAV : TMC data, Type30:  Group2: Data="24 5B 01 0A E9"   Type30:  Group0Data="04 05 7A 00 00"
+2012-02-04 11:25:55.074:  F0 04 3B 49 81 07
+2012-02-04 11:25:55.074:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:25:55.565:  E8 05 D0 59 50 00 34
+2012-02-04 11:25:55.565:  RLS  --> LCM : Light control status, Control: Turn_lights_off Sensor_OK Level_Signal_invalid Reason:Data="50 00"
+2012-02-04 11:25:55.815:  F0 04 3B 48 05 82
+2012-02-04 11:25:55.815:  BMBT --> GT  : BM Button, BM_Knob_pressed
+2012-02-04 11:25:55.835:  3B 06 C8 31 80 01 00 45
+2012-02-04 11:25:55.835:  GT   --> TEL : Button, Button_0_pressed
+2012-02-04 11:25:55.865:  C8 0F 3B 23 81 20 4B 6F 6E 74 6F 73 74 61 6E 64 43
+2012-02-04 11:25:55.865:  TEL  --> GT  : Display Text, Layout=0x81:  Flags=CLS  F0="Kontostand"
+2012-02-04 11:25:55.935:  F0 04 3B 48 85 02
+2012-02-04 11:25:55.935:  BMBT --> GT  : BM Button, BM_Knob_released
+2012-02-04 11:25:55.965:  3B 06 C8 31 80 01 40 05
+2012-02-04 11:25:55.965:  GT   --> TEL : Button, Button_0_released
+2012-02-04 11:25:57.447:  3B 03 6A 01 53
+2012-02-04 11:25:57.447:  GT   --> DSP : Device status request
+2012-02-04 11:25:58.549:  80 0C E7 24 01 00 31 31 3A 32 38 20 20 7E
+2012-02-04 11:25:58.549:  IKE  --> ANZV: Update Text, Layout=Time  Flags=  F0="11:28  "
+2012-02-04 11:25:58.729:  F0 04 FF 48 08 4B
+2012-02-04 11:25:58.729:  BMBT --> LOC : BM Button, TELEPHONE_pressed
+2012-02-04 11:25:58.819:  C8 0A 3B 23 82 20 2A 31 30 30 23 40
+2012-02-04 11:25:58.819:  TEL  --> GT  : Display Text, Layout=0x82:  Flags=CLS  F0="*100#"
+2012-02-04 11:25:58.839:  F0 04 FF 48 88 CB
+2012-02-04 11:25:58.839:  BMBT --> LOC : BM Button, TELEPHONE_released
+2012-02-04 11:25:59.550:  C8 0B 7F A9 04 00 00 32 36 32 30 31 26
+2012-02-04 11:25:59.550:  TEL  --> NAV : Telephone data, Current_network_ID: 26201
+2012-02-04 11:26:00.712:  F0 04 3B 49 81 07
+2012-02-04 11:26:00.712:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:26:00.962:  F0 03 68 01 9A
+2012-02-04 11:26:00.962:  BMBT --> RAD : Device status request
+2012-02-04 11:26:00.993:  68 05 BF 02 00 03 D3
+2012-02-04 11:26:00.993:  RAD  --> GLO : Device status ready, 
+2012-02-04 11:26:01.013:  68 0F 7F A8 30 85 C1 97 28 3B 30 A5 5E 95 7B D2 B7
+2012-02-04 11:26:01.013:  RAD  --> NAV : TMC data, Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp,First_Grp Loc=10299 Evnt=407 Dir=Neg Extnt=0 ConIndex=5   Type30:  GroupA: Data="A5 5E 95 7B D2"
+2012-02-04 11:26:01.353:  F0 04 3B 49 01 87
+2012-02-04 11:26:01.353:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:26:01.794:  F0 04 3B 49 81 07
+2012-02-04 11:26:01.794:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:26:02.535:  F0 04 3B 48 05 82
+2012-02-04 11:26:02.535:  BMBT --> GT  : BM Button, BM_Knob_pressed
+2012-02-04 11:26:02.575:  3B 06 C8 31 80 07 1E 5D
+2012-02-04 11:26:02.575:  GT   --> TEL : Button, Button_E_pressed
+2012-02-04 11:26:02.595:  C8 06 3B 21 42 02 20 B4
+2012-02-04 11:26:02.595:  TEL  --> GT  : Menu Text, Layout=0x42:  Flags=CLS  F0=
+2012-02-04 11:26:02.625:  C8 05 3B 23 63 20 96
+2012-02-04 11:26:02.625:  TEL  --> GT  : Display Text, Layout=0x63:  Flags=CLS  F0=
+2012-02-04 11:26:02.665:  F0 04 3B 48 85 02
+2012-02-04 11:26:02.665:  BMBT --> GT  : BM Button, BM_Knob_released
+2012-02-04 11:26:02.685:  3B 04 C8 22 00 D5
+2012-02-04 11:26:02.685:  GT   --> TEL : Text display confirmation, Menu Text: 1 text message acknowledged
+2012-02-04 11:26:05.379:  F0 04 3B 49 01 87
+2012-02-04 11:26:05.379:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:26:05.589:  E8 05 D0 59 50 00 34
+2012-02-04 11:26:05.589:  RLS  --> LCM : Light control status, Control: Turn_lights_off Sensor_OK Level_Signal_invalid Reason:Data="50 00"
+2012-02-04 11:26:06.090:  68 03 6A 01 00
+2012-02-04 11:26:06.090:  RAD  --> DSP : Device status request
+2012-02-04 11:26:06.110:  F0 04 3B 49 81 07
+2012-02-04 11:26:06.110:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:26:06.340:  F0 04 3B 49 81 07
+2012-02-04 11:26:06.340:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:26:06.410:  68 15 7F A8 30 A5 06 58 00 00 30 41 B5 32 A6 82 30 26 C1 97 30 36 F5
+2012-02-04 11:26:06.410:  RAD  --> NAV : TMC data, Type30:  GroupA: Data="A5 06 58 00 00"   Type30:  Group4_Clock_Date_&_Time: UTC_2012/02/04_10:26_+1h   Type30:  Group2: Data="26 C1 97 30 36"
+2012-02-04 11:26:06.631:  F0 04 3B 49 81 07
+2012-02-04 11:26:06.631:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:26:07.442:  3B 03 C8 01 F1
+2012-02-04 11:26:07.442:  GT   --> TEL : Device status request
+2012-02-04 11:26:07.462:  C8 04 FF 02 30 01
+2012-02-04 11:26:07.462:  TEL  --> LOC : Device status ready, Assist_ready_after_Reset Bit5
+2012-02-04 11:26:07.492:  F0 04 3B 49 01 87
+2012-02-04 11:26:07.492:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:26:07.912:  F0 04 3B 49 01 87
+2012-02-04 11:26:07.912:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:26:07.993:  68 05 18 38 00 00 4D
+2012-02-04 11:26:07.993:  RAD  --> CDC : CD_control, Status_Request
+2012-02-04 11:26:08.023:  18 0A 68 39 02 09 00 20 00 06 99 F7
+2012-02-04 11:26:08.023:  CDC  --> RAD : CD_status, Play  Request=Play  CD=6  Track=99  CDs_Loaded=P6
+2012-02-04 11:26:08.133:  F0 04 3B 49 01 87
+2012-02-04 11:26:08.133:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:26:08.333:  F0 04 3B 49 01 87
+2012-02-04 11:26:08.333:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:26:08.373:  F0 04 3B 49 01 87
+2012-02-04 11:26:08.373:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:26:08.844:  F0 04 3B 49 01 87
+2012-02-04 11:26:08.844:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:26:08.904:  F0 04 3B 49 01 87
+2012-02-04 11:26:08.904:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:26:09.645:  F0 04 3B 49 01 87
+2012-02-04 11:26:09.645:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:26:09.965:  7F 14 C8 A2 01 00 50 48 11 40 00 11 34 52 00 01 78 00 10 26 06 77
+2012-02-04 11:26:09.965:  NAV  --> TEL : Current position, GPS fix; 50°48'11.4"N  11°34'52.0"E; Alt 178m;  UTC 10:26:06
+2012-02-04 11:26:10.016:  7F 23 C8 A4 00 01 50 45 52 4E 49 4B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 3A
+2012-02-04 11:26:10.016:  NAV  --> TEL : Current location, Town = PERNIK
+2012-02-04 11:26:10.206:  7F 0B 80 1F 40 10 26 04 00 02 20 12 A9
+2012-02-04 11:26:10.206:  NAV  --> IKE : Time & date, UTC  10:26 04 Februar 2012
+2012-02-04 11:26:11.207:  F0 04 FF 48 34 77
+2012-02-04 11:26:11.207:  BMBT --> LOC : BM Button, MENU_pressed
+2012-02-04 11:26:11.307:  F0 04 FF 48 B4 F7
+2012-02-04 11:26:11.307:  BMBT --> LOC : BM Button, MENU_released
+2012-02-04 11:26:11.337:  F0 03 68 01 9A
+2012-02-04 11:26:11.337:  BMBT --> RAD : Device status request
+2012-02-04 11:26:11.367:  68 05 BF 02 00 03 D3
+2012-02-04 11:26:11.367:  RAD  --> GLO : Device status ready, 
+2012-02-04 11:26:11.387:  7F 04 43 AB 21 B2
+2012-02-04 11:26:11.387:  NAV  --> GTF : Remote control status, , Data="21"
+2012-02-04 11:26:12.199:  F0 04 3B 49 81 07
+2012-02-04 11:26:12.199:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:26:12.589:  F0 04 3B 49 81 07
+2012-02-04 11:26:12.589:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:26:12.880:  F0 04 3B 49 01 87
+2012-02-04 11:26:12.880:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:26:13.230:  F0 04 3B 49 01 87
+2012-02-04 11:26:13.230:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:26:14.031:  F0 04 3B 48 05 82
+2012-02-04 11:26:14.031:  BMBT --> GT  : BM Button, BM_Knob_pressed
+2012-02-04 11:26:14.161:  F0 04 3B 48 85 02
+2012-02-04 11:26:14.161:  BMBT --> GT  : BM Button, BM_Knob_released
+2012-02-04 11:26:14.181:  3B 05 FF 20 02 0C EF
+2012-02-04 11:26:14.181:  GT   --> LOC : Display status, TEL_short Show_TEL_Menu Show_TEL_Main
+2012-02-04 11:26:14.222:  C8 1F 3B 21 80 01 20 06 4B 6F 6E 74 6F 73 74 61 6E 64 06 58 74 72 61 20 4B 6F 6E 74 6F 73 65 72 7B
+2012-02-04 11:26:14.222:  TEL  --> GT  : Menu Text, Layout=0x80:  Flags=CLS  F0=  Btn1"Kontostand"  Btn2"Xtra Kontoser"
+2012-02-04 11:26:14.252:  C8 05 3B 23 81 20 74
+2012-02-04 11:26:14.252:  TEL  --> GT  : Display Text, Layout=0x81:  Flags=CLS  F0=
+2012-02-04 11:26:14.322:  3B 04 C8 22 00 D5
+2012-02-04 11:26:14.322:  GT   --> TEL : Text display confirmation, Menu Text: 1 text message acknowledged
+2012-02-04 11:26:15.433:  F0 04 3B 49 01 87
+2012-02-04 11:26:15.433:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:26:15.604:  E8 05 D0 59 50 00 34
+2012-02-04 11:26:15.604:  RLS  --> LCM : Light control status, Control: Turn_lights_off Sensor_OK Level_Signal_invalid Reason:Data="50 00"
+2012-02-04 11:26:16.104:  F0 04 3B 48 05 82
+2012-02-04 11:26:16.104:  BMBT --> GT  : BM Button, BM_Knob_pressed
+2012-02-04 11:26:16.134:  3B 06 C8 31 80 01 00 45
+2012-02-04 11:26:16.134:  GT   --> TEL : Button, Button_0_pressed
+2012-02-04 11:26:16.154:  C8 0F 3B 23 81 20 4B 6F 6E 74 6F 73 74 61 6E 64 43
+2012-02-04 11:26:16.154:  TEL  --> GT  : Display Text, Layout=0x81:  Flags=CLS  F0="Kontostand"
+2012-02-04 11:26:16.204:  F0 04 3B 48 85 02
+2012-02-04 11:26:16.204:  BMBT --> GT  : BM Button, BM_Knob_released
+2012-02-04 11:26:16.224:  3B 06 C8 31 80 01 40 05
+2012-02-04 11:26:16.224:  GT   --> TEL : Button, Button_0_released
+2012-02-04 11:26:17.166:  F0 04 3B 48 05 82
+2012-02-04 11:26:17.166:  BMBT --> GT  : BM Button, BM_Knob_pressed
+2012-02-04 11:26:17.186:  3B 06 C8 31 80 01 00 45
+2012-02-04 11:26:17.186:  GT   --> TEL : Button, Button_0_pressed
+2012-02-04 11:26:17.266:  F0 04 3B 48 85 02
+2012-02-04 11:26:17.266:  BMBT --> GT  : BM Button, BM_Knob_released
+2012-02-04 11:26:17.286:  3B 06 C8 31 80 01 40 05
+2012-02-04 11:26:17.286:  GT   --> TEL : Button, Button_0_released
+2012-02-04 11:26:17.436:  3B 03 ED 01 D4
+2012-02-04 11:26:17.436:  GT   --> VID : Device status request
+2012-02-04 11:26:17.456:  ED 04 3B 02 00 D0
+2012-02-04 11:26:17.456:  VID  --> GT  : Device status ready, 
+2012-02-04 11:26:20.190:  C8 0A 3B 23 82 20 2A 31 30 30 23 40
+2012-02-04 11:26:20.190:  TEL  --> GT  : Display Text, Layout=0x82:  Flags=CLS  F0="*100#"
+2012-02-04 11:26:20.651:  F0 04 3B 49 81 07
+2012-02-04 11:26:20.651:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:26:21.392:  F0 04 3B 49 81 07
+2012-02-04 11:26:21.392:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:26:21.712:  F0 03 68 01 9A
+2012-02-04 11:26:21.712:  BMBT --> RAD : Device status request
+2012-02-04 11:26:21.732:  68 05 BF 02 00 03 D3
+2012-02-04 11:26:21.732:  RAD  --> GLO : Device status ready, 
+2012-02-04 11:26:22.704:  68 0F 7F A8 30 06 5B 01 85 E9 30 A1 C1 96 AE 97 4F
+2012-02-04 11:26:22.704:  RAD  --> NAV : TMC data, Type30:  Group0Data="06 5B 01 85 E9"   Type30:  GroupA: Data="A1 C1 96 AE 97"
+2012-02-04 11:26:23.285:  F0 04 3B 49 01 87
+2012-02-04 11:26:23.285:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:26:23.885:  F0 04 3B 49 81 07
+2012-02-04 11:26:23.885:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:26:25.297:  F0 04 3B 48 05 82
+2012-02-04 11:26:25.297:  BMBT --> GT  : BM Button, BM_Knob_pressed
+2012-02-04 11:26:25.318:  3B 04 FF 48 08 80
+2012-02-04 11:26:25.318:  GT   --> LOC : BM Button, TELEPHONE_pressed
+2012-02-04 11:26:25.428:  F0 04 3B 48 85 02
+2012-02-04 11:26:25.428:  BMBT --> GT  : BM Button, BM_Knob_released
+2012-02-04 11:26:25.448:  3B 04 FF 48 88 00
+2012-02-04 11:26:25.448:  GT   --> LOC : BM Button, TELEPHONE_released
+2012-02-04 11:26:25.628:  E8 05 D0 59 50 00 34
+2012-02-04 11:26:25.628:  RLS  --> LCM : Light control status, Control: Turn_lights_off Sensor_OK Level_Signal_invalid Reason:Data="50 00"
+2012-02-04 11:26:26.089:  68 03 6A 01 00
+2012-02-04 11:26:26.089:  RAD  --> DSP : Device status request
+2012-02-04 11:26:26.870:  F0 04 3B 49 01 87
+2012-02-04 11:26:26.870:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:26:27.120:  F0 04 3B 49 01 87
+2012-02-04 11:26:27.120:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:26:27.411:  F0 04 3B 49 01 87
+2012-02-04 11:26:27.411:  BMBT --> GT  : BM_Knob, Left 1 step
+2012-02-04 11:26:27.431:  3B 03 F0 01 C9
+2012-02-04 11:26:27.431:  GT   --> BMBT: Device status request
+2012-02-04 11:26:27.461:  F0 04 3B 02 30 FD
+2012-02-04 11:26:27.461:  BMBT --> GT  : Device status ready, Bit4 Bit5
+2012-02-04 11:26:27.701:  68 0F 7F A8 30 A1 5E 95 7A C0 30 A1 08 00 00 00 C9
+2012-02-04 11:26:27.701:  RAD  --> NAV : TMC data, Type30:  GroupA: Data="A1 5E 95 7A C0"   Type30:  GroupA: Data="A1 08 00 00 00"
+2012-02-04 11:26:27.991:  68 05 18 38 00 00 4D
+2012-02-04 11:26:27.991:  RAD  --> CDC : CD_control, Status_Request
+2012-02-04 11:26:28.031:  18 0A 68 39 02 09 00 20 00 06 99 F7
+2012-02-04 11:26:28.031:  CDC  --> RAD : CD_status, Play  Request=Play  CD=6  Track=99  CDs_Loaded=P6
+2012-02-04 11:26:28.212:  F0 04 3B 48 05 82
+2012-02-04 11:26:28.212:  BMBT --> GT  : BM Button, BM_Knob_pressed
+2012-02-04 11:26:28.232:  3B 06 C8 31 80 01 02 47
+2012-02-04 11:26:28.232:  GT   --> TEL : Button, Button_2_pressed
+2012-02-04 11:26:28.272:  C8 15 3B 23 81 20 58 74 72 61 20 4B 6F 6E 74 6F 73 65 72 76 65 72 2F
+2012-02-04 11:26:28.272:  TEL  --> GT  : Display Text, Layout=0x81:  Flags=CLS  F0="Xtra Kontoserver"
+2012-02-04 11:26:28.312:  F0 04 3B 48 85 02
+2012-02-04 11:26:28.312:  BMBT --> GT  : BM Button, BM_Knob_released
+2012-02-04 11:26:28.332:  3B 06 C8 31 80 01 42 07
+2012-02-04 11:26:28.332:  GT   --> TEL : Button, Button_2_released
+2012-02-04 11:26:28.843:  7F 04 68 A7 36 82
+2012-02-04 11:26:28.843:  NAV  --> RAD : TMC status request, Update_Class=36
+2012-02-04 11:26:29.203:  F0 04 3B 49 81 07
+2012-02-04 11:26:29.203:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:26:29.524:  F0 04 3B 49 81 07
+2012-02-04 11:26:29.524:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:26:29.874:  F0 04 3B 49 81 07
+2012-02-04 11:26:29.874:  BMBT --> GT  : BM_Knob, Right 1 step
+2012-02-04 11:26:30.485:  F0 04 3B 48 05 82
+2012-02-04 11:26:30.485:  BMBT --> GT  : BM Button, BM_Knob_pressed
+2012-02-04 11:26:30.505:  3B 04 FF 48 08 80
+2012-02-04 11:26:30.505:  GT   --> LOC : BM Button, TELEPHONE_pressed
+2012-02-04 11:26:30.615:  F0 04 3B 48 85 02
+2012-02-04 11:26:30.615:  BMBT --> GT  : BM Button, BM_Knob_released
+2012-02-04 11:26:30.635:  3B 04 FF 48 88 00
+2012-02-04 11:26:30.635:  GT   --> LOC : BM Button, TELEPHONE_released
+2012-02-04 11:26:31.236:  C8 09 3B 23 82 20 32 30 30 30 79
+2012-02-04 11:26:31.236:  TEL  --> GT  : Display Text, Layout=0x82:  Flags=CLS  F0="2000"
+2012-02-04 11:26:31.436:  C8 04 E7 2C 11 16
+2012-02-04 11:26:31.436:  TEL  --> ANZV: Telephone status, Hands_Free Phone_On
+2012-02-04 11:26:31.466:  C8 06 E7 23 02 00 C6 CE
+2012-02-04 11:26:31.466:  TEL  --> ANZV: Display Text, Layout=Date  Flags=  F0="Æ"
+2012-02-04 11:26:31.486:  C8 04 E7 2C 31 36
+2012-02-04 11:26:31.486:  TEL  --> ANZV: Telephone status, Hands_Free Phone_On Phone_Active
+2012-02-04 11:26:31.516:  C8 06 E7 23 02 00 C6 CE
+2012-02-04 11:26:31.516:  TEL  --> ANZV: Display Text, Layout=Date  Flags=  F0="Æ"
+2012-02-04 11:26:32.087:  F0 03 68 01 9A
+2012-02-04 11:26:32.087:  BMBT --> RAD : Device status request
+2012-02-04 11:26:32.107:  68 05 BF 02 00 03 D3
+2012-02-04 11:26:32.107:  RAD  --> GLO : Device status ready, 
+2012-02-04 11:26:32.247:  C8 07 E7 23 01 00 C7 C8 05
+2012-02-04 11:26:32.247:  TEL  --> ANZV: Display Text, Layout=Time  Flags=  F0="ÇÈ"
+2012-02-04 11:26:32.278:  C8 04 E7 2B 10 10
+2012-02-04 11:26:32.278:  TEL  --> ANZV: Telephone indicators, Green
+2012-02-04 11:26:33.800:  68 11 7F A8 30 22 C1 97 30 DE 32 3A 30 22 4E 96 44 00 82
+2012-02-04 11:26:33.800:  RAD  --> NAV : TMC data, Type30:  Group2: Data="22 C1 97 30 DE"   Type32: Data="3A"   Type30:  Group2: Data="22 4E 96 44 00"
+2012-02-04 11:26:35.642:  E8 05 D0 59 50 00 34
+2012-02-04 11:26:35.642:  RLS  --> LCM : Light control status, Control: Turn_lights_off Sensor_OK Level_Signal_invalid Reason:Data="50 00"
+2012-02-04 11:26:37.415:  3B 03 80 01 B9
+2012-02-04 11:26:37.415:  GT   --> IKE : Device status request
+2012-02-04 11:26:37.435:  80 04 BF 02 00 39
+2012-02-04 11:26:37.435:  IKE  --> GLO : Device status ready, 
+2012-02-04 11:26:37.755:  F0 04 68 32 20 8E
+2012-02-04 11:26:37.755:  BMBT --> RAD : Volume Control, Decrease 2 steps
+2012-02-04 11:26:37.815:  F0 04 68 32 10 BE
+2012-02-04 11:26:37.815:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:26:37.876:  F0 04 68 32 10 BE
+2012-02-04 11:26:37.876:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:26:37.916:  F0 04 68 32 10 BE
+2012-02-04 11:26:37.916:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:26:38.026:  F0 3F
+2012-02-04 11:26:38.026:  WARNING: Discarded 2 bytes: [F0 3F]
+2012-02-04 11:26:38.056:  F0 04 68 32 10 BE
+2012-02-04 11:26:38.056:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:26:38.166:  F0 04 68 32 10 BE
+2012-02-04 11:26:38.166:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:26:38.296:  F0 04 68 32 10 BE
+2012-02-04 11:26:38.296:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:26:38.326:  F0 04 68 32 10 BE
+2012-02-04 11:26:38.326:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:26:38.456:  F0 04 68 32 10 BE
+2012-02-04 11:26:38.456:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:26:38.967:  F0 04 68 32 20 8E
+2012-02-04 11:26:38.967:  BMBT --> RAD : Volume Control, Decrease 2 steps
+2012-02-04 11:26:39.007:  F0 04 68 32 10 BE
+2012-02-04 11:26:39.007:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:26:39.047:  C8 05 E7 A6 F0 00 7C
+2012-02-04 11:26:39.047:  TEL  --> ANZV: Special indicators, Acknowledge
+2012-02-04 11:26:39.067:  F0 04 68 32 10 BE
+2012-02-04 11:26:39.067:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:26:39.518:  F0 04 68 32 10 BE
+2012-02-04 11:26:39.518:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:26:39.568:  F0 04 68 72
+2012-02-04 11:26:39.568:  WARNING: Discarded 4 bytes: [F0 04 68 72]
+2012-02-04 11:26:39.598:  F0 04 68 32 10 BE
+2012-02-04 11:26:39.598:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:26:39.618:  F0 04 68 32 20 8E
+2012-02-04 11:26:39.618:  BMBT --> RAD : Volume Control, Decrease 2 steps
+2012-02-04 11:26:39.919:  7F 14 C8 A2 01 00 50 48 11 40 00 11 34 52 00 01 78 00 10 26 36 47
+2012-02-04 11:26:39.919:  NAV  --> TEL : Current position, GPS fix; 50°48'11.4"N  11°34'52.0"E; Alt 178m;  UTC 10:26:36
+2012-02-04 11:26:39.969:  7F 23 C8 A4 00 01 50 45 52 4E 49 4B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 3A
+2012-02-04 11:26:39.969:  NAV  --> TEL : Current location, Town = PERNIK
+2012-02-04 11:26:41.290:  68 09 7F A8 30 83 C1 98 2B FC 8B
+2012-02-04 11:26:41.290:  RAD  --> NAV : TMC data, Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp,First_Grp Loc=11260 Evnt=408 Dir=Neg Extnt=0 ConIndex=3
+2012-02-04 11:26:42.462:  F0 03 68 01 9A
+2012-02-04 11:26:42.462:  BMBT --> RAD : Device status request
+2012-02-04 11:26:42.482:  68 05 BF 02 00 03 D3
+2012-02-04 11:26:42.482:  RAD  --> GLO : Device status ready, 
+2012-02-04 11:26:43.804:  F0 04 68 32 20 8E
+2012-02-04 11:26:43.804:  BMBT --> RAD : Volume Control, Decrease 2 steps
+2012-02-04 11:26:43.834:  F0 04 68 32 10 BE
+2012-02-04 11:26:43.834:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:26:43.884:  3F 3F
+2012-02-04 11:26:43.884:  WARNING: Discarded 2 bytes: [3F 3F]
+2012-02-04 11:26:43.914:  F0 04 68 32 10 BE
+2012-02-04 11:26:43.914:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:26:43.944:  F0 04 68 32 10 BE
+2012-02-04 11:26:43.944:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:26:43.964:  F0 04 68 32 10 BE
+2012-02-04 11:26:43.964:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:26:44.064:  F0 04 68 32 10 BE
+2012-02-04 11:26:44.064:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:26:44.285:  F0 04 68 32 10 BE
+2012-02-04 11:26:44.285:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:26:44.445:  F0 04 68 32 10 BE
+2012-02-04 11:26:44.445:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:26:44.475:  F0 04 68 32 10 BE
+2012-02-04 11:26:44.475:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:26:44.956:  F0 04 68 32 10 BE
+2012-02-04 11:26:44.956:  BMBT --> RAD : Volume Control, Decrease 1 step
+2012-02-04 11:26:45.016:  F0 04 68 32 20 8E
+2012-02-04 11:26:45.016:  BMBT --> RAD : Volume Control, Decrease 2 steps
+2012-02-04 11:26:45.056:  F0 04 68 32 20 8E
+2012-02-04 11:26:45.056:  BMBT --> RAD : Volume Control, Decrease 2 steps
+2012-02-04 11:26:45.116:  F0 04 68 32 20 8E
+2012-02-04 11:26:45.116:  BMBT --> RAD : Volume Control, Decrease 2 steps
+2012-02-04 11:26:45.657:  E8 05 D0 59 50 00 34
+2012-02-04 11:26:45.657:  RLS  --> LCM : Light control status, Control: Turn_lights_off Sensor_OK Level_Signal_invalid Reason:Data="50 00"
+2012-02-04 11:26:46.087:  68 03 6A 01 00
+2012-02-04 11:26:46.087:  RAD  --> DSP : Device status request
+2012-02-04 11:26:47.199:  68 15 7F A8 30 83 41 51 DA 00 30 04 C1 97 96 66 30 24 58 FA E9 64 7A
+2012-02-04 11:26:47.199:  RAD  --> NAV : TMC data, Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp ConIndex=3   Type30:  Group0Data="04 C1 97 96 66"   Type30:  Group2: Data="24 58 FA E9 64"
+2012-02-04 11:26:47.399:  3B 03 6A 01 53
+2012-02-04 11:26:47.399:  GT   --> DSP : Device status request
+2012-02-04 11:26:47.570:  ! NavCoder logging stopped by user

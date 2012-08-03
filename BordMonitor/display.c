@@ -155,6 +155,7 @@ void display_init(void)
 
     // based on the jumper settings we enable either 3.3V or 5V as idle voltage
     DDRB &= ~(1 << DDB3); // set Jumper pin to input mode
+    asm volatile("nop");    
     PORTB |= (1 << 3);    // enable pull-up, will refer to this later, so that we don't get spurious data here
 
     asm volatile("nop");
@@ -467,7 +468,7 @@ void display_updateState(void)
     static uint8_t ignoreButtons = 0;
     if (tick_get() < g_display_NextResponseTime) return;
 
-    if (button_down_long(BUTTON_INFO_R))
+    if (button_down_long(BUTTON_INFO_R) && button_down_long(BUTTON_MENU_LR))
         display_TogglePower(false);
 
     // if holding button longer than certain time, then turn off screen if it is on

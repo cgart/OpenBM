@@ -1,0 +1,542 @@
+24.07.2011 18:34:11.073:  !
+24.07.2011 18:34:11.073:  ! NavCoder v2.8.350 [DE] [i/k-bus] logging started
+24.07.2011 18:34:11.073:  ! Running on Windows XP Professional (Service Pack 3)  [de-DE]
+24.07.2011 18:34:11.073:  ! [Procotol = i/k-bus]
+24.07.2011 18:34:11.651:  80 05 BF 18 00 06 24
+24.07.2011 18:34:11.651:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:13.448:  68 03 18 01 72
+24.07.2011 18:34:13.448:  RAD  --> CDC : Device status request
+24.07.2011 18:34:13.464:  18 04 FF 02 00 E1
+24.07.2011 18:34:13.464:  CDC  --> LOC : Device status ready
+24.07.2011 18:34:13.479:  68 03 6A 01 00
+24.07.2011 18:34:13.479:  RAD  --> DSP : Device status request
+24.07.2011 18:34:13.495:  6A 04 FF 02 00 93
+24.07.2011 18:34:13.495:  DSP  --> LOC : Device status ready
+24.07.2011 18:34:13.573:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:34:13.573:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:34:13.651:  80 05 BF 18 00 06 24
+24.07.2011 18:34:13.651:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:15.667:  80 05 BF 18 00 06 24
+24.07.2011 18:34:15.667:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:16.573:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:34:16.573:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:34:17.651:  80 05 BF 18 00 06 24
+24.07.2011 18:34:17.651:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:17.667:  80 06 BF 19 0F 67 00 48
+24.07.2011 18:34:17.667:  IKE  --> GLO : Temperature: Outside 15°C, Coolant 103°C
+24.07.2011 18:34:17.870:  F0 03 68 01 9A
+24.07.2011 18:34:17.870:  BMBT --> RAD : Device status request
+24.07.2011 18:34:17.901:  68 04 BF 02 00 D1
+24.07.2011 18:34:17.901:  RAD  --> GLO : Device status ready
+24.07.2011 18:34:18.432:  3B 03 6A 01 53
+24.07.2011 18:34:18.432:  GT   --> DSP : Device status request
+24.07.2011 18:34:18.448:  6A 04 FF 02 00 93
+24.07.2011 18:34:18.448:  DSP  --> LOC : Device status ready
+24.07.2011 18:34:18.464:  3B 03 C8 01 F1
+24.07.2011 18:34:18.464:  GT   --> TEL : Device status request
+24.07.2011 18:34:18.479:  C8 04 FF 02 30 01
+24.07.2011 18:34:18.479:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+24.07.2011 18:34:18.854:  3B 03 ED 01 D4
+24.07.2011 18:34:18.854:  GT   --> VID : Device status request
+24.07.2011 18:34:18.854:  ED 04 3B 02 00 D0
+24.07.2011 18:34:18.854:  VID  --> GT  : Device status ready
+24.07.2011 18:34:19.573:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:34:19.573:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:34:19.667:  80 05 BF 18 00 06 24
+24.07.2011 18:34:19.667:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:19.823:  3B 03 80 01 B9
+24.07.2011 18:34:19.823:  GT   --> IKE : Device status request
+24.07.2011 18:34:19.839:  80 04 BF 02 00 39
+24.07.2011 18:34:19.839:  IKE  --> GLO : Device status ready
+24.07.2011 18:34:20.995:  68 03 18 01 72
+24.07.2011 18:34:20.995:  RAD  --> CDC : Device status request
+24.07.2011 18:34:21.026:  18 04 FF 02 00 E1
+24.07.2011 18:34:21.026:  CDC  --> LOC : Device status ready
+24.07.2011 18:34:21.042:  68 03 6A 01 00
+24.07.2011 18:34:21.042:  RAD  --> DSP : Device status request
+24.07.2011 18:34:21.057:  6A 04 FF 02 00 93
+24.07.2011 18:34:21.057:  DSP  --> LOC : Device status ready
+24.07.2011 18:34:21.667:  80 05 BF 18 00 06 24
+24.07.2011 18:34:21.667:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:22.589:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:34:22.589:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:34:23.667:  80 05 BF 18 00 06 24
+24.07.2011 18:34:23.667:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:25.589:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:34:25.589:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:34:25.667:  80 05 BF 18 00 06 24
+24.07.2011 18:34:25.667:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:27.682:  80 05 BF 18 00 06 24
+24.07.2011 18:34:27.682:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:27.698:  80 06 BF 19 0F 67 00 48
+24.07.2011 18:34:27.698:  IKE  --> GLO : Temperature: Outside 15°C, Coolant 103°C
+24.07.2011 18:34:27.885:  F0 03 68 01 9A
+24.07.2011 18:34:27.885:  BMBT --> RAD : Device status request
+24.07.2011 18:34:27.901:  68 04 BF 02 00 D1
+24.07.2011 18:34:27.917:  RAD  --> GLO : Device status ready
+24.07.2011 18:34:28.417:  3B 03 6A 01 53
+24.07.2011 18:34:28.417:  GT   --> DSP : Device status request
+24.07.2011 18:34:28.417:  6A 04 FF 02 00 93
+24.07.2011 18:34:28.417:  DSP  --> LOC : Device status ready
+24.07.2011 18:34:28.432:  3B 03 C8 01 F1
+24.07.2011 18:34:28.432:  GT   --> TEL : Device status request
+24.07.2011 18:34:28.448:  C8 04 FF 02 30 01
+24.07.2011 18:34:28.448:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+24.07.2011 18:34:28.573:  68 03 18 01 72
+24.07.2011 18:34:28.573:  RAD  --> CDC : Device status request
+24.07.2011 18:34:28.589:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:34:28.589:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:34:28.604:  18 04 FF 02 00 E1
+24.07.2011 18:34:28.604:  CDC  --> LOC : Device status ready
+24.07.2011 18:34:28.635:  68 03 6A 01 00
+24.07.2011 18:34:28.635:  RAD  --> DSP : Device status request
+24.07.2011 18:34:28.635:  6A 04 FF 02 00 93
+24.07.2011 18:34:28.635:  DSP  --> LOC : Device status ready
+24.07.2011 18:34:28.807:  3B 03 ED 01 D4
+24.07.2011 18:34:28.807:  GT   --> VID : Device status request
+24.07.2011 18:34:28.823:  ED 04 3B 02 00 D0
+24.07.2011 18:34:28.823:  VID  --> GT  : Device status ready
+24.07.2011 18:34:29.682:  80 05 BF 18 00 06 24
+24.07.2011 18:34:29.682:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:29.792:  3B 03 80 01 B9
+24.07.2011 18:34:29.792:  GT   --> IKE : Device status request
+24.07.2011 18:34:29.823:  80 04 BF 02 00 39
+24.07.2011 18:34:29.823:  IKE  --> GLO : Device status ready
+24.07.2011 18:34:31.589:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:34:31.589:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:34:31.682:  80 05 BF 18 00 06 24
+24.07.2011 18:34:31.682:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:33.682:  80 05 BF 18 00 06 24
+24.07.2011 18:34:33.682:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:34.604:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:34:34.604:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:34:35.698:  80 05 BF 18 00 06 24
+24.07.2011 18:34:35.698:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:36.323:  68 03 18 01 72
+24.07.2011 18:34:36.323:  RAD  --> CDC : Device status request
+24.07.2011 18:34:36.339:  18 04 FF 02 00 E1
+24.07.2011 18:34:36.339:  CDC  --> LOC : Device status ready
+24.07.2011 18:34:36.354:  68 03 6A 01 00
+24.07.2011 18:34:36.354:  RAD  --> DSP : Device status request
+24.07.2011 18:34:36.370:  6A 04 FF 02 00 93
+24.07.2011 18:34:36.370:  DSP  --> LOC : Device status ready
+24.07.2011 18:34:36.901:  7F 14 C8 A2 00 00 54 20 44 20 00 13 30 05 00 00 00 00 00 00 00 37
+24.07.2011 18:34:36.901:  NAV  --> TEL : Current position: 54°20'44.2"N  13°30'5.0"E
+24.07.2011 18:34:36.948:  7F 23 C8 A4 00 01 50 55 54 42 55 53 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 24
+24.07.2011 18:34:36.948:  NAV  --> TEL : Current location: Town = PUTBUS
+24.07.2011 18:34:37.010:  7F 23 C8 A4 00 02 3B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 09
+24.07.2011 18:34:37.010:  NAV  --> TEL : Current location: Street = ;
+24.07.2011 18:34:37.589:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:34:37.589:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:34:37.698:  80 05 BF 18 00 06 24
+24.07.2011 18:34:37.698:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:37.714:  80 06 BF 19 0F 66 00 49
+24.07.2011 18:34:37.714:  IKE  --> GLO : Temperature: Outside 15°C, Coolant 102°C
+24.07.2011 18:34:37.917:  F0 03 68 01 9A
+24.07.2011 18:34:37.917:  BMBT --> RAD : Device status request
+24.07.2011 18:34:37.932:  68 04 BF 02 00 D1
+24.07.2011 18:34:37.932:  RAD  --> GLO : Device status ready
+24.07.2011 18:34:38.385:  3B 03 6A 01 53
+24.07.2011 18:34:38.385:  GT   --> DSP : Device status request
+24.07.2011 18:34:38.401:  6A 04 FF 02 00 93
+24.07.2011 18:34:38.401:  DSP  --> LOC : Device status ready
+24.07.2011 18:34:38.417:  3B 03 C8 01 F1
+24.07.2011 18:34:38.417:  GT   --> TEL : Device status request
+24.07.2011 18:34:38.432:  C8 04 FF 02 30 01
+24.07.2011 18:34:38.432:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+24.07.2011 18:34:38.792:  3B 03 ED 01 D4
+24.07.2011 18:34:38.792:  GT   --> VID : Device status request
+24.07.2011 18:34:38.807:  ED 04 3B 02 00 D0
+24.07.2011 18:34:38.807:  VID  --> GT  : Device status ready
+24.07.2011 18:34:39.698:  80 05 BF 18 00 06 24
+24.07.2011 18:34:39.698:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:39.776:  3B 03 80 01 B9
+24.07.2011 18:34:39.776:  GT   --> IKE : Device status request
+24.07.2011 18:34:39.807:  80 04 BF 02 00 39
+24.07.2011 18:34:39.807:  IKE  --> GLO : Device status ready
+24.07.2011 18:34:40.604:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:34:40.604:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:34:41.698:  80 05 BF 18 00 06 24
+24.07.2011 18:34:41.698:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:43.604:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:34:43.604:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:34:43.714:  80 05 BF 18 00 06 24
+24.07.2011 18:34:43.714:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:43.917:  68 03 18 01 72
+24.07.2011 18:34:43.917:  RAD  --> CDC : Device status request
+24.07.2011 18:34:43.932:  18 04 FF 02 00 E1
+24.07.2011 18:34:43.932:  CDC  --> LOC : Device status ready
+24.07.2011 18:34:43.948:  68 03 6A 01 00
+24.07.2011 18:34:43.948:  RAD  --> DSP : Device status request
+24.07.2011 18:34:43.964:  6A 04 FF 02 00 93
+24.07.2011 18:34:43.964:  DSP  --> LOC : Device status ready
+24.07.2011 18:34:45.714:  80 05 BF 18 00 06 24
+24.07.2011 18:34:45.714:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:46.604:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:34:46.604:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:34:47.714:  80 05 BF 18 00 06 24
+24.07.2011 18:34:47.714:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:47.729:  80 06 BF 19 0F 66 00 49
+24.07.2011 18:34:47.729:  IKE  --> GLO : Temperature: Outside 15°C, Coolant 102°C
+24.07.2011 18:34:47.917:  F0 03 68 01 9A
+24.07.2011 18:34:47.917:  BMBT --> RAD : Device status request
+24.07.2011 18:34:47.964:  68 04 BF 02 00 D1
+24.07.2011 18:34:47.964:  RAD  --> GLO : Device status ready
+24.07.2011 18:34:48.370:  3B 03 6A 01 53
+24.07.2011 18:34:48.370:  GT   --> DSP : Device status request
+24.07.2011 18:34:48.385:  6A 04 FF 02 00 93
+24.07.2011 18:34:48.385:  DSP  --> LOC : Device status ready
+24.07.2011 18:34:48.401:  3B 03 C8 01 F1
+24.07.2011 18:34:48.401:  GT   --> TEL : Device status request
+24.07.2011 18:34:48.401:  C8 04 FF 02 30 01
+24.07.2011 18:34:48.401:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+24.07.2011 18:34:48.776:  3B 03 ED 01 D4
+24.07.2011 18:34:48.776:  GT   --> VID : Device status request
+24.07.2011 18:34:48.792:  ED 04 3B 02 00 D0
+24.07.2011 18:34:48.792:  VID  --> GT  : Device status ready
+24.07.2011 18:34:49.604:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:34:49.604:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:34:49.714:  80 05 BF 18 00 06 24
+24.07.2011 18:34:49.714:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:49.760:  3B 03 80 01 B9
+24.07.2011 18:34:49.760:  GT   --> IKE : Device status request
+24.07.2011 18:34:49.776:  80 04 BF 02 00 39
+24.07.2011 18:34:49.776:  IKE  --> GLO : Device status ready
+24.07.2011 18:34:51.604:  68 03 18 01 72
+24.07.2011 18:34:51.604:  RAD  --> CDC : Device status request
+24.07.2011 18:34:51.635:  18 04 FF 02 00 E1
+24.07.2011 18:34:51.635:  CDC  --> LOC : Device status ready
+24.07.2011 18:34:51.651:  68 03 6A 01 00
+24.07.2011 18:34:51.651:  RAD  --> DSP : Device status request
+24.07.2011 18:34:51.667:  6A 04 FF 02 00 93
+24.07.2011 18:34:51.667:  DSP  --> LOC : Device status ready
+24.07.2011 18:34:51.729:  80 05 BF 18 00 06 24
+24.07.2011 18:34:51.729:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:52.620:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:34:52.620:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:34:53.729:  80 05 BF 18 00 06 24
+24.07.2011 18:34:53.729:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:55.620:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:34:55.620:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:34:55.729:  80 05 BF 18 00 06 24
+24.07.2011 18:34:55.729:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:57.729:  80 05 BF 18 00 06 24
+24.07.2011 18:34:57.729:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:57.760:  80 06 BF 19 0F 68 00 47
+24.07.2011 18:34:57.760:  IKE  --> GLO : Temperature: Outside 15°C, Coolant 104°C
+24.07.2011 18:34:57.948:  F0 03 68 01 9A
+24.07.2011 18:34:57.948:  BMBT --> RAD : Device status request
+24.07.2011 18:34:57.964:  68 04 BF 02 00 D1
+24.07.2011 18:34:57.964:  RAD  --> GLO : Device status ready
+24.07.2011 18:34:58.354:  3B 03 6A 01 53
+24.07.2011 18:34:58.354:  GT   --> DSP : Device status request
+24.07.2011 18:34:58.354:  6A 04 FF 02 00 93
+24.07.2011 18:34:58.354:  DSP  --> LOC : Device status ready
+24.07.2011 18:34:58.385:  3B 03 C8 01 F1
+24.07.2011 18:34:58.385:  GT   --> TEL : Device status request
+24.07.2011 18:34:58.385:  C8 04 FF 02 30 01
+24.07.2011 18:34:58.385:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+24.07.2011 18:34:58.620:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:34:58.635:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:34:58.698:  7F 0B 80 1F 40 16 35 24 00 07 20 11 9A
+24.07.2011 18:34:58.698:  NAV  --> IKE : Time & date: UTC  16:35 24 Juli 2011
+24.07.2011 18:34:58.760:  3B 03 ED 01 D4
+24.07.2011 18:34:58.760:  GT   --> VID : Device status request
+24.07.2011 18:34:58.760:  ED 04 3B 02 00 D0
+24.07.2011 18:34:58.760:  VID  --> GT  : Device status ready
+24.07.2011 18:34:59.198:  68 03 18 01 72
+24.07.2011 18:34:59.198:  RAD  --> CDC : Device status request
+24.07.2011 18:34:59.214:  18 04 FF 02 00 E1
+24.07.2011 18:34:59.214:  CDC  --> LOC : Device status ready
+24.07.2011 18:34:59.229:  68 03 6A 01 00
+24.07.2011 18:34:59.229:  RAD  --> DSP : Device status request
+24.07.2011 18:34:59.245:  6A 04 FF 02 00 93
+24.07.2011 18:34:59.245:  DSP  --> LOC : Device status ready
+24.07.2011 18:34:59.729:  3B 03 80 01 B9
+24.07.2011 18:34:59.729:  GT   --> IKE : Device status request
+24.07.2011 18:34:59.745:  80 05 BF 18 00 06 24
+24.07.2011 18:34:59.745:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:34:59.776:  80 04 BF 02 00 39
+24.07.2011 18:34:59.776:  IKE  --> GLO : Device status ready
+24.07.2011 18:35:01.620:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:35:01.620:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:35:01.745:  80 05 BF 18 00 06 24
+24.07.2011 18:35:01.745:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:35:03.745:  80 05 BF 18 00 06 24
+24.07.2011 18:35:03.745:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:35:04.620:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:35:04.620:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:35:05.745:  80 05 BF 18 00 06 24
+24.07.2011 18:35:05.745:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:35:06.807:  7F 14 C8 A2 00 00 54 20 44 20 00 13 30 05 00 00 00 00 00 00 00 37
+24.07.2011 18:35:06.807:  NAV  --> TEL : Current position: 54°20'44.2"N  13°30'5.0"E
+24.07.2011 18:35:06.870:  7F 23 C8 A4 00 01 50 55 54 42 55 53 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 24
+24.07.2011 18:35:06.870:  NAV  --> TEL : Current location: Town = PUTBUS
+24.07.2011 18:35:06.917:  7F 23 C8 A4 00 02 3B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 09
+24.07.2011 18:35:06.917:  NAV  --> TEL : Current location: Street = ;
+24.07.2011 18:35:06.932:  68 03 18 01 72
+24.07.2011 18:35:06.932:  RAD  --> CDC : Device status request
+24.07.2011 18:35:06.948:  18 04 FF 02 00 E1
+24.07.2011 18:35:06.948:  CDC  --> LOC : Device status ready
+24.07.2011 18:35:06.979:  68 03 6A 01 00
+24.07.2011 18:35:06.979:  RAD  --> DSP : Device status request
+24.07.2011 18:35:06.979:  6A 04 FF 02 00 93
+24.07.2011 18:35:06.979:  DSP  --> LOC : Device status ready
+24.07.2011 18:35:07.354:  3F 03 D0 00 EC
+24.07.2011 18:35:07.354:  DIA  --> LCM : Read identity
+24.07.2011 18:35:07.432:  D0 0F 3F A0 08 38 62 08 01 18 13 00 46 99 09 41 87
+24.07.2011 18:35:07.432:  LCM  --> DIA : Diagnostic command acknowledged, Data="08 38 62 08 01 18 13 00 46 99 09 41"    [ 8b     F™ A]
+24.07.2011 18:35:07.510:  3F 04 D0 08 00 E3
+24.07.2011 18:35:07.510:  DIA  --> LCM : Read coding data, Data="00"    [ ]
+24.07.2011 18:35:07.589:  D0 23 3F A0 00 86 00 08 01 00 65 6E 00 00 00 00 00 00 00 2D 00 4E 40 90 00 00 0B 80 00 00 00 28 2C 01 00 00 D5
+24.07.2011 18:35:07.589:  LCM  --> DIA : Diagnostic command acknowledged, Data="00 86 00 08 01 00 65 6E 00 00 00 00 00 00 00 2D 00 4E 40 90 00 00 0B 80 00 00 00 28 2C 01 00 00"    [ †    en       - N@   €   (,   ]
+24.07.2011 18:35:07.698:  ! LKM lesen - LKM Codierung erfolgreich gelesen.  NavCoder wurde mit den aktuellen LKM-Einstellungen aktualisiert.
+24.07.2011 18:35:07.714:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:35:07.714:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:35:07.760:  80 05 BF 18 00 06 24
+24.07.2011 18:35:07.760:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:35:07.776:  80 06 BF 19 0F 66 00 49
+24.07.2011 18:35:07.776:  IKE  --> GLO : Temperature: Outside 15°C, Coolant 102°C
+24.07.2011 18:35:07.964:  F0 03 68 01 9A
+24.07.2011 18:35:07.964:  BMBT --> RAD : Device status request
+24.07.2011 18:35:07.979:  68 04 BF 02 00 D1
+24.07.2011 18:35:07.979:  RAD  --> GLO : Device status ready
+24.07.2011 18:35:08.323:  3B 03 6A 01 53
+24.07.2011 18:35:08.323:  GT   --> DSP : Device status request
+24.07.2011 18:35:08.339:  6A 04 FF 02 00 93
+24.07.2011 18:35:08.339:  DSP  --> LOC : Device status ready
+24.07.2011 18:35:08.354:  3B 03 C8 01 F1
+24.07.2011 18:35:08.354:  GT   --> TEL : Device status request
+24.07.2011 18:35:08.370:  C8 04 FF 02 30 01
+24.07.2011 18:35:08.370:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+24.07.2011 18:35:08.729:  3B 03 ED 01 D4
+24.07.2011 18:35:08.729:  GT   --> VID : Device status request
+24.07.2011 18:35:08.745:  ED 04 3B 02 00 D0
+24.07.2011 18:35:08.745:  VID  --> GT  : Device status ready
+24.07.2011 18:35:09.714:  3B 03 80 01 B9
+24.07.2011 18:35:09.714:  GT   --> IKE : Device status request
+24.07.2011 18:35:09.729:  80 04 BF 02 00 39
+24.07.2011 18:35:09.729:  IKE  --> GLO : Device status ready
+24.07.2011 18:35:09.760:  80 05 BF 18 00 06 24
+24.07.2011 18:35:09.760:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:35:10.635:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:35:10.635:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:35:11.760:  80 05 BF 18 00 06 24
+24.07.2011 18:35:11.760:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:35:13.635:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:35:13.635:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:35:13.760:  80 05 BF 18 00 06 24
+24.07.2011 18:35:13.760:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:35:14.667:  68 03 18 01 72
+24.07.2011 18:35:14.667:  RAD  --> CDC : Device status request
+24.07.2011 18:35:14.667:  18 04 FF 02 00 E1
+24.07.2011 18:35:14.667:  CDC  --> LOC : Device status ready
+24.07.2011 18:35:14.698:  68 03 6A 01 00
+24.07.2011 18:35:14.698:  RAD  --> DSP : Device status request
+24.07.2011 18:35:14.698:  6A 04 FF 02 00 93
+24.07.2011 18:35:14.698:  DSP  --> LOC : Device status ready
+24.07.2011 18:35:15.760:  80 05 BF 18 00 06 24
+24.07.2011 18:35:15.760:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:35:16.651:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:35:16.651:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:35:17.776:  80 05 BF 18 00 06 24
+24.07.2011 18:35:17.776:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:35:17.792:  80 06 BF 19 0F 67 00 48
+24.07.2011 18:35:17.792:  IKE  --> GLO : Temperature: Outside 15°C, Coolant 103°C
+24.07.2011 18:35:17.979:  F0 03 68 01 9A
+24.07.2011 18:35:17.979:  BMBT --> RAD : Device status request
+24.07.2011 18:35:18.010:  68 04 BF 02 00 D1
+24.07.2011 18:35:18.010:  RAD  --> GLO : Device status ready
+24.07.2011 18:35:18.307:  3B 03 6A 01 53
+24.07.2011 18:35:18.307:  GT   --> DSP : Device status request
+24.07.2011 18:35:18.323:  6A 04 FF 02 00 93
+24.07.2011 18:35:18.323:  DSP  --> LOC : Device status ready
+24.07.2011 18:35:18.339:  3B 03 C8 01 F1
+24.07.2011 18:35:18.339:  GT   --> TEL : Device status request
+24.07.2011 18:35:18.354:  C8 04 FF 02 30 01
+24.07.2011 18:35:18.354:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+24.07.2011 18:35:18.714:  3B 03 ED 01 D4
+24.07.2011 18:35:18.714:  GT   --> VID : Device status request
+24.07.2011 18:35:18.714:  ED 04 3B 02 00 D0
+24.07.2011 18:35:18.714:  VID  --> GT  : Device status ready
+24.07.2011 18:35:19.651:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:35:19.651:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:35:19.698:  3B 03 80 01 B9
+24.07.2011 18:35:19.698:  GT   --> IKE : Device status request
+24.07.2011 18:35:19.714:  80 04 BF 02 00 39
+24.07.2011 18:35:19.714:  IKE  --> GLO : Device status ready
+24.07.2011 18:35:19.776:  80 05 BF 18 00 06 24
+24.07.2011 18:35:19.776:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:35:21.776:  80 05 BF 18 00 06 24
+24.07.2011 18:35:21.776:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:35:22.307:  68 03 18 01 72
+24.07.2011 18:35:22.307:  RAD  --> CDC : Device status request
+24.07.2011 18:35:22.323:  18 04 FF 02 00 E1
+24.07.2011 18:35:22.323:  CDC  --> LOC : Device status ready
+24.07.2011 18:35:22.339:  68 03 6A 01 00
+24.07.2011 18:35:22.339:  RAD  --> DSP : Device status request
+24.07.2011 18:35:22.354:  6A 04 FF 02 00 93
+24.07.2011 18:35:22.354:  DSP  --> LOC : Device status ready
+24.07.2011 18:35:22.651:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:35:22.651:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:35:23.792:  80 05 BF 18 00 06 24
+24.07.2011 18:35:23.792:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:35:25.667:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:35:25.667:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:35:25.792:  80 05 BF 18 00 06 24
+24.07.2011 18:35:25.792:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:35:25.870:  3F 04 D0 08 00 E3
+24.07.2011 18:35:25.870:  DIA  --> LCM : Read coding data, Data="00"    [ ]
+24.07.2011 18:35:25.948:  D0 23 3F A0 00 86 00 08 01 00 65 6E 00 00 00 00 00 00 00 2D 00 4E 40 90 00 00 0B 80 00 00 00 28 2C 01 00 00 D5
+24.07.2011 18:35:25.948:  LCM  --> DIA : Diagnostic command acknowledged, Data="00 86 00 08 01 00 65 6E 00 00 00 00 00 00 00 2D 00 4E 40 90 00 00 0B 80 00 00 00 28 2C 01 00 00"    [ †    en       - N@   €   (,   ]
+24.07.2011 18:35:26.120:  3F 23 D0 09 00 86 00 08 01 00 65 6E 00 00 00 00 00 00 00 AD 00 4E 40 90 08 00 0B 80 00 00 00 28 2C 01 00 00 F4
+24.07.2011 18:35:26.120:  DIA  --> LCM : Write coding data, Data="00 86 00 08 01 00 65 6E 00 00 00 00 00 00 00 AD 00 4E 40 90 08 00 0B 80 00 00 00 28 2C 01 00 00"    [ †    en       ­ N@   €   (,   ]
+24.07.2011 18:35:26.135:  D0 07 BF 5B 03 00 00 00 30
+24.07.2011 18:35:26.135:  LCM  --> GLO : Lamp status: Park Low_Beam  All_OK
+24.07.2011 18:35:26.135:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:35:26.135:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:35:26.167:  D0 05 BF 5C EB 00 DD
+24.07.2011 18:35:26.167:  LCM  --> GLO : Light dimmer: 235
+24.07.2011 18:35:26.167:  D0 05 BF 5C FF 00 C9
+24.07.2011 18:35:26.167:  LCM  --> GLO : Light dimmer: 255 (max)
+24.07.2011 18:35:26.182:  D0 03 3F A0 4C
+24.07.2011 18:35:26.182:  LCM  --> DIA : Diagnostic command acknowledged
+24.07.2011 18:35:26.464:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:35:26.464:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:35:26.542:  3F 23 D0 09 00 86 00 08 01 00 65 6E 00 00 00 00 00 00 00 AD 00 4E 40 90 08 00 0B 80 00 00 00 28 2C 01 00 00 F4
+24.07.2011 18:35:26.542:  DIA  --> LCM : Write coding data, Data="00 86 00 08 01 00 65 6E 00 00 00 00 00 00 00 AD 00 4E 40 90 08 00 0B 80 00 00 00 28 2C 01 00 00"    [ †    en       ­ N@   €   (,   ]
+24.07.2011 18:35:26.557:  D0 07 BF 5B 03 00 00 00 30
+24.07.2011 18:35:26.557:  LCM  --> GLO : Lamp status: Park Low_Beam  All_OK
+24.07.2011 18:35:26.557:  D0 05 BF 5C EB 00 DD
+24.07.2011 18:35:26.557:  LCM  --> GLO : Light dimmer: 235
+24.07.2011 18:35:26.573:  D0 03 3F A0 4C
+24.07.2011 18:35:26.573:  LCM  --> DIA : Diagnostic command acknowledged
+24.07.2011 18:35:26.729:  ! LKM codieren - Das LKM hat die Codierung als erfolgreich bestätigt.  Bitte die Zündung ausschalten, warte 10s, dann schalten Sie die Zündung wieden ein, um das LKM zurückzusetzen.  Bitte kontrollieren Sie ob die geändetet Einstellung richtig funktioniert.
+24.07.2011 18:35:26.823:  D0 07 BF 5B 03 00 00 00 30
+24.07.2011 18:35:26.823:  LCM  --> GLO : Lamp status: Park Low_Beam  All_OK
+24.07.2011 18:35:27.385:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:35:27.385:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:35:27.401:  D0 05 BF 5C FF 00 C9
+24.07.2011 18:35:27.401:  LCM  --> GLO : Light dimmer: 255 (max)
+24.07.2011 18:35:27.667:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:35:27.667:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:35:27.792:  80 05 BF 18 00 06 24
+24.07.2011 18:35:27.792:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:35:27.823:  80 06 BF 19 0F 67 00 48
+24.07.2011 18:35:27.823:  IKE  --> GLO : Temperature: Outside 15°C, Coolant 103°C
+24.07.2011 18:35:28.010:  F0 03 68 01 9A
+24.07.2011 18:35:28.010:  BMBT --> RAD : Device status request
+24.07.2011 18:35:28.026:  68 04 BF 02 00 D1
+24.07.2011 18:35:28.026:  RAD  --> GLO : Device status ready
+24.07.2011 18:35:28.292:  3B 03 6A 01 53
+24.07.2011 18:35:28.292:  GT   --> DSP : Device status request
+24.07.2011 18:35:28.292:  6A 04 FF 02 00 93
+24.07.2011 18:35:28.292:  DSP  --> LOC : Device status ready
+24.07.2011 18:35:28.307:  3B 03 C8 01 F1
+24.07.2011 18:35:28.307:  GT   --> TEL : Device status request
+24.07.2011 18:35:28.323:  C8 04 FF 02 30 01
+24.07.2011 18:35:28.323:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+24.07.2011 18:35:28.526:  3B 03 D0 5A B2
+24.07.2011 18:35:28.526:  GT   --> LCM : Lamp status request
+24.07.2011 18:35:28.557:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:35:28.557:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:35:28.932:  3B 03 ED 01 D4
+24.07.2011 18:35:28.932:  GT   --> VID : Device status request
+24.07.2011 18:35:28.948:  ED 04 3B 02 00 D0
+24.07.2011 18:35:28.948:  VID  --> GT  : Device status ready
+24.07.2011 18:35:29.667:  3B 03 80 01 B9
+24.07.2011 18:35:29.667:  GT   --> IKE : Device status request
+24.07.2011 18:35:29.698:  80 04 BF 02 00 39
+24.07.2011 18:35:29.698:  IKE  --> GLO : Device status ready
+24.07.2011 18:35:29.807:  80 05 BF 18 00 06 24
+24.07.2011 18:35:29.807:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:35:30.057:  68 03 18 01 72
+24.07.2011 18:35:30.057:  RAD  --> CDC : Device status request
+24.07.2011 18:35:30.073:  18 04 FF 02 00 E1
+24.07.2011 18:35:30.073:  CDC  --> LOC : Device status ready
+24.07.2011 18:35:30.089:  68 03 6A 01 00
+24.07.2011 18:35:30.089:  RAD  --> DSP : Device status request
+24.07.2011 18:35:30.104:  6A 04 FF 02 00 93
+24.07.2011 18:35:30.104:  DSP  --> LOC : Device status ready
+24.07.2011 18:35:30.932:  3B 03 D0 5A B2
+24.07.2011 18:35:30.932:  GT   --> LCM : Lamp status request
+24.07.2011 18:35:30.948:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:35:30.948:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:35:31.807:  80 05 BF 18 00 06 24
+24.07.2011 18:35:31.807:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:35:33.807:  80 05 BF 18 00 06 24
+24.07.2011 18:35:33.807:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:35:33.964:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:35:33.964:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:35:35.807:  80 05 BF 18 00 06 24
+24.07.2011 18:35:35.823:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:35:36.714:  7F 14 C8 A2 00 00 54 20 44 20 00 13 30 05 00 00 00 00 00 00 00 37
+24.07.2011 18:35:36.714:  NAV  --> TEL : Current position: 54°20'44.2"N  13°30'5.0"E
+24.07.2011 18:35:36.760:  7F 23 C8 A4 00 01 50 55 54 42 55 53 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 24
+24.07.2011 18:35:36.760:  NAV  --> TEL : Current location: Town = PUTBUS
+24.07.2011 18:35:36.807:  7F 23 C8 A4 00 02 3B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 09
+24.07.2011 18:35:36.807:  NAV  --> TEL : Current location: Street = ;
+24.07.2011 18:35:36.964:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:35:36.964:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:35:37.620:  68 03 18 01 72
+24.07.2011 18:35:37.620:  RAD  --> CDC : Device status request
+24.07.2011 18:35:37.635:  18 04 FF 02 00 E1
+24.07.2011 18:35:37.635:  CDC  --> LOC : Device status ready
+24.07.2011 18:35:37.651:  68 03 6A 01 00
+24.07.2011 18:35:37.651:  RAD  --> DSP : Device status request
+24.07.2011 18:35:37.667:  6A 04 FF 02 00 93
+24.07.2011 18:35:37.667:  DSP  --> LOC : Device status ready
+24.07.2011 18:35:37.823:  80 05 BF 18 00 06 24
+24.07.2011 18:35:37.823:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:35:37.839:  80 06 BF 19 0F 67 00 48
+24.07.2011 18:35:37.839:  IKE  --> GLO : Temperature: Outside 15°C, Coolant 103°C
+24.07.2011 18:35:38.010:  F0 03 68 01 9A
+24.07.2011 18:35:38.010:  BMBT --> RAD : Device status request
+24.07.2011 18:35:38.057:  68 04 BF 02 00 D1
+24.07.2011 18:35:38.057:  RAD  --> GLO : Device status ready
+24.07.2011 18:35:38.260:  3B 03 6A 01 53
+24.07.2011 18:35:38.260:  GT   --> DSP : Device status request
+24.07.2011 18:35:38.276:  6A 04 FF 02 00 93
+24.07.2011 18:35:38.276:  DSP  --> LOC : Device status ready
+24.07.2011 18:35:38.292:  3B 03 C8 01 F1
+24.07.2011 18:35:38.292:  GT   --> TEL : Device status request
+24.07.2011 18:35:38.307:  C8 04 FF 02 30 01
+24.07.2011 18:35:38.307:  TEL  --> LOC : Device status ready Assist_ready_after_Reset Bit5
+24.07.2011 18:35:38.901:  3B 03 ED 01 D4
+24.07.2011 18:35:38.901:  GT   --> VID : Device status request
+24.07.2011 18:35:38.917:  ED 04 3B 02 00 D0
+24.07.2011 18:35:38.917:  VID  --> GT  : Device status ready
+24.07.2011 18:35:39.651:  3B 03 80 01 B9
+24.07.2011 18:35:39.651:  GT   --> IKE : Device status request
+24.07.2011 18:35:39.667:  80 04 BF 02 00 39
+24.07.2011 18:35:39.667:  IKE  --> GLO : Device status ready
+24.07.2011 18:35:39.823:  80 05 BF 18 00 06 24
+24.07.2011 18:35:39.823:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:35:39.979:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:35:39.979:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:35:41.823:  80 05 BF 18 00 06 24
+24.07.2011 18:35:41.823:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:35:42.979:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:35:42.979:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:35:43.839:  80 05 BF 18 00 06 24
+24.07.2011 18:35:43.839:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:35:45.448:  68 03 18 01 72
+24.07.2011 18:35:45.448:  RAD  --> CDC : Device status request
+24.07.2011 18:35:45.464:  18 04 FF 02 00 E1
+24.07.2011 18:35:45.464:  CDC  --> LOC : Device status ready
+24.07.2011 18:35:45.479:  68 03 6A 01 00
+24.07.2011 18:35:45.479:  RAD  --> DSP : Device status request
+24.07.2011 18:35:45.495:  6A 04 FF 02 00 93
+24.07.2011 18:35:45.495:  DSP  --> LOC : Device status ready
+24.07.2011 18:35:45.839:  80 05 BF 18 00 06 24
+24.07.2011 18:35:45.839:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:35:45.979:  D0 07 BF 5B 00 00 00 00 33
+24.07.2011 18:35:45.979:  LCM  --> GLO : Lamp status: All_Off  All_OK
+24.07.2011 18:35:47.839:  80 05 BF 18 00 06 24
+24.07.2011 18:35:47.839:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 600 RPM
+24.07.2011 18:35:47.839:  80 06 BF 19 0F 66 00 49
+24.07.2011 18:35:47.839:  IKE  --> GLO : Temperature: Outside 15°C, Coolant 102°C
+24.07.2011 18:35:48.026:  ! Setting COM port parameters for COM1
+24.07.2011 18:35:48.026:  ! COM1 opened
+24.07.2011 18:35:48.917:  ! NavCoder logging stopped, NavCoder closed
+24.07.2011 18:35:48.917:  !

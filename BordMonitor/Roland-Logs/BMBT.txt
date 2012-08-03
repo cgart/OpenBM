@@ -1,0 +1,980 @@
+05.06.2011 19:51:41.663:  3B 03 F0 01 C9
+05.06.2011 19:51:41.663:  GT   --> BMBT: Device status request
+05.06.2011 19:51:41.673:  F0 04 3B 02 30 FD
+05.06.2011 19:51:41.673:  BMBT --> GT  : Device status ready Bit4 Bit5
+05.06.2011 19:51:43.576:  80 05 BF 18 00 00 22
+05.06.2011 19:51:43.576:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:51:44.197:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:51:44.197:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:51:44.527:  F0 04 68 48 11 C5
+05.06.2011 19:51:44.527:  BMBT --> RAD : BM Button: Preset_1_pressed
+05.06.2011 19:51:44.657:  F0 04 68 48 91 45
+05.06.2011 19:51:44.657:  BMBT --> RAD : BM Button: Preset_1_released
+05.06.2011 19:51:45.579:  80 05 BF 18 00 00 22
+05.06.2011 19:51:45.579:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:51:45.899:  68 15 7F A8 30 A6 49 10 4C 08 30 01 A8 65 2E 82 30 01 42 40 00 00 42
+05.06.2011 19:51:45.899:  RAD  --> NAV : TMC data:    Type30:  GroupA: Data="A6 49 10 4C 08"    Type30:  Group0Data="01 A8 65 2E 82"    Type30:  Group0Data="01 42 40 00 00"
+05.06.2011 19:51:47.201:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:51:47.201:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:51:47.411:  F0 04 68 48 11 C5
+05.06.2011 19:51:47.411:  BMBT --> RAD : BM Button: Preset_1_pressed
+05.06.2011 19:51:47.592:  80 05 BF 18 00 00 22
+05.06.2011 19:51:47.592:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:51:48.183:  F0 04 68 48 51 85
+05.06.2011 19:51:48.183:  BMBT --> RAD : BM Button: Preset_1_long
+05.06.2011 19:51:49.144:  F0 04 68 48 91 45
+05.06.2011 19:51:49.144:  BMBT --> RAD : BM Button: Preset_1_released
+05.06.2011 19:51:49.585:  80 05 BF 18 00 00 22
+05.06.2011 19:51:49.585:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:51:49.615:  80 06 BF 19 14 27 00 13
+05.06.2011 19:51:49.615:  IKE  --> GLO : Temperature: Outside 20°C, Coolant 39°C
+05.06.2011 19:51:49.755:  80 0A BF 17 14 B5 02 00 1F 32 CC 60
+05.06.2011 19:51:49.755:  IKE  --> GLO : Odometer: 177.428 km
+05.06.2011 19:51:50.205:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:51:50.205:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:51:50.245:  F0 03 68 01 9A
+05.06.2011 19:51:50.245:  BMBT --> RAD : Device status request
+05.06.2011 19:51:50.256:  68 04 BF 02 00 D1
+05.06.2011 19:51:50.256:  RAD  --> GLO : Device status ready
+05.06.2011 19:51:51.607:  68 1B 7F A8 30 82 A0 6C 30 7C 30 A2 42 43 56 00 30 23 99 91 89 2F 30 23 59 BB AC 88 3B
+05.06.2011 19:51:51.607:  RAD  --> NAV : TMC data:    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp,First_Grp Loc=12412 Evnt=108 Dir=Neg Extnt=4 ConIndex=2    Type30:  GroupA: Data="A2 42 43 56 00"    Type30:  Group2: Data="23 99 91 89 2F"    Type30:  Group2: Data="23 59 BB AC 88"
+05.06.2011 19:51:51.617:  80 05 BF 18 00 00 22
+05.06.2011 19:51:51.617:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:51:51.648:  3B 03 80 01 B9
+05.06.2011 19:51:51.648:  GT   --> IKE : Device status request
+05.06.2011 19:51:51.678:  80 04 BF 02 00 39
+05.06.2011 19:51:51.678:  IKE  --> GLO : Device status ready
+05.06.2011 19:51:52.288:  F0 04 68 48 01 D5
+05.06.2011 19:51:52.288:  BMBT --> RAD : BM Button: Preset_2_pressed
+05.06.2011 19:51:52.379:  F0 04 68 48 81 55
+05.06.2011 19:51:52.379:  BMBT --> RAD : BM Button: Preset_2_released
+05.06.2011 19:51:53.210:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:51:53.210:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:51:53.590:  80 05 BF 18 00 00 22
+05.06.2011 19:51:53.590:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:51:54.251:  7F 04 68 A7 36 82
+05.06.2011 19:51:54.251:  NAV  --> RAD : TMC status request, Update_Class=36
+05.06.2011 19:51:54.462:  F0 04 68 48 12 C6
+05.06.2011 19:51:54.462:  BMBT --> RAD : BM Button: Preset_3_pressed
+05.06.2011 19:51:54.552:  F0 04 68 48 92 46
+05.06.2011 19:51:54.552:  BMBT --> RAD : BM Button: Preset_3_released
+05.06.2011 19:51:55.603:  80 05 BF 18 00 00 22
+05.06.2011 19:51:55.603:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:51:56.214:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:51:56.214:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:51:57.015:  F0 04 68 48 02 D6
+05.06.2011 19:51:57.015:  BMBT --> RAD : BM Button: Preset_4_pressed
+05.06.2011 19:51:57.095:  F0 04 68 48 82 56
+05.06.2011 19:51:57.095:  BMBT --> RAD : BM Button: Preset_4_released
+05.06.2011 19:51:57.596:  80 05 BF 18 00 00 22
+05.06.2011 19:51:57.596:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:51:57.896:  F0 04 68 48 13 C7
+05.06.2011 19:51:57.896:  BMBT --> RAD : BM Button: Preset_5_pressed
+05.06.2011 19:51:58.007:  68 1D 7F A8 30 03 02 80 00 00 30 A8 49 47 2F D0 32 3A 30 24 A0 6C 2E 87 30 24 46 AC 00 00 FD
+05.06.2011 19:51:58.007:  RAD  --> NAV : TMC data:    Type30:  Group0Data="03 02 80 00 00"    Type30:  GroupA: Data="A8 49 47 2F D0"    Type32: Data="3A"    Type30:  Group2: Data="24 A0 6C 2E 87"    Type30:  Group2: Data="24 46 AC 00 00"
+05.06.2011 19:51:58.017:  F0 04 68 48 93 47
+05.06.2011 19:51:58.017:  BMBT --> RAD : BM Button: Preset_5_released
+05.06.2011 19:51:58.668:  F0 04 68 48 03 D7
+05.06.2011 19:51:58.668:  BMBT --> RAD : BM Button: Preset_6_pressed
+05.06.2011 19:51:58.758:  F0 04 68 48 83 57
+05.06.2011 19:51:58.758:  BMBT --> RAD : BM Button: Preset_6_released
+05.06.2011 19:51:59.218:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:51:59.218:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:51:59.599:  80 05 BF 18 00 00 22
+05.06.2011 19:51:59.609:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:51:59.629:  80 06 BF 19 14 28 00 1C
+05.06.2011 19:51:59.629:  IKE  --> GLO : Temperature: Outside 20°C, Coolant 40°C
+05.06.2011 19:52:00.260:  F0 03 68 01 9A
+05.06.2011 19:52:00.260:  BMBT --> RAD : Device status request
+05.06.2011 19:52:00.270:  68 04 BF 02 00 D1
+05.06.2011 19:52:00.270:  RAD  --> GLO : Device status ready
+05.06.2011 19:52:00.470:  F0 04 68 48 31 E5
+05.06.2011 19:52:00.470:  BMBT --> RAD : BM Button: FM_pressed
+05.06.2011 19:52:00.490:  68 03 6A 01 00
+05.06.2011 19:52:00.490:  RAD  --> DSP : Device status request
+05.06.2011 19:52:00.490:  6A 04 FF 02 00 93
+05.06.2011 19:52:00.490:  DSP  --> LOC : Device status ready
+05.06.2011 19:52:00.620:  F0 04 68 48 B1 65
+05.06.2011 19:52:00.620:  BMBT --> RAD : BM Button: FM_released
+05.06.2011 19:52:01.412:  F0 04 68 48 31 E5
+05.06.2011 19:52:01.412:  BMBT --> RAD : BM Button: FM_pressed
+05.06.2011 19:52:01.602:  80 05 BF 18 00 00 22
+05.06.2011 19:52:01.602:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:01.642:  3B 03 6A 01 53
+05.06.2011 19:52:01.642:  GT   --> DSP : Device status request
+05.06.2011 19:52:01.652:  6A 04 FF 02 00 93
+05.06.2011 19:52:01.652:  DSP  --> LOC : Device status ready
+05.06.2011 19:52:02.183:  F0 04 68 48 71 A5
+05.06.2011 19:52:02.183:  BMBT --> RAD : BM Button: FM_long
+05.06.2011 19:52:02.223:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:52:02.223:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:52:03.294:  68 0F 7F A8 30 A8 08 00 51 9F 30 28 18 66 31 BC 05
+05.06.2011 19:52:03.294:  RAD  --> NAV : TMC data:    Type30:  GroupA: Data="A8 08 00 51 9F"    Type30:  Group2: Data="28 18 66 31 BC"
+05.06.2011 19:52:03.334:  7F 14 C8 A2 01 00 49 34 02 10 00 10 59 31 00 02 89 00 17 52 01 D8
+05.06.2011 19:52:03.334:  NAV  --> TEL : Current position: GPS fix; 49°34'2.1"N  10°59'31.0"E; Alt 289m;  UTC 17:52:01
+05.06.2011 19:52:03.384:  7F 23 C8 A4 00 01 45 52 4C 41 4E 47 45 4E 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 29
+05.06.2011 19:52:03.384:  NAV  --> TEL : Current location: Town = ERLANGEN
+05.06.2011 19:52:03.434:  7F 23 C8 A4 00 02 4B 41 4E 41 4C 53 54 52 41 53 53 45 3B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 11
+05.06.2011 19:52:03.434:  NAV  --> TEL : Current location: Street = KANALSTRASSE;
+05.06.2011 19:52:03.615:  80 05 BF 18 00 00 22
+05.06.2011 19:52:03.615:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:03.625:  F0 04 68 48 B1 65
+05.06.2011 19:52:03.625:  BMBT --> RAD : BM Button: FM_released
+05.06.2011 19:52:03.995:  7F 0B 80 1F 40 17 52 05 00 06 20 11 DC
+05.06.2011 19:52:03.995:  NAV  --> IKE : Time & date: UTC  17:52 05 Juni 2011
+05.06.2011 19:52:05.227:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:52:05.227:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:52:05.618:  80 05 BF 18 00 00 22
+05.06.2011 19:52:05.618:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:05.678:  F0 04 68 48 21 F5
+05.06.2011 19:52:05.678:  BMBT --> RAD : BM Button: AM_pressed
+05.06.2011 19:52:05.778:  F0 04 68 48 A1 75
+05.06.2011 19:52:05.778:  BMBT --> RAD : BM Button: AM_released
+05.06.2011 19:52:07.620:  80 05 BF 18 00 00 22
+05.06.2011 19:52:07.620:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:07.851:  F0 04 68 48 23 F7
+05.06.2011 19:52:07.851:  BMBT --> RAD : BM Button: MODE_pressed
+05.06.2011 19:52:07.951:  F0 04 68 48 A3 77
+05.06.2011 19:52:07.951:  BMBT --> RAD : BM Button: MODE_released
+05.06.2011 19:52:08.231:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:52:08.231:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:52:09.503:  F0 04 68 48 30 E4
+05.06.2011 19:52:09.503:  BMBT --> RAD : BM Button: RADIO-BM_pressed
+05.06.2011 19:52:09.623:  80 05 BF 18 00 00 22
+05.06.2011 19:52:09.623:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:09.633:  80 06 BF 19 14 27 00 13
+05.06.2011 19:52:09.633:  IKE  --> GLO : Temperature: Outside 20°C, Coolant 39°C
+05.06.2011 19:52:09.643:  F0 04 68 48 B0 64
+05.06.2011 19:52:09.643:  BMBT --> RAD : BM Button: RADIO-BM_released
+05.06.2011 19:52:09.703:  68 15 7F A8 30 A8 08 67 8D 36 30 25 80 69 2A 63 30 25 59 1A 92 7E E9
+05.06.2011 19:52:09.703:  RAD  --> NAV : TMC data:    Type30:  GroupA: Data="A8 08 67 8D 36"    Type30:  Group2: Data="25 80 69 2A 63"    Type30:  Group2: Data="25 59 1A 92 7E"
+05.06.2011 19:52:10.274:  F0 03 68 01 9A
+05.06.2011 19:52:10.274:  BMBT --> RAD : Device status request
+05.06.2011 19:52:10.294:  68 04 BF 02 00 D1
+05.06.2011 19:52:10.294:  RAD  --> GLO : Device status ready
+05.06.2011 19:52:10.455:  F0 04 68 32 11 BF
+05.06.2011 19:52:10.455:  BMBT --> RAD : Volume Control: Increase 1 step
+05.06.2011 19:52:10.475:  68 04 6A 32 10 24
+05.06.2011 19:52:10.475:  RAD  --> DSP : Volume Control: Decrease 1 step
+05.06.2011 19:52:11.236:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:52:11.236:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:52:11.536:  F0 04 68 32 11 BF
+05.06.2011 19:52:11.536:  BMBT --> RAD : Volume Control: Increase 1 step
+05.06.2011 19:52:11.586:  68 04 6A 32 10 24
+05.06.2011 19:52:11.586:  RAD  --> DSP : Volume Control: Decrease 1 step
+05.06.2011 19:52:11.626:  80 05 BF 18 00 00 22
+05.06.2011 19:52:11.626:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:11.636:  3B 03 C8 01 F1
+05.06.2011 19:52:11.636:  GT   --> TEL : Device status request
+05.06.2011 19:52:11.656:  C8 04 3B 02 30 C5
+05.06.2011 19:52:11.656:  TEL  --> GT  : Device status ready Assist_ready_after_Reset Bit5
+05.06.2011 19:52:12.057:  F0 04 68 32 11 BF
+05.06.2011 19:52:12.057:  BMBT --> RAD : Volume Control: Increase 1 step
+05.06.2011 19:52:12.107:  68 04 6A 32 10 24
+05.06.2011 19:52:12.107:  RAD  --> DSP : Volume Control: Decrease 1 step
+05.06.2011 19:52:12.738:  F0 04 68 32 10 BE
+05.06.2011 19:52:12.738:  BMBT --> RAD : Volume Control: Decrease 1 step
+05.06.2011 19:52:12.788:  68 04 6A 32 11 25
+05.06.2011 19:52:12.788:  RAD  --> DSP : Volume Control: Increase 1 step
+05.06.2011 19:52:13.619:  80 05 BF 18 00 00 22
+05.06.2011 19:52:13.619:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:13.889:  F0 04 68 32 10 BE
+05.06.2011 19:52:13.889:  BMBT --> RAD : Volume Control: Decrease 1 step
+05.06.2011 19:52:13.940:  68 04 6A 32 11 25
+05.06.2011 19:52:13.940:  RAD  --> DSP : Volume Control: Increase 1 step
+05.06.2011 19:52:14.240:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:52:14.240:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:52:14.310:  F0 04 68 32 10 BE
+05.06.2011 19:52:14.310:  BMBT --> RAD : Volume Control: Decrease 1 step
+05.06.2011 19:52:14.360:  68 04 6A 32 11 25
+05.06.2011 19:52:14.360:  RAD  --> DSP : Volume Control: Increase 1 step
+05.06.2011 19:52:15.382:  F0 04 68 48 06 D2
+05.06.2011 19:52:15.382:  BMBT --> RAD : BM Button: Radio_on/off_pressed
+05.06.2011 19:52:15.452:  68 04 F0 4A 90 46
+05.06.2011 19:52:15.452:  RAD  --> BMBT: Cassette control: State_unknown, Data="90"
+05.06.2011 19:52:15.462:  F0 04 68 4B 05 D2
+05.06.2011 19:52:15.462:  BMBT --> RAD : Cassette status:  No_Tape
+05.06.2011 19:52:15.522:  68 05 76 38 00 00 23
+05.06.2011 19:52:15.522:  RAD  --> CDCD: CD_control:  Status_Request
+05.06.2011 19:52:15.522:  68 05 18 38 00 00 4D
+05.06.2011 19:52:15.522:  RAD  --> CDC : CD_control:  Status_Request
+05.06.2011 19:52:15.522:  68 04 6A 36 AF 9F
+05.06.2011 19:52:15.522:  RAD  --> DSP : Audio_control:  Source = Off
+05.06.2011 19:52:15.522:  F0 04 68 48 86 52
+05.06.2011 19:52:15.522:  BMBT --> RAD : BM Button: Radio_on/off_released
+05.06.2011 19:52:15.612:  68 1B 7F A8 30 05 0C 70 00 00 30 A6 93 5A 2E 88 30 A6 49 3F A0 00 30 28 08 6D 2A 4A 49
+05.06.2011 19:52:15.612:  RAD  --> NAV : TMC data:    Type30:  Group0Data="05 0C 70 00 00"    Type30:  GroupA: Data="A6 93 5A 2E 88"    Type30:  GroupA: Data="A6 49 3F A0 00"    Type30:  Group2: Data="28 08 6D 2A 4A"
+05.06.2011 19:52:15.632:  80 05 BF 18 00 00 22
+05.06.2011 19:52:15.632:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:15.642:  68 04 F0 4A FF 29
+05.06.2011 19:52:15.642:  RAD  --> BMBT: Cassette control: Power_On
+05.06.2011 19:52:15.652:  68 04 F0 4A 48 9E
+05.06.2011 19:52:15.662:  RAD  --> BMBT: Cassette control: State_unknown, Data="48"
+05.06.2011 19:52:15.672:  F0 04 68 4B 05 D2
+05.06.2011 19:52:15.672:  BMBT --> RAD : Cassette status:  No_Tape
+05.06.2011 19:52:15.712:  F0 04 68 4B 05 D2
+05.06.2011 19:52:15.712:  BMBT --> RAD : Cassette status:  No_Tape
+05.06.2011 19:52:15.852:  68 04 6A 36 AF 9F
+05.06.2011 19:52:15.852:  RAD  --> DSP : Audio_control:  Source = Off
+05.06.2011 19:52:15.852:  68 04 6A 36 80 B0
+05.06.2011 19:52:15.852:  RAD  --> DSP : Audio_control:  Fader = Center0
+05.06.2011 19:52:15.862:  68 04 6A 36 40 70
+05.06.2011 19:52:15.862:  RAD  --> DSP : Audio_control:  Balance = Center_0
+05.06.2011 19:52:15.872:  68 04 6A 36 C2 F2
+05.06.2011 19:52:15.872:  RAD  --> DSP : Audio_control:  Treble = +2
+05.06.2011 19:52:15.892:  68 04 6A 36 62 52
+05.06.2011 19:52:15.892:  RAD  --> DSP : Audio_control:  Bass = +2
+05.06.2011 19:52:15.902:  68 04 6A 36 30 00
+05.06.2011 19:52:15.902:  RAD  --> DSP : Audio_control:  DSP_Function 0
+05.06.2011 19:52:15.912:  68 04 6A 36 E3 D3
+05.06.2011 19:52:15.912:  RAD  --> DSP : Audio_control:  DSP_Function 3
+05.06.2011 19:52:15.932:  68 0B 3B A5 62 01 41 20 20 46 4D 20 F4
+05.06.2011 19:52:15.932:  RAD  --> GT  : Screen Text:  Layout=RadioDisplay  FC2=0x01  Fld1,PartTx="  FM "
+05.06.2011 19:52:15.962:  68 0B 3B A5 62 01 42 20 20 20 20 20 FC
+05.06.2011 19:52:15.962:  RAD  --> GT  : Screen Text:  Layout=RadioDisplay  FC2=0x01  Fld2,PartTx="     "
+05.06.2011 19:52:15.983:  68 0B 3B A5 62 01 43 20 52 45 47 20 8D
+05.06.2011 19:52:15.983:  RAD  --> GT  : Screen Text:  Layout=RadioDisplay  FC2=0x01  Fld3,PartTx=" REG "
+05.06.2011 19:52:16.013:  68 0B 3B A5 62 01 44 20 20 20 20 20 FA
+05.06.2011 19:52:16.013:  RAD  --> GT  : Screen Text:  Layout=RadioDisplay  FC2=0x01  Fld4,PartTx="     "
+05.06.2011 19:52:16.043:  68 0D 3B A5 62 01 45 20 20 52 44 53 20 20 98
+05.06.2011 19:52:16.043:  RAD  --> GT  : Screen Text:  Layout=RadioDisplay  FC2=0x01  Fld5,PartTx="  RDS  "
+05.06.2011 19:52:16.083:  68 1A 3B A5 62 01 46 20 20 20 20 20 20 20 20 39 37 2E 39 20 20 20 20 20 20 20 20 D0
+05.06.2011 19:52:16.083:  RAD  --> GT  : Screen Text:  Layout=RadioDisplay  FC2=0x01  Fld6,PartTx="        97.9        "
+05.06.2011 19:52:16.133:  68 1A 3B A5 62 01 07 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 88
+05.06.2011 19:52:16.133:  RAD  --> GT  : Screen Text:  Layout=RadioDisplay  FC2=0x01  Fld7,EndTx="                    "
+05.06.2011 19:52:16.163:  68 12 3B 23 62 10 20 50 4F 50 20 4D 20 20 20 20 20 20 20 32
+05.06.2011 19:52:16.163:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=" POP M       "
+05.06.2011 19:52:16.173:  3B 05 68 22 00 06 72
+05.06.2011 19:52:16.173:  GT   --> RAD : Text display confirmation: Screen Text: 7 text messages acknowledged
+05.06.2011 19:52:16.223:  68 15 3B 21 60 00 40 50 31 3A 20 47 4F 4E 47 20 20 20 20 20 20 06 3B
+05.06.2011 19:52:16.223:  RAD  --> GT  : Menu Text:  Layout=Menu  Flags=PartTx  F0="P1: GONG      "
+05.06.2011 19:52:16.253:  68 15 3B 21 60 00 41 50 32 3A 20 41 4E 54 45 4E 4E 45 20 20 20 06 43
+05.06.2011 19:52:16.253:  RAD  --> GT  : Menu Text:  Layout=Menu  Flags=PartTx  F1="P2: ANTENNE   "
+05.06.2011 19:52:16.293:  68 17 3B 21 60 00 42 50 33 3A 20 42 41 59 45 52 4E 20 33 20 20 06 06 06 28
+05.06.2011 19:52:16.293:  RAD  --> GT  : Menu Text:  Layout=Menu  Flags=PartTx  F2="P3: BAYERN 3  "
+05.06.2011 19:52:16.323:  68 15 3B 21 60 00 45 50 34 3A 20 43 41 52 49 56 41 52 49 20 20 06 2F
+05.06.2011 19:52:16.323:  RAD  --> GT  : Menu Text:  Layout=Menu  Flags=PartTx  F5="P4: CARIVARI  "
+05.06.2011 19:52:16.363:  68 15 3B 21 60 00 46 50 35 3A 20 52 41 44 49 4F 20 4E 31 20 20 06 36
+05.06.2011 19:52:16.363:  RAD  --> GT  : Menu Text:  Layout=Menu  Flags=PartTx  F6="P5: RADIO N1  "
+05.06.2011 19:52:16.403:  68 17 3B 21 60 00 07 50 36 3A 20 45 4E 45 52 47 59 20 20 20 20 06 06 06 7A
+05.06.2011 19:52:16.403:  RAD  --> GT  : Menu Text:  Layout=Menu  Flags=  F7="P6: ENERGY    "
+05.06.2011 19:52:16.423:  3B 05 68 22 05 FF 8E
+05.06.2011 19:52:16.423:  GT   --> RAD : Text display confirmation: Menu Text: 6 text messages acknowledged
+05.06.2011 19:52:16.473:  68 06 3B A5 60 01 00 91
+05.06.2011 19:52:16.473:  RAD  --> GT  : Screen Text:  Layout=Menu  FC2=0x01  Fld0,EndTx=""
+05.06.2011 19:52:16.473:  68 04 6A 36 AF 9F
+05.06.2011 19:52:16.473:  RAD  --> DSP : Audio_control:  Source = Off
+05.06.2011 19:52:16.473:  68 04 6A 36 A1 91
+05.06.2011 19:52:16.473:  RAD  --> DSP : Audio_control:  Source = Tuner/Tape
+05.06.2011 19:52:16.473:  68 04 6A 32 31 05
+05.06.2011 19:52:16.473:  RAD  --> DSP : Volume Control: Increase 3 steps
+05.06.2011 19:52:16.493:  68 04 6A 32 31 05
+05.06.2011 19:52:16.493:  RAD  --> DSP : Volume Control: Increase 3 steps
+05.06.2011 19:52:16.503:  3B 05 68 22 00 00 74
+05.06.2011 19:52:16.503:  GT   --> RAD : Text display confirmation: Screen Text: 1 text message acknowledged
+05.06.2011 19:52:16.553:  68 04 6A 32 31 05
+05.06.2011 19:52:16.553:  RAD  --> DSP : Volume Control: Increase 3 steps
+05.06.2011 19:52:16.613:  68 04 6A 32 31 05
+05.06.2011 19:52:16.613:  RAD  --> DSP : Volume Control: Increase 3 steps
+05.06.2011 19:52:16.673:  68 04 6A 32 31 05
+05.06.2011 19:52:16.673:  RAD  --> DSP : Volume Control: Increase 3 steps
+05.06.2011 19:52:16.734:  68 04 6A 32 31 05
+05.06.2011 19:52:16.734:  RAD  --> DSP : Volume Control: Increase 3 steps
+05.06.2011 19:52:16.784:  68 04 6A 32 31 05
+05.06.2011 19:52:16.784:  RAD  --> DSP : Volume Control: Increase 3 steps
+05.06.2011 19:52:16.844:  68 04 6A 32 31 05
+05.06.2011 19:52:16.844:  RAD  --> DSP : Volume Control: Increase 3 steps
+05.06.2011 19:52:16.904:  68 04 6A 32 11 25
+05.06.2011 19:52:16.904:  RAD  --> DSP : Volume Control: Increase 1 step
+05.06.2011 19:52:17.234:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:52:17.234:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:52:17.264:  68 0B 3B A5 62 01 02 20 50 20 33 20 DF
+05.06.2011 19:52:17.264:  RAD  --> GT  : Screen Text:  Layout=RadioDisplay  FC2=0x01  Fld2,EndTx=" P 3 "
+05.06.2011 19:52:17.274:  3B 05 68 22 00 00 74
+05.06.2011 19:52:17.274:  GT   --> RAD : Text display confirmation: Screen Text: 1 text message acknowledged
+05.06.2011 19:52:17.324:  68 06 3B A5 62 01 00 93
+05.06.2011 19:52:17.324:  RAD  --> GT  : Screen Text:  Layout=RadioDisplay  FC2=0x01  Fld0,EndTx=""
+05.06.2011 19:52:17.364:  3B 05 68 22 00 00 74
+05.06.2011 19:52:17.364:  GT   --> RAD : Text display confirmation: Screen Text: 1 text message acknowledged
+05.06.2011 19:52:17.635:  80 05 BF 18 00 00 22
+05.06.2011 19:52:17.635:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:18.767:  68 12 3B 23 62 10 42 41 59 45 52 4E 20 33 20 20 20 20 20 20
+05.06.2011 19:52:18.767:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0="BAYERN 3     "
+05.06.2011 19:52:18.917:  80 0C E7 24 01 00 31 39 3A 35 35 20 20 7C
+05.06.2011 19:52:18.917:  IKE  --> ANZV: Update Text:  Layout=Time  Flags=  F0="19:55  "
+05.06.2011 19:52:19.648:  80 05 BF 18 00 00 22
+05.06.2011 19:52:19.648:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:19.668:  80 06 BF 19 14 28 00 1C
+05.06.2011 19:52:19.668:  IKE  --> GLO : Temperature: Outside 20°C, Coolant 40°C
+05.06.2011 19:52:20.239:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:52:20.239:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:52:20.299:  F0 03 68 01 9A
+05.06.2011 19:52:20.299:  BMBT --> RAD : Device status request
+05.06.2011 19:52:20.309:  68 04 BF 02 00 D1
+05.06.2011 19:52:20.309:  RAD  --> GLO : Device status ready
+05.06.2011 19:52:20.479:  68 03 6A 01 00
+05.06.2011 19:52:20.479:  RAD  --> DSP : Device status request
+05.06.2011 19:52:20.489:  6A 04 FF 02 00 93
+05.06.2011 19:52:20.489:  DSP  --> LOC : Device status ready
+05.06.2011 19:52:21.621:  3B 03 ED 01 D4
+05.06.2011 19:52:21.621:  GT   --> VID : Device status request
+05.06.2011 19:52:21.631:  ED 04 3B 02 00 D0
+05.06.2011 19:52:21.631:  VID  --> GT  : Device status ready
+05.06.2011 19:52:21.641:  80 05 BF 18 00 00 22
+05.06.2011 19:52:21.641:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:22.001:  F0 04 68 32 11 BF
+05.06.2011 19:52:22.001:  BMBT --> RAD : Volume Control: Increase 1 step
+05.06.2011 19:52:22.953:  F0 04 68 32 11 BF
+05.06.2011 19:52:22.953:  BMBT --> RAD : Volume Control: Increase 1 step
+05.06.2011 19:52:23.203:  68 15 7F A8 30 A1 46 AC 00 00 30 02 CC 6C 32 6E 30 22 41 40 00 00 0C
+05.06.2011 19:52:23.203:  RAD  --> NAV : TMC data:    Type30:  GroupA: Data="A1 46 AC 00 00"    Type30:  Group0Data="02 CC 6C 32 6E"    Type30:  Group2: Data="22 41 40 00 00"
+05.06.2011 19:52:23.243:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:52:23.243:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:52:23.644:  80 05 BF 18 00 00 22
+05.06.2011 19:52:23.644:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:24.094:  F0 04 68 32 11 BF
+05.06.2011 19:52:24.094:  BMBT --> RAD : Volume Control: Increase 1 step
+05.06.2011 19:52:25.306:  F0 04 68 32 10 BE
+05.06.2011 19:52:25.306:  BMBT --> RAD : Volume Control: Decrease 1 step
+05.06.2011 19:52:25.566:  F0 04 68 32 10 BE
+05.06.2011 19:52:25.566:  BMBT --> RAD : Volume Control: Decrease 1 step
+05.06.2011 19:52:25.656:  80 05 BF 18 00 00 22
+05.06.2011 19:52:25.656:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:25.767:  F0 04 68 32 10 BE
+05.06.2011 19:52:25.767:  BMBT --> RAD : Volume Control: Decrease 1 step
+05.06.2011 19:52:25.987:  F0 04 68 32 10 BE
+05.06.2011 19:52:25.987:  BMBT --> RAD : Volume Control: Decrease 1 step
+05.06.2011 19:52:26.247:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:52:26.247:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:52:26.347:  F0 04 68 32 10 BE
+05.06.2011 19:52:26.347:  BMBT --> RAD : Volume Control: Decrease 1 step
+05.06.2011 19:52:26.778:  F0 04 68 32 10 BE
+05.06.2011 19:52:26.778:  BMBT --> RAD : Volume Control: Decrease 1 step
+05.06.2011 19:52:27.649:  80 05 BF 18 00 00 22
+05.06.2011 19:52:27.649:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:28.911:  68 15 7F A8 30 83 C8 66 32 86 30 83 46 AC 00 00 30 28 0B 5A EF 58 A4
+05.06.2011 19:52:28.911:  RAD  --> NAV : TMC data:    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp,First_Grp Loc=12934 Evnt=102 Dir=Neg Extnt=1 ConIndex=3    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp ConIndex=3    Type30:  Group2: Data="28 0B 5A EF 58"
+05.06.2011 19:52:29.252:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:52:29.252:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:52:29.462:  F0 04 3B 49 81 07
+05.06.2011 19:52:29.462:  BMBT --> GT  : BM_Knob: Right 1 step
+05.06.2011 19:52:29.662:  80 05 BF 18 00 00 22
+05.06.2011 19:52:29.662:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:29.672:  80 06 BF 19 14 27 00 13
+05.06.2011 19:52:29.672:  IKE  --> GLO : Temperature: Outside 20°C, Coolant 39°C
+05.06.2011 19:52:30.143:  F0 04 3B 49 81 07
+05.06.2011 19:52:30.143:  BMBT --> GT  : BM_Knob: Right 1 step
+05.06.2011 19:52:30.313:  F0 03 68 01 9A
+05.06.2011 19:52:30.313:  BMBT --> RAD : Device status request
+05.06.2011 19:52:30.323:  68 04 BF 02 00 D1
+05.06.2011 19:52:30.323:  RAD  --> GLO : Device status ready
+05.06.2011 19:52:31.285:  F0 04 3B 49 81 07
+05.06.2011 19:52:31.285:  BMBT --> GT  : BM_Knob: Right 1 step
+05.06.2011 19:52:31.615:  3B 03 F0 01 C9
+05.06.2011 19:52:31.615:  GT   --> BMBT: Device status request
+05.06.2011 19:52:31.625:  F0 04 3B 02 30 FD
+05.06.2011 19:52:31.625:  BMBT --> GT  : Device status ready Bit4 Bit5
+05.06.2011 19:52:31.665:  80 05 BF 18 00 00 22
+05.06.2011 19:52:31.665:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:31.745:  F0 04 3B 49 01 87
+05.06.2011 19:52:31.745:  BMBT --> GT  : BM_Knob: Left 1 step
+05.06.2011 19:52:32.256:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:52:32.256:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:52:32.316:  F0 04 3B 49 01 87
+05.06.2011 19:52:32.316:  BMBT --> GT  : BM_Knob: Left 1 step
+05.06.2011 19:52:33.287:  7F 14 C8 A2 01 00 49 34 02 10 00 10 59 31 00 02 90 00 17 52 31 F1
+05.06.2011 19:52:33.287:  NAV  --> TEL : Current position: GPS fix; 49°34'2.1"N  10°59'31.0"E; Alt 290m;  UTC 17:52:31
+05.06.2011 19:52:33.337:  7F 23 C8 A4 00 01 45 52 4C 41 4E 47 45 4E 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 29
+05.06.2011 19:52:33.337:  NAV  --> TEL : Current location: Town = ERLANGEN
+05.06.2011 19:52:33.378:  7F 23 C8 A4 00 02 4B 41 4E 41 4C 53 54 52 41 53 53 45 3B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 11
+05.06.2011 19:52:33.378:  NAV  --> TEL : Current location: Street = KANALSTRASSE;
+05.06.2011 19:52:33.398:  F0 04 3B 48 05 82
+05.06.2011 19:52:33.398:  BMBT --> GT  : BM Button: BM_Knob_pressed
+05.06.2011 19:52:33.448:  3B 06 68 31 60 00 02 06
+05.06.2011 19:52:33.448:  GT   --> RAD : Button: Button_2_pressed
+05.06.2011 19:52:33.498:  F0 04 3B 48 85 02
+05.06.2011 19:52:33.498:  BMBT --> GT  : BM Button: BM_Knob_released
+05.06.2011 19:52:33.548:  3B 06 68 31 60 00 42 46
+05.06.2011 19:52:33.548:  GT   --> RAD : Button: Button_2_released
+05.06.2011 19:52:33.668:  80 05 BF 18 00 00 22
+05.06.2011 19:52:33.668:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:33.708:  68 12 3B 23 62 10 20 50 4F 50 20 4D 20 20 20 20 20 20 20 32
+05.06.2011 19:52:33.708:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=" POP M       "
+05.06.2011 19:52:34.609:  68 15 7F A8 30 84 80 6C 30 F8 30 25 93 EA 31 EC 30 25 46 68 14 00 A4
+05.06.2011 19:52:34.609:  RAD  --> NAV : TMC data:    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp,First_Grp Loc=12536 Evnt=108 Dir=Neg Extnt=0 ConIndex=4    Type30:  Group2: Data="25 93 EA 31 EC"    Type30:  Group2: Data="25 46 68 14 00"
+05.06.2011 19:52:35.260:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:52:35.260:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:52:35.390:  68 05 76 38 00 00 23
+05.06.2011 19:52:35.390:  RAD  --> CDCD: CD_control:  Status_Request
+05.06.2011 19:52:35.400:  68 05 18 38 00 00 4D
+05.06.2011 19:52:35.400:  RAD  --> CDC : CD_control:  Status_Request
+05.06.2011 19:52:35.671:  80 05 BF 18 00 00 22
+05.06.2011 19:52:35.671:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:36.672:  68 12 3B 23 62 10 42 41 59 45 52 4E 20 33 20 20 20 20 20 20
+05.06.2011 19:52:36.672:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0="BAYERN 3     "
+05.06.2011 19:52:36.682:  F0 04 3B 49 01 87
+05.06.2011 19:52:36.682:  BMBT --> GT  : BM_Knob: Left 1 step
+05.06.2011 19:52:37.133:  F0 04 3B 49 01 87
+05.06.2011 19:52:37.133:  BMBT --> GT  : BM_Knob: Left 1 step
+05.06.2011 19:52:37.674:  80 05 BF 18 00 00 22
+05.06.2011 19:52:37.674:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:38.265:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:52:38.265:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:52:38.365:  F0 04 3B 48 05 82
+05.06.2011 19:52:38.365:  BMBT --> GT  : BM Button: BM_Knob_pressed
+05.06.2011 19:52:38.415:  3B 06 68 31 60 00 06 02
+05.06.2011 19:52:38.415:  GT   --> RAD : Button: Button_6_pressed
+05.06.2011 19:52:38.505:  F0 04 3B 48 85 02
+05.06.2011 19:52:38.505:  BMBT --> GT  : BM Button: BM_Knob_released
+05.06.2011 19:52:38.555:  3B 06 68 31 60 00 46 42
+05.06.2011 19:52:38.555:  GT   --> RAD : Button: Button_6_released
+05.06.2011 19:52:38.745:  68 0B 3B A5 62 01 42 20 50 20 35 20 99
+05.06.2011 19:52:38.745:  RAD  --> GT  : Screen Text:  Layout=RadioDisplay  FC2=0x01  Fld2,PartTx=" P 5 "
+05.06.2011 19:52:38.785:  68 1A 3B A5 62 01 06 20 20 20 20 20 20 20 20 39 32 2E 39 20 20 20 20 20 20 20 20 95
+05.06.2011 19:52:38.785:  RAD  --> GT  : Screen Text:  Layout=RadioDisplay  FC2=0x01  Fld6,EndTx="        92.9        "
+05.06.2011 19:52:38.815:  68 12 3B 23 62 10 52 41 44 49 4F 20 4E 31 20 20 20 20 20 3E
+05.06.2011 19:52:38.815:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0="RADIO N1     "
+05.06.2011 19:52:38.825:  3B 05 68 22 00 01 75
+05.06.2011 19:52:38.825:  GT   --> RAD : Text display confirmation: Screen Text: 2 text messages acknowledged
+05.06.2011 19:52:39.677:  80 05 BF 18 00 00 22
+05.06.2011 19:52:39.677:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:39.707:  80 06 BF 19 14 27 00 13
+05.06.2011 19:52:39.707:  IKE  --> GLO : Temperature: Outside 20°C, Coolant 39°C
+05.06.2011 19:52:40.317:  68 1B 7F A8 30 88 08 00 8D 37 30 06 E8 6C 2F D0 30 26 46 AC 00 00 30 88 08 6C 32 91 60
+05.06.2011 19:52:40.317:  RAD  --> NAV : TMC data:    Type30:  Group8_TMC_Data:  User_Msg, Loc=36151 Evnt=0 Dir=Neg Extnt=1 Dur=0    Type30:  Group0Data="06 E8 6C 2F D0"    Type30:  Group2: Data="26 46 AC 00 00"    Type30:  Group8_TMC_Data:  User_Msg, Loc=12945 Evnt=108 Dir=Neg Extnt=1 Dur=0
+05.06.2011 19:52:40.338:  F0 03 68 01 9A
+05.06.2011 19:52:40.338:  BMBT --> RAD : Device status request
+05.06.2011 19:52:40.348:  68 04 BF 02 00 D1
+05.06.2011 19:52:40.348:  RAD  --> GLO : Device status ready
+05.06.2011 19:52:40.488:  68 03 6A 01 00
+05.06.2011 19:52:40.488:  RAD  --> DSP : Device status request
+05.06.2011 19:52:40.498:  6A 04 FF 02 00 93
+05.06.2011 19:52:40.498:  DSP  --> LOC : Device status ready
+05.06.2011 19:52:41.269:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:52:41.269:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:52:41.599:  3B 03 80 01 B9
+05.06.2011 19:52:41.599:  GT   --> IKE : Device status request
+05.06.2011 19:52:41.629:  80 04 BF 02 00 39
+05.06.2011 19:52:41.629:  IKE  --> GLO : Device status ready
+05.06.2011 19:52:41.679:  80 05 BF 18 00 00 22
+05.06.2011 19:52:41.679:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:43.682:  80 05 BF 18 00 00 22
+05.06.2011 19:52:43.682:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:44.273:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:52:44.273:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:52:45.685:  80 05 BF 18 00 00 22
+05.06.2011 19:52:45.685:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:46.717:  68 15 7F A8 30 01 CA BD 32 C0 30 01 59 10 52 CA 30 01 0C 00 00 00 C3
+05.06.2011 19:52:46.717:  RAD  --> NAV : TMC data:    Type30:  Group0Data="01 CA BD 32 C0"    Type30:  Group0Data="01 59 10 52 CA"    Type30:  Group0Data="01 0C 00 00 00"
+05.06.2011 19:52:47.278:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:52:47.278:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:52:47.698:  80 05 BF 18 00 00 22
+05.06.2011 19:52:47.698:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:49.611:  F0 04 FF 48 08 4B
+05.06.2011 19:52:49.611:  BMBT --> LOC : BM Button: TELEPHONE_pressed
+05.06.2011 19:52:49.701:  80 05 BF 18 00 00 22
+05.06.2011 19:52:49.701:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:49.711:  80 06 BF 19 14 28 00 1C
+05.06.2011 19:52:49.711:  IKE  --> GLO : Temperature: Outside 20°C, Coolant 40°C
+05.06.2011 19:52:49.721:  F0 04 FF 48 88 CB
+05.06.2011 19:52:49.721:  BMBT --> LOC : BM Button: TELEPHONE_released
+05.06.2011 19:52:50.282:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:52:50.282:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:52:50.352:  F0 03 68 01 9A
+05.06.2011 19:52:50.352:  BMBT --> RAD : Device status request
+05.06.2011 19:52:50.362:  68 04 BF 02 00 D1
+05.06.2011 19:52:50.362:  RAD  --> GLO : Device status ready
+05.06.2011 19:52:50.823:  68 21 7F A8 30 82 8A BD 30 8B 30 82 49 0C C0 00 30 08 08 3F 31 EB 30 A8 08 83 31 2F 30 28 08 C9 32 8E 2A
+05.06.2011 19:52:50.823:  RAD  --> NAV : TMC data:    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp,First_Grp Loc=12427 Evnt=701 Dir=Neg Extnt=1 ConIndex=2    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp ConIndex=2    Type30:  Group0Data="08 08 3F 31 EB"    Type30:  GroupA: Data="A8 08 83 31 2F"    Type30:  Group2: Data="28 08 C9 32 8E"
+05.06.2011 19:52:51.494:  F0 04 FF 48 08 4B
+05.06.2011 19:52:51.494:  BMBT --> LOC : BM Button: TELEPHONE_pressed
+05.06.2011 19:52:51.594:  3B 03 6A 01 53
+05.06.2011 19:52:51.594:  GT   --> DSP : Device status request
+05.06.2011 19:52:51.604:  6A 04 FF 02 00 93
+05.06.2011 19:52:51.604:  DSP  --> LOC : Device status ready
+05.06.2011 19:52:51.704:  80 05 BF 18 00 00 22
+05.06.2011 19:52:51.704:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:52.265:  F0 04 FF 48 48 0B
+05.06.2011 19:52:52.265:  BMBT --> LOC : BM Button: TELEPHONE_long
+05.06.2011 19:52:53.276:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:52:53.276:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:52:53.707:  80 05 BF 18 00 00 22
+05.06.2011 19:52:53.707:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:54.047:  F0 04 FF 48 88 CB
+05.06.2011 19:52:54.047:  BMBT --> LOC : BM Button: TELEPHONE_released
+05.06.2011 19:52:55.389:  68 05 76 38 00 00 23
+05.06.2011 19:52:55.389:  RAD  --> CDCD: CD_control:  Status_Request
+05.06.2011 19:52:55.399:  68 05 18 38 00 00 4D
+05.06.2011 19:52:55.399:  RAD  --> CDC : CD_control:  Status_Request
+05.06.2011 19:52:55.489:  F0 04 68 48 14 C0
+05.06.2011 19:52:55.489:  BMBT --> RAD : BM Button: Tape_Direction_pressed
+05.06.2011 19:52:55.650:  F0 04 68 48 94 40
+05.06.2011 19:52:55.650:  BMBT --> RAD : BM Button: Tape_Direction_released
+05.06.2011 19:52:55.710:  80 05 BF 18 00 00 22
+05.06.2011 19:52:55.710:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:56.290:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:52:56.290:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:52:57.713:  80 05 BF 18 00 00 22
+05.06.2011 19:52:57.713:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:58.313:  F0 04 68 48 14 C0
+05.06.2011 19:52:58.313:  BMBT --> RAD : BM Button: Tape_Direction_pressed
+05.06.2011 19:52:59.084:  F0 04 68 48 54 80
+05.06.2011 19:52:59.084:  BMBT --> RAD : BM Button: Tape_Direction_long
+05.06.2011 19:52:59.135:  7F 04 68 A7 37 83
+05.06.2011 19:52:59.135:  NAV  --> RAD : TMC status request, Update_Class=37
+05.06.2011 19:52:59.295:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:52:59.295:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:52:59.375:  68 21 7F A8 30 A8 08 65 32 7B 30 03 D0 C9 32 31 30 23 49 0D 80 00 33 CF 81 06 D3 15 30 A4 C8 C9 31 E5 20
+05.06.2011 19:52:59.375:  RAD  --> NAV : TMC data:    Type30:  GroupA: Data="A8 08 65 32 7B"    Type30:  Group0Data="03 D0 C9 32 31"    Type30:  Group2: Data="23 49 0D 80 00"    Type33:  GroupC: Data="CF 81 06 D3 15"    Type30:  GroupA: Data="A4 C8 C9 31 E5"
+05.06.2011 19:52:59.395:  7F 05 68 A7 34 03 82
+05.06.2011 19:52:59.395:  NAV  --> RAD : TMC status request, Update_Class=34
+05.06.2011 19:52:59.445:  68 05 7F A8 34 03 8D
+05.06.2011 19:52:59.445:  RAD  --> NAV : TMC data:    Type34: Data="03"
+05.06.2011 19:52:59.715:  80 05 BF 18 00 00 22
+05.06.2011 19:52:59.715:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:52:59.735:  80 06 BF 19 14 27 00 13
+05.06.2011 19:52:59.735:  IKE  --> GLO : Temperature: Outside 20°C, Coolant 39°C
+05.06.2011 19:53:00.376:  F0 03 68 01 9A
+05.06.2011 19:53:00.376:  BMBT --> RAD : Device status request
+05.06.2011 19:53:00.386:  68 04 BF 02 00 D1
+05.06.2011 19:53:00.386:  RAD  --> GLO : Device status ready
+05.06.2011 19:53:00.486:  68 03 6A 01 00
+05.06.2011 19:53:00.486:  RAD  --> DSP : Device status request
+05.06.2011 19:53:00.497:  6A 04 FF 02 00 93
+05.06.2011 19:53:00.497:  DSP  --> LOC : Device status ready
+05.06.2011 19:53:00.887:  F0 04 68 48 94 40
+05.06.2011 19:53:00.887:  BMBT --> RAD : BM Button: Tape_Direction_released
+05.06.2011 19:53:01.588:  3B 03 C8 01 F1
+05.06.2011 19:53:01.588:  GT   --> TEL : Device status request
+05.06.2011 19:53:01.598:  C8 04 3B 02 30 C5
+05.06.2011 19:53:01.598:  TEL  --> GT  : Device status ready Assist_ready_after_Reset Bit5
+05.06.2011 19:53:01.728:  80 05 BF 18 00 00 22
+05.06.2011 19:53:01.728:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:02.289:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:53:02.289:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:53:03.240:  7F 14 C8 A2 01 00 49 34 02 10 00 10 59 31 00 02 89 00 17 53 01 D9
+05.06.2011 19:53:03.240:  NAV  --> TEL : Current position: GPS fix; 49°34'2.1"N  10°59'31.0"E; Alt 289m;  UTC 17:53:01
+05.06.2011 19:53:03.291:  7F 23 C8 A4 00 01 45 52 4C 41 4E 47 45 4E 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 29
+05.06.2011 19:53:03.291:  NAV  --> TEL : Current location: Town = ERLANGEN
+05.06.2011 19:53:03.331:  7F 23 C8 A4 00 02 4B 41 4E 41 4C 53 54 52 41 53 53 45 3B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 11
+05.06.2011 19:53:03.331:  NAV  --> TEL : Current location: Street = KANALSTRASSE;
+05.06.2011 19:53:03.721:  80 05 BF 18 00 00 22
+05.06.2011 19:53:03.721:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:03.851:  F0 04 FF 48 07 44
+05.06.2011 19:53:03.851:  BMBT --> LOC : BM Button: CLOCK_pressed
+05.06.2011 19:53:03.941:  7F 0B 80 1F 40 17 53 05 00 06 20 11 DD
+05.06.2011 19:53:03.941:  NAV  --> IKE : Time & date: UTC  17:53 05 Juni 2011
+05.06.2011 19:53:04.012:  F0 04 FF 48 87 C4
+05.06.2011 19:53:04.012:  BMBT --> LOC : BM Button: CLOCK_released
+05.06.2011 19:53:05.293:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:53:05.293:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:53:05.424:  68 1B 7F A8 30 A4 49 3F A0 00 30 41 B3 4B 1D 44 30 25 A0 6C 31 E4 30 25 59 8A B3 14 5B
+05.06.2011 19:53:05.424:  RAD  --> NAV : TMC data:    Type30:  GroupA: Data="A4 49 3F A0 00"    Type30:  Group4_Clock_Date_&_Time: UTC_2011/06/05_17:53_+2h    Type30:  Group2: Data="25 A0 6C 31 E4"    Type30:  Group2: Data="25 59 8A B3 14"
+05.06.2011 19:53:05.724:  80 05 BF 18 00 00 22
+05.06.2011 19:53:05.724:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:05.974:  F0 04 FF 48 07 44
+05.06.2011 19:53:05.974:  BMBT --> LOC : BM Button: CLOCK_pressed
+05.06.2011 19:53:06.745:  F0 04 FF 48 47 04
+05.06.2011 19:53:06.745:  BMBT --> LOC : BM Button: CLOCK_long
+05.06.2011 19:53:07.727:  80 05 BF 18 00 00 22
+05.06.2011 19:53:07.727:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:07.817:  F0 04 FF 48 87 C4
+05.06.2011 19:53:07.817:  BMBT --> LOC : BM Button: CLOCK_released
+05.06.2011 19:53:08.298:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:53:08.298:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:53:09.720:  F0 04 68 48 04 D0
+05.06.2011 19:53:09.720:  BMBT --> RAD : BM Button: TONE_pressed
+05.06.2011 19:53:09.770:  80 05 BF 18 00 00 22
+05.06.2011 19:53:09.770:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:09.770:  80 06 BF 19 14 28 00 1C
+05.06.2011 19:53:09.770:  IKE  --> GLO : Temperature: Outside 20°C, Coolant 40°C
+05.06.2011 19:53:09.850:  F0 04 68 48 84 50
+05.06.2011 19:53:09.850:  BMBT --> RAD : BM Button: TONE_released
+05.06.2011 19:53:09.900:  68 07 3B 37 82 02 10 00 F3
+05.06.2011 19:53:09.900:  RAD  --> GT  : Select Menu
+05.06.2011 19:53:10.391:  F0 03 68 01 9A
+05.06.2011 19:53:10.391:  BMBT --> RAD : Device status request
+05.06.2011 19:53:10.401:  68 04 BF 02 00 D1
+05.06.2011 19:53:10.401:  RAD  --> GLO : Device status ready
+05.06.2011 19:53:11.062:  F0 04 68 48 04 D0
+05.06.2011 19:53:11.062:  BMBT --> RAD : BM Button: TONE_pressed
+05.06.2011 19:53:11.222:  F0 04 68 48 84 50
+05.06.2011 19:53:11.222:  BMBT --> RAD : BM Button: TONE_released
+05.06.2011 19:53:11.272:  68 04 3B 37 D0 B0
+05.06.2011 19:53:11.272:  RAD  --> GT  : Select Menu
+05.06.2011 19:53:11.322:  68 1B 7F A8 30 05 08 00 00 00 30 A6 A8 6C 31 25 30 A6 42 68 E0 00 30 28 10 81 31 D1 EA
+05.06.2011 19:53:11.322:  RAD  --> NAV : TMC data:    Type30:  Group0Data="05 08 00 00 00"    Type30:  GroupA: Data="A6 A8 6C 31 25"    Type30:  GroupA: Data="A6 42 68 E0 00"    Type30:  Group2: Data="28 10 81 31 D1"
+05.06.2011 19:53:11.332:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:53:11.332:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:53:11.582:  3B 03 ED 01 D4
+05.06.2011 19:53:11.582:  GT   --> VID : Device status request
+05.06.2011 19:53:11.582:  ED 04 3B 02 00 D0
+05.06.2011 19:53:11.582:  VID  --> GT  : Device status ready
+05.06.2011 19:53:11.733:  80 05 BF 18 00 00 22
+05.06.2011 19:53:11.733:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:11.883:  F0 04 68 48 04 D0
+05.06.2011 19:53:11.883:  BMBT --> RAD : BM Button: TONE_pressed
+05.06.2011 19:53:12.023:  F0 04 68 48 84 50
+05.06.2011 19:53:12.023:  BMBT --> RAD : BM Button: TONE_released
+05.06.2011 19:53:12.073:  68 04 3B 37 E0 80
+05.06.2011 19:53:12.073:  RAD  --> GT  : Select Menu
+05.06.2011 19:53:12.384:  F0 04 68 48 04 D0
+05.06.2011 19:53:12.384:  BMBT --> RAD : BM Button: TONE_pressed
+05.06.2011 19:53:12.564:  F0 04 68 48 84 50
+05.06.2011 19:53:12.564:  BMBT --> RAD : BM Button: TONE_released
+05.06.2011 19:53:12.614:  68 04 3B 37 F0 90
+05.06.2011 19:53:12.614:  RAD  --> GT  : Select Menu
+05.06.2011 19:53:13.325:  F0 04 68 48 04 D0
+05.06.2011 19:53:13.325:  BMBT --> RAD : BM Button: TONE_pressed
+05.06.2011 19:53:13.435:  F0 04 68 48 84 50
+05.06.2011 19:53:13.435:  BMBT --> RAD : BM Button: TONE_released
+05.06.2011 19:53:13.485:  68 04 3B 37 C0 A0
+05.06.2011 19:53:13.485:  RAD  --> GT  : Select Menu
+05.06.2011 19:53:13.746:  80 05 BF 18 00 00 22
+05.06.2011 19:53:13.746:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:14.306:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:53:14.306:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:53:15.037:  F0 05 FF 47 00 0F 42
+05.06.2011 19:53:15.037:  BMBT --> LOC : BM Status: SELECT_pressed
+05.06.2011 19:53:15.087:  68 04 3B 37 04 64
+05.06.2011 19:53:15.087:  RAD  --> GT  : Select Menu
+05.06.2011 19:53:15.168:  F0 05 FF 47 00 8F C2
+05.06.2011 19:53:15.168:  BMBT --> LOC : BM Status: SELECT_released
+05.06.2011 19:53:15.398:  68 05 76 38 00 00 23
+05.06.2011 19:53:15.398:  RAD  --> CDCD: CD_control:  Status_Request
+05.06.2011 19:53:15.408:  68 05 18 38 00 00 4D
+05.06.2011 19:53:15.408:  RAD  --> CDC : CD_control:  Status_Request
+05.06.2011 19:53:15.738:  80 05 BF 18 00 00 22
+05.06.2011 19:53:15.738:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:16.820:  68 1B 7F A8 30 A8 30 6F 2A 5D 30 21 D0 C9 2F D0 30 21 49 07 E0 00 30 A2 D2 BD 2A 5C D7
+05.06.2011 19:53:16.820:  RAD  --> NAV : TMC data:    Type30:  GroupA: Data="A8 30 6F 2A 5D"    Type30:  Group2: Data="21 D0 C9 2F D0"    Type30:  Group2: Data="21 49 07 E0 00"    Type30:  GroupA: Data="A2 D2 BD 2A 5C"
+05.06.2011 19:53:17.311:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:53:17.311:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:53:17.751:  80 05 BF 18 00 00 22
+05.06.2011 19:53:17.751:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:18.112:  F0 05 FF 47 00 0F 42
+05.06.2011 19:53:18.112:  BMBT --> LOC : BM Status: SELECT_pressed
+05.06.2011 19:53:18.162:  68 04 3B 37 14 74
+05.06.2011 19:53:18.162:  RAD  --> GT  : Select Menu
+05.06.2011 19:53:18.212:  F0 05 FF 47 00 8F C2
+05.06.2011 19:53:18.212:  BMBT --> LOC : BM Status: SELECT_released
+05.06.2011 19:53:18.883:  F0 04 68 48 04 D0
+05.06.2011 19:53:18.883:  BMBT --> RAD : BM Button: TONE_pressed
+05.06.2011 19:53:18.933:  80 0C E7 24 01 00 31 39 3A 35 36 20 20 7F
+05.06.2011 19:53:18.933:  IKE  --> ANZV: Update Text:  Layout=Time  Flags=  F0="19:56  "
+05.06.2011 19:53:18.993:  F0 04 68 48 84 50
+05.06.2011 19:53:18.993:  BMBT --> RAD : BM Button: TONE_released
+05.06.2011 19:53:19.043:  68 07 3B 37 82 02 10 00 F3
+05.06.2011 19:53:19.043:  RAD  --> GT  : Select Menu
+05.06.2011 19:53:19.754:  80 05 BF 18 00 00 22
+05.06.2011 19:53:19.754:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:19.764:  80 06 BF 19 14 28 00 1C
+05.06.2011 19:53:19.764:  IKE  --> GLO : Temperature: Outside 20°C, Coolant 40°C
+05.06.2011 19:53:20.185:  F0 04 68 48 10 C4
+05.06.2011 19:53:20.185:  BMBT --> RAD : BM Button: SEARCH_<_pressed
+05.06.2011 19:53:20.235:  68 04 3B 36 62 03
+05.06.2011 19:53:20.235:  RAD  --> GT  : Audio_control:  Bass = +2
+05.06.2011 19:53:20.255:  F0 04 68 48 90 44
+05.06.2011 19:53:20.255:  BMBT --> RAD : BM Button: SEARCH_<_released
+05.06.2011 19:53:20.315:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:53:20.315:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:53:20.405:  F0 03 68 01 9A
+05.06.2011 19:53:20.405:  BMBT --> RAD : Device status request
+05.06.2011 19:53:20.425:  68 04 BF 02 00 D1
+05.06.2011 19:53:20.425:  RAD  --> GLO : Device status ready
+05.06.2011 19:53:20.495:  68 03 6A 01 00
+05.06.2011 19:53:20.495:  RAD  --> DSP : Device status request
+05.06.2011 19:53:20.505:  6A 04 FF 02 00 93
+05.06.2011 19:53:20.505:  DSP  --> LOC : Device status ready
+05.06.2011 19:53:21.367:  F0 04 68 48 00 D4
+05.06.2011 19:53:21.367:  BMBT --> RAD : BM Button: SEARCH_>_pressed
+05.06.2011 19:53:21.417:  68 04 6A 36 64 54
+05.06.2011 19:53:21.417:  RAD  --> DSP : Audio_control:  Bass = +4
+05.06.2011 19:53:21.417:  68 04 3B 36 64 05
+05.06.2011 19:53:21.417:  RAD  --> GT  : Audio_control:  Bass = +4
+05.06.2011 19:53:21.467:  F0 04 68 48 80 54
+05.06.2011 19:53:21.467:  BMBT --> RAD : BM Button: SEARCH_>_released
+05.06.2011 19:53:21.567:  3B 03 F0 01 C9
+05.06.2011 19:53:21.567:  GT   --> BMBT: Device status request
+05.06.2011 19:53:21.577:  F0 04 3B 02 30 FD
+05.06.2011 19:53:21.577:  BMBT --> GT  : Device status ready Bit4 Bit5
+05.06.2011 19:53:21.767:  80 05 BF 18 00 00 22
+05.06.2011 19:53:21.767:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:22.228:  7F 06 C8 A9 0A 30 30 12
+05.06.2011 19:53:22.228:  NAV  --> TEL : Telephone data: Current_phone_status Count_0
+05.06.2011 19:53:22.318:  7F 06 C8 A9 03 30 30 1B
+05.06.2011 19:53:22.318:  NAV  --> TEL : Telephone data: Current_network_request Count_0
+05.06.2011 19:53:23.319:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:53:23.319:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:53:23.590:  F0 04 FF 48 34 77
+05.06.2011 19:53:23.590:  BMBT --> LOC : BM Button: MENU_pressed
+05.06.2011 19:53:23.660:  F0 04 FF 48 B4 F7
+05.06.2011 19:53:23.660:  BMBT --> LOC : BM Button: MENU_released
+05.06.2011 19:53:23.710:  3B 04 68 45 91 83
+05.06.2011 19:53:23.710:  GT   --> RAD : Radio status request, Data="91"
+05.06.2011 19:53:23.770:  7F 04 43 AB 21 B2
+05.06.2011 19:53:23.770:  NAV  --> GTF : Remote control status, Data="21"
+05.06.2011 19:53:23.770:  68 04 3B 46 01 10
+05.06.2011 19:53:23.770:  RAD  --> GT  : LCD clear: No display required
+05.06.2011 19:53:23.770:  80 05 BF 18 00 00 22
+05.06.2011 19:53:23.770:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:23.820:  68 1B 7F A8 30 A2 49 0D 20 00 30 23 8B 9B 32 1C 30 23 41 40 00 00 30 A4 8A BD 32 BF 43
+05.06.2011 19:53:23.820:  RAD  --> NAV : TMC data:    Type30:  GroupA: Data="A2 49 0D 20 00"    Type30:  Group2: Data="23 8B 9B 32 1C"    Type30:  Group2: Data="23 41 40 00 00"    Type30:  GroupA: Data="A4 8A BD 32 BF"
+05.06.2011 19:53:25.212:  F0 04 68 48 10 C4
+05.06.2011 19:53:25.212:  BMBT --> RAD : BM Button: SEARCH_<_pressed
+05.06.2011 19:53:25.302:  68 04 3B 46 08 19
+05.06.2011 19:53:25.302:  RAD  --> GT  : LCD clear: Tone menu off
+05.06.2011 19:53:25.322:  F0 04 68 48 90 44
+05.06.2011 19:53:25.322:  BMBT --> RAD : BM Button: SEARCH_<_released
+05.06.2011 19:53:25.372:  68 0B 3B A5 62 01 41 20 20 46 4D 20 F4
+05.06.2011 19:53:25.372:  RAD  --> GT  : Screen Text:  Layout=RadioDisplay  FC2=0x01  Fld1,PartTx="  FM "
+05.06.2011 19:53:25.372:  68 0B 3B A5 62 01 42 20 50 20 35 20 99
+05.06.2011 19:53:25.372:  RAD  --> GT  : Screen Text:  Layout=RadioDisplay  FC2=0x01  Fld2,PartTx=" P 5 "
+05.06.2011 19:53:25.402:  68 0B 3B A5 62 01 43 20 20 49 20 20 94
+05.06.2011 19:53:25.402:  RAD  --> GT  : Screen Text:  Layout=RadioDisplay  FC2=0x01  Fld3,PartTx="  I  "
+05.06.2011 19:53:25.432:  68 0B 3B A5 62 01 44 20 20 20 20 20 FA
+05.06.2011 19:53:25.432:  RAD  --> GT  : Screen Text:  Layout=RadioDisplay  FC2=0x01  Fld4,PartTx="     "
+05.06.2011 19:53:25.462:  68 0D 3B A5 62 01 45 20 20 52 44 53 20 20 98
+05.06.2011 19:53:25.462:  RAD  --> GT  : Screen Text:  Layout=RadioDisplay  FC2=0x01  Fld5,PartTx="  RDS  "
+05.06.2011 19:53:25.502:  68 1A 3B A5 62 01 46 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 C9
+05.06.2011 19:53:25.502:  RAD  --> GT  : Screen Text:  Layout=RadioDisplay  FC2=0x01  Fld6,PartTx="                    "
+05.06.2011 19:53:25.553:  68 1A 3B A5 62 01 07 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 88
+05.06.2011 19:53:25.553:  RAD  --> GT  : Screen Text:  Layout=RadioDisplay  FC2=0x01  Fld7,EndTx="                    "
+05.06.2011 19:53:25.573:  68 12 3B 23 62 10 03 20 39 32 2E 38 04 20 4D 48 7A 20 20 75
+05.06.2011 19:53:25.573:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 92.8"   F4:" MHz  "
+05.06.2011 19:53:25.593:  3B 05 68 22 00 06 72
+05.06.2011 19:53:25.593:  GT   --> RAD : Text display confirmation: Screen Text: 7 text messages acknowledged
+05.06.2011 19:53:25.643:  68 15 3B 21 60 00 40 50 31 3A 20 47 4F 4E 47 20 20 20 20 20 20 06 3B
+05.06.2011 19:53:25.643:  RAD  --> GT  : Menu Text:  Layout=Menu  Flags=PartTx  F0="P1: GONG      "
+05.06.2011 19:53:25.673:  68 15 3B 21 60 00 41 50 32 3A 20 41 4E 54 45 4E 4E 45 20 20 20 06 43
+05.06.2011 19:53:25.673:  RAD  --> GT  : Menu Text:  Layout=Menu  Flags=PartTx  F1="P2: ANTENNE   "
+05.06.2011 19:53:25.713:  68 17 3B 21 60 00 42 50 33 3A 20 42 41 59 45 52 4E 20 33 20 20 06 06 06 28
+05.06.2011 19:53:25.713:  RAD  --> GT  : Menu Text:  Layout=Menu  Flags=PartTx  F2="P3: BAYERN 3  "
+05.06.2011 19:53:25.743:  68 15 3B 21 60 00 45 50 34 3A 20 43 41 52 49 56 41 52 49 20 20 06 2F
+05.06.2011 19:53:25.743:  RAD  --> GT  : Menu Text:  Layout=Menu  Flags=PartTx  F5="P4: CARIVARI  "
+05.06.2011 19:53:25.763:  80 05 BF 18 00 00 22
+05.06.2011 19:53:25.763:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:25.803:  68 15 3B 21 60 00 46 50 35 3A 20 52 41 44 49 4F 20 4E 31 20 20 06 36
+05.06.2011 19:53:25.803:  RAD  --> GT  : Menu Text:  Layout=Menu  Flags=PartTx  F6="P5: RADIO N1  "
+05.06.2011 19:53:25.843:  68 17 3B 21 60 00 07 50 36 3A 20 45 4E 45 52 47 59 20 20 20 20 06 06 06 7A
+05.06.2011 19:53:25.843:  RAD  --> GT  : Menu Text:  Layout=Menu  Flags=  F7="P6: ENERGY    "
+05.06.2011 19:53:25.863:  3B 05 68 22 05 FF 8E
+05.06.2011 19:53:25.863:  GT   --> RAD : Text display confirmation: Menu Text: 6 text messages acknowledged
+05.06.2011 19:53:25.913:  68 06 3B A5 60 01 00 91
+05.06.2011 19:53:25.913:  RAD  --> GT  : Screen Text:  Layout=Menu  FC2=0x01  Fld0,EndTx=""
+05.06.2011 19:53:25.913:  68 0B 3B A5 62 01 02 20 20 20 20 20 BC
+05.06.2011 19:53:25.913:  RAD  --> GT  : Screen Text:  Layout=RadioDisplay  FC2=0x01  Fld2,EndTx="     "
+05.06.2011 19:53:25.923:  68 06 3B A5 62 01 00 93
+05.06.2011 19:53:25.923:  RAD  --> GT  : Screen Text:  Layout=RadioDisplay  FC2=0x01  Fld0,EndTx=""
+05.06.2011 19:53:25.953:  68 12 3B 23 62 10 03 20 39 32 2E 37 04 20 4D 48 7A 20 20 7A
+05.06.2011 19:53:25.953:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 92.7"   F4:" MHz  "
+05.06.2011 19:53:25.963:  3B 05 68 22 00 00 74
+05.06.2011 19:53:25.963:  GT   --> RAD : Text display confirmation: Screen Text: 1 text message acknowledged
+05.06.2011 19:53:26.013:  3B 05 68 22 00 00 74
+05.06.2011 19:53:26.013:  GT   --> RAD : Text display confirmation: Screen Text: 1 text message acknowledged
+05.06.2011 19:53:26.063:  3B 05 68 22 00 00 74
+05.06.2011 19:53:26.063:  GT   --> RAD : Text display confirmation: Screen Text: 1 text message acknowledged
+05.06.2011 19:53:26.113:  68 12 3B 23 62 10 03 20 39 32 2E 36 04 20 4D 48 7A 20 20 7B
+05.06.2011 19:53:26.113:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 92.6"   F4:" MHz  "
+05.06.2011 19:53:26.254:  68 12 3B 23 62 10 03 20 39 32 2E 34 04 20 4D 48 7A 20 20 79
+05.06.2011 19:53:26.254:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 92.4"   F4:" MHz  "
+05.06.2011 19:53:26.324:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:53:26.324:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:53:26.394:  68 12 3B 23 62 10 03 20 39 32 2E 32 04 20 4D 48 7A 20 20 7F
+05.06.2011 19:53:26.394:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 92.2"   F4:" MHz  "
+05.06.2011 19:53:26.524:  68 12 3B 23 62 10 03 20 39 32 2E 30 04 20 4D 48 7A 20 20 7D
+05.06.2011 19:53:26.524:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 92.0"   F4:" MHz  "
+05.06.2011 19:53:26.664:  68 12 3B 23 62 10 03 20 39 31 2E 38 04 20 4D 48 7A 20 20 76
+05.06.2011 19:53:26.664:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 91.8"   F4:" MHz  "
+05.06.2011 19:53:26.794:  68 12 3B 23 62 10 03 20 39 31 2E 36 04 20 4D 48 7A 20 20 78
+05.06.2011 19:53:26.794:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 91.6"   F4:" MHz  "
+05.06.2011 19:53:26.894:  F0 04 68 48 00 D4
+05.06.2011 19:53:26.894:  BMBT --> RAD : BM Button: SEARCH_>_pressed
+05.06.2011 19:53:26.945:  68 12 3B 23 62 10 03 20 39 31 2E 34 04 20 4D 48 7A 20 20 7A
+05.06.2011 19:53:26.945:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 91.4"   F4:" MHz  "
+05.06.2011 19:53:27.045:  F0 04 68 48 80 54
+05.06.2011 19:53:27.045:  BMBT --> RAD : BM Button: SEARCH_>_released
+05.06.2011 19:53:27.095:  68 12 3B 23 62 10 03 20 39 31 2E 35 04 20 4D 48 7A 20 20 7B
+05.06.2011 19:53:27.095:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 91.5"   F4:" MHz  "
+05.06.2011 19:53:27.205:  68 12 3B 23 62 10 03 20 39 31 2E 34 04 20 4D 48 7A 20 20 7A
+05.06.2011 19:53:27.205:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 91.4"   F4:" MHz  "
+05.06.2011 19:53:27.505:  68 12 3B 23 62 10 03 20 39 31 2E 36 04 20 4D 48 7A 20 20 78
+05.06.2011 19:53:27.505:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 91.6"   F4:" MHz  "
+05.06.2011 19:53:27.636:  68 12 3B 23 62 10 03 20 39 31 2E 38 04 20 4D 48 7A 20 20 76
+05.06.2011 19:53:27.636:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 91.8"   F4:" MHz  "
+05.06.2011 19:53:27.766:  68 12 3B 23 62 10 03 20 39 32 2E 30 04 20 4D 48 7A 20 20 7D
+05.06.2011 19:53:27.766:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 92.0"   F4:" MHz  "
+05.06.2011 19:53:27.776:  80 05 BF 18 00 00 22
+05.06.2011 19:53:27.776:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:27.906:  68 12 3B 23 62 10 03 20 39 32 2E 32 04 20 4D 48 7A 20 20 7F
+05.06.2011 19:53:27.906:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 92.2"   F4:" MHz  "
+05.06.2011 19:53:28.036:  68 12 3B 23 62 10 03 20 39 32 2E 34 04 20 4D 48 7A 20 20 79
+05.06.2011 19:53:28.036:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 92.4"   F4:" MHz  "
+05.06.2011 19:53:28.156:  68 12 3B 23 62 10 03 20 39 32 2E 36 04 20 4D 48 7A 20 20 7B
+05.06.2011 19:53:28.156:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 92.6"   F4:" MHz  "
+05.06.2011 19:53:28.296:  68 12 3B 23 62 10 03 20 39 32 2E 38 04 20 4D 48 7A 20 20 75
+05.06.2011 19:53:28.296:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 92.8"   F4:" MHz  "
+05.06.2011 19:53:28.427:  68 12 3B 23 62 10 03 20 39 33 2E 30 04 20 4D 48 7A 20 20 7C
+05.06.2011 19:53:28.427:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 93.0"   F4:" MHz  "
+05.06.2011 19:53:28.557:  68 12 3B 23 62 10 03 20 39 33 2E 32 04 20 4D 48 7A 20 20 7E
+05.06.2011 19:53:28.557:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 93.2"   F4:" MHz  "
+05.06.2011 19:53:28.687:  68 12 3B 23 62 10 03 20 39 33 2E 34 04 20 4D 48 7A 20 20 78
+05.06.2011 19:53:28.687:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 93.4"   F4:" MHz  "
+05.06.2011 19:53:28.817:  68 12 3B 23 62 10 03 20 39 33 2E 36 04 20 4D 48 7A 20 20 7A
+05.06.2011 19:53:28.817:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 93.6"   F4:" MHz  "
+05.06.2011 19:53:28.957:  68 12 3B 23 62 10 03 20 39 33 2E 38 04 20 4D 48 7A 20 20 74
+05.06.2011 19:53:28.957:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 93.8"   F4:" MHz  "
+05.06.2011 19:53:29.088:  68 12 3B 23 62 10 03 20 39 34 2E 30 04 20 4D 48 7A 20 20 7B
+05.06.2011 19:53:29.088:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 94.0"   F4:" MHz  "
+05.06.2011 19:53:29.218:  68 12 3B 23 62 10 03 20 39 34 2E 32 04 20 4D 48 7A 20 20 79
+05.06.2011 19:53:29.218:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 94.2"   F4:" MHz  "
+05.06.2011 19:53:29.328:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:53:29.328:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:53:29.358:  68 12 3B 23 62 10 03 20 39 34 2E 34 04 20 4D 48 7A 20 20 7F
+05.06.2011 19:53:29.358:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 94.4"   F4:" MHz  "
+05.06.2011 19:53:29.488:  68 12 3B 23 62 10 03 20 39 34 2E 36 04 20 4D 48 7A 20 20 7D
+05.06.2011 19:53:29.488:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 94.6"   F4:" MHz  "
+05.06.2011 19:53:29.618:  68 12 3B 23 62 10 03 20 39 34 2E 38 04 20 4D 48 7A 20 20 73
+05.06.2011 19:53:29.618:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 94.8"   F4:" MHz  "
+05.06.2011 19:53:29.749:  68 12 3B 23 62 10 03 20 39 35 2E 30 04 20 4D 48 7A 20 20 7A
+05.06.2011 19:53:29.749:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 95.0"   F4:" MHz  "
+05.06.2011 19:53:29.769:  80 05 BF 18 00 00 22
+05.06.2011 19:53:29.769:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:29.799:  80 06 BF 19 14 28 00 1C
+05.06.2011 19:53:29.799:  IKE  --> GLO : Temperature: Outside 20°C, Coolant 40°C
+05.06.2011 19:53:29.889:  68 12 3B 23 62 10 03 20 39 35 2E 32 04 20 4D 48 7A 20 20 78
+05.06.2011 19:53:29.889:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 95.2"   F4:" MHz  "
+05.06.2011 19:53:30.019:  68 12 3B 23 62 10 03 20 39 35 2E 34 04 20 4D 48 7A 20 20 7E
+05.06.2011 19:53:30.019:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 95.4"   F4:" MHz  "
+05.06.2011 19:53:30.149:  68 12 3B 23 62 10 03 20 39 35 2E 36 04 20 4D 48 7A 20 20 7C
+05.06.2011 19:53:30.149:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 95.6"   F4:" MHz  "
+05.06.2011 19:53:30.289:  68 12 3B 23 62 10 03 20 39 35 2E 38 04 20 4D 48 7A 20 20 72
+05.06.2011 19:53:30.289:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 95.8"   F4:" MHz  "
+05.06.2011 19:53:30.410:  68 12 3B 23 62 10 03 20 39 36 2E 30 04 20 4D 48 7A 20 20 79
+05.06.2011 19:53:30.410:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 96.0"   F4:" MHz  "
+05.06.2011 19:53:30.430:  F0 03 68 01 9A
+05.06.2011 19:53:30.430:  BMBT --> RAD : Device status request
+05.06.2011 19:53:30.460:  68 04 BF 02 00 D1
+05.06.2011 19:53:30.460:  RAD  --> GLO : Device status ready
+05.06.2011 19:53:30.540:  68 12 3B 23 62 10 03 20 39 36 2E 32 04 20 4D 48 7A 20 20 7B
+05.06.2011 19:53:30.540:  RAD  --> GT  : Display Text:  Layout=RadioDisplay  Flags=Bit4  F0=   F3:" 96.2"   F4:" MHz  "
+05.06.2011 19:53:30.570:  F0 04 FF 48 34 77
+05.06.2011 19:53:30.570:  BMBT --> LOC : BM Button: MENU_pressed
+05.06.2011 19:53:30.640:  F0 04 FF 48 B4 F7
+05.06.2011 19:53:30.640:  BMBT --> LOC : BM Button: MENU_released
+05.06.2011 19:53:30.700:  3B 04 68 45 91 83
+05.06.2011 19:53:30.700:  GT   --> RAD : Radio status request, Data="91"
+05.06.2011 19:53:30.750:  7F 04 43 AB 21 B2
+05.06.2011 19:53:30.750:  NAV  --> GTF : Remote control status, Data="21"
+05.06.2011 19:53:30.750:  68 04 3B 46 01 10
+05.06.2011 19:53:30.750:  RAD  --> GT  : LCD clear: No display required
+05.06.2011 19:53:31.561:  3B 03 80 01 B9
+05.06.2011 19:53:31.561:  GT   --> IKE : Device status request
+05.06.2011 19:53:31.581:  80 04 BF 02 00 39
+05.06.2011 19:53:31.581:  IKE  --> GLO : Device status ready
+05.06.2011 19:53:31.781:  80 05 BF 18 00 00 22
+05.06.2011 19:53:31.781:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:32.312:  7F 06 C8 A9 03 30 30 1B
+05.06.2011 19:53:32.312:  NAV  --> TEL : Telephone data: Current_network_request Count_0
+05.06.2011 19:53:32.332:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:53:32.332:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:53:32.402:  7F 06 C8 A9 0A 30 30 12
+05.06.2011 19:53:32.402:  NAV  --> TEL : Telephone data: Current_phone_status Count_0
+05.06.2011 19:53:33.194:  7F 14 C8 A2 01 00 49 34 02 10 00 10 59 31 00 02 89 00 17 53 31 E9
+05.06.2011 19:53:33.194:  NAV  --> TEL : Current position: GPS fix; 49°34'2.1"N  10°59'31.0"E; Alt 289m;  UTC 17:53:31
+05.06.2011 19:53:33.244:  7F 23 C8 A4 00 01 45 52 4C 41 4E 47 45 4E 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 29
+05.06.2011 19:53:33.244:  NAV  --> TEL : Current location: Town = ERLANGEN
+05.06.2011 19:53:33.284:  7F 23 C8 A4 00 02 4B 41 4E 41 4C 53 54 52 41 53 53 45 3B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 11
+05.06.2011 19:53:33.284:  NAV  --> TEL : Current location: Street = KANALSTRASSE;
+05.06.2011 19:53:33.784:  80 05 BF 18 00 00 22
+05.06.2011 19:53:33.784:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:34.155:  F0 04 3B 49 81 07
+05.06.2011 19:53:34.155:  BMBT --> GT  : BM_Knob: Right 1 step
+05.06.2011 19:53:35.066:  F0 04 3B 49 81 07
+05.06.2011 19:53:35.066:  BMBT --> GT  : BM_Knob: Right 1 step
+05.06.2011 19:53:35.226:  68 1B 7F A8 30 84 59 10 52 CA 30 84 0C 00 00 00 30 05 E2 BD 73 B2 30 A6 42 40 00 00 46
+05.06.2011 19:53:35.226:  RAD  --> NAV : TMC data:    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp ConIndex=4    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp ConIndex=4    Type30:  Group0Data="05 E2 BD 73 B2"    Type30:  GroupA: Data="A6 42 40 00 00"
+05.06.2011 19:53:35.297:  F0 04 3B 49 81 07
+05.06.2011 19:53:35.297:  BMBT --> GT  : BM_Knob: Right 1 step
+05.06.2011 19:53:35.337:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:53:35.337:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:53:35.397:  68 05 76 38 00 00 23
+05.06.2011 19:53:35.397:  RAD  --> CDCD: CD_control:  Status_Request
+05.06.2011 19:53:35.407:  68 05 18 38 00 00 4D
+05.06.2011 19:53:35.407:  RAD  --> CDC : CD_control:  Status_Request
+05.06.2011 19:53:35.787:  80 05 BF 18 00 00 22
+05.06.2011 19:53:35.787:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:35.867:  F0 04 3B 49 01 87
+05.06.2011 19:53:35.867:  BMBT --> GT  : BM_Knob: Left 1 step
+05.06.2011 19:53:36.528:  F0 04 3B 48 05 82
+05.06.2011 19:53:36.528:  BMBT --> GT  : BM Button: BM_Knob_pressed
+05.06.2011 19:53:36.638:  F0 04 3B 48 85 02
+05.06.2011 19:53:36.638:  BMBT --> GT  : BM Button: BM_Knob_released
+05.06.2011 19:53:36.689:  3B 05 FF 20 02 0C EF
+05.06.2011 19:53:36.689:  GT   --> LOC : Display status: TEL_short Show_TEL_Menu Show_TEL_Main
+05.06.2011 19:53:36.709:  C8 18 3B A5 F0 01 20 54 45 4C 45 46 4F 4E 20 41 4B 54 49 56 49 45 52 45 4E F4
+05.06.2011 19:53:36.709:  TEL  --> GT  : Screen Text:  Layout=0xF0:  FC2=0x01  Fld0,CLS,EndTx="TELEFON AKTIVIEREN"
+05.06.2011 19:53:36.739:  C8 06 3B 21 F0 09 20 0D
+05.06.2011 19:53:36.739:  TEL  --> GT  : Menu Text:  Layout=0xF0:  Flags=CLS  F0=
+05.06.2011 19:53:36.769:  3B 04 C8 22 00 D5
+05.06.2011 19:53:36.769:  GT   --> TEL : Text display confirmation: Menu Text: 1 text message acknowledged
+05.06.2011 19:53:37.790:  80 05 BF 18 00 00 22
+05.06.2011 19:53:37.790:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:38.341:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:53:38.341:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:53:39.793:  80 05 BF 18 00 00 22
+05.06.2011 19:53:39.793:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:39.813:  80 06 BF 19 14 28 00 1C
+05.06.2011 19:53:39.813:  IKE  --> GLO : Temperature: Outside 20°C, Coolant 40°C
+05.06.2011 19:53:40.444:  F0 03 68 01 9A
+05.06.2011 19:53:40.444:  BMBT --> RAD : Device status request
+05.06.2011 19:53:40.464:  68 04 BF 02 00 D1
+05.06.2011 19:53:40.464:  RAD  --> GLO : Device status ready
+05.06.2011 19:53:40.494:  68 03 6A 01 00
+05.06.2011 19:53:40.494:  RAD  --> DSP : Device status request
+05.06.2011 19:53:40.504:  6A 04 FF 02 00 93
+05.06.2011 19:53:40.504:  DSP  --> LOC : Device status ready
+05.06.2011 19:53:40.835:  F0 04 68 48 24 F0
+05.06.2011 19:53:40.835:  BMBT --> RAD : BM Button: EJECT_pressed
+05.06.2011 19:53:40.945:  F0 04 68 48 A4 70
+05.06.2011 19:53:40.945:  BMBT --> RAD : BM Button: EJECT_released
+05.06.2011 19:53:41.205:  68 0F 7F A8 30 21 A0 6C 30 7C 30 21 42 43 56 00 67
+05.06.2011 19:53:41.205:  RAD  --> NAV : TMC data:    Type30:  Group2: Data="21 A0 6C 30 7C"    Type30:  Group2: Data="21 42 43 56 00"
+05.06.2011 19:53:41.345:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:53:41.345:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:53:41.546:  3B 03 6A 01 53
+05.06.2011 19:53:41.546:  GT   --> DSP : Device status request
+05.06.2011 19:53:41.556:  6A 04 FF 02 00 93
+05.06.2011 19:53:41.556:  DSP  --> LOC : Device status ready
+05.06.2011 19:53:41.796:  80 05 BF 18 00 00 22
+05.06.2011 19:53:41.796:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:42.397:  7F 06 C8 A9 03 30 30 1B
+05.06.2011 19:53:42.397:  NAV  --> TEL : Telephone data: Current_network_request Count_0
+05.06.2011 19:53:42.487:  7F 06 C8 A9 0A 30 30 12
+05.06.2011 19:53:42.487:  NAV  --> TEL : Telephone data: Current_phone_status Count_0
+05.06.2011 19:53:43.689:  F0 04 68 4B 05 D2
+05.06.2011 19:53:43.689:  BMBT --> RAD : Cassette status:  No_Tape
+05.06.2011 19:53:43.799:  80 05 BF 18 00 00 22
+05.06.2011 19:53:43.799:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:44.340:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:53:44.340:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:53:45.802:  80 05 BF 18 00 00 22
+05.06.2011 19:53:45.802:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:47.124:  68 1B 7F A8 30 82 99 91 89 2F 30 82 59 BB AC 88 30 82 02 80 00 00 30 08 49 47 2F D0 35
+05.06.2011 19:53:47.124:  RAD  --> NAV : TMC data:    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp,First_Grp Loc=35119 Evnt=401 Dir=Neg Extnt=3 ConIndex=2    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp ConIndex=2    Type30:  Group8_TMC_Data:  User_Msg,Multi_Grp ConIndex=2    Type30:  Group0Data="08 49 47 2F D0"
+05.06.2011 19:53:47.344:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:53:47.344:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:53:47.815:  80 05 BF 18 00 00 22
+05.06.2011 19:53:47.815:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:49.817:  80 05 BF 18 00 00 22
+05.06.2011 19:53:49.817:  IKE  --> GLO : Speed/RPM: Speed 0 km/h, 0 RPM
+05.06.2011 19:53:49.827:  80 06 BF 19 14 27 00 13
+05.06.2011 19:53:49.827:  IKE  --> GLO : Temperature: Outside 20°C, Coolant 39°C
+05.06.2011 19:53:50.348:  D0 08 BF 5B 00 00 00 00 00 3C
+05.06.2011 19:53:50.348:  LCM  --> GLO : Lamp status: All_Off  All_OK
+05.06.2011 19:53:50.468:  F0 03 68 01 9A
+05.06.2011 19:53:50.468:  BMBT --> RAD : Device status request
+05.06.2011 19:53:50.478:  68 04 BF 02 00 D1
+05.06.2011 19:53:50.478:  RAD  --> GLO : Device status ready
+05.06.2011 19:53:51.540:  3B 03 C8 01 F1
+05.06.2011 19:53:51.540:  GT   --> TEL : Device status request

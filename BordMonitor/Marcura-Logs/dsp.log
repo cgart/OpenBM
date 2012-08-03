@@ -1,0 +1,554 @@
+NavCoder_Log_20110706_232519.log:06.07.2011 23:25:23.640:  GT   --> DSP : Device status request
+NavCoder_Log_20110706_232519.log:06.07.2011 23:25:23.640:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110706_232519.log:06.07.2011 23:25:34.062:  GT   --> DSP : Device status request
+NavCoder_Log_20110706_232519.log:06.07.2011 23:25:34.078:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110706_232519.log:06.07.2011 23:25:43.593:  GT   --> DSP : Device status request
+NavCoder_Log_20110706_232519.log:06.07.2011 23:25:43.609:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110706_232519.log:06.07.2011 23:25:53.562:  GT   --> DSP : Device status request
+NavCoder_Log_20110706_232519.log:06.07.2011 23:25:53.578:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110706_232519.log:06.07.2011 23:26:03.546:  GT   --> DSP : Device status request
+NavCoder_Log_20110706_232519.log:06.07.2011 23:26:03.546:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110706_232519.log:06.07.2011 23:26:13.546:  GT   --> DSP : Device status request
+NavCoder_Log_20110706_232519.log:06.07.2011 23:26:13.546:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110706_232519.log:06.07.2011 23:26:23.500:  GT   --> DSP : Device status request
+NavCoder_Log_20110706_232519.log:06.07.2011 23:26:23.515:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110706_232519.log:06.07.2011 23:26:33.515:  GT   --> DSP : Device status request
+NavCoder_Log_20110706_232519.log:06.07.2011 23:26:33.531:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110706_232519.log:06.07.2011 23:26:43.468:  GT   --> DSP : Device status request
+NavCoder_Log_20110706_232519.log:06.07.2011 23:26:43.484:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110706_232519.log:06.07.2011 23:26:53.437:  GT   --> DSP : Device status request
+NavCoder_Log_20110706_232519.log:06.07.2011 23:26:53.453:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110706_232519.log:06.07.2011 23:27:03.421:  GT   --> DSP : Device status request
+NavCoder_Log_20110706_232519.log:06.07.2011 23:27:03.453:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110706_232519.log:06.07.2011 23:27:13.406:  GT   --> DSP : Device status request
+NavCoder_Log_20110706_232519.log:06.07.2011 23:27:13.437:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110706_232519.log:06.07.2011 23:27:23.421:  GT   --> DSP : Device status request
+NavCoder_Log_20110706_232519.log:06.07.2011 23:27:23.453:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110706_232519.log:06.07.2011 23:27:33.437:  GT   --> DSP : Device status request
+NavCoder_Log_20110706_232519.log:06.07.2011 23:27:33.468:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110706_232519.log:06.07.2011 23:27:43.328:  GT   --> DSP : Device status request
+NavCoder_Log_20110706_232519.log:06.07.2011 23:27:43.359:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110706_232519.log:06.07.2011 23:27:53.312:  GT   --> DSP : Device status request
+NavCoder_Log_20110706_232519.log:06.07.2011 23:27:53.343:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110706_232519.log:06.07.2011 23:28:03.281:  GT   --> DSP : Device status request
+NavCoder_Log_20110706_232519.log:06.07.2011 23:28:03.312:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110706_232519.log:06.07.2011 23:28:13.265:  GT   --> DSP : Device status request
+NavCoder_Log_20110706_232519.log:06.07.2011 23:28:13.296:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110706_232519.log:06.07.2011 23:28:23.250:  GT   --> DSP : Device status request
+NavCoder_Log_20110706_232519.log:06.07.2011 23:28:23.265:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110706_232519.log:06.07.2011 23:28:33.218:  GT   --> DSP : Device status request
+NavCoder_Log_20110706_232519.log:06.07.2011 23:28:33.234:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110706_232519.log:06.07.2011 23:28:43.203:  GT   --> DSP : Device status request
+NavCoder_Log_20110706_232519.log:06.07.2011 23:28:43.218:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110706_232519.log:06.07.2011 23:28:53.187:  GT   --> DSP : Device status request
+NavCoder_Log_20110706_232519.log:06.07.2011 23:28:53.203:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110707_165752.log:07.07.2011 16:57:53.171:  RAD  --> DSP : Device status request
+NavCoder_Log_20110707_165752.log:07.07.2011 16:57:53.171:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:00.453:  RAD  --> DSP : Device status request
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:00.468:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:02.156:  GT   --> DSP : Device status request
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:02.171:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:07.812:  RAD  --> DSP : Device status request
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:07.828:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:12.125:  GT   --> DSP : Device status request
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:12.140:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:15.171:  RAD  --> DSP : Device status request
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:15.171:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:22.109:  GT   --> DSP : Device status request
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:22.125:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:22.406:  RAD  --> DSP : Device status request
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:22.406:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:29.734:  RAD  --> DSP : Device status request
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:29.750:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:32.078:  GT   --> DSP : Device status request
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:32.093:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:37.140:  RAD  --> DSP : Device status request
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:37.156:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:42.062:  GT   --> DSP : Device status request
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:42.078:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:44.656:  RAD  --> DSP : Device status request
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:44.671:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:51.968:  RAD  --> DSP : Device status request
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:51.984:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:52.031:  GT   --> DSP : Device status request
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:52.046:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:59.234:  RAD  --> DSP : Device status request
+NavCoder_Log_20110707_165752.log:07.07.2011 16:58:59.250:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110707_165752.log:07.07.2011 16:59:02.390:  GT   --> DSP : Device status request
+NavCoder_Log_20110707_165752.log:07.07.2011 16:59:02.406:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110707_165752.log:07.07.2011 16:59:06.515:  RAD  --> DSP : Device status request
+NavCoder_Log_20110707_165752.log:07.07.2011 16:59:06.515:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110707_165752.log:07.07.2011 16:59:12.015:  GT   --> DSP : Device status request
+NavCoder_Log_20110707_165752.log:07.07.2011 16:59:12.015:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110707_165752.log:07.07.2011 16:59:13.937:  RAD  --> DSP : Device status request
+NavCoder_Log_20110707_165752.log:07.07.2011 16:59:13.953:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110707_165752.log:07.07.2011 16:59:21.140:  RAD  --> DSP : Device status request
+NavCoder_Log_20110707_165752.log:07.07.2011 16:59:21.156:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110707_165752.log:07.07.2011 16:59:22.062:  GT   --> DSP : Device status request
+NavCoder_Log_20110707_165752.log:07.07.2011 16:59:22.078:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110720_220634.log:20.07.2011 22:06:43.328:  GT   --> DSP : Device status request
+NavCoder_Log_20110720_220634.log:20.07.2011 22:06:43.343:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110720_220634.log:20.07.2011 22:06:53.515:  GT   --> DSP : Device status request
+NavCoder_Log_20110720_220634.log:20.07.2011 22:06:53.515:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110720_220634.log:20.07.2011 22:07:03.250:  GT   --> DSP : Device status request
+NavCoder_Log_20110720_220634.log:20.07.2011 22:07:03.265:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110720_220634.log:20.07.2011 22:07:13.234:  GT   --> DSP : Device status request
+NavCoder_Log_20110720_220634.log:20.07.2011 22:07:13.234:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110720_220634.log:20.07.2011 22:07:23.203:  GT   --> DSP : Device status request
+NavCoder_Log_20110720_220634.log:20.07.2011 22:07:23.218:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110720_220634.log:20.07.2011 22:07:33.187:  GT   --> DSP : Device status request
+NavCoder_Log_20110720_220634.log:20.07.2011 22:07:33.187:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110720_220634.log:20.07.2011 22:07:43.171:  GT   --> DSP : Device status request
+NavCoder_Log_20110720_220634.log:20.07.2011 22:07:43.187:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110720_220634.log:20.07.2011 22:07:53.140:  GT   --> DSP : Device status request
+NavCoder_Log_20110720_220634.log:20.07.2011 22:07:53.156:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110720_220634.log:20.07.2011 22:08:03.125:  GT   --> DSP : Device status request
+NavCoder_Log_20110720_220634.log:20.07.2011 22:08:03.125:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110724_183411.log:24.07.2011 18:34:13.479:  RAD  --> DSP : Device status request
+NavCoder_Log_20110724_183411.log:24.07.2011 18:34:13.495:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110724_183411.log:24.07.2011 18:34:18.432:  GT   --> DSP : Device status request
+NavCoder_Log_20110724_183411.log:24.07.2011 18:34:18.448:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110724_183411.log:24.07.2011 18:34:21.042:  RAD  --> DSP : Device status request
+NavCoder_Log_20110724_183411.log:24.07.2011 18:34:21.057:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110724_183411.log:24.07.2011 18:34:28.417:  GT   --> DSP : Device status request
+NavCoder_Log_20110724_183411.log:24.07.2011 18:34:28.417:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110724_183411.log:24.07.2011 18:34:28.635:  RAD  --> DSP : Device status request
+NavCoder_Log_20110724_183411.log:24.07.2011 18:34:28.635:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110724_183411.log:24.07.2011 18:34:36.354:  RAD  --> DSP : Device status request
+NavCoder_Log_20110724_183411.log:24.07.2011 18:34:36.370:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110724_183411.log:24.07.2011 18:34:38.385:  GT   --> DSP : Device status request
+NavCoder_Log_20110724_183411.log:24.07.2011 18:34:38.401:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110724_183411.log:24.07.2011 18:34:43.948:  RAD  --> DSP : Device status request
+NavCoder_Log_20110724_183411.log:24.07.2011 18:34:43.964:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110724_183411.log:24.07.2011 18:34:48.370:  GT   --> DSP : Device status request
+NavCoder_Log_20110724_183411.log:24.07.2011 18:34:48.385:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110724_183411.log:24.07.2011 18:34:51.651:  RAD  --> DSP : Device status request
+NavCoder_Log_20110724_183411.log:24.07.2011 18:34:51.667:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110724_183411.log:24.07.2011 18:34:58.354:  GT   --> DSP : Device status request
+NavCoder_Log_20110724_183411.log:24.07.2011 18:34:58.354:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110724_183411.log:24.07.2011 18:34:59.229:  RAD  --> DSP : Device status request
+NavCoder_Log_20110724_183411.log:24.07.2011 18:34:59.245:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110724_183411.log:24.07.2011 18:35:06.979:  RAD  --> DSP : Device status request
+NavCoder_Log_20110724_183411.log:24.07.2011 18:35:06.979:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110724_183411.log:24.07.2011 18:35:08.323:  GT   --> DSP : Device status request
+NavCoder_Log_20110724_183411.log:24.07.2011 18:35:08.339:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110724_183411.log:24.07.2011 18:35:14.698:  RAD  --> DSP : Device status request
+NavCoder_Log_20110724_183411.log:24.07.2011 18:35:14.698:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110724_183411.log:24.07.2011 18:35:18.307:  GT   --> DSP : Device status request
+NavCoder_Log_20110724_183411.log:24.07.2011 18:35:18.323:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110724_183411.log:24.07.2011 18:35:22.339:  RAD  --> DSP : Device status request
+NavCoder_Log_20110724_183411.log:24.07.2011 18:35:22.354:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110724_183411.log:24.07.2011 18:35:28.292:  GT   --> DSP : Device status request
+NavCoder_Log_20110724_183411.log:24.07.2011 18:35:28.292:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110724_183411.log:24.07.2011 18:35:30.089:  RAD  --> DSP : Device status request
+NavCoder_Log_20110724_183411.log:24.07.2011 18:35:30.104:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110724_183411.log:24.07.2011 18:35:37.651:  RAD  --> DSP : Device status request
+NavCoder_Log_20110724_183411.log:24.07.2011 18:35:37.667:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110724_183411.log:24.07.2011 18:35:38.260:  GT   --> DSP : Device status request
+NavCoder_Log_20110724_183411.log:24.07.2011 18:35:38.276:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110724_183411.log:24.07.2011 18:35:45.479:  RAD  --> DSP : Device status request
+NavCoder_Log_20110724_183411.log:24.07.2011 18:35:45.495:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110805_164649.log:05.08.2011 16:46:53.734:  RAD  --> DSP : Device status request
+NavCoder_Log_20110805_164649.log:05.08.2011 16:46:53.750:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110805_164649.log:05.08.2011 16:46:55.765:  GT   --> DSP : Device status request
+NavCoder_Log_20110805_164649.log:05.08.2011 16:46:55.781:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:01.140:  RAD  --> DSP : Device status request
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:01.156:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:05.750:  GT   --> DSP : Device status request
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:05.765:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:08.953:  RAD  --> DSP : Device status request
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:08.968:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:15.781:  GT   --> DSP : Device status request
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:15.796:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:16.218:  RAD  --> DSP : Device status request
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:16.250:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:24.453:  RAD  --> DSP : Device status request
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:24.453:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:25.703:  GT   --> DSP : Device status request
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:25.703:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:31.156:  RAD  --> DSP : Device status request
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:31.171:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:35.703:  GT   --> DSP : Device status request
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:35.718:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:38.562:  RAD  --> DSP : Device status request
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:38.578:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:45.656:  GT   --> DSP : Device status request
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:45.687:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:46.031:  RAD  --> DSP : Device status request
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:46.046:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:53.390:  RAD  --> DSP : Device status request
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:53.406:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:55.640:  GT   --> DSP : Device status request
+NavCoder_Log_20110805_164649.log:05.08.2011 16:47:55.656:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110805_164649.log:05.08.2011 16:48:00.812:  RAD  --> DSP : Device status request
+NavCoder_Log_20110805_164649.log:05.08.2011 16:48:00.828:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110805_164649.log:05.08.2011 16:48:05.625:  GT   --> DSP : Device status request
+NavCoder_Log_20110805_164649.log:05.08.2011 16:48:05.640:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110805_164649.log:05.08.2011 16:48:08.203:  RAD  --> DSP : Device status request
+NavCoder_Log_20110805_164649.log:05.08.2011 16:48:08.234:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110805_164649.log:05.08.2011 16:48:15.593:  GT   --> DSP : Device status request
+NavCoder_Log_20110805_164649.log:05.08.2011 16:48:15.609:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110805_164649.log:05.08.2011 16:48:15.718:  RAD  --> DSP : Device status request
+NavCoder_Log_20110805_164649.log:05.08.2011 16:48:15.750:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110805_164649.log:05.08.2011 16:48:23.234:  RAD  --> DSP : Device status request
+NavCoder_Log_20110805_164649.log:05.08.2011 16:48:23.250:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110822_221424.log:22.08.2011 22:14:29.031:  RAD  --> DSP : Device status request
+NavCoder_Log_20110822_221424.log:22.08.2011 22:14:29.046:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110822_221424.log:22.08.2011 22:14:31.734:  GT   --> DSP : Device status request
+NavCoder_Log_20110822_221424.log:22.08.2011 22:14:31.750:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110822_221424.log:22.08.2011 22:14:36.656:  RAD  --> DSP : Device status request
+NavCoder_Log_20110822_221424.log:22.08.2011 22:14:36.672:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110822_221424.log:22.08.2011 22:14:41.719:  GT   --> DSP : Device status request
+NavCoder_Log_20110822_221424.log:22.08.2011 22:14:41.734:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110822_221424.log:22.08.2011 22:14:44.281:  RAD  --> DSP : Device status request
+NavCoder_Log_20110822_221424.log:22.08.2011 22:14:44.313:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110822_221424.log:22.08.2011 22:14:51.688:  GT   --> DSP : Device status request
+NavCoder_Log_20110822_221424.log:22.08.2011 22:14:51.719:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110822_221424.log:22.08.2011 22:14:51.797:  RAD  --> DSP : Device status request
+NavCoder_Log_20110822_221424.log:22.08.2011 22:14:51.813:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110822_221424.log:22.08.2011 22:14:59.345:  RAD  --> DSP : Device status request
+NavCoder_Log_20110822_221424.log:22.08.2011 22:14:59.360:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:01.673:  GT   --> DSP : Device status request
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:01.689:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:06.970:  RAD  --> DSP : Device status request
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:06.986:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:11.642:  GT   --> DSP : Device status request
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:11.674:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:14.455:  RAD  --> DSP : Device status request
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:14.471:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:21.627:  GT   --> DSP : Device status request
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:21.643:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:21.815:  RAD  --> DSP : Device status request
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:21.830:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:29.253:  RAD  --> DSP : Device status request
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:29.268:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:31.612:  GT   --> DSP : Device status request
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:31.628:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:36.472:  RAD  --> DSP : Device status request
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:36.488:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:41.597:  GT   --> DSP : Device status request
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:41.613:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:43.707:  RAD  --> DSP : Device status request
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:43.722:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:50.973:  RAD  --> DSP : Device status request
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:51.004:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:51.567:  GT   --> DSP : Device status request
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:51.582:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:58.458:  RAD  --> DSP : Device status request
+NavCoder_Log_20110822_221424.log:22.08.2011 22:15:58.473:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110822_221424.log:22.08.2011 22:16:01.536:  GT   --> DSP : Device status request
+NavCoder_Log_20110822_221424.log:22.08.2011 22:16:01.551:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110822_221424.log:22.08.2011 22:16:05.880:  RAD  --> DSP : Device status request
+NavCoder_Log_20110822_221424.log:22.08.2011 22:16:05.895:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:04:35.328:  RAD  --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:04:35.343:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:04:38.062:  GT   --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:04:38.078:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:04:42.937:  RAD  --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:04:42.953:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:04:48.015:  GT   --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:04:48.031:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:04:50.609:  RAD  --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:04:50.640:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:04:57.984:  GT   --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:04:58.015:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:04:58.234:  RAD  --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:04:58.250:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:05.890:  RAD  --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:05.906:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:07.984:  GT   --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:08.015:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:13.562:  RAD  --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:13.578:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:18.046:  GT   --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:18.093:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:21.234:  RAD  --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:21.312:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:28.046:  GT   --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:28.093:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:28.812:  RAD  --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:28.859:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:36.437:  RAD  --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:36.468:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:37.906:  GT   --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:37.953:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:43.968:  RAD  --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:44.000:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:47.906:  GT   --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:47.953:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:51.625:  RAD  --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:51.687:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:57.921:  GT   --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:57.968:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:58.968:  RAD  --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:05:59.031:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:06:06.437:  RAD  --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:06:06.484:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:06:07.843:  GT   --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:06:07.906:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:06:14.046:  RAD  --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:06:14.093:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:06:17.890:  GT   --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:06:17.937:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:06:21.765:  RAD  --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:06:21.796:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:06:27.812:  GT   --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:06:27.843:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:06:29.359:  RAD  --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:06:29.406:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:06:36.984:  RAD  --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:06:37.046:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:06:37.781:  GT   --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:06:37.828:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:06:44.625:  RAD  --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:06:44.671:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:06:47.781:  GT   --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:06:47.828:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:23.08.2011 23:07:01.000:  RAD  --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:23.08.2011 23:07:01.031:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:24.08.2011 13:07:15.640:  GT   --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:24.08.2011 13:07:15.671:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:24.08.2011 13:07:15.812:  RAD  --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:24.08.2011 13:07:15.859:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:24.08.2011 13:07:23.531:  RAD  --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:24.08.2011 13:07:23.578:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:24.08.2011 13:07:25.281:  GT   --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:24.08.2011 13:07:25.328:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:24.08.2011 13:07:31.078:  RAD  --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:24.08.2011 13:07:31.125:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:24.08.2011 13:07:35.281:  GT   --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:24.08.2011 13:07:35.328:  DSP  --> LOC : Device status ready
+NavCoder_Log_20110823_230430.log:24.08.2011 13:07:38.718:  RAD  --> DSP : Device status request
+NavCoder_Log_20110823_230430.log:24.08.2011 13:07:38.781:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111007_150745.log:07.10.2011 15:07:45.406:  GT   --> DSP : Device status request
+NavCoder_Log_20111007_150745.log:07.10.2011 15:07:45.421:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111007_150745.log:07.10.2011 15:07:55.359:  GT   --> DSP : Device status request
+NavCoder_Log_20111007_150745.log:07.10.2011 15:07:55.375:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111007_150745.log:07.10.2011 15:08:05.328:  GT   --> DSP : Device status request
+NavCoder_Log_20111007_150745.log:07.10.2011 15:08:05.343:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111007_150745.log:07.10.2011 15:08:15.328:  GT   --> DSP : Device status request
+NavCoder_Log_20111007_150745.log:07.10.2011 15:08:15.343:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111007_150745.log:07.10.2011 15:08:25.281:  GT   --> DSP : Device status request
+NavCoder_Log_20111007_150745.log:07.10.2011 15:08:25.296:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111007_150745.log:07.10.2011 15:08:35.296:  GT   --> DSP : Device status request
+NavCoder_Log_20111007_150745.log:07.10.2011 15:08:35.312:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111012_220721.log:12.10.2011 22:07:26.312:  GT   --> DSP : Device status request
+NavCoder_Log_20111012_220721.log:12.10.2011 22:07:26.328:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111012_220721.log:12.10.2011 22:07:36.296:  GT   --> DSP : Device status request
+NavCoder_Log_20111012_220721.log:12.10.2011 22:07:36.312:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111012_220721.log:12.10.2011 22:07:46.281:  GT   --> DSP : Device status request
+NavCoder_Log_20111012_220721.log:12.10.2011 22:07:46.281:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111012_220721.log:12.10.2011 22:07:56.250:  GT   --> DSP : Device status request
+NavCoder_Log_20111012_220721.log:12.10.2011 22:07:56.265:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111012_220721.log:12.10.2011 22:08:06.234:  GT   --> DSP : Device status request
+NavCoder_Log_20111012_220721.log:12.10.2011 22:08:06.250:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111012_220721.log:12.10.2011 22:08:16.203:  GT   --> DSP : Device status request
+NavCoder_Log_20111012_220721.log:12.10.2011 22:08:16.218:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111012_220721.log:12.10.2011 22:08:26.187:  GT   --> DSP : Device status request
+NavCoder_Log_20111012_220721.log:12.10.2011 22:08:26.203:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111012_220721.log:12.10.2011 22:08:36.171:  GT   --> DSP : Device status request
+NavCoder_Log_20111012_220721.log:12.10.2011 22:08:36.187:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111012_220721.log:12.10.2011 22:08:46.140:  GT   --> DSP : Device status request
+NavCoder_Log_20111012_220721.log:12.10.2011 22:08:46.156:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111013_210542.log:10/13/2011 9:05:45 PM.562:  RAD  --> DSP : Device status request
+NavCoder_Log_20111013_210542.log:10/13/2011 9:05:45 PM.578:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111013_210542.log:10/13/2011 9:05:51 PM.968:  GT   --> DSP : Device status request
+NavCoder_Log_20111013_210542.log:10/13/2011 9:05:51 PM.984:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111013_210542.log:10/13/2011 9:05:52 PM.953:  RAD  --> DSP : Device status request
+NavCoder_Log_20111013_210542.log:10/13/2011 9:05:52 PM.968:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111013_210542.log:10/13/2011 9:06:00 PM.515:  RAD  --> DSP : Device status request
+NavCoder_Log_20111013_210542.log:10/13/2011 9:06:00 PM.531:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111013_210542.log:10/13/2011 9:06:01 PM.953:  GT   --> DSP : Device status request
+NavCoder_Log_20111013_210542.log:10/13/2011 9:06:01 PM.968:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111013_210542.log:10/13/2011 9:06:08 PM.046:  RAD  --> DSP : Device status request
+NavCoder_Log_20111013_210542.log:10/13/2011 9:06:08 PM.062:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111013_210542.log:10/13/2011 9:06:11 PM.953:  GT   --> DSP : Device status request
+NavCoder_Log_20111013_210542.log:10/13/2011 9:06:11 PM.968:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111013_210542.log:10/13/2011 9:06:15 PM.656:  RAD  --> DSP : Device status request
+NavCoder_Log_20111013_210542.log:10/13/2011 9:06:15 PM.656:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111013_210542.log:10/13/2011 9:06:21 PM.906:  GT   --> DSP : Device status request
+NavCoder_Log_20111013_210542.log:10/13/2011 9:06:21 PM.921:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111013_210542.log:10/13/2011 9:06:23 PM.078:  RAD  --> DSP : Device status request
+NavCoder_Log_20111013_210542.log:10/13/2011 9:06:23 PM.093:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111013_210542.log:10/13/2011 9:06:30 PM.546:  RAD  --> DSP : Device status request
+NavCoder_Log_20111013_210542.log:10/13/2011 9:06:30 PM.562:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111013_210542.log:10/13/2011 9:06:31 PM.890:  GT   --> DSP : Device status request
+NavCoder_Log_20111013_210542.log:10/13/2011 9:06:31 PM.906:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111015_165922.log:10/15/2011 4:59:43 PM.078:  RAD  --> DSP : Device status request
+NavCoder_Log_20111015_165922.log:10/15/2011 4:59:43 PM.078:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111015_165922.log:10/15/2011 4:59:50 PM.265:  GT   --> DSP : Device status request
+NavCoder_Log_20111015_165922.log:10/15/2011 4:59:50 PM.281:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111015_165922.log:10/15/2011 4:59:50 PM.640:  RAD  --> DSP : Device status request
+NavCoder_Log_20111015_165922.log:10/15/2011 4:59:50 PM.656:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111015_165922.log:10/15/2011 4:59:58 PM.250:  RAD  --> DSP : Device status request
+NavCoder_Log_20111015_165922.log:10/15/2011 4:59:58 PM.265:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:00 PM.328:  GT   --> DSP : Device status request
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:00 PM.328:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:05 PM.796:  RAD  --> DSP : Device status request
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:05 PM.812:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:10 PM.234:  GT   --> DSP : Device status request
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:10 PM.234:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:13 PM.468:  RAD  --> DSP : Device status request
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:13 PM.484:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:20 PM.203:  GT   --> DSP : Device status request
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:20 PM.218:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:21 PM.031:  RAD  --> DSP : Device status request
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:21 PM.046:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:28 PM.625:  RAD  --> DSP : Device status request
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:28 PM.625:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:30 PM.187:  GT   --> DSP : Device status request
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:30 PM.203:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:36 PM.156:  RAD  --> DSP : Device status request
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:36 PM.171:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:40 PM.171:  GT   --> DSP : Device status request
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:40 PM.171:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:43 PM.734:  RAD  --> DSP : Device status request
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:43 PM.750:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:50 PM.140:  GT   --> DSP : Device status request
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:50 PM.156:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:51 PM.343:  RAD  --> DSP : Device status request
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:51 PM.343:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:58 PM.984:  RAD  --> DSP : Device status request
+NavCoder_Log_20111015_165922.log:10/15/2011 5:00:59 PM.000:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111015_165922.log:10/15/2011 5:01:00 PM.140:  GT   --> DSP : Device status request
+NavCoder_Log_20111015_165922.log:10/15/2011 5:01:00 PM.140:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:27:37 PM.546:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:27:37 PM.562:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:27:47 PM.500:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:27:47 PM.515:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:27:57 PM.500:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:27:57 PM.515:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:28:07 PM.468:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:28:07 PM.468:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:28:17 PM.437:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:28:17 PM.453:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:28:27 PM.437:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:28:27 PM.437:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:28:37 PM.390:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:28:37 PM.406:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:28:47 PM.375:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:28:47 PM.390:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:28:57 PM.359:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:28:57 PM.375:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:29:07 PM.343:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:29:07 PM.359:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:29:17 PM.312:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:29:17 PM.343:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:29:27 PM.296:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:29:27 PM.312:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:29:37 PM.265:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:29:37 PM.281:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:29:47 PM.250:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:29:47 PM.265:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:29:57 PM.234:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:29:57 PM.250:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:30:07 PM.468:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:30:07 PM.484:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:30:17 PM.437:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:30:17 PM.453:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:30:27 PM.406:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:30:27 PM.421:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:30:37 PM.578:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:30:37 PM.671:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:30:37 PM.750:  GT   --> DSP : DSP equaliser button, Data="28"
+NavCoder_Log_20111025_232731.log:10/25/2011 11:30:37 PM.828:  DSP  --> GT  : Car memory response, Data="04 04 23 05 23 41 72 91 A9 C9"
+NavCoder_Log_20111025_232731.log:10/25/2011 11:30:48 PM.328:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:30:48 PM.359:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:30:58 PM.296:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:30:58 PM.343:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:31:08 PM.281:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:31:08 PM.312:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:31:09 PM.968:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:31:10 PM.000:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:31:11 PM.515:  GT   --> DSP : DSP equaliser button, Data="28"
+NavCoder_Log_20111025_232731.log:10/25/2011 11:31:11 PM.562:  DSP  --> GT  : Car memory response, Data="04 04 23 05 23 41 72 91 A9 C9"
+NavCoder_Log_20111025_232731.log:10/25/2011 11:31:20 PM.562:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:31:20 PM.593:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:31:30 PM.531:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:31:30 PM.578:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:31:40 PM.515:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:31:40 PM.546:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:31:50 PM.500:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:31:50 PM.515:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:32:00 PM.468:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:32:00 PM.500:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:32:11 PM.609:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:32:11 PM.656:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:32:20 PM.750:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:32:20 PM.781:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:32:30 PM.765:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:32:30 PM.796:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:32:40 PM.703:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:32:40 PM.750:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:32:50 PM.687:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:32:50 PM.703:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:33:00 PM.656:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:33:00 PM.671:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:33:10 PM.640:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:33:10 PM.656:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:33:20 PM.625:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:33:20 PM.640:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:33:30 PM.593:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:33:30 PM.609:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:33:40 PM.578:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:33:40 PM.593:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:33:50 PM.546:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:33:50 PM.562:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:34:00 PM.531:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:34:00 PM.546:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:34:10 PM.515:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:34:10 PM.531:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:34:20 PM.500:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:34:20 PM.515:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:34:30 PM.468:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:34:30 PM.484:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:34:40 PM.437:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:34:40 PM.484:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:34:50 PM.421:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:34:50 PM.468:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:35:00 PM.406:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:35:00 PM.421:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:35:10 PM.390:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:35:10 PM.421:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:35:20 PM.359:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:35:20 PM.390:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:35:30 PM.375:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:35:30 PM.406:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:35:40 PM.312:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:35:40 PM.343:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:35:50 PM.296:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:35:50 PM.312:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:36:00 PM.265:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:36:00 PM.281:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:36:10 PM.250:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:36:10 PM.265:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:36:20 PM.234:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:36:20 PM.234:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:36:30 PM.203:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:36:30 PM.218:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:36:40 PM.187:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:36:40 PM.203:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:36:50 PM.171:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:36:50 PM.187:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:37:00 PM.156:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:37:00 PM.171:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:37:10 PM.125:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:37:10 PM.125:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:37:20 PM.093:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:37:20 PM.109:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:37:30 PM.078:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:37:30 PM.093:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:37:40 PM.062:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:37:40 PM.062:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:37:50 PM.031:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:37:50 PM.046:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:38:00 PM.015:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:38:00 PM.031:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:38:10 PM.000:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:38:10 PM.000:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:38:19 PM.968:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:38:20 PM.000:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:38:29 PM.968:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:38:29 PM.968:  DSP  --> LOC : Device status ready
+NavCoder_Log_20111025_232731.log:10/25/2011 11:38:39 PM.921:  GT   --> DSP : Device status request
+NavCoder_Log_20111025_232731.log:10/25/2011 11:38:39 PM.937:  DSP  --> LOC : Device status ready

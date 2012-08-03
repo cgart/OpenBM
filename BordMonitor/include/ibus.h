@@ -88,6 +88,7 @@ extern "C" {
 #define IBUS_MSG_UPDATE_MID_TOP_FREQ 0x24   // update frequency field of the radio
 #define IBUS_MSG_LED_AUX_HEATING    0x2A    // set aux heating-LED state
 #define IBUS_MSG_LED                0x2B    // set status-LED state
+#define IBUS_MSG_TEL_STATE          0x2C    // set current state of the phone
 #define IBUS_MSG_LED_SPECIAL        0x2D    // set status-LED state (special function, defining blink ratio)
 #define IBUS_MSG_BUTTON             0x31    // MID's button state change
 #define IBUS_MSG_RADIO_ENCODER      0x32    // MID's radio encoder was rotated
@@ -100,9 +101,11 @@ extern "C" {
 #define IBUS_MSG_BMBT_ENCODER       0x49    // BMBT encoder was rotated
 #define IBUS_MSG_BMBT_TAPE_STATE    0x4A    // BMBT tape state set or get
 #define IBUS_MSG_BMBT_TAPE_RESP     0x4B    // BMBT tape state response
+#define IBUS_MSG_BMBT_BUTTON_CARPC  0x4C    // in carpc mode we send buttons with this type
 #define IBUS_MSG_BMBT_DISP_SET      0x4F    // BMBT set display input and mode
 #define IBUS_MSG_LAMP_STATE         0x5B    // Lamp state
 #define IBUS_MSG_DIMMER_STATE       0x5C    // Dimmer state
+#define IBUS_MSG_DIMMER_STATE_REQ   0x5D    // Light dimmer state
 #define IBUS_MSG_GM_KEY_BUTTON      0x72    // state of the buttons on the key
 #define IBUS_MSG_EWS_STATE          0x74    // state of the EWS
 #define IBUS_MSG_GM_ENABLE_STATE    0x76    // state of GM indicating if car is closed or not ??? could be DWA?!
@@ -125,6 +128,7 @@ extern "C" {
 #define IBUS_MSG_OPENBM_SET_PHOTO   0x13    // setup settings for the photo sensor
 #define IBUS_MSG_OPENBM_SET_DEVICE  0x14    // setup settings for the device (mid, dsp, ...)
 #define IBUS_MSG_OPENBM_SET_IOPINS  0x15    // set values for IO-Pins
+#define IBUS_MSG_OPENBM_SET_POWER   0x16    // setup settings for the power manager
 #define IBUS_MSG_OPENBM_SPECIAL_REQ 0xFF    // second data byte: special request message (i.e. update firmware)
 #define IBUS_MSG_OPENBM_SETTINGS    0xFE    // second data byte: write/read settings of OpenBM to/from EEPROM
 

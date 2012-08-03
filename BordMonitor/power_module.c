@@ -14,12 +14,20 @@
 
 RunningMode _runningMode = INIT;
 
-uint8_t _lastKeyPressed = 0;
-ticks_t _nextIbusTick;
-uint8_t _hwIgnitionState = 0;
+typedef struct _PowerSettings
+{
+    uint8_t  shutdownTimer;
+}PowerSettings;
 
 
-#define UPDATE_SLEEP_COUNTER() { _nextIbusTick = tick_get() + TICKS_PER_X_SECONDS(300L); }
+PowerSettings power_Settings;
+PowerSettings power_SettingsEEPROM EEMEM;
+uint8_t      power_SettingsInit EEMEM;
+
+static uint8_t _lastKeyPressed = 0;
+static ticks_t _nextIbusTick;
+static uint8_t _hwIgnitionState = 0;
+static ticks_t _shutdownTimer = 0;
 
 //------------------------------------------------------------------------------
 void power_setHWIgnitionState(uint8_t state)
@@ -67,16 +75,23 @@ void shutDown(void)
     DDRC |= (1 << DDC3);
     nop();
     PORTC &= ~(1 << 3);
-
+    nop();
     bit_clear(IBUS_TX_PORT, IBUS_TX_PIN);
     nop();
     IBUS_TX_DISOUT();    
+    nop();
 
     _delay_ms(100);
 
+    led_fan_immediate_set(1);
+    //led_green_immediate_set(1);
+    //led_yellow_immediate_set(1);
+    //led_red_immediate_set(1);
+    //led_radio_immediate_set(1);
+    
     // debug
-    //set_sleep_mode(SLEEP_MODE_IDLE);
-    set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+    set_sleep_mode(SLEEP_MODE_IDLE);
+    //set_sleep_mode(SLEEP_MODE_PWR_DOWN);
     sleep_mode();
     power_reset_cpu();
 }
@@ -106,8 +121,10 @@ void power_set_running_mode(RunningMode mode)
 void power_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
 {
     if ((_runningMode & PREPARE_SHUTDOWN) != PREPARE_SHUTDOWN)
-        UPDATE_SLEEP_COUNTER();
-
+    {
+        _nextIbusTick = tick_get() + _shutdownTimer;
+    }
+    
     // stop be active on ibus when ignition completly off
     //if (src == IBUS_DEV_IKE && dst == IBUS_DEV_GLO && msglen == 2 && msg[0] == IBUS_MSG_IGNITION && msg[1] == 0)
     //    g_runningMode = STOP_IBUS;
@@ -190,6 +207,28 @@ void power_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         }
     }
 
+    
+    // Setup settings if asked so over IBus
+    if (dst == IBUS_DEV_BMBT  && msglen >= 3 && msg[0] == IBUS_MSG_OPENBM_TO && msg[1] == IBUS_MSG_OPENBM_SET_POWER)
+    {
+        // every such message will be responded, default response is 0
+        uint8_t data[3] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_SET_POWER, msg[2]};
+        uint8_t ok = 0;
+        
+        if (msglen == 4 && msg[2] == 0x01)
+        {
+            eeprom_update_byte(&power_SettingsEEPROM.shutdownTimer, msg[3]);
+            power_Settings.shutdownTimer = msg[3];
+            _shutdownTimer = (((uint32_t)TICKS_PER_X_SECONDS(power_Settings.shutdownTimer)) << 3);
+            ok = 1;
+        }else
+        {
+            data[2] = 0;
+        }
+        if (ok)
+          ibus_sendMessage(IBUS_DEV_BMBT, src, data, 3, IBUS_TRANSMIT_TRIES);
+    }
+    
 }
 
 
@@ -220,11 +259,22 @@ void power_init(void)
 {
     DDRB |= (1 << 0);
     
-    _nextIbusTick = 0;
+    _nextIbusTick =  tick_get() + TICKS_PER_X_SECONDS(30);
     _lastKeyPressed = 0;
-    UPDATE_SLEEP_COUNTER();
+    //UPDATE_SLEEP_COUNTER();
     
     PORTB |= (1 << 0);    
+    
+    
+    if (eeprom_read_byte(&power_SettingsInit) != EE_CHECK_BYTE)
+    {
+        eeprom_write_byte(&power_SettingsInit, EE_CHECK_BYTE);
+
+        eeprom_update_byte(&power_SettingsEEPROM.shutdownTimer, 35);
+    }
+    power_Settings.shutdownTimer = eeprom_read_byte(&power_SettingsEEPROM.shutdownTimer);
+    
+    _shutdownTimer = (((uint32_t)TICKS_PER_X_SECONDS(power_Settings.shutdownTimer)) << 3);
 }
 
 //------------------------------------------------------------------------------
@@ -234,6 +284,7 @@ void power_init(void)
 //------------------------------------------------------------------------------
 ISR(INT1_vect)
 {    
-    UPDATE_SLEEP_COUNTER();
+    //UPDATE_SLEEP_COUNTER();
+    _nextIbusTick = tick_get() + _shutdownTimer;
     button_isr();
 }

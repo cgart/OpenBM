@@ -105,8 +105,8 @@ void adc_init(void)
     ADCSRA |= (1 << ADEN);  // Enable ADC
     ADCSRA |= (1 << ADATE); // Enable ADC to start on trigger (Timer0 compare, tick())
     
-    DIDR0 = 0xFF; // disable digital inputs on the complete ADC port/ A.port
-
+    DIDR0 = 0xFE; // disable digital inputs on the complete ADC port/ A.port except of ADC0
+    
     // start reading from ADC
     ADCSRA |= (1 << ADSC);
 }
@@ -182,8 +182,8 @@ void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen
     {
         if (msg[1] == IBUS_MSG_OPENBM_GET_VERSION)
         {
-            uint8_t data[4] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_VERSION, g_bootldrinfo.app_version>>8, g_bootldrinfo.app_version&0xFF};
-            ibus_sendMessage(IBUS_DEV_BMBT, src, data, 4, IBUS_TRANSMIT_TRIES);
+            uint8_t data[5] = {IBUS_MSG_OPENBM_FROM, IBUS_MSG_OPENBM_GET_VERSION, g_bootldrinfo.app_version>>8, g_bootldrinfo.app_version&0xFF, HW_ID};
+            ibus_sendMessage(IBUS_DEV_BMBT, src, data, 5, IBUS_TRANSMIT_TRIES);
             
         } else if (msg[1] == IBUS_MSG_OPENBM_GET_TICKS)
         {
@@ -555,15 +555,20 @@ void checkSetupMode(void)
         // --------- Toggle Use of photo sensor -------------
         if (button_pressed(BUTTON_PRG))
         {
-            if (photo_is_enabled())
+            if (photo_use_state() == 2)
+            {
+                led_radioBlinkLock(2);
+                photo_enable(1);
+                display_setBackgroundLight(photo_get_max_value());
+            }else if (photo_use_state() == 1)
             {
                 led_radioBlinkLock(1);
-                photo_enable(false);
+                photo_enable(0);
                 display_setBackgroundLight(photo_get_max_value());
             }else
             {
-                led_radioBlinkLock(2);
-                photo_enable(true);
+                led_radioBlinkLock(3);
+                photo_enable(2);
             }
         }
         
@@ -571,12 +576,12 @@ void checkSetupMode(void)
         if (button_pressed(BUTTON_REW))
         {
             _settings = PHOTO_MIN;
-            photo_enable(false);
+            photo_enable(0);
             savePhoto = photo_get_min_value();
         }else if (button_pressed(BUTTON_FF))
         {
             _settings = PHOTO_MAX;
-            photo_enable(false);
+            photo_enable(0);
             savePhoto = photo_get_max_value();
         }else if (button_pressed(BUTTON_SELECT))
         {
@@ -601,7 +606,7 @@ void checkSetupMode(void)
                 //photo_setup_calibration();
 
             }else{
-                photo_enable(true);
+                photo_enable(2);
                 if (_settings == PHOTO_MIN)
                     photo_set_min_value(savePhoto);
                 else
@@ -704,7 +709,8 @@ int main(void)
                 }else
                     obms_lights_tick();
             }
-            led_green_immediate_set(BACKCAM_INPUT() && display_getInputState() == BACKCAM_INPUT() && !g_setupMode);
+            if (!g_setupMode)
+                led_yellow_immediate_set(BACKCAM_INPUT() && display_getInputState() == BACKCAM_INPUT());
 
             // Enable Setup-Mode, i.e. settable settings per buttons
             checkSetupMode();

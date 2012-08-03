@@ -21,14 +21,15 @@ extern "C"
 
 // Version
 #define VERSION_MAJOR 2
-#define VERSION_MINOR 2
-#define VERSION_ADD_STR "[2.2] compiled on " __DATE__ " at " __TIME__ " for " CUSTOMER
+#define VERSION_MINOR 5
+#define EE_CHECK_BYTE 'w'
+#define VERSION_ADD_STR "on " __DATE__ " at " __TIME__ " for " CUSTOMER
 
 #define DEVICE_CODING1 DEVID_11
 #define DEVICE_CODING2 DEVID_12
 #define DEVICE_CODING3 DEVID_13
-
-#define EE_CHECK_BYTE 'R'
+#define HW_ID DEVID_1
+    
 
 #define USE_BM_LEDS_BIT       (0b00000100)
 #define CARPC_INPUT_SET(a)    {g_deviceSettings.device_Settings1 &= 0b11100111; g_deviceSettings.device_Settings1 &= (a & 0x03);}

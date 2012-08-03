@@ -24,8 +24,8 @@ inline void photo_set_adc_raw_value(uint8_t adcval) {photoSensorRawValue = adcva
 extern uint8_t photo_get_adc_raw_value(void);
 extern void photo_setup_calibration(void);//uint8_t minCalib, uint8_t maxCalib, uint8_t minRange, uint8_t maxRange);
 extern uint8_t photo_get_value(void);
-extern void photo_enable(bool flag);
-extern bool photo_is_enabled(void);
+extern void photo_enable(uint8_t flag);
+extern uint8_t photo_use_state(void);
 
 extern uint8_t photo_get_max_value(void);
 extern uint8_t photo_get_min_value(void);

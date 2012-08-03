@@ -36,6 +36,8 @@ uint8_t photoSensorLast;
 uint8_t photoSensorRawValue;
 //_aAccum photoSensorRangeFactor;
 
+static uint8_t areLightsOn = 0;
+
 #define CACHE_RANGE 64
 #define CACHE_FACTOR 6
 
@@ -104,13 +106,13 @@ void photo_setup_calibration()
 }
 
 //------------------------------------------------------------------------------
-bool photo_is_enabled(void)
+uint8_t photo_use_state(void)
 {
     return photo_Settings.photo_useSensor;
 }
 
 //------------------------------------------------------------------------------
-void photo_enable(bool flag)
+void photo_enable(uint8_t flag)
 {
     photo_Settings.photo_useSensor = flag;
     eeprom_update_byte(&photo_SettingsEEPROM.photo_useSensor, flag);
@@ -226,7 +228,7 @@ void photo_init(void)
         eeprom_update_byte(&photo_SettingsEEPROM.photo_maxValue, 0xFF);
         eeprom_update_byte(&photo_SettingsEEPROM.photo_minCalibValue, 0x06);
         eeprom_update_byte(&photo_SettingsEEPROM.photo_maxCalibValue, 0x13);
-        eeprom_update_byte(&photo_SettingsEEPROM.photo_useSensor, USE_PHOTOSENSOR());
+        eeprom_update_byte(&photo_SettingsEEPROM.photo_useSensor, USE_PHOTOSENSOR() ? 2  : 0);
         eeprom_update_byte(&photo_SettingsEEPROM.photo_calibChanged, 1);
         eeprom_update_byte(&photo_SettingsEEPROM.photo_sensorLast, 0xFF);
 
@@ -251,20 +253,26 @@ void photo_init(void)
     photoSensorSum = (uint16_t)photo_Settings.photo_maxValue << (uint16_t)PHOTO_NUM_SAMPLES_EXP;
     photoSensorLast = photo_Settings.photo_sensorLast;
     memset(&photoSensorValues[0], photo_Settings.photo_maxValue, PHOTO_NUM_SAMPLES);
+    areLightsOn = 0;
+    
+    // setup readout of the bg-led state
+    DDRA &= ~(1 << 0);
+    nop();
+    PORTA &= ~(1 << 0);    
 }
+
 
 //------------------------------------------------------------------------------
 void photo_tick(void)
 {    
     // update photo sensor if its low-pass filtered value has changed
-    if (photo_Settings.photo_useSensor)
+    if (photo_Settings.photo_useSensor == 2)
+    {        
+        photoSensorLast = updatePhotoSensor(photoSensorRawValue);
+    }else if (photo_Settings.photo_useSensor == 1)
     {
-        uint8_t photoVal = updatePhotoSensor(photoSensorRawValue);
-
-        if (photoVal != photoSensorLast)
-        {
-            photoSensorLast = photoVal;
-        }
+        if (areLightsOn) photoSensorLast = photo_Settings.photo_minValue;
+        else photoSensorLast = photo_Settings.photo_maxValue;
     }
 
 #if 1
@@ -287,7 +295,7 @@ void photo_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
             ibus_sendMessage(IBUS_DEV_BMBT, src, data, 8, IBUS_TRANSMIT_TRIES);
         }else if (msglen == 4 && msg[1] == IBUS_MSG_OPENBM_SET_DISPLAY_LIGHT)
         {
-            photo_enable(msg[2] == 0xFF);
+            photo_enable(msg[2] == 0xFF ? 2 : (msg[2] == 0x0F ? 1 : 0));
             photoSensorLast = msg[3];
             eeprom_update_byte(&photo_SettingsEEPROM.photo_sensorLast, msg[3]);
         }else if (msglen == 7 && msg[1] == IBUS_MSG_OPENBM_SET_PHOTO)
@@ -324,4 +332,12 @@ void photo_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         }
     }
 
+    // what about the bg leds
+    if (OPENBM_HW_1)
+    {
+        if (src == IBUS_DEV_LCM && dst == IBUS_DEV_GLO && msglen > 4 && msg[0] == IBUS_MSG_LAMP_STATE && OPENBM_HW_1)
+            areLightsOn = (msg[1] & 0x01);
+    }else
+        areLightsOn = bit_is_set(PINA,0);
+    
 }

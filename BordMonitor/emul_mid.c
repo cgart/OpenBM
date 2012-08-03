@@ -14,6 +14,7 @@ static uint8_t _active_mode = 0; // 0x01 init, 0x40 radio, 0xC0=cd, 0x80=tape, 0
 static int8_t  _ignitionState = -1;
 static ticks_t _reqIgnitionState = 0;
 static int8_t _powerOnOff = 0;
+static int8_t _phoneState = 0;
 
 typedef enum _DevicePollState
 {
@@ -152,6 +153,10 @@ static inline uint8_t does_emulate_mid(void)
 static inline uint8_t does_emulate_bmbt(void)
 {
     return (_emulation & EMUL_BMBT) == EMUL_BMBT;
+}
+static inline uint8_t phone_active(void)
+{
+    return (_phoneState & 0x20) == 0x20; 
 }
 
 //------------------------------------------------------------------------------
@@ -311,6 +316,11 @@ void mid_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
             if (msg[2] & 0x08) led_fan_set(0b11110000); else led_fan_set(0);
         }
 
+        // phone messages
+        else if (src == IBUS_DEV_TEL && msg[0] == IBUS_MSG_TEL_STATE && msglen >= 2)
+        {
+            _phoneState = msg[1];
+        }
         return;
     }
 
@@ -683,6 +693,15 @@ void mid_tick(void)
                 }
             }
             
+            // send special messages, when we are emulating BMBT, however, we are in CarPC mode
+            // this should make sure, that the buttons are only understood by the carpc software
+            if (does_emulate_bmbt() && display_getInputState() == 0)
+            {
+                // just change the message slightly, so that it isn understood by the OEM hardware
+                bdst = IBUS_DEV_CARPC;
+                data[0] = IBUS_MSG_BMBT_BUTTON_CARPC;
+            }
+            
             // send message if one of the buttons is set
             if (sendmsg)
                 ibus_sendMessage(src, bdst, data, datalen, IBUS_TRANSMIT_TRIES);
@@ -701,7 +720,12 @@ void mid_tick(void)
         else
             data[1] = 0x80 + bmbt;
 
-        ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_GT, data, 2, 1);
+
+        uint8_t dst = IBUS_DEV_GT;
+        if (does_emulate_bmbt() && display_getInputState() == 0)
+            dst = IBUS_DEV_CARPC;
+        
+        ibus_sendMessage(IBUS_DEV_BMBT, dst, data, 2, 1);
     }
 
     // radio knob
@@ -715,13 +739,18 @@ void mid_tick(void)
         else
             data[1] = (encradio << 4) + 0x01;
             
+        // if phone mode is active, then as dst we use the phone
+        uint8_t dst = IBUS_DEV_RAD;
+        if (phone_active())
+            dst = IBUS_DEV_TEL;
+        
         // radio knob rotation, however only if BMBT emulation is active
         if (does_emulate_bmbt())
-            ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_RAD, data, 2, 1);
+            ibus_sendMessage(IBUS_DEV_BMBT, dst, data, 2, 1);
         
         // radio encoder when emulating MID
         else if (does_emulate_mid())
-            ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_RAD, data, 2, 1);
+            ibus_sendMessage(IBUS_DEV_MID, dst, data, 2, 1);
     }
 
 
@@ -791,4 +820,11 @@ void mid_init(void)
     
     for (int8_t i=0; i < DEV_NUM; i++)
         _pollStateRecieved[i] = 0;
+    
+    // send couple of message to indicate that 16:9 is there
+    if (does_emulate_bmbt())
+    {
+        _ackToSrc = IBUS_DEV_GLO;
+        _ackAs = IBUS_DEV_BMBT;
+    }
 }

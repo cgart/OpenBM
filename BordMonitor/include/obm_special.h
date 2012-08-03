@@ -28,6 +28,7 @@ extern void obms_lights_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8
 extern uint8_t obms_does_emulate_bordmonitor(void);
 extern uint8_t obms_does_emulate_mid(void);
 extern uint8_t obms_does_send_different_buttoncodes(void);
+extern int8_t obms_ignition_state(void);
 
 #ifdef	__cplusplus
 }

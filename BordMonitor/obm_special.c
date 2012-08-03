@@ -208,6 +208,12 @@ uint8_t obms_does_send_different_buttoncodes(void)
 }
 
 //------------------------------------------------------------------------------
+int8_t obms_ignition_state(void)
+{
+    return _ignitionState;
+}
+
+//------------------------------------------------------------------------------
 void obms_set_mirror_fold(uint8_t fold, uint8_t which)
 {
     //Fahrerspiegel ein
@@ -319,7 +325,7 @@ void obms_lights_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msgl
             _centralLocked = 0;
     }
 
-    if (photo_is_enabled())
+    if (photo_use_state() != 0)
         brightEnough = photo_is_bright_enough();
 
     if (src == IBUS_DEV_GM && dst == IBUS_DEV_GLO && msglen >= 2)
@@ -467,7 +473,7 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
                 {
                     if (_cam_state == CAM_IDLE && display_getInputState() != BACKCAM_INPUT())
                         _cam_state = CAM_PREPARE_TO_SWITCH | CAM_ON;
-                }else
+                }else if (display_getInputState() == BACKCAM_INPUT() || (_cam_state & CAM_ON) != 0 )
                     _cam_state = CAM_PREPARE_TO_SWITCH;
             }
         }
@@ -528,7 +534,7 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
                 {
                     // activate tipp blinken for at most X flashes
                     if (_tippBlinkenCounter > 0 && _tippBlinkenCounter < obms_Settings.comfortTurnLight)
-                        _tippBlinken |= (obms_Settings.comfortTurnLight - _tippBlinkenCounter);
+                        _tippBlinken |= ((obms_Settings.comfortTurnLight - _tippBlinkenCounter) & 0x0F);
                     _tippBlinkenCounter = 0;
                 }
             }
@@ -870,7 +876,7 @@ void obms_tick(void)
                 else
                 {
                     _tippBlinken &= 0xF0;
-                    _tippBlinken |= (tippCounter - 1);
+                    _tippBlinken |= ((tippCounter - 1) & 0x0F);
                 }
                 _lightState |= LIGHT_STATE_CHANGED;
                 flash = !flash;
@@ -890,7 +896,7 @@ void obms_tick(void)
 
         // if the central is locked and hand brake was activated, then open the door
         // open also the door if locked and P-gear was set
-          || (_centralLocked == 1 && _ignitionState > 0 && _carHalfSpeed < obms_Settings.automaticCentralLock && (_parkingBrake || _selectedGear == PARK))
+          || (_centralLocked == 1 && _ignitionState > 0 && _carHalfSpeed < (obms_Settings.automaticCentralLock << 1) && (_parkingBrake || _selectedGear == PARK))
 
         // if unlocked and car speed is above certain limit then lock the car
           || (_centralLocked == 0 && _ignitionState > 0 && _carHalfSpeed > obms_Settings.automaticCentralLock))
@@ -905,10 +911,10 @@ void obms_tick(void)
         _ignitionState--;
 
         uint8_t data[2] = {IBUS_MSG_IKE_STATE_REQ, 0x00};
-        ibus_sendMessage(IBUS_DEV_DIA, IBUS_DEV_IKE, data, 2, IBUS_TRANSMIT_TRIES);
+        ibus_sendMessage(IBUS_DEV_BMBT/*DIA*/, IBUS_DEV_IKE, data, 1 /*2*/, IBUS_TRANSMIT_TRIES);
 
         data[0] = IBUS_MSG_IGNITION_REQ;
-        ibus_sendMessage(IBUS_DEV_DIA, IBUS_DEV_IKE, data, 2, IBUS_TRANSMIT_TRIES);
+        ibus_sendMessage(IBUS_DEV_BMBT /*DIA*/, IBUS_DEV_IKE, data, 1 /*2*/, IBUS_TRANSMIT_TRIES);
 
         _reqIgnitionState = tick_get() + TICKS_PER_X_SECONDS(2);
     }
@@ -919,7 +925,7 @@ void obms_tick(void)
         _centralLocked--;
 
         uint8_t data[2] = {IBUS_MSG_GM_STATE_REQ, 0x00};
-        ibus_sendMessage(IBUS_DEV_DIA, IBUS_DEV_GM, data, 2, IBUS_TRANSMIT_TRIES);
+        ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_GM, data, 1 /*2*/, IBUS_TRANSMIT_TRIES);
 
         _reqGMState = tick_get() + TICKS_PER_X_SECONDS(2);
     }
@@ -1054,7 +1060,7 @@ void obms_init(void)
                          (BACKLIGHT_LEFT | BACKLIGHT_RIGHT |
                           FOGLIGHT_FRONT_LEFT | FOGLIGHT_FRONT_RIGHT |
                           PARKINGLIGHT_LEFT | PARKINGLIGHT_RIGHT |
-                          REARGEAR_LEFT | REARGEAR_RIGHT |
+                          //REARGEAR_LEFT | REARGEAR_RIGHT |
                           //BRAKE_LEFT | BRAKE_RIGHT |
                           DIMMER_BACKGROUND |
                           LICENSE_PLATE));
