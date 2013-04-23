@@ -498,7 +498,7 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
             // delete both values, which will force to get the value on next tick
             _dimmerState = 0;
             _lwrState = 0;
-        }else if (msglen == 5 && msg[0] == IBUS_MSG_LAMP_STATE)
+        }else if (msglen >= 4 && msg[0] == IBUS_MSG_LAMP_STATE)
         {
             // TippBlinken only active if not already running
             //if ((_tippBlinken & 0x0F) == 0 &&

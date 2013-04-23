@@ -22,7 +22,7 @@ extern "C"
 // Version
 #define VERSION_MAJOR 2
 #define VERSION_MINOR 5
-#define EE_CHECK_BYTE 'w'
+#define EE_CHECK_BYTE 'q'
 #define VERSION_ADD_STR "on " __DATE__ " at " __TIME__ " for " CUSTOMER
 
 #define DEVICE_CODING1 DEVID_11
