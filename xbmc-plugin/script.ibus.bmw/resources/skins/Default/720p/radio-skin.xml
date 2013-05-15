@@ -1,0 +1,292 @@
+<window>
+  <id>428701</id>
+  <defaultcontrol>100</defaultcontrol>
+  <coordinates>
+    <system>1</system>
+    <posx>0</posx>
+    <posy>0</posy>
+  </coordinates>
+  <type>window</type>
+  <allowoverlay>no</allowoverlay>
+
+  <animation effect="fade" time="500">WindowOpen</animation>
+  <animation effect="fade" time="500">WindowClose</animation>
+
+  <controls>
+		<!-- Video Window -->
+		<control type="image" id="21">
+			<description>bg image</description>
+			<width>1280</width>
+			<height>720</height>
+			<texture>background.jpg</texture>            
+			<visible>!Player.HasVideo</visible>
+			<fadetime>3000</fadetime>
+		</control>
+		<control type="videowindow" id="20">
+			<description>My first video control</description>
+			<width>1280</width>
+			<height>720</height>
+			<visible>Player.HasVideo</visible>
+		</control>
+		<control type="image">
+			<width>320</width>
+			<height>720</height>
+			<texture border="0,40,0,0">MediaBladeSub.png</texture>
+		</control>
+		
+    <control type="group" id="100">
+		<posx>0</posx>
+		<posy>0</posy>
+		
+		<!-- BG image -->
+		<!--<control type="image" >
+			<description>bg image</description>
+			<posx>0</posx>
+			<posy>0</posy>
+			<width>1280</width>
+			<height>720</height>
+			<texture>background.jpg</texture>            
+		</control>-->
+		
+		<control type="group">
+			<posx>0</posx>
+			<posy>120</posy>
+		  
+			<!-- Error image -->
+			<!--<control type="image" >
+				<description>bg underlay image</description>
+				<width>1280</width>
+				<height>250</height>
+				<texture>midbg.png</texture>            
+			</control>-->
+			  
+		  
+		</control>
+
+		<!-- Title field -->
+		<control type="group">
+			<posx>0</posx>
+			<posy>0</posy>
+			
+			<control type="image" >
+				<description>bg underlay image</description>
+				<width>1280</width>
+				<height>130</height>
+				<texture border="0,0,0,40">MediaInfoBackUpper.png</texture>            
+			</control>
+			
+			<!-- Main information label -->
+			<control type="label" id="90">
+				<description>textarea</description>
+				<posx>200</posx>
+				<posy>20</posy>
+				<width>880</width>
+				<font>MainLED_Large</font>
+				<align>center</align>
+				<textcolor>ffff5939</textcolor>
+				<label>Radio RDS</label>
+			</control>
+			
+			<!--<control type="image" id="91">
+				<description>CD-Icon</description>
+				<posx>80r</posx>
+				<posy>30</posy>
+				<width>64</width>
+				<height>40</height>
+				<texture>cd_logo.png</texture>
+			</control>-->
+
+		</control>
+		
+		<!-- Buttons -->
+		<control type="group">
+			<posx>-295</posx>
+			<posy>112</posy>
+			
+			<control type="button" id="9000">
+				<posy>0</posy>
+				<width>300</width>
+				<height>65</height>
+				<texturefocus>button-over.png</texturefocus>
+				<texturenofocus>button-nofocus.png</texturenofocus>
+				<font>font16caps</font>
+				<textcolor>FFEEEEFF</textcolor>
+				<align>center</align>
+				<textoffsety>5</textoffsety>
+				<pulseonselect>true</pulseonselect>
+				<ondown>9001</ondown>
+			</control>
+			
+			<control type="button" id="9001">
+				<posy>70</posy>
+				<width>300</width>
+				<height>65</height>
+				<texturefocus>button-over.png</texturefocus>
+				<texturenofocus>button-nofocus.png</texturenofocus>
+				<font>font16caps</font>
+				<textcolor>FFEEEEFF</textcolor>
+				<align>center</align>
+				<textoffsety>5</textoffsety>
+				<pulseonselect>true</pulseonselect>
+				<onup>9000</onup>
+				<ondown>9002</ondown>
+			</control>
+			
+			<control type="button" id="9002">
+				<posy>140</posy>
+				<width>300</width>
+				<height>65</height>
+				<texturefocus>button-over.png</texturefocus>
+				<texturenofocus>button-nofocus.png</texturenofocus>
+				<font>font16caps</font>
+				<textcolor>FFEEEEFF</textcolor>
+				<align>center</align>
+				<textoffsety>5</textoffsety>
+				<pulseonselect>true</pulseonselect>
+				<onup>9001</onup>
+				<ondown>9003</ondown>
+			</control>
+			
+			<control type="button" id="9003">
+				<posy>210</posy>
+				<width>300</width>
+				<height>65</height>
+				<texturefocus>button-over.png</texturefocus>
+				<texturenofocus>button-nofocus.png</texturenofocus>
+				<font>font16caps</font>
+				<textcolor>FFEEEEFF</textcolor>
+				<align>center</align>
+				<textoffsety>5</textoffsety>
+				<pulseonselect>true</pulseonselect>
+				<onup>9002</onup>
+				<ondown>9004</ondown>
+			</control>
+			
+			<control type="button" id="9004">
+				<posy>280</posy>
+				<width>300</width>
+				<height>65</height>
+				<texturefocus>button-over.png</texturefocus>
+				<texturenofocus>button-nofocus.png</texturenofocus>
+				<font>font16caps</font>
+				<textcolor>FFEEEEFF</textcolor>
+				<align>center</align>
+				<textoffsety>5</textoffsety>
+				<pulseonselect>true</pulseonselect>
+				<onup>9003</onup>
+				<ondown>9005</ondown>
+			</control>
+			
+			<control type="button" id="9005">
+				<posy>350</posy>
+				<width>300</width>
+				<height>65</height>
+				<texturefocus>button-over.png</texturefocus>
+				<texturenofocus>button-nofocus.png</texturenofocus>
+				<font>font16caps</font>
+				<textcolor>FFEEEEFF</textcolor>
+				<align>center</align>
+				<textoffsety>5</textoffsety>
+				<pulseonselect>true</pulseonselect>
+				<onup>9004</onup>
+				<ondown>9006</ondown>
+			</control>
+			
+			<control type="button" id="9006">
+				<posy>420</posy>
+				<width>300</width>
+				<height>65</height>
+				<texturefocus>button-over.png</texturefocus>
+				<texturenofocus>button-nofocus.png</texturenofocus>
+				<font>font16caps</font>
+				<textcolor>FFEEEEFF</textcolor>
+				<align>center</align>
+				<textoffsety>5</textoffsety>
+				<pulseonselect>true</pulseonselect>
+				<onup>9005</onup>
+				<ondown>9007</ondown>
+			</control>
+			
+			<control type="button" id="9007">
+				<posy>490</posy>
+				<width>300</width>
+				<height>65</height>
+				<texturefocus>button-over.png</texturefocus>
+				<texturenofocus>button-nofocus.png</texturenofocus>
+				<font>font16caps</font>
+				<textcolor>FFEEEEFF</textcolor>
+				<align>center</align>
+				<textoffsety>5</textoffsety>
+				<pulseonselect>true</pulseonselect>
+				<onup>9006</onup>
+			</control>
+			
+		</control>
+		
+		<!-- Time -->
+		<control type="group">
+			<posx>0</posx>
+			<posy>50r</posy>
+			<control type="image">
+				<description>time background</description>
+				<posx>0</posx>
+				<posy>0</posy>
+				<width>1280</width>
+				<height>50</height>
+				<texture flipy="true" >title_bg.png</texture>
+			</control>
+			<control type="label">
+				<description>time label</description>
+				<posx>10</posx>
+				<posy>0</posy>
+				<width>440</width>
+				<height>40</height>
+				<align>left</align>
+				<aligny>center</aligny>
+				<font>font14</font>
+				<textcolor>white</textcolor>
+				<shadowcolor>black</shadowcolor>
+				<label>[COLOR=grey]$INFO[System.Date][/COLOR] | $INFO[System.Time]</label>
+			</control>
+		</control>
+		
+		<!-- RSS -->
+		<control type="group">
+			<posx>420</posx>
+			<posy>55r</posy>
+			<control type="image">
+				<description>RSS background</description>
+				<posx>0</posx>
+				<posy>0</posy>
+				<width>860</width>
+				<height>50</height>
+				<texture border="32,0,0,0">Rss_Back.png</texture>
+				<visible>system.getbool(lookandfeel.enablerssfeeds)</visible>
+			</control>
+			<control type="rss">
+				<description>RSS feed</description>
+				<posx>35</posx>
+				<posy>10</posy>
+				<height>50</height>
+				<width>825</width>
+				<font>font16</font>
+				<urlset>1</urlset>
+				<textcolor>blue</textcolor>
+				<titlecolor>blue</titlecolor>
+				<headlinecolor>white</headlinecolor>
+				<visible>system.getbool(lookandfeel.enablerssfeeds)</visible>
+			</control>
+			<control type="image">
+				<description>RSS background</description>
+				<posx>0</posx>
+				<posy>0</posy>
+				<width>100</width>
+				<height>50</height>
+				<texture border="32,0,0,0">Rss_Back_Overlay.png</texture>
+				<visible>system.getbool(lookandfeel.enablerssfeeds)</visible>
+			</control>
+		</control>
+
+    </control>    
+  </controls>
+</window>

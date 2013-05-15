@@ -1,0 +1,427 @@
+Index: skin.confluence/720p/MusicVisualisation.xml
+===================================================================
+--- skin.confluence/720p/MusicVisualisation.xml	(revision 35636)
++++ skin.confluence/720p/MusicVisualisation.xml	(working copy)
+@@ -69,29 +69,29 @@
+ 				<control type="grouplist">
+ 					<description>Media Codec Flagging Images</description>
+ 					<posx>340</posx>
+-					<posy>0</posy>
++					<posy>-80</posy>
+ 					<width>550</width>
+ 					<align>right</align>
+ 					<itemgap>0</itemgap>
+ 					<orientation>horizontal</orientation>
+ 					<control type="image">
+ 						<description>Rating image</description>
+-						<width>120</width>
+-						<height>40</height>
++						<width>200</width>
++						<height>70</height>
+ 						<aspectratio align="right">keep</aspectratio>
+ 						<texture>LeftRating/$INFO[Player.StarRating]</texture>
+ 					</control>
+ 					<control type="image">
+ 						<description>Codec Image</description>
+-						<width>80</width>
+-						<height>40</height>
++						<width>120</width>
++						<height>70</height>
+ 						<aspectratio>keep</aspectratio>
+ 						<texture>$INFO[MusicPlayer.Codec,flagging/audio/,.png]</texture>
+ 					</control>
+ 					<control type="image">
+ 						<description>Channels Image</description>
+-						<width>80</width>
+-						<height>40</height>
++						<width>120</width>
++						<height>70</height>
+ 						<aspectratio>keep</aspectratio>
+ 						<texture>$INFO[MusicPlayer.Channels,flagging/audio/,.png]</texture>
+ 					</control>
+@@ -99,38 +99,38 @@
+ 				<control type="label">
+ 					<description>Playing Label</description>
+ 					<posx>0</posx>
+-					<posy>0</posy>
++					<posy>-50</posy>
+ 					<width>500</width>
+ 					<height>25</height>
+ 					<align>left</align>
+ 					<aligny>center</aligny>
+-					<font>font13_title</font>
++					<font>font35_title</font>
+ 					<textcolor>blue</textcolor>
+ 					<shadowcolor>black</shadowcolor>
+ 					<label>31040</label>
+ 				</control>
+ 				<control type="label">
+-					<posx>10</posx>
+-					<posy>35</posy>
++					<posx>0</posx>
++					<posy>45</posy>
+ 					<width>880</width>
+ 					<height>30</height>
+ 					<label>$INFO[MusicPlayer.Artist]$INFO[MusicPlayer.Album, - ]</label>
+ 					<align>left</align>
+ 					<aligny>center</aligny>
+-					<font>font13</font>
++					<font>font30</font>
+ 					<textcolor>grey</textcolor>
+ 					<shadowcolor>black</shadowcolor>
+ 				</control>
+ 				<control type="label">
+-					<posx>10</posx>
+-					<posy>65</posy>
++					<posx>0</posx>
++					<posy>5</posy>
+ 					<width>880</width>
+ 					<height>30</height>
+ 					<label>$INFO[MusicPlayer.Title]</label>
+ 					<scroll>true</scroll>
+ 					<align>left</align>
+ 					<aligny>center</aligny>
+-					<font>font24_title</font>
++					<font>font35_title</font>
+ 					<textcolor>white</textcolor>
+ 					<shadowcolor>black</shadowcolor>
+ 				</control>
+@@ -142,13 +142,13 @@
+ 					<label>$INFO[musicplayer.Playlistposition,[COLOR=blue]$LOCALIZE[554]:[/COLOR] ]$INFO[musicplayer.Playlistlength, / ]</label>
+ 					<align>left</align>
+ 					<aligny>center</aligny>
+-					<font>font12_title</font>
++					<font>font24_title</font>
+ 					<textcolor>grey2</textcolor>
+ 					<shadowcolor>black</shadowcolor>
+ 				</control>
+ 				<control type="label">
+ 					<posx>890</posx>
+-					<posy>115</posy>
++					<posy>110</posy>
+ 					<width>500</width>
+ 					<height>25</height>
+ 					<label>$INFO[Player.Time]$INFO[Player.Duration, / ]</label>
+@@ -166,7 +166,7 @@
+ 					<label>[COLOR=blue]$LOCALIZE[209] :[/COLOR] $INFO[MusicPlayer.offset(1).Artist,, - ]$INFO[MusicPlayer.offset(1).Title]</label>
+ 					<align>right</align>
+ 					<aligny>center</aligny>
+-					<font>font12_title</font>
++					<font>font28_title</font>
+ 					<textcolor>grey2</textcolor>
+ 					<shadowcolor>black</shadowcolor>
+ 				</control>
+Index: skin.confluence/720p/Font.xml
+===================================================================
+--- skin.confluence/720p/Font.xml	(revision 35636)
++++ skin.confluence/720p/Font.xml	(working copy)
+@@ -1,30 +1,41 @@
+ <fonts>
+ 	<fontset id="Default" idloc="31390" unicode="true"> 
++		<font>
++			<name>MainLED_Large</name>
++			<filename>TexasLED.ttf</filename>
++			<size>100</size>
++		</font>
++		<font>
++			<name>MainLED_Small</name>
++			<filename>TexasLED.ttf</filename>
++			<size>30</size>
++		</font>
++
+ 	<!-- Normal Fonts -->
+ 	 	<font>
+ 			<name>font10</name>
+ 			<filename>DejaVuSans.ttf</filename>
+-			<size>12</size>
++			<size>16</size>
+ 		</font>
+ 	 	<font>
+ 			<name>font12</name>
+ 			<filename>DejaVuSans.ttf</filename>
+-			<size>16</size>
++			<size>20</size>
+ 		</font>
+ 	 	<font>
+ 			<name>font12caps</name>
+ 			<filename>DefaultCaps.ttf</filename>
+-			<size>16</size>
++			<size>20</size>
+ 		</font>
+ 	 	<font>
+ 			<name>font13</name>
+ 			<filename>DejaVuSans.ttf</filename>
+-			<size>20</size>
++			<size>24</size>
+ 		</font>
+ 	 	<font>
+ 			<name>font13caps</name>
+ 			<filename>DefaultCaps.ttf</filename>
+-			<size>20</size>
++			<size>24</size>
+ 		</font>
+ 	 	<font>
+ 			<name>font16caps</name>
+@@ -39,7 +50,7 @@
+ 	 	<font>
+ 			<name>fontContextMenu</name>
+ 			<filename>DejaVuSans.ttf</filename>
+-			<size>18</size>
++			<size>22</size>
+ 		</font>
+ 
+ 
+@@ -47,12 +58,12 @@
+ 	 	<font>
+ 			<name>font10_title</name>
+ 			<filename>DejaVuSans-Bold.ttf</filename>
+-			<size>12</size>
++			<size>16</size>
+ 		</font>
+ 	 	<font>
+ 			<name>font12_title</name>
+ 			<filename>DejaVuSans-Bold.ttf</filename>
+-			<size>16</size>
++			<size>20</size>
+ 		</font>
+ 	 	<font>
+ 			<name>font13_title</name>
+@@ -292,4 +303,4 @@
+ 			<size>80</size>
+ 		</font>
+ 	</fontset>
+-</fonts>
+\ No newline at end of file
++</fonts>
+Index: skin.confluence/720p/includes.xml
+===================================================================
+--- skin.confluence/720p/includes.xml	(revision 35636)
++++ skin.confluence/720p/includes.xml	(working copy)
+@@ -174,7 +174,7 @@
+ 		<posy>0</posy>
+ 		<width>1060</width>
+ 		<height>28</height>
+-		<font>font12caps</font>
++		<font>font16caps</font>
+ 		<textcolor>white</textcolor>
+ 		<scroll>false</scroll>
+ 		<align>right</align>
+@@ -882,7 +882,7 @@
+ 	</include>
+ 	<include name="Clock">
+ 		<control type="group">
+-			<posx>140r</posx>
++			<posx>200r</posx>
+ 			<posy>0</posy>
+ 			<animation effect="slide" start="0,0" end="-60,0" delay="0" time="300" condition="Window.IsVisible(MuteBug)">conditional</animation>
+ 			<animation effect="slide" start="0,0" end="210,0" delay="0" time="300" condition="Window.Next(Home) | Window.IsVisible(FullscreenVideo) | Window.IsVisible(Visualisation)">WindowClose</animation>
+@@ -891,19 +891,19 @@
+ 				<description>time background</description>
+ 				<posx>0</posx>
+ 				<posy>0</posy>
+-				<width>150</width>
+-				<height>35</height>
++				<width>200</width>
++				<height>55</height>
+ 				<texture flipx="true" border="32,0,0,0">header.png</texture>
+ 			</control>
+ 			<control type="label">
+ 				<description>time label</description>
+-				<posx>30</posx>
++				<posx>40</posx>
+ 				<posy>0</posy>
+ 				<width>400</width>
+-				<height>28</height>
++				<height>48</height>
+ 				<align>left</align>
+ 				<aligny>center</aligny>
+-				<font>font12</font>
++				<font>font35_title</font>
+ 				<textcolor>white</textcolor>
+ 				<label>$INFO[System.Time]</label>
+ 			</control>
+Index: skin.confluence/720p/Home.xml
+===================================================================
+--- skin.confluence/720p/Home.xml	(revision 35636)
++++ skin.confluence/720p/Home.xml	(working copy)
+@@ -44,7 +44,7 @@
+ 		<include condition="!Skin.HasSetting(UseHorizontalHome)">IncludeHomeVertical</include>
+ 		<include condition="Skin.HasSetting(UseHorizontalHome)">IncludeHomeHorizontal</include>
+ 		<control type="group">
+-			<posx>520r</posx>
++			<posx>740r</posx>
+ 			<posy>0</posy>
+ 			<animation effect="slide" start="0,0" end="-60,0" delay="0" time="300" condition="Window.IsVisible(MuteBug)">conditional</animation>
+ 			<animation effect="slide" start="0,0" end="550,0" delay="0" time="300">WindowClose</animation>
+@@ -55,13 +55,13 @@
+ 				<posx>0</posx>
+ 				<posy>0</posy>
+ 				<width>180</width>
+-				<height>35</height>
++				<height>50</height>
+ 				<texture flipx="true" border="32,0,0,0">header.png</texture>
+ 			</control>
+ 			<control type="image">
+ 				<description>Weather image</description>
+ 				<posx>30</posx>
+-				<posy>1</posy>
++				<posy>5</posy>
+ 				<width>25</width>
+ 				<height>25</height>
+ 				<aspectratio>keep</aspectratio>
+@@ -70,44 +70,65 @@
+ 			<control type="label">
+ 				<description>time label</description>
+ 				<posx>60</posx>
+-				<posy>0</posy>
++				<posy>5</posy>
+ 				<width>100</width>
+ 				<height>28</height>
+ 				<align>left</align>
+ 				<aligny>center</aligny>
+-				<font>font12</font>
++				<font>font30</font>
+ 				<textcolor>white</textcolor>
+ 				<shadowcolor>black</shadowcolor>
+ 				<label>[B]$INFO[Weather.Temperature][/B]</label>
+ 			</control>
+ 		</control>
+ 		<control type="group">
+-			<posx>390r</posx>
++			<posx>540r</posx>
+ 			<posy>0</posy>
+ 			<animation effect="slide" start="0,0" end="-60,0" delay="0" time="300" condition="Window.IsVisible(MuteBug)">conditional</animation>
+ 			<animation effect="slide" start="0,0" end="420,0" delay="0" time="300">WindowClose</animation>
+ 			<animation effect="slide" start="420,0" end="0,0" delay="0" time="300">WindowOpen</animation>
+ 			<control type="image">
+ 				<description>time background</description>
++				<posx>-50</posx>
++				<posy>0</posy>
++				<width>600</width>
++				<height>50</height>
++				<texture flipx="true" border="32,0,0,0">header.png</texture>
++			</control>
++			<control type="label">
++				<description>date label</description>
+ 				<posx>0</posx>
+ 				<posy>0</posy>
+-				<width>440</width>
+-				<height>35</height>
++				<width>500</width>
++				<height>40</height>
++				<align>left</align>
++				<aligny>center</aligny>
++				<font>font28_title</font>
++				<textcolor>white</textcolor>
++				<shadowcolor>black</shadowcolor>
++				<label>[COLOR=grey]$INFO[System.Date][/COLOR]</label>
++			</control>
++			<control type="image">
++				<description>time background</description>
++				<posx>170r</posx>
++				<posy>43</posy>
++				<width>180</width>
++				<height>40</height>
+ 				<texture flipx="true" border="32,0,0,0">header.png</texture>
+ 			</control>
+ 			<control type="label">
+ 				<description>time label</description>
+-				<posx>30</posx>
+-				<posy>0</posy>
+-				<width>400</width>
+-				<height>28</height>
++				<posx>130r</posx>
++				<posy>43</posy>
++				<width>140</width>
++				<height>30</height>
+ 				<align>left</align>
+ 				<aligny>center</aligny>
+-				<font>font12</font>
++				<font>font30_title</font>
+ 				<textcolor>white</textcolor>
+ 				<shadowcolor>black</shadowcolor>
+-				<label>[COLOR=grey]$INFO[System.Date][/COLOR] | $INFO[System.Time]</label>
++				<label>$INFO[System.Time]</label>
+ 			</control>
+ 		</control>
+ 	</controls>	
+-</window>
+\ No newline at end of file
++</window>
+Index: skin.confluence/720p/IncludesHomeVertical.xml
+===================================================================
+--- skin.confluence/720p/IncludesHomeVertical.xml	(revision 35636)
++++ skin.confluence/720p/IncludesHomeVertical.xml	(working copy)
+@@ -571,6 +571,20 @@
+ 						<thumb>$INFO[Skin.String(Home_Custom_Back_TVShow_Folder)]</thumb>
+ 						<visible>Skin.HasSetting(HomeMenuNoTVShowsButton) + Library.HasContent(TVShows)</visible>
+ 					</item>
++					<item id="12">
++						<label>BMW Radio</label>
++						<onclick>XBMC.RunScript(script.ibus.bmw,radio)</onclick>
++						<icon>special://skin/backgrounds/radio.jpg</icon>
++						<thumb>$INFO[Skin.String(Home_Custom_Back_Programs_Folder)]</thumb>
++						<visible></visible>
++					</item>
++					<item id="13">
++						<label>On-Board</label>
++						<onclick>XBMC.RunScript(script.ibus.bmw,obc)</onclick>
++						<icon>special://skin/backgrounds/bordcomputer.jpg</icon>
++						<thumb>$INFO[Skin.String(Home_Custom_Back_Programs_Folder)]</thumb>
++						<visible></visible>
++					</item>					
+ 					<item id="1">
+ 						<label>0</label>
+ 						<onclick>ActivateWindow(Programs,Addons,return)</onclick>
+@@ -624,11 +638,12 @@
+ 			<control type="rss">
+ 				<description>RSS feed</description>
+ 				<posx>35</posx>
+-				<posy>6</posy>
++				<posy>0</posy>
+ 				<height>35</height>
+ 				<width>825</width>
+-				<font>font12</font>
++				<font>font16caps</font>
+ 				<urlset>1</urlset>
++
+ 				<textcolor>blue</textcolor>
+ 				<titlecolor>blue</titlecolor>
+ 				<headlinecolor>white</headlinecolor>
+Index: skin.confluence/720p/IncludesHomeMenuItems.xml
+===================================================================
+--- skin.confluence/720p/IncludesHomeMenuItems.xml	(revision 35636)
++++ skin.confluence/720p/IncludesHomeMenuItems.xml	(working copy)
+@@ -30,7 +30,7 @@
+ 			<posy>55r</posy>
+ 			<control type="button" id="20">
+ 				<description>Power push button</description>
+-				<posx>90</posx>
++				<posx>0</posx>
+ 				<posy>0</posy>
+ 				<width>43</width>
+ 				<height>43</height>
+@@ -40,12 +40,12 @@
+ 				<onclick>ActivateWindow(ShutdownMenu)</onclick>
+ 				<texturefocus>home-power-FO.png</texturefocus>
+ 				<texturenofocus>home-power.png</texturenofocus>
+-				<onleft>21</onleft>
++				<onleft>9000</onleft>
+ 				<onright>9000</onright>
+ 				<onup>9000</onup>
+ 				<ondown>9000</ondown>
+ 			</control>
+-			<control type="button" id="21">
++			<!--<control type="button" id="21">
+ 				<description>Favourites push button</description>
+ 				<posx>45</posx>
+ 				<posy>0</posy>
+@@ -78,7 +78,7 @@
+ 				<onright>21</onright>
+ 				<onup>9000</onup>
+ 				<ondown>9000</ondown>
+-			</control>
++			</control>-->
+ 		</control>
+ 	</include>
+ 	<include name="HomeSubMenuVideos">

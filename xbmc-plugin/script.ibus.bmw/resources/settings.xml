@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+
+  <!-- Speech settings -->
+  <category label="Speech" id="0">  
+    <setting id="speech.greetings" type="bool" label="Greetings on start" default="true"/>
+    <setting id="speech.hourly" type="bool" label="Say time hourly" default="true"/>
+    <setting id="speech.volume" type="slider" label="Volume of speech synthesizer" default="2" range="0,0.1,5"/>
+  </category>
+
+  <!-- BMW settings -->
+  <category label="BMW IBus" id="1">  
+    <setting id="ibus.server" type="text" label="OpenBM-Gateway server" default="localhost" enable="false"/>
+  </category>
+
+</settings>

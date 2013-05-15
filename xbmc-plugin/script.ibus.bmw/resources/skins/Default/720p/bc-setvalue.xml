@@ -1,0 +1,218 @@
+<window id="99991">
+
+  <defaultcontrol>101</defaultcontrol>
+  <coordinates>
+    <system>1</system>
+    <posx>0</posx>
+    <posy>0</posy>
+  </coordinates>
+  
+
+  <controls>
+    <control type="group">
+	    <animation effect="zoom" start="0,0" end="100,100" center="640,95" time="250">WindowOpen</animation>
+    	
+    	<posx>140</posx>
+    	<posy>95</posy>
+
+		<!-- Background image -->    	
+		<control type="image">
+			<width>1000</width>
+			<height>80</height>
+			<texture border="45,0,45,49">bc-dialog-bottom.png</texture>
+		</control>
+		
+		<!-- Control Buttons -->
+		<control type="button" id="11">
+			<posx>33</posx>
+			<posy>0</posy>
+			<width>130</width>
+			<font>font16caps</font>
+			<align>center</align>
+			<textcolor>FFEEEEFF</textcolor>
+			<label>Setzen</label>
+			<texturefocus border="25,0,0,0">button-corner.png</texturefocus>
+			<texturenofocus border="25,0,0,0">button-corner-nofocus.png</texturenofocus>
+			<onright>101</onright>
+			<ondown>101</ondown>
+		</control>
+	
+		<control type="button" id="12">
+			<posx>830</posx>
+			<posy>0</posy>
+			<width>133</width>
+			<font>font16caps</font>
+			<align>center</align>
+			<textcolor>FFEEEEFF</textcolor>
+			<label>Cancel</label>
+			<texturefocus border="0,0,25,0" flipx="true">button-corner.png</texturefocus>
+			<texturenofocus border="0,0,25,0" flipx="true">button-corner-nofocus.png</texturenofocus>
+			<onleft>110</onleft>
+			<onup>110</onup>
+		</control>
+		
+		<!-- Number buttons -->
+		<control type="button" id="101">
+			<posx>160</posx>
+			<posy>0</posy>
+			<width>67</width>
+			<font>font16caps</font>
+			<align>center</align>
+			<textcolor>FFEEEEFF</textcolor>
+			<label> 1 </label>
+			<texturefocus>button.png</texturefocus>
+			<texturenofocus>button-nofocus.png</texturenofocus>
+			<onright>102</onright>
+			<onleft>11</onleft>
+			<ondown>102</ondown>
+			<onup>11</onup>
+		</control>
+	
+		<control type="button" id="102">
+			<posx>227</posx>
+			<posy>0</posy>
+			<width>67</width>
+			<font>font16caps</font>
+			<align>center</align>
+			<textcolor>FFEEEEFF</textcolor>
+			<label> 2 </label>
+			<texturefocus>button.png</texturefocus>
+			<texturenofocus>button-nofocus.png</texturenofocus>
+			<onright>103</onright>
+			<onleft>101</onleft>
+			<ondown>103</ondown>
+			<onup>101</onup>
+		</control>
+		
+		<control type="button" id="103">
+			<posx>294</posx>
+			<posy>0</posy>
+			<width>67</width>
+			<font>font16caps</font>
+			<align>center</align>
+			<textcolor>FFEEEEFF</textcolor>
+			<label> 3 </label>
+			<texturefocus>button.png</texturefocus>
+			<texturenofocus>button-nofocus.png</texturenofocus>
+			<onright>104</onright>
+			<onleft>102</onleft>
+			<ondown>104</ondown>
+			<onup>102</onup>
+		</control>
+		
+		<control type="button" id="104">
+			<posx>361</posx>
+			<posy>0</posy>
+			<width>67</width>
+			<font>font16caps</font>
+			<align>center</align>
+			<textcolor>FFEEEEFF</textcolor>
+			<label> 4 </label>
+			<texturefocus>button.png</texturefocus>
+			<texturenofocus>button-nofocus.png</texturenofocus>
+			<onright>105</onright>
+			<onleft>103</onleft>
+			<ondown>105</ondown>
+			<onup>103</onup>
+		</control>
+		
+		<control type="button" id="105">
+			<posx>428</posx>
+			<posy>0</posy>
+			<width>67</width>
+			<font>font16caps</font>
+			<align>center</align>
+			<textcolor>FFEEEEFF</textcolor>
+			<label> 5 </label>
+			<texturefocus>button.png</texturefocus>
+			<texturenofocus>button-nofocus.png</texturenofocus>
+			<onright>106</onright>
+			<onleft>104</onleft>
+			<ondown>106</ondown>
+			<onup>104</onup>
+		</control>
+		
+		<control type="button" id="106">
+			<posx>495</posx>
+			<posy>0</posy>
+			<width>67</width>
+			<font>font16caps</font>
+			<align>center</align>
+			<textcolor>FFEEEEFF</textcolor>
+			<label> 6 </label>
+			<texturefocus>button.png</texturefocus>
+			<texturenofocus>button-nofocus.png</texturenofocus>
+			<onright>107</onright>
+			<onleft>105</onleft>
+			<ondown>107</ondown>
+			<onup>105</onup>
+		</control>
+		
+		<control type="button" id="107">
+			<posx>562</posx>
+			<posy>0</posy>
+			<width>67</width>
+			<font>font16caps</font>
+			<align>center</align>
+			<textcolor>FFEEEEFF</textcolor>
+			<label> 7 </label>
+			<texturefocus>button.png</texturefocus>
+			<texturenofocus>button-nofocus.png</texturenofocus>
+			<onright>108</onright>
+			<onleft>106</onleft>
+			<ondown>108</ondown>
+			<onup>106</onup>
+		</control>
+		
+		<control type="button" id="108">
+			<posx>629</posx>
+			<posy>0</posy>
+			<width>67</width>
+			<font>font16caps</font>
+			<align>center</align>
+			<textcolor>FFEEEEFF</textcolor>
+			<label> 8 </label>
+			<texturefocus>button.png</texturefocus>
+			<texturenofocus>button-nofocus.png</texturenofocus>
+			<onright>109</onright>
+			<onleft>107</onleft>
+			<ondown>109</ondown>
+			<onup>107</onup>
+		</control>
+		
+		<control type="button" id="109">
+			<posx>696</posx>
+			<posy>0</posy>
+			<width>67</width>
+			<font>font16caps</font>
+			<align>center</align>
+			<textcolor>FFEEEEFF</textcolor>
+			<label> 9 </label>
+			<texturefocus>button.png</texturefocus>
+			<texturenofocus>button-nofocus.png</texturenofocus>
+			<onright>110</onright>
+			<onleft>108</onleft>
+			<ondown>110</ondown>
+			<onup>108</onup>
+		</control>
+		
+		<control type="button" id="110">
+			<posx>763</posx>
+			<posy>0</posy>
+			<width>67</width>
+			<font>font16caps</font>
+			<align>center</align>
+			<textcolor>FFEEEEFF</textcolor>
+			<label> 0 </label>
+			<texturefocus>button.png</texturefocus>
+			<texturenofocus>button-nofocus.png</texturenofocus>
+			<onright>12</onright>
+			<onleft>109</onleft>
+			<ondown>12</ondown>
+			<onup>109</onup>
+		</control>
+		
+	</control>
+	    
+  </controls>
+</window>

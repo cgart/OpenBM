@@ -1,0 +1,15 @@
+This directory contains OpenBM plugin for XBMC as shown in the OpenBM
+videos.
+
+module - Contains the python plugin module which is required for the plugin.
+script.ibus.bmw - is the actuall XBMC plugin. The openbm.so compiled from
+module need to be copied into script.ibus.bmw/resources/lib
+
+install text2wave and paplay if you want the plugin to talk to you ;)
+
+
+Copy the script.ibus.bmw/autoexec.py into the xbmc directory, so that the plugin
+does automatically starts on every XBMC execution.
+
+openbm-xbmc.10.0.patch contains the patch for the XBMC's confluence plugin.
+This patch does add additional vertical menus for Radio and OBC control.

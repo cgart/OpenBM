@@ -1,0 +1,213 @@
+<window>
+  <id>428702</id>
+  <defaultcontrol>100</defaultcontrol>
+  <visible>true</visible>
+  <coordinates>
+    <system>1</system>
+    <posx>0</posx>
+    <posy>0</posy>
+  </coordinates>
+  <type>dialog</type>
+  <allowoverlay>no</allowoverlay>
+
+  <animation effect="fade" time="300">WindowOpen</animation>
+  <animation effect="fade" time="300">WindowClose</animation>
+
+  <controls>
+	<!-- Black back -->
+	<control type="image" >
+		<width>1280</width>
+		<height>720</height>
+		<texture>black-back.png</texture>            
+	</control>
+	
+    <control type="group" id="99">
+		<posx>240</posx>
+		<posy>160</posy>
+				
+		<!-- BG image -->
+		<control type="image" >
+			<description>bg image</description>
+			<width>800</width>
+			<height>400</height>
+			<texture border="30,30,30,30">tone-bg.png</texture>            
+		</control>
+
+		<!-- BASS -->
+		<control type="group" id="100">
+			<posx>100</posx>
+			<posy>70</posy>
+			<defaultcontrol>1000</defaultcontrol>
+			<control type="image">
+				<posx>0</posx>
+				<posy>0</posy>
+				<width>20</width>
+				<height>200</height>
+				<texture>osd_slider_bg_vert.png</texture>            
+			</control>
+			<control type="button" id="1000">
+				<posx>-10</posx>
+				<posy>95</posy>
+				<width>40</width>
+				<height>15</height>
+				<pulseonselect>true</pulseonselect>
+				<texturefocus>scrollbar-hor-front.png</texturefocus>
+				<texturenofocus>scrollbar-hor-front-nofocus.png</texturenofocus>
+				<visible>true</visible>
+				<onup>-</onup>
+				<ondown>-</ondown>  
+				<onright>101</onright>     
+			</control>
+			<control type="image">
+				<posx>-10</posx>
+				<posy>220</posy>
+				<width>50</width>
+				<height>50</height>
+				<texture>bass_icon.png</texture>            
+			</control>
+			<control type="label">
+				<posx>-60</posx>
+				<posy>-10</posy>
+				<label>+10</label>
+				<font>font16caps</font>
+			</control>
+			<control type="label">
+				<posx>-50</posx>
+				<posy>170</posy>
+				<label>-10</label>
+				<font>font16caps</font>
+			</control>
+		</control>
+				
+		<!-- TREBLE -->
+		<control type="group" id="101">
+			<posx>250</posx>
+			<posy>70</posy>
+			<defaultcontrol>1001</defaultcontrol>
+			<control type="image">
+				<posx>0</posx>
+				<posy>0</posy>
+				<width>20</width>
+				<height>200</height>
+				<texture>osd_slider_bg_vert.png</texture>            
+			</control>
+			<control type="button" id="1001">
+				<posx>-10</posx>
+				<posy>95</posy>
+				<width>40</width>
+				<height>15</height>
+				<pulseonselect>true</pulseonselect>
+				<texturefocus>scrollbar-hor-front.png</texturefocus>
+				<texturenofocus>scrollbar-hor-front-nofocus.png</texturenofocus>
+				<visible>true</visible>
+				<onup>-</onup>
+				<ondown>-</ondown>  
+				<onleft>100</onleft>  
+				<onright>102</onright>
+			</control>
+			<control type="image">
+				<posx>-10</posx>
+				<posy>220</posy>
+				<width>40</width>
+				<height>50</height>
+				<texture>treble_icon.png</texture>            
+			</control>
+			<control type="label">
+				<posx>-60</posx>
+				<posy>-10</posy>
+				<label>+10</label>
+				<font>font16caps</font>
+			</control>
+			<control type="label">
+				<posx>-50</posx>
+				<posy>170</posy>
+				<label>-10</label>
+				<font>font16caps</font>
+			</control>
+		</control>
+		
+		<!-- FADE -->
+		<control type="group" id="102">
+			<posx>450</posx>
+			<posy>70</posy>
+			<defaultcontrol>1002</defaultcontrol>
+			<control type="image">
+				<posx>100</posx>
+				<posy>0</posy>
+				<width>100</width>
+				<height>200</height>
+				<texture>car-logo-vert.png</texture>            
+			</control>
+			<control type="image">
+				<width>20</width>
+				<height>200</height>
+				<texture>osd_slider_bg_vert.png</texture>            
+			</control>
+			<control type="button" id="1002">
+				<posx>-10</posx>
+				<posy>90</posy>
+				<width>40</width>
+				<height>15</height>
+				<pulseonselect>true</pulseonselect>
+				<texturefocus>scrollbar-hor-front.png</texturefocus>
+				<texturenofocus>scrollbar-hor-front-nofocus.png</texturenofocus>
+				<visible>true</visible>       
+				<onup>-</onup>
+				<ondown>-</ondown>  
+				<onleft>101</onleft>
+				<onright>103</onright>
+			</control>
+			<control type="label">
+				<posx>-30</posx>
+				<posy>-20</posy>
+				<label>F</label>
+				<font>font30</font>
+			</control>
+			<control type="label">
+				<posx>-30</posx>
+				<posy>170</posy>
+				<label>B</label>
+				<font>font30</font>
+			</control>
+		</control>
+		
+		<!-- BALANCE -->
+		<control type="group" id="103">
+			<posx>500</posx>
+			<posy>310</posy>
+			<defaultcontrol>1003</defaultcontrol>
+			<control type="image">
+				<width>200</width>
+				<height>20</height>
+				<texture>osd_slider_bg.png</texture>            
+			</control>
+			<control type="button" id="1003">
+				<posx>90</posx>
+				<posy>-10</posy>
+				<width>20</width>
+				<height>40</height>
+				<pulseonselect>true</pulseonselect>
+				<texturefocus>scrollbar-front.png</texturefocus>
+				<texturenofocus>scrollbar-front-nofocus.png</texturenofocus>
+				<visible>true</visible>         
+				<onup>-</onup>
+				<ondown>-</ondown>  
+				<onleft>102</onleft>
+			</control>
+			<control type="label">
+				<posx>-30</posx>
+				<posy>-15</posy>
+				<label>L</label>
+				<font>font30</font>
+			</control>
+			<control type="label">
+				<posx>210</posx>
+				<posy>-15</posy>
+				<label>R</label>
+				<font>font30</font>
+			</control>
+		</control>
+		
+    </control>    
+  </controls>
+</window>

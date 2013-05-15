@@ -1,0 +1,49 @@
+<window>
+  <id>428714</id>
+  <coordinates>
+    <system>1</system>
+    <posx>0</posx>
+    <posy>0</posy>
+  </coordinates>
+  <type>window</type>
+  <allowoverlay>no</allowoverlay>
+
+  <animation effect="fade" start="100" end="0" time="500">WindowClose</animation>
+  <animation effect="fade" start="0" end="100" time="500">WindowOpen</animation>
+
+  <controls>
+
+
+    <!-- Background image and video file with an overlay -->
+    <control type="group">
+		<posx>0</posx>
+		<posy>0</posy>
+		
+		<control type="image">
+			<description>bg image</description>
+			<width>1280</width>
+			<height>720</height>
+			<texture>boot.png</texture>            
+			<visible>true</visible>
+		</control>
+		
+	</control>
+				
+
+    <!-- Bottom Info Line -->
+    <control type="group">
+		<control type="label">
+			<posy>50r</posy>
+			<posx>20</posx>
+			<width>1000</width>
+			<height>50</height>
+			<align>left</align>
+			<font>font30</font>
+			<textcolor>white</textcolor>
+			<shadowcolor>black</shadowcolor>
+			<label>[COLOR=grey]$INFO[System.Date][/COLOR] | $INFO[System.Time]</label>
+		</control>		
+    </control>
+    
+  </controls>
+</window>

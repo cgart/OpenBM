@@ -1,0 +1,40 @@
+<window>
+  <id>99991</id>
+  <defaultcontrol>0</defaultcontrol>
+  <coordinates>
+    <system>1</system>
+    <posx>0</posx>
+    <posy>0</posy>
+  </coordinates>
+  <type>dialog</type>
+  <allowoverlay>no</allowoverlay>
+
+  <animation effect="fade" start="100" end="0" time="500">WindowClose</animation>
+  <animation effect="fade" start="100" end="0" time="500">WindowOpen</animation>
+
+  <controls>
+	<!-- Background image and video file with an overlay -->
+    <control type="group" id="0">
+    	<posx>400</posx>
+    	<posy>200</posy>
+    	
+		<control type="image">
+			<width>256</width>
+			<height>64</height>
+			<texture>DialogContextTop.png</texture>            
+		</control>
+		<control type="image" id="1">
+			<posy>64</posy>
+			<width>1280</width>
+			<height>720</height>
+			<texture>DialogContextMiddle.png</texture>            
+		</control>
+		<control type="image">
+			<width>256</width>
+			<height>64</height>
+			<texture>DialogContextBottom.png</texture>
+		</control>
+	</control>
+	    
+  </controls>
+</window>

@@ -1,0 +1,14 @@
+<fonts>
+	<fontset id="Default" unicode="true">
+	 	<font>
+			<name>MainLED_Large</name>
+			<filename>TexasLED.ttf</filename>
+			<size>70</size>
+		</font>
+	 	<font>
+			<name>MainLED_Small</name>
+			<filename>TexasLED.ttf</filename>
+			<size>30</size>
+		</font>
+	</fontset>
+</fonts>

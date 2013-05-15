@@ -1,0 +1,76 @@
+<window>
+  <id>9921</id>
+  <defaultcontrol>100</defaultcontrol>
+  <coordinates>
+    <system>1</system>
+    <posx>400</posx>
+    <posy>300</posy>
+  </coordinates>
+  <type>dialog</type>
+  <allowoverlay>no</allowoverlay>
+
+  <animation effect="fade" time="100">WindowOpen</animation>
+  <animation effect="fade" time="100">WindowClose</animation>
+
+  <controls>
+    <control type="group" id="100">
+		<posx>0</posx>
+		<posy>0</posy>
+		
+		<defaultcontrol>103</defaultcontrol>
+		<onup>103</onup>
+		<ondown>103</ondown>
+		<onleft>103</onleft>
+		<onright>103</onright>
+
+		<!-- Error image -->
+		<control type="image" >
+			<description>page header tab icon</description>
+			<posx>0</posx>
+			<posy>0</posy>
+			<width>100</width>
+			<height>80</height>
+			<texture>redcross.png</texture>            
+		</control>
+
+		<!-- Error information label -->
+		<control type="label" id="101">
+			<description>textarea</description>
+			<posx>120</posx>
+			<posy>0</posy>
+			<width>400</width>
+			<height>100</height>
+			<font>font18</font>
+			<textcolor>white</textcolor>
+			<aligny>top</aligny>
+			<align>left</align>
+			<label>BMW</label>
+		</control>      
+		
+		<!-- OK button to close dialog -->
+		<control type="button" id="103">
+			<posx>150</posx>
+			<posy>120</posy>
+			<width>120</width>
+			<height>30</height>
+			<visible>true</visible>
+			<enable>true</enable>
+			<colordiffuse>FFF0F0FF</colordiffuse>
+			<label>OK</label>
+			<font>font16</font>
+			<textcolor>FF000000</textcolor>
+			<focusedcolor>FFFFFFFF</focusedcolor>
+			<texturefocus>aqua-button-md.png</texturefocus>
+			<onclick>Dialog.Close(9921)</onclick>
+			<align>center</align>
+			<pulseonselect>true</pulseonselect>
+			<onfocus>-</onfocus>
+			<onup>Dialog.Close(9921)</onup>
+			<ondown>100</ondown>
+			<onleft>100</onleft>
+			<onright>100</onright>
+		</control>
+		
+    </control>    
+  </controls>
+</window>

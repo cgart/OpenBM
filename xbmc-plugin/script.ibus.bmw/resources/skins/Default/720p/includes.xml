@@ -1,0 +1,17 @@
+<includes>
+    <include file="images-includes.xml" />
+    
+    <include name="bmwAmber">
+      <textcolor>ffff5939</textcolor>
+    </include>
+    
+    <include name="small_label">
+      <posy>8</posy>
+      <font>MainLED_Small</font>
+      <include>bmwAmber</include>
+      <aligny>top</aligny>
+      <align>left</align>
+    </include>
+    
+</includes>
+

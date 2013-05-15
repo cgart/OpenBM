@@ -1,0 +1,236 @@
+<window>
+  <id>428701</id>
+  <defaultcontrol>100</defaultcontrol>
+  <coordinates>
+    <system>1</system>
+    <posx>0</posx>
+    <posy>0</posy>
+  </coordinates>
+  <type>window</type>
+  <allowoverlay>no</allowoverlay>
+
+  <animation effect="fade" time="100">WindowOpen</animation>
+  <animation effect="fade" time="100">WindowClose</animation>
+
+  <controls>
+    <control type="group" id="100">
+		<posx>0</posx>
+		<posy>0</posy>
+		
+		<!-- BG image -->
+		<control type="image" >
+			<description>bg image</description>
+			<posx>0</posx>
+			<posy>0</posy>
+			<width>1280</width>
+			<height>720</height>
+			<texture>background.jpg</texture>            
+		</control>
+		
+		<!-- Error image -->
+		<control type="image" >
+			<description>bg underlay image</description>
+			<posx>0</posx>
+			<posy>180</posy>
+			<width>1280</width>
+			<height>250</height>
+			<texture>midbg.png</texture>            
+		</control>
+
+		<!-- Main text field -->
+		<control type="group" id="77">
+			<posx>40</posx>
+			<posy>220</posy>
+			<control type="image" >
+				<posx>0</posx>
+				<posy>0</posy>
+				<width>21</width>
+				<height>82</height>
+				<texture>largeFieldLeft.png</texture>            
+			</control>
+			<control type="image" >
+				<posx>21</posx>
+				<posy>0</posy>
+				<width>1140</width>
+				<height>82</height>
+				<texture>largeFieldMid.png</texture>            
+			</control>
+			<control type="image" >
+				<posx>1161</posx>
+				<posy>0</posy>
+				<width>21</width>
+				<height>82</height>
+				<texture>largeFieldRight.png</texture>            
+			</control>
+
+			<!-- Main information label -->
+			<control type="label" id="90">
+				<description>textarea</description>
+				<posx>15</posx>
+				<posy>11</posy>
+				<width>1000</width>
+				<height>100</height>
+				<font>MainLED_Large</font>
+				<include>bmwAmber</include>
+				<aligny>top</aligny>
+				<align>left</align>
+				<label>BMW</label>
+			</control>      
+
+			<!-- Second information label -->
+			<control type="label" id="91">
+				<description>textarea</description>
+				<posx>810</posx>
+				<posy>11</posy>
+				<width>1000</width>
+				<height>100</height>
+				<font>MainLED_Large</font>
+				<include>bmwAmber</include>
+				<aligny>top</aligny>
+				<align>left</align>
+				<label>VERB2 11.4</label>
+			</control>    
+		</control>
+		
+		<!-- Small text fields -->
+		<control type="group" id="87">
+			<posx>40</posx>
+			<posy>310</posy>
+			<control type="group">
+				<posx>0</posx>
+				<include>small_field</include>
+				<control type="label" id="101">
+					<include>small_label</include>
+					<posx>5</posx>
+					<label>*1</label>
+				</control>   
+				<control type="label" id="102">
+					<include>small_label</include>
+					<posx>100</posx>
+					<label>    2</label>
+				</control>   
+			</control>
+			
+			<control type="group">
+				<posx>200</posx>
+				<include>small_field</include>
+				<control type="label" id="103">
+					<include>small_label</include>
+					<posx>5</posx>
+					<label>  3</label>
+				</control>   
+				<control type="label" id="104">
+					<include>small_label</include>
+					<posx>100</posx>
+					<label>    4</label>
+				</control>   
+			</control>
+			
+			<control type="group">
+				<posx>400</posx>
+				<include>small_field</include>
+				<control type="label" id="105">
+					<include>small_label</include>
+					<posx>5</posx>
+					<label>  5</label>
+				</control>   
+				<control type="label" id="106">
+					<include>small_label</include>
+					<posx>100</posx>
+					<label>    6</label>
+				</control>   
+			</control>
+			
+			<control type="group">
+				<posx>600</posx>
+				<include>small_field</include>
+				<control type="label" id="107">
+					<include>small_label</include>
+					<posx>5</posx>
+					<label>  7</label>
+				</control>   
+				<control type="label" id="108">
+					<include>small_label</include>
+					<posx>100</posx>
+					<label>    8</label>
+				</control>   
+			</control>
+			
+			<control type="group">
+				<posx>800</posx>
+				<include>small_field</include>
+				<control type="label" id="109">
+					<include>small_label</include>
+					<posx>5</posx>
+					<label> AM</label>
+				</control>   
+				<control type="label" id="110">
+					<include>small_label</include>
+					<posx>100</posx>
+					<label>   FM</label>
+				</control>   
+			</control>
+			
+			<control type="group">
+				<posx>1000</posx>
+				<include>small_field</include>
+				<control type="label" id="111">
+					<include>small_label</include>
+					<posx>5</posx>
+					<label> TP</label>
+				</control>   
+				<control type="label" id="112">
+					<include>small_label</include>
+					<posx>100</posx>
+					<label>MODE</label>
+				</control>   
+			</control>
+		</control>
+		
+		<!-- Logos -->
+		<control type="group">
+			<posx>50</posx>
+			<posy>365</posy>
+			
+			<!-- Radio-Logo image -->
+			<control type="image" id="200">
+				<posx>0</posx>
+				<width>50</width>
+				<height>40</height>
+				<texture>radio_mast.png</texture>            
+				<colordiffuse>FF111111</colordiffuse>
+			</control>
+			
+			<!-- CD-Logo image -->
+			<control type="image" id="201">
+				<posx>80</posx>
+				<texture>cd_logo.png</texture>            
+				<colordiffuse>FF111111</colordiffuse>
+			</control>
+			
+			<!-- Tape-Logo image -->
+			<control type="image"  id="202">
+				<posx>170</posx>
+				<posy>-7</posy>
+				<width>70</width>
+				<height>50</height>
+				<texture>tape_icon.png</texture>            
+				<colordiffuse>FF111111</colordiffuse>
+			</control>
+			
+			<!-- Phone-Logo image -->
+			<control type="image"  id="203">
+				<posx>255</posx>
+				<posy>-7</posy>
+				<width>70</width>
+				<height>50</height>
+				<texture>phone_icon.png</texture>  
+				<colordiffuse>FF111111</colordiffuse>
+			</control>
+			
+		</control>
+		
+		
+    </control>    
+  </controls>
+</window>

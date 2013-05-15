@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="script.ibus.bmw"
+       name="IBus BMW Implementation"
+       version="0.9.1"
+       provider-name="Art Tevs">
+  <requires>
+    <import addon="xbmc.python" version="1.0"/>
+  </requires>
+  <extension point="xbmc.python.script" library="default.py" />
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <minversion>32797</minversion>
+    <summary lang="en">BMW's IBus Control</summary>
+    <description lang="en">Perform controlling of BMW's equipment through the IBus. An IBUs gateway, i.e. openbm-gateway, must run on your machine. This will ensures that IBus messages are transferred over the D-Bus. This plugin listen on D-Bus for such messages.</description>
+  </extension>
+</addon>

@@ -1,0 +1,343 @@
+<window>
+  <id>428703</id>
+  <defaultcontrol>100</defaultcontrol>
+  <coordinates>
+    <system>1</system>
+    <posx>0</posx>
+    <posy>0</posy>
+  </coordinates>
+  <type>window</type>
+  <allowoverlay>no</allowoverlay>
+
+  <controls>
+
+
+	<!-- Background image and video file with an overlay -->
+    <control type="group">
+		<control type="image">
+			<description>bg image</description>
+			<width>1280</width>
+			<height>720</height>
+			<texture>m5innen.jpg</texture>            
+			<visible>!Player.HasVideo</visible>
+		</control>
+		<control type="videowindow">
+			<description>My first video control</description>
+			<width>1280</width>
+			<height>720</height>
+			<visible>Player.HasVideo</visible>
+		</control>
+		<control type="image">
+			<width>1280</width>
+			<height>720</height>
+			<texture>Panel4.png</texture>
+			<visible>true</visible>
+		</control>
+	</control>
+	
+	<!-- OBC Mode Switch -->
+    <control type="group">
+		<posx>0</posx>
+		<posy>0</posy>
+
+		<control type="image">
+			<width>1280</width>
+			<height>100</height>
+			<texture>MediaInfoBackUpper.png</texture>
+			<visible>true</visible>
+		</control>
+		
+		<control type="label" id="0">
+			<posx>300</posx>
+			<posy>10</posy>
+			<width>700</width>
+			<font>font50caps_title</font>
+			<align>center</align>
+			<textcolor>FFEEEEFF</textcolor>
+			<label>Information</label>
+		</control>	
+		<control type="image">
+			<posy>30</posy>
+			<posx>200</posx>
+			<width>48</width>
+			<height>48</height>
+			<texture>scroll-left-focus.png</texture>
+			<visible>true</visible>
+		</control>
+		<control type="image">
+			<posy>30</posy>
+			<posx>1050</posx>
+			<width>48</width>
+			<height>48</height>
+			<texture>scroll-right-focus.png</texture>
+			<visible>true</visible>
+		</control>	
+	</control>
+				
+	<!-- OBC Labels and Buttons -->
+	<control type="group" id="200">
+	
+		<!-- OBC Labels  -->
+		<control type="group">
+			<posx>500</posx>
+			<posy>150</posy>
+		
+			<control type="label" id="10">
+				<posy>0</posy>
+				<width>500</width>
+				<font>font35_title</font>
+				<align>center</align>
+				<textcolor>FFEEEEFF</textcolor>
+				<label></label>
+				<animation effect="slide" start="500,0" end="0,0" time="200" delay="0" tween="sine">WindowOpen</animation>
+				<animation effect="fade" end="0" time="100" delay="0">WindowClose</animation>
+			</control>	
+		
+			<control type="label" id="11">
+				<posy>60</posy>
+				<width>500</width>
+				<font>font35_title</font>
+				<align>center</align>
+				<textcolor>FFEEEEFF</textcolor>
+				<label></label>
+				<animation effect="slide" start="500,0" end="0,0" time="200" delay="100" tween="sine">WindowOpen</animation>
+				<animation effect="fade" end="0" time="100" delay="50">WindowClose</animation>
+			</control>	
+
+			<control type="label" id="12">
+				<posy>120</posy>
+				<width>500</width>
+				<font>font35_title</font>
+				<align>center</align>
+				<textcolor>FFEEEEFF</textcolor>
+				<label></label>
+				<animation effect="slide" start="500,0" end="0,0" time="200" delay="200" tween="sine">WindowOpen</animation>
+				<animation effect="fade" end="0" time="100" delay="100">WindowClose</animation>
+			</control>	
+
+			<control type="label" id="13">
+				<posy>180</posy>
+				<width>500</width>
+				<font>font35_title</font>
+				<align>center</align>
+				<textcolor>FFEEEEFF</textcolor>
+				<label></label>
+				<animation effect="slide" start="500,0" end="0,0" time="200" delay="300" tween="sine">WindowOpen</animation>
+				<animation effect="fade" end="0" time="100" delay="150">WindowClose</animation>
+			</control>	
+		
+			<control type="label" id="14">
+				<posy>240</posy>
+				<width>500</width>
+				<font>font35_title</font>
+				<align>center</align>
+				<textcolor>FFEEEEFF</textcolor>
+				<label></label>
+				<animation effect="slide" start="500,0" end="0,0" time="200" delay="400" tween="sine">WindowOpen</animation>
+				<animation effect="fade" end="0" time="100" delay="200">WindowClose</animation>
+			</control>	
+
+			<control type="label" id="15">
+				<posy>300</posy>
+				<width>500</width>
+				<font>font35_title</font>
+				<align>center</align>
+				<textcolor>FFEEEEFF</textcolor>
+				<label></label>
+				<animation effect="slide" start="500,0" end="0,0" time="200" delay="500" tween="sine">WindowOpen</animation>
+				<animation effect="fade" end="0" time="100" delay="250">WindowClose</animation>
+			</control>	
+
+			<control type="label" id="16">
+				<posy>360</posy>
+				<width>500</width>
+				<font>font35_title</font>
+				<align>center</align>
+				<textcolor>FFEEEEFF</textcolor>
+				<label></label>
+				<animation effect="slide" start="500,0" end="0,0" time="200" delay="600" tween="sine">WindowOpen</animation>
+				<animation effect="fade" end="0" time="100" delay="300">WindowClose</animation>
+			</control>	
+
+		</control>
+		
+		<!-- OBC Buttons -->
+		<control type="group" >
+			<posx>-150</posx>
+			<posy>150</posy>
+				
+			<control type="button" id="100">
+				<posy>0</posy>
+				<width>950</width>
+				<height>50</height>
+				<texturefocus>MenuItemFO.png</texturefocus>
+				<texturenofocus>MenuItemNF.png</texturenofocus>
+				<font>font35_title</font>
+				<textcolor>FFEEEEFF</textcolor>
+				<align>left</align>
+				<textoffsetx>100</textoffsetx>
+				<pulseonselect>true</pulseonselect>
+				<ondown>101</ondown>
+				<onup>106</onup>
+				<label>Verbrauch 1</label>
+				<animation effect="slide" start="-500,0" end="0,0" time="200" delay="0" tween="sine">WindowOpen</animation>
+				<animation effect="fade" end="0" time="100" delay="0">WindowClose</animation>
+			</control>
+		
+			<control type="button" id="101">
+				<posy>60</posy>
+				<width>950</width>
+				<height>50</height>
+				<texturefocus>MenuItemFO.png</texturefocus>
+				<texturenofocus>MenuItemNF.png</texturenofocus>
+				<font>font35_title</font>
+				<textcolor>FFEEEEFF</textcolor>
+				<align>left</align>
+				<textoffsetx>100</textoffsetx>
+				<pulseonselect>true</pulseonselect>
+				<onup>100</onup>
+				<ondown>102</ondown>
+				<label>Verbrauch 2</label>
+				<animation effect="slide" start="-500,0" end="0,0" time="200" delay="100" tween="sine">WindowOpen</animation>
+				<animation effect="fade" end="0" time="100" delay="50">WindowClose</animation>
+			</control>
+		
+			<control type="button" id="102">
+				<posy>120</posy>
+				<width>950</width>
+				<height>50</height>
+				<texturefocus>MenuItemFO.png</texturefocus>
+				<texturenofocus>MenuItemNF.png</texturenofocus>
+				<font>font35_title</font>
+				<textcolor>FFEEEEFF</textcolor>
+				<align>left</align>
+				<textoffsetx>100</textoffsetx>
+				<pulseonselect>true</pulseonselect>
+				<onup>101</onup>
+				<ondown>103</ondown>
+				<label>Reichweite</label>
+				<animation effect="slide" start="-500,0" end="0,0" time="200" delay="200" tween="sine">WindowOpen</animation>
+				<animation effect="fade" end="0" time="100" delay="100">WindowClose</animation>
+			</control>
+		
+			<control type="button" id="103">
+				<posy>180</posy>
+				<width>950</width>
+				<height>50</height>
+				<texturefocus>MenuItemFO.png</texturefocus>
+				<texturenofocus>MenuItemNF.png</texturenofocus>
+				<font>font35_title</font>
+				<textcolor>FFEEEEFF</textcolor>
+				<align>left</align>
+				<textoffsetx>100</textoffsetx>
+				<pulseonselect>true</pulseonselect>
+				<onup>102</onup>
+				<ondown>104</ondown>
+				<label>Distanz</label>
+				<animation effect="slide" start="-500,0" end="0,0" time="200" delay="300" tween="sine">WindowOpen</animation>
+				<animation effect="fade" end="0" time="100" delay="150">WindowClose</animation>
+			</control>
+		
+			<control type="button" id="104">
+				<posy>240</posy>
+				<width>950</width>
+				<height>50</height>
+				<texturefocus>MenuItemFO.png</texturefocus>
+				<texturenofocus>MenuItemNF.png</texturenofocus>
+				<font>font35_title</font>
+				<textcolor>FFEEEEFF</textcolor>
+				<align>left</align>
+				<textoffsetx>100</textoffsetx>
+				<pulseonselect>true</pulseonselect>
+				<onup>103</onup>
+				<ondown>105</ondown>
+				<label>Ankunft</label>
+				<animation effect="slide" start="-500,0" end="0,0" time="200" delay="400" tween="sine">WindowOpen</animation>
+				<animation effect="fade" end="0" time="100" delay="200">WindowClose</animation>
+			</control>
+		
+			<control type="button" id="105">
+				<posy>300</posy>
+				<width>950</width>
+				<height>50</height>
+				<texturefocus>MenuItemFO.png</texturefocus>
+				<texturenofocus>MenuItemNF.png</texturenofocus>
+				<font>font35_title</font>
+				<textcolor>FFEEEEFF</textcolor>
+				<align>left</align>
+				<textoffsetx>100</textoffsetx>
+				<pulseonselect>true</pulseonselect>
+				<onup>104</onup>
+				<ondown>106</ondown>
+				<label>Geschwindigkeit</label>
+				<animation effect="slide" start="-500,0" end="0,0" time="200" delay="500" tween="sine">WindowOpen</animation>
+				<animation effect="fade" end="0" time="100" delay="250">WindowClose</animation>
+			</control>
+		
+			<control type="button" id="106">
+				<posy>360</posy>
+				<width>950</width>
+				<height>50</height>
+				<texturefocus>MenuItemFO.png</texturefocus>
+				<texturenofocus>MenuItemNF.png</texturenofocus>
+				<font>font35_title</font>
+				<textcolor>FFEEEEFF</textcolor>
+				<align>left</align>
+				<textoffsetx>100</textoffsetx>
+				<pulseonselect>true</pulseonselect>
+				<onup>105</onup>
+				<ondown>100</ondown>
+				<label>Limit</label>
+				<animation effect="slide" start="-500,0" end="0,0" time="200" delay="600" tween="sine">WindowOpen</animation>
+				<animation effect="fade" end="0" time="100" delay="300">WindowClose</animation>
+			</control>
+				
+			<control type="image" id="1060">
+				<posx>350</posx>
+				<posy>370</posy>
+				<width>32</width>
+				<height>32</height>
+				<texture>limit-active-logo.png</texture>
+			</control>			
+		</control>    
+		
+	</control>
+	    
+    <!-- Bottom Info Line -->
+    <control type="group">
+		<control type="label">
+			<posy>50r</posy>
+			<posx>20</posx>
+			<width>1000</width>
+			<height>50</height>
+			<align>left</align>
+			<font>font30</font>
+			<textcolor>white</textcolor>
+			<shadowcolor>black</shadowcolor>
+			<label>[COLOR=grey]$INFO[System.Date][/COLOR] | $INFO[System.Time]</label>
+		</control>
+		
+
+		<control type="label" id="107">
+			<posx>450r</posx>
+			<posy>50r</posy>
+			<width>450</width>
+			<font>font30</font>
+			<align>left</align>
+			<textcolor>FFEEEEFF</textcolor>
+			<label>[COLOR=grey]Aussentemperatur[/COLOR] | </label>
+		</control>	
+		
+		<control type="label" id="17">
+			<posy>50r</posy>
+			<posx>20r</posx>
+			<width>200</width>
+			<font>font30</font>
+			<align>right</align>
+			<textcolor>FFEEEEFF</textcolor>
+			<label>-40.0 C</label>
+		</control>	
+		    
+    </control>
+  </controls>
+</window>
