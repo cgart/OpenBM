@@ -57,15 +57,15 @@ namespace IPCClient
     void read_with_timeout(tcp::socket& sock, const MutableBufferSequence& buffers, unsigned timeoutInMs)
     {
         boost::optional<boost::system::error_code> timer_result;
-        boost::asio::deadline_timer timer(sock.io_service());
+        boost::asio::deadline_timer timer(sock.get_io_service());
         timer.expires_from_now(boost::posix_time::milliseconds(timeoutInMs));
         timer.async_wait(boost::bind(set_result, &timer_result, _1));
 
         boost::optional<boost::system::error_code> read_result;
         async_read(sock, buffers, boost::bind(set_result, &read_result, _1));
 
-        sock.io_service().reset();
-        while (sock.io_service().run_one())
+        sock.get_io_service().reset();
+        while (sock.get_io_service().run_one())
         {
           if (read_result)
             timer.cancel();
@@ -390,4 +390,3 @@ namespace IPCClient
 
 
 };
-
