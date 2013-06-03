@@ -39,6 +39,8 @@
 #define IBUS_DEV_RLS     0xE8    // Rain/Light-Sensor
 #define IBUS_DEV_TV      0xED    // Television
 #define IBUS_DEV_BMBT    0xF0    // On-board monitor operating part
+#define IBUS_DEV_EBMBT   0xF1    // On-board monitor operating part (CarPC)
+#define IBUS_DEV_CARPC   0xF2    // On-board monitor operating part (CarPC)
 #define IBUS_DEV_CSU     0xF5    // unknown
 #define IBUS_DEV_LOC     0xFF    // Local
 
@@ -58,20 +60,26 @@
 #define IBUS_MSG_MID_ACK_TEXT       0x22    // mid aknowledges that text was received
 #define IBUS_MSG_UPDATE_MID_TOP     0x23    // update information on text display
 #define IBUS_MSG_UPDATE_MID_TOP_FREQ 0x24   // update frequency field of the radio
+#define IBUS_MSG_LED_AUX_HEATING    0x2A    // set aux heating-LED state
 #define IBUS_MSG_LED                0x2B    // set status-LED state
+#define IBUS_MSG_TEL_STATE          0x2C    // set current state of the phone
 #define IBUS_MSG_LED_SPECIAL        0x2D    // set status-LED state (special function, defining blink ratio)
 #define IBUS_MSG_BUTTON             0x31    // MID's button state change
 #define IBUS_MSG_RADIO_ENCODER      0x32    // MID's radio encoder was rotated
+#define IBUS_MSG_RADIO_SRC          0x36    // Radio let us know which source is active
 #define IBUS_MSG_RADIO_CDC          0x38    // Radio asks for cd-changer state
 #define IBUS_MSG_CDC_STATE          0x39    // CD-changer send its state
 #define IBUS_MSG_MFL_BUTTON         0x3B    // MFL's button state change
+#define IBUS_MSG_BMBT_BUTTON_SPEC   0x47    // action with special BMBT button (INFO and SELECT)
 #define IBUS_MSG_BMBT_BUTTON        0x48    // action with BMBT button
 #define IBUS_MSG_BMBT_ENCODER       0x49    // BMBT encoder was rotated
 #define IBUS_MSG_BMBT_TAPE_STATE    0x4A    // BMBT tape state set or get
 #define IBUS_MSG_BMBT_TAPE_RESP     0x4B    // BMBT tape state response
+#define IBUS_MSG_BMBT_BUTTON_CARPC  0x4C    // in carpc mode we send buttons with this type
 #define IBUS_MSG_BMBT_DISP_SET      0x4F    // BMBT set display input and mode
 #define IBUS_MSG_LAMP_STATE         0x5B    // Lamp state
 #define IBUS_MSG_DIMMER_STATE       0x5C    // Dimmer state
+#define IBUS_MSG_DIMMER_STATE_REQ   0x5D    // Light dimmer state
 #define IBUS_MSG_GM_KEY_BUTTON      0x72    // state of the buttons on the key
 #define IBUS_MSG_EWS_STATE          0x74    // state of the EWS
 #define IBUS_MSG_GM_ENABLE_STATE    0x76    // state of GM indicating if car is closed or not ??? could be DWA?!
@@ -80,8 +88,6 @@
 #define IBUS_MSG_DIA_ACK            0xA0    // acknowledge diagnose message
 
 
-
-// --- Special kind of message for the OpenBM (hardware) project ----
 #define IBUS_MSG_OPENBM_TO          0xFA    // message sent to OpenBM (not BMW specified)
 #define IBUS_MSG_OPENBM_FROM        0xFB    // message received from OpenBM (not BMW specified)
 
@@ -96,6 +102,6 @@
 #define IBUS_MSG_OPENBM_SET_PHOTO   0x13    // setup settings for the photo sensor
 #define IBUS_MSG_OPENBM_SET_DEVICE  0x14    // setup settings for the device (mid, dsp, ...)
 #define IBUS_MSG_OPENBM_SET_IOPINS  0x15    // set values for IO-Pins
+#define IBUS_MSG_OPENBM_SET_POWER   0x16    // setup settings for the power manager
 #define IBUS_MSG_OPENBM_SPECIAL_REQ 0xFF    // second data byte: special request message (i.e. update firmware)
 #define IBUS_MSG_OPENBM_SETTINGS    0xFE    // second data byte: write/read settings of OpenBM to/from EEPROM
-
