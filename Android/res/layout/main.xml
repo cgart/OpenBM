@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <TextView
+        android:textStyle="bold"
+        android:textSize="16dip"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="BMW IBus Gateway" />
+
+    <View android:layout_width="fill_parent"
+    android:layout_height="1px"
+    android:background="#EEEEEEEE" /> 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:onClick="onSelectDeviceClick">
+        <TextView android:text="Selected device"
+         android:id="@+id/deviceTextDesc" 
+         android:layout_width="wrap_content" 
+         android:textStyle="bold"
+         android:textSize="24dip"
+         android:layout_height="wrap_content">
+         </TextView>
+        <TextView android:text="/dev/ttyS0"
+         android:id="@+id/deviceText" 
+         android:layout_width="wrap_content" 
+         android:textSize="12dip"
+         android:layout_height="wrap_content">
+         </TextView>
+    </LinearLayout>
+
+<View android:layout_width="fill_parent"
+android:layout_height="1px"
+android:background="#EEEEEEEE" /> 
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:onClick="onFlowTextClick">
+            <TextView android:text="Flow control"
+             android:id="@+id/flowTextDesc" 
+             android:layout_width="wrap_content" 
+             android:textStyle="bold"
+             android:textSize="24dip"
+             android:layout_height="wrap_content">
+             </TextView>
+            <TextView android:text="hardware"
+             android:id="@+id/flowText" 
+             android:layout_width="wrap_content" 
+             android:textSize="12dip"
+             android:layout_height="wrap_content">
+             </TextView>
+    </LinearLayout>
+    
+<View android:layout_width="fill_parent"
+android:layout_height="1px"
+android:background="#EEEEEEEE" /> 
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:gravity="center_vertical|center_horizontal" 
+        android:layout_gravity="center_vertical|center_horizontal|center"
+        android:layout_height="wrap_content">
+        <Button android:text="Disconnect" 
+            android:id="@+id/buttonDisconnect" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:gravity="center_vertical|center_horizontal" 
+            android:layout_gravity="center_vertical|center_horizontal|center"
+            android:onClick="onClickDisconnect"></Button>
+
+        <Button android:text="Connect" 
+            android:id="@+id/buttonConnect" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:onClick="onClickConnect"></Button>
+
+        <Button android:text="Send" 
+            android:id="@+id/buttonConnect" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:onClick="onClickSend"></Button>
+
+    </LinearLayout>
+
+
+<View android:layout_width="fill_parent"
+android:layout_height="1px"
+android:background="#EEEEEEEE" /> 
+
+    <ListView android:id="@+id/msgHistory"
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:cacheColorHint="#00000000">
+     </ListView>
+
+</LinearLayout>
+
