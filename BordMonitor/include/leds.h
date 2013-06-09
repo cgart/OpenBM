@@ -1,11 +1,24 @@
-/* 
- * File:   leds.h
- * Author: tevs
- *
- * Take care of OpenBM_E39 leds
- * 
- * Created on June 1, 2010, 11:02 PM
- */
+/*
+* Copyright 2010-2013 Art Tevs <art@tevs.eu>
+* This file is part of OpenBM (firmware).
+*
+* OpenBM is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* OpenBM is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with Foobar. If not, see <http://www.gnu.org/licenses/>.
+*
+* Take care of OpenBM_E39 leds
+* 
+* Created on June 1, 2010, 11:02 PM
+*/
 
 #ifndef _LEDS_H
 #define	_LEDS_H
