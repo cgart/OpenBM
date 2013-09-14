@@ -68,6 +68,9 @@ uint8_t photo_calibCacheLine = 0xFF;
 //------------------------------------------------------------------------------
 uint8_t photo_get_cached(uint8_t value)
 {
+    // instead of always recomputing the current value into the calibration range
+    // we cache the calibration values and just load the calibrated photo 
+    // sensor value directly from the cache
     uint8_t cacheLine = value >> CACHE_FACTOR;
     uint8_t cacheStart = cacheLine << CACHE_FACTOR;
 
@@ -196,6 +199,7 @@ uint8_t photo_get_adc_raw_value(void)
 //------------------------------------------------------------------------------
 bool photo_is_bright_enough(void)
 {
+    // if the current value of the photo sensor is above the mid-value calibration value then 
     uint8_t hdiff = (photo_Settings.photo_maxCalibValue - photo_Settings.photo_minCalibValue) >> 1;
     return photoSensorRawValue >= (photo_Settings.photo_minCalibValue + hdiff);
 }
@@ -262,7 +266,7 @@ void photo_init(void)
     photo_Settings.photo_maxCalibValue = eeprom_read_byte(&photo_SettingsEEPROM.photo_maxCalibValue);
     photo_Settings.photo_useSensor = eeprom_read_byte(&photo_SettingsEEPROM.photo_useSensor);
     photo_Settings.photo_calibChanged = eeprom_read_byte(&photo_SettingsEEPROM.photo_calibChanged);
-    photo_Settings.photo_sensorLast = eeprom_read_byte(&photo_SettingsEEPROM.photo_calibChanged);
+    photo_Settings.photo_sensorLast = eeprom_read_byte(&photo_SettingsEEPROM.photo_sensorLast);
 
     eeprom_read_block(&photo_Settings.photo_Gamma, &photo_SettingsEEPROM.photo_Gamma, sizeof(float));
 
@@ -357,6 +361,6 @@ void photo_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
         if (src == IBUS_DEV_LCM && dst == IBUS_DEV_GLO && msglen > 4 && msg[0] == IBUS_MSG_LAMP_STATE && OPENBM_HW_1)
             areLightsOn = (msg[1] & 0x01);
     }else
-        areLightsOn = bit_is_set(PINA,0);
+        areLightsOn = bit_is_clear(PINA,0);
     
 }

@@ -85,6 +85,7 @@ PROJECTNAME=bmwMonitor
 # Use .cc, .cpp or .C suffix for C++ files, use .S
 # (NOT .s !!!) for assembly source code files.
 PRJSRC=main.c uart.c ibus.c twimaster.c display.c leds.c buttons.c emul_mid.c obm_special.c photo_sensor.c power_module.c
+
 # bootloader/xtea.c bootloader/main.c
 
 # additional includes (e.g. -I/path/to/mydir)

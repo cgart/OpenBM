@@ -28,8 +28,8 @@ extern "C"
 
 // Version
 #define VERSION_MAJOR 2
-#define VERSION_MINOR 5
-#define EE_CHECK_BYTE 'q'
+#define VERSION_MINOR 6
+#define EE_CHECK_BYTE 'w'
 #define VERSION_ADD_STR "on " __DATE__ " at " __TIME__ " for " CUSTOMER
 
 #define DEVICE_CODING1 DEVID_11
@@ -47,6 +47,7 @@ extern "C"
 #define CARPC_INPUT()      ((g_deviceSettings.device_Settings1 & 0b00011000) >> 3) // 0=radio, 1=cdchanger, 2=tape, 3=AUX
 #define SUPPORT_SPECIAL()   (g_deviceSettings.device_Settings1 & 0b00100000)   // support for special features, like autom. close/open central lock
 #define USE_PHOTOSENSOR()   (g_deviceSettings.device_Settings1 & 0b01000000)   // use photo sensor per default
+#define DISP_VLED_INV()     (g_deviceSettings.device_Settings1 & 0b10000000)   // the display LED is acting in inverse mode (default: VLED- = GND-> background light ON, inv: VLED- == GND -> background light OFF;)
 
 // Settings (DEVID_12)
 #define EMULATE_MID         (1 << 0)

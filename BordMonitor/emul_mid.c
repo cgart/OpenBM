@@ -57,7 +57,7 @@ static uint8_t _ackTextUpdateWithNeg = 0;
 
 // mapping from button states to MID buttons
 #define MID_MAP_SIZE 15
-uint8_t _button_mapping_buis[MID_MAP_SIZE] PROGMEM = {
+const uint8_t _button_mapping_buis[MID_MAP_SIZE] PROGMEM = {
     BUTTON_1,
     BUTTON_2,
     BUTTON_3,
@@ -77,7 +77,7 @@ uint8_t _button_mapping_buis[MID_MAP_SIZE] PROGMEM = {
     BUTTON_NUM_BUTTONS
 };
 
-uint8_t _button_mapping_prof[MID_MAP_SIZE] PROGMEM = {
+const uint8_t _button_mapping_prof[MID_MAP_SIZE] PROGMEM = {
     BUTTON_1,
     BUTTON_2,
     BUTTON_3,
@@ -99,7 +99,7 @@ uint8_t _button_mapping_prof[MID_MAP_SIZE] PROGMEM = {
 
 
 
-uint8_t _button_mapping_dbyte1_mask[MID_MAP_SIZE] PROGMEM = {
+const uint8_t _button_mapping_dbyte1_mask[MID_MAP_SIZE] PROGMEM = {
     0xFF,
     0xFF,
     0xFF,
@@ -120,7 +120,7 @@ uint8_t _button_mapping_dbyte1_mask[MID_MAP_SIZE] PROGMEM = {
 
 // original BMBT codes
 #define BMBT_MAP_SIZE 22
-uint8_t _bmbt_button_mapping[BMBT_MAP_SIZE][3] PROGMEM =
+const uint8_t _bmbt_button_mapping[BMBT_MAP_SIZE][3] PROGMEM =
 {
     {BUTTON_INFO_R,0x68,0x30},
     {BUTTON_TONE,0x68,0x04},
@@ -607,7 +607,7 @@ void mid_tick(void)
         uint8_t i;
         for (i=0; i < MID_MAP_SIZE; i++)
         {
-            void* addr = NULL;
+            const void* addr = NULL;
             if (g_deviceSettings.device_Settings2 & RADIO_PROFESSIONAL)
                 addr = &(_button_mapping_prof[i]);
             else

@@ -56,6 +56,19 @@ static bootldrinfo_t g_bootldrinfo;
 DeviceSettings g_deviceSettings;
 DeviceSettings g_deviceSettingsEEPROM EEMEM;
 
+//------------------------------------------------------------------------------
+// Random number generator
+//------------------------------------------------------------------------------
+uint8_t rnd(void)
+{
+        static uint8_t s=0xaa,a=0;
+
+        s^=s<<3;
+        s^=s>>5;
+        s^=a++>>2;
+        
+        return s;
+} 
 
 //------------------------------------------------------------------------------
 // Read device settings from eeprom
@@ -330,10 +343,7 @@ void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen
 // MCU doesn't disable the WDT after reset!
 // ----------------------------------------------------------------------------
 uint8_t mcusr_mirror __attribute__ ((section (".noinit")));
-
-void get_mcusr(void) \
-  __attribute__((naked)) \
-  __attribute__((section(".init3")));
+void get_mcusr(void) __attribute__((naked, section(".init3")));
 void get_mcusr(void)
 {            
     // enable main MOSFET to control hardware power
@@ -347,7 +357,7 @@ void get_mcusr(void)
     PRR = 0;                  // enable all hardware
     PRR |= (1 << PRUSART1);   // disable USART-1
     PRR |= (1 << PRSPI);      // disable SPI
-
+    
     // disable wdt
     mcusr_mirror = MCUSR;
     MCUSR = 0;
@@ -359,7 +369,7 @@ void get_mcusr(void)
 // Init all hardware parts needed for the project
 //------------------------------------------------------------------------------
 void initHardware(void)
-{
+{    
     led_init();
     led_radio_immediate_set(1);
     // init ibus as soon as possible, so that messages don't get lost while initialization procedure
@@ -388,10 +398,10 @@ void initHardware(void)
     tick_init();
     power_init();
     i2c_init();
+    photo_init();
     display_init();
     button_init();
     adc_init();
-    photo_init();
 
     // init software modules
     obms_init();

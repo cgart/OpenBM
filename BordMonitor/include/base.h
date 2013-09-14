@@ -116,4 +116,9 @@ CHECK_SIZE(SPM_PAGESIZE < 256);
 #define LAST_PAGE ((BOOTLOADERSTARTADR / SPM_PAGESIZE) - 1)
 
 
+//------------------------------------------------------------------------------
+// Very simple random number generator
+//------------------------------------------------------------------------------
+extern uint8_t rnd(void);
+
 #endif

@@ -163,8 +163,8 @@ extern "C" {
 #ifdef IBUS_TIMER0
     #define IBUS_TIMER_SETUP() { TCCR0B = (1 << CS02) | (1 << CS00); }
 
-    // wait time by collision when transmitting (around 3.4ms)
-    #define IBUS_TIMEOUT_COLLISION() ibus_setTimeOut(50);
+    // wait time by collision when transmitting (around 2ms + x, x <= 4ms)
+    #define IBUS_TIMEOUT_COLLISION() ibus_setTimeOut(30 + (rnd() & 0x5F) );
 
     // receive timeout (stop receiving when nothing happens) (around 17.7ms)
     #define IBUS_TIMEOUT_RECEIVE() ibus_setTimeOut(255);
@@ -172,8 +172,8 @@ extern "C" {
     // wait time when receive error (around 2.7ms)
     #define IBUS_TIMEOUT_RECEIVE_ERROR() ibus_setTimeOut(40);
 
-    // wait when message was transmitted before next message will be transmitted around 3.4ms
-    #define IBUS_TIMEOUT_AFTER_TRANSMIT() ibus_setTimeOut(50);
+    // wait when message was transmitted before next message will be transmitted around 4.0ms
+    #define IBUS_TIMEOUT_AFTER_TRANSMIT() ibus_setTimeOut(60);
 
     // if we just have received something, then wait until next ibus operation 2.0 ms
     #define IBUS_TIMEOUT_AFTER_RECEIVE() ibus_setTimeOut(30);
@@ -213,7 +213,7 @@ extern "C" {
     
 
 //******* default constants **********
-#define IBUS_TRANSMIT_TRIES 16
+#define IBUS_TRANSMIT_TRIES 40
 #define IBUS_STATE_IDLE 0
 #define IBUS_STATE_WAIT_FREE_BUS  (1 << 0)
 #define IBUS_STATE_RECEIVING  (1 << 1)

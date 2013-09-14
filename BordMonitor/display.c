@@ -60,6 +60,7 @@ static ticks_t g_display_NextResponseTime;
 static uint8_t g_displayError;
 
 static ticks_t _nextStopOSD;
+static uint8_t _displayBackCamActive = 0;
 
 //------------------------------------------------------------------------------
 uint8_t display_getPowerState()
@@ -231,12 +232,23 @@ void display_init(void)
     _nextStopOSD = 0;
 
     // setup PWM for the bglight
-    DDRD |= (1 << DDD7);
-    TCCR2A = (1 << COM2A1) | (1 << COM2A0) /*| (1 << WGM21)*/ |  (1 << WGM20);
+    // pwm is a phase correct mode, i.e. timer counts from 0 to 0xFF and then backwards.
+    // when timer counts upwards and reaches 0CR2A the output is set to 1   -> bg light is off
+    // when timer counts downwards and reaches OCR2A the output is set to 0 -> bg light is on
+    TCCR2A = (1 << WGM20);
+    if (DISP_VLED_INV())
+        TCCR2A |= (1 << COM2A1) | (0 << COM2A0);
+    else
+        TCCR2A |= (1 << COM2A1) | (1 << COM2A0);
+        
     TCCR2B = (1 << CS22)  | (0 << CS21) | (0 << CS20); // 450Hz
     //TCCR2B = (0 << CS22)  | (1 << CS21) | (0 << CS20); // 3.5kHz - no noise, however brightness troubles due to short pulses
-    TCNT2 = 0;
-    OCR2A = 0x80;//g_DisplayState.bglight_maxDuty;
+    TCNT2 = 0;        // start counting from 0
+    OCR2A = 0xFF;     // per default awlays on
+
+    // enable output on the bg-pin
+    DDRD |= (1 << DDD7);
+    nop();
     PORTD |= (1 << 7);
 
 
@@ -247,6 +259,7 @@ void display_init(void)
     display_dac_sleep();
 
     _displayTurnedOff = 1;
+    _displayBackCamActive = 0;
     // if display was previously off, then don't enable it again
     //if (g_DisplayState.display_Power)
     //    display_powerOn();
@@ -263,10 +276,14 @@ void display_ToggleKey(uint16_t keyVoltage)
 //------------------------------------------------------------------------------
 void display_enableBackupCameraInput(uint8_t en)
 {
+    _displayBackCamActive = en;
+
     uint8_t val = 0xFF;
-    // TODO / HACK / VERSION - should be (1 << 4) for the openbm < HW2.0 (green pcbs)
+    
+    // VERSION - should be (1 << 4) for the openbm < HW2.0 (green pcbs)
     if (en)
-    val &= (OPENBM_HW_1 ? ~(1 << 4) : ~(1 << 3));
+        val &= (OPENBM_HW_1 ? ~(1 << 4) : ~(1 << 3));
+    
     
     if (i2c_start(PORT_EXPANDER_ENC_BMBT + I2C_WRITE) == 0)
     {
@@ -524,7 +541,7 @@ void display_updateState(void)
             display_powerOn();
 
         // if display was on, then just switch inputs
-        else
+        else if (!_displayBackCamActive)
         {
             display_ToggleInput(1);
         }

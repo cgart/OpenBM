@@ -174,6 +174,7 @@ static LeavingHome _leavingHome = NO;
 
 static uint8_t _tippBlinken = 0;
 static uint8_t _tippBlinkenCounter = 0;
+static uint8_t _tippBlinkenResendTurnOffTrials = 0;
 static uint8_t _dimmerState = 0;
 static uint8_t _lwrState = 0;
 
@@ -323,7 +324,7 @@ void obms_set_light_state(void)
 
     ibus_sendMessage(IBUS_DEV_DIA, IBUS_DEV_LCM, data, 13, IBUS_TRANSMIT_TRIES);
 
-    _lightState &= ~LIGHT_STATE_CHANGED;
+    _lightState &= ~LIGHT_STATE_CHANGED;    
 }
 
 //------------------------------------------------------------------------------
@@ -522,12 +523,12 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
             //if ((_tippBlinken & 0x0F) == 0 &&
             if (obms_Settings.comfortTurnLight > 0)
             {
-                // turn flash light
-                if (msg[3] == 0x04)
+                // this counter will be passed to the new
+                uint8_t counter = (_tippBlinken & 0x0F);
+                
+                // turn flash light (but only if not an emergency light)
+                if (msg[3] == 0x04 && ((msg[1] & 0x60) != 0x60))
                 {
-                    // this counter will be passed to the new
-                    uint8_t counter = (_tippBlinken & 0x0F);
-
                     // activated left
                     if (msg[1] & 0x20)
                     {
@@ -544,15 +545,21 @@ void obms_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
                     }
 
                     // increase counter only if not running yet
-                    if ((_tippBlinken & 0x0F) == 0)
+                    if (counter == 0)
                         _tippBlinkenCounter++;
 
+                    // it happens sometimes, that due to collision
                 // if turn flash light is turned off
-                }else if ((_tippBlinken & 0x0F) == 0 && msg[3] == 0)
+                }else if (counter == 0 && msg[3] == 0)
                 {
+                    _tippBlinkenResendTurnOffTrials = 0;
+                    
                     // activate tipp blinken for at most X flashes
                     if (_tippBlinkenCounter > 0 && _tippBlinkenCounter < obms_Settings.comfortTurnLight)
+                    {
+                        _tippBlinken &= 0xF0;
                         _tippBlinken |= ((obms_Settings.comfortTurnLight - _tippBlinkenCounter) & 0x0F);
+                    }
                     _tippBlinkenCounter = 0;
                 }
             }
@@ -673,10 +680,12 @@ void obms_backcam_tick(void)
         // react after 500ms
         if (ticks > TICKS_PER_HALFSECOND)
         {
-            if (HAS_BACKCAM_SWITCH && BACKCAM_INPUT() == 0x02)
+            static uint8_t oldState = 0;
+            
+            if (HAS_BACKCAM_SWITCH) // && BACKCAM_INPUT() == 0x02)
             {
-                static uint8_t oldState = 0;
                 _cam_state = CAM_SWITCHING;
+
                 if ((state & CAM_ON) == CAM_ON)
                 {
                     oldState = display_getInputState();
@@ -688,30 +697,33 @@ void obms_backcam_tick(void)
                     display_enableBackupCameraInput(0);
                     display_updateInputState(oldState);
                 }
+                
                 _cam_state = CAM_IDLE;
-            }else
+                
+            // DEPRECATED: this is usually deprecated, each new hardware should have a special back camera switch
+            }/*else
             {
-
                 _cam_state = CAM_SWITCHING;
 
                 // switch camera according to the output we like to have
                 if (state & CAM_ON)
                 {
-                    //_cam_oldstate = display_getInputState();
+                    oldState = display_getInputState();
+                    
+                    display_enableBackupCameraInput(1);
                     display_setInputState(BACKCAM_INPUT());
                 }else
                 {
-                    display_setInputState(0);//_cam_oldstate);
+                    display_enableBackupCameraInput(0);
+                    display_setInputState(oldState);
                 }
 
                 // while camera was switching, we might have received new messages
                 // so whenever camera state is still switching, we are safe to go into idle
                 // otherwise, on the next tick we will reset the output again
-                //BEGIN_ATOMAR;
-                    if (_cam_state == CAM_SWITCHING)
-                        _cam_state = CAM_IDLE;
-                //END_ATOMAR;
-            }
+                if (_cam_state == CAM_SWITCHING)
+                    _cam_state = CAM_IDLE;
+            }*/
 
             ticks = 0;
         }
@@ -875,32 +887,54 @@ void obms_tick(void)
         // 3f,d0,0c,0,0,40,0,0,0,0,0,0 - indicator right
         static bool flash = true;
         static ticks_t nextFlash = 0;
-
+        static bool sent = false;
+        
         uint8_t tippCounter = _tippBlinken & 0x0F;
-        if (tippCounter > 0)
+        if (tippCounter > 0 || _tippBlinkenResendTurnOffTrials > 0)
         {
             if (tick_get() > nextFlash)
             {
-                nextFlash = 0;
+                nextFlash = tick_get() + 9;
                 _lightState &= ~LEFT_INDICATOR & ~RIGHT_INDICATOR;
 
-                if (flash)
-                {
+                if (flash && tippCounter > 0)
+                {                    
                     if (_tippBlinken & 0x80)
                         _lightState |= LEFT_INDICATOR;
                     else if (_tippBlinken & 0x40)
-                        _lightState |= RIGHT_INDICATOR;
+                        _lightState |= RIGHT_INDICATOR;                    
+                    
+                    // send 3F message only first time
+                    if (!sent)
+                    {
+                        _lightState |= LIGHT_STATE_CHANGED;                    
+                        sent = true;
+                    }
                 }
                 else
                 {
-                    _tippBlinken &= 0xF0;
-                    _tippBlinken |= ((tippCounter - 1) & 0x0F);
+                    if (tippCounter > 0)
+                    {
+                        _tippBlinken &= 0xF0;
+                        _tippBlinken |= ((tippCounter - 1) & 0x0F);
+                    }
+                    
+                    // 3F message is sent if this was the last flash
+                    if (tippCounter == 1)
+                    {
+                        _lightState |= LIGHT_STATE_CHANGED;
+                        sent = false;
+                        _tippBlinkenResendTurnOffTrials = 10;
+                    }
                 }
-                _lightState |= LIGHT_STATE_CHANGED;
+                
+                if (tippCounter == 0 && _tippBlinkenResendTurnOffTrials > 0)
+                {
+                    _lightState |= LIGHT_STATE_CHANGED;
+                    _tippBlinkenResendTurnOffTrials --;
+                }
                 flash = !flash;
             }
-            if (nextFlash == 0)
-                nextFlash = tick_get() + 9;
         }
     }
 
