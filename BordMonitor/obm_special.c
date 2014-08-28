@@ -682,7 +682,7 @@ void obms_backcam_tick(void)
         {
             static uint8_t oldState = 0;
             
-            if (HAS_BACKCAM_SWITCH) // && BACKCAM_INPUT() == 0x02)
+            if (HAS_BACKCAM_SWITCH()) // && BACKCAM_INPUT() == 0x02)
             {
                 _cam_state = CAM_SWITCHING;
 
@@ -1099,7 +1099,7 @@ void obms_init(void)
     {
         eeprom_write_byte(&obms_SettingsInit, EE_CHECK_BYTE);
 
-        eeprom_update_byte(&obms_SettingsEEPROM.automaticCentralLock, (DEVICE_CODING3 & OBMS_AUT_CENTRALLOCK) == OBMS_AUT_CENTRALLOCK ? 5 : 0);
+        eeprom_update_byte(&obms_SettingsEEPROM.automaticCentralLock, OBMS_AUT_CENTRALLOCK() ? 5 : 0);
         eeprom_update_byte(&obms_SettingsEEPROM.automaticMirrorFold, AUT_MIRROR_FOLD | AUT_MIRROR_UNFOLD);
         eeprom_update_byte(&obms_SettingsEEPROM.mirrorFoldDelay, 4);
         eeprom_update_byte(&obms_SettingsEEPROM.lockCarUnused, 160);
@@ -1117,10 +1117,10 @@ void obms_init(void)
                           DIMMER_BACKGROUND |
                           LICENSE_PLATE));
 
-        eeprom_update_byte(&obms_SettingsEEPROM.emulateCDchanger, (DEVICE_CODING2 & EMULATE_CDCHANGER) == EMULATE_CDCHANGER);
-        eeprom_update_byte(&obms_SettingsEEPROM.emulateMID, (DEVICE_CODING2 & EMULATE_MID) == EMULATE_MID);
+        eeprom_update_byte(&obms_SettingsEEPROM.emulateCDchanger, EMULATE_CDCHANGER());
+        eeprom_update_byte(&obms_SettingsEEPROM.emulateMID, EMULATE_MID());
         
-        if ((DEVICE_CODING2 & EMULATE_BORDMONITOR) == EMULATE_BORDMONITOR)
+        if (EMULATE_BORDMONITOR())
             eeprom_update_byte(&obms_SettingsEEPROM.emulateBordmonitor, BMBT | BMBT_LCD_OFF | BMBT_LCD_ON /*| BMBT_LCD_GT_2 | BMBT_LCD_TV_1 | BMBT_LCD_TV_2*/ | BMBT_DIFF_KEYS);
         else
             eeprom_update_byte(&obms_SettingsEEPROM.emulateBordmonitor, 0);

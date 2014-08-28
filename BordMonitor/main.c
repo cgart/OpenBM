@@ -98,11 +98,13 @@ void settings_readAndSetup(void)
         // --------------------
         eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings1, DEVICE_CODING1);
         eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings2, DEVICE_CODING2);
+        eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings3, DEVICE_CODING3);
     }
 
     // load current display state from the eeprom
     g_deviceSettings.device_Settings1 = eeprom_read_byte(&g_deviceSettingsEEPROM.device_Settings1);
     g_deviceSettings.device_Settings2 = eeprom_read_byte(&g_deviceSettingsEEPROM.device_Settings2);
+    g_deviceSettings.device_Settings3 = eeprom_read_byte(&g_deviceSettingsEEPROM.device_Settings3);
 
     g_deviceSettings.io_assignment[0] = eeprom_read_word((void*)&g_deviceSettingsEEPROM.io_assignment[0]);
     g_deviceSettings.io_assignment[1] = eeprom_read_word((void*)&g_deviceSettingsEEPROM.io_assignment[1]);
@@ -256,24 +258,24 @@ void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen
             {
                 if (msg[3])
                 {
-                    eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings2, g_deviceSettings.device_Settings2 | DSP_AMPLIFIER);
-                    g_deviceSettings.device_Settings2 |= DSP_AMPLIFIER;
+                    eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings2, g_deviceSettings.device_Settings2 | DSP_AMPLIFIER_BIT);
+                    g_deviceSettings.device_Settings2 |= DSP_AMPLIFIER_BIT;
                 }else
                 {
-                    eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings2, g_deviceSettings.device_Settings2 & ~(DSP_AMPLIFIER));
-                    g_deviceSettings.device_Settings2 &= ~(DSP_AMPLIFIER);
+                    eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings2, g_deviceSettings.device_Settings2 & ~(DSP_AMPLIFIER_BIT));
+                    g_deviceSettings.device_Settings2 &= ~(DSP_AMPLIFIER_BIT);
                 }
                 ok = 1;
             }else if (msg[2] == 0x02)
             {
                 if (msg[3])
                 {
-                    eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings2, g_deviceSettings.device_Settings2 | REW_FF_ONMID);
-                    g_deviceSettings.device_Settings2 |= REW_FF_ONMID;
+                    eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings2, g_deviceSettings.device_Settings2 | REW_FF_ONMID_BIT);
+                    g_deviceSettings.device_Settings2 |= REW_FF_ONMID_BIT;
                 }else
                 {
-                    eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings2, g_deviceSettings.device_Settings2 & ~(REW_FF_ONMID));
-                    g_deviceSettings.device_Settings2 &= ~(REW_FF_ONMID);
+                    eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings2, g_deviceSettings.device_Settings2 & ~(REW_FF_ONMID_BIT));
+                    g_deviceSettings.device_Settings2 &= ~(REW_FF_ONMID_BIT);
                 }
                 ok = 1;
             }else if (msg[2] == 0x03)
@@ -281,12 +283,12 @@ void ibus_MessageCallback(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen
                 ok = 1;
                 if (msg[3] == 1)
                 {
-                    eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings2, g_deviceSettings.device_Settings2 | RADIO_PROFESSIONAL);
-                    g_deviceSettings.device_Settings2 |= RADIO_PROFESSIONAL;
+                    eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings2, g_deviceSettings.device_Settings2 | RADIO_PROFESSIONAL_BIT);
+                    g_deviceSettings.device_Settings2 |= RADIO_PROFESSIONAL_BIT;
                 }else if (msg[3] == 0)
                 {
-                    eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings2, g_deviceSettings.device_Settings2 & ~(RADIO_PROFESSIONAL));
-                    g_deviceSettings.device_Settings2 &= ~(RADIO_PROFESSIONAL);
+                    eeprom_update_byte(&g_deviceSettingsEEPROM.device_Settings2, g_deviceSettings.device_Settings2 & ~(RADIO_PROFESSIONAL_BIT));
+                    g_deviceSettings.device_Settings2 &= ~(RADIO_PROFESSIONAL_BIT);
                 }else
                     ok = 0;
             }else if (msg[2] == 0x04)
@@ -394,6 +396,11 @@ void initHardware(void)
     // read settings and setup hardware to the settings
     settings_readAndSetup();
 
+    // Output for IOs
+    DDRB |= (1 << DDB5); //PORTB &= ~(1 << 5);
+    DDRB |= (1 << DDB6); //PORTB &= ~(1 << 6);
+    DDRB |= (1 << DDB7); //PORTB &= ~(1 << 7);
+    
     // init hardware
     tick_init();
     power_init();
@@ -407,13 +414,29 @@ void initHardware(void)
     obms_init();
     mid_init();
 
-    // Output for IOs
-    DDRB |= (1 << DDB5); PORTB &= ~(1 << 5);
-    DDRB |= (1 << DDB6); PORTB &= ~(1 << 6);
-    DDRB |= (1 << DDB7); PORTB &= ~(1 << 7);
-
 
     led_red_immediate_set(0);
+    
+    //display_powerOn();
+    
+    /*while(1)
+    {
+        uint8_t data[5] = {0xAA, 0xAA, 0xAA, 0xAA, HW_ID};
+        ibus_sendMessage(IBUS_DEV_BMBT, IBUS_DEV_CARPC, data, 5, 1);
+        
+    led_red_immediate_set(1);
+    led_green_immediate_set(1);
+    led_yellow_immediate_set(1);
+    led_fan_immediate_set(1);
+    _delay_ms(250);
+    _delay_ms(250);
+    led_red_immediate_set(0);
+    led_green_immediate_set(0);
+    led_yellow_immediate_set(0);
+    led_fan_immediate_set(0);    
+    _delay_ms(250);
+    _delay_ms(250);
+    }*/
 }
 
 // -----------------------------------------------------------------------------
@@ -738,6 +761,11 @@ int main(void)
             checkSetupMode();
 
             //led_yellow_immediate_set(power_getHWIgnitionState());
+
+        /*if (button_whichDown() != BUTTON_NUM_BUTTONS)
+        {
+            led_radioBlinkLock(1);
+        }*/
             
             // user defined IO-buttons
             for (int8_t ios = 0; ios < 3; ios++)

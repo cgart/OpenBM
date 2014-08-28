@@ -182,6 +182,13 @@ void display_init(void)
     asm volatile("nop");
     asm volatile("nop");
 
+    if (DISP_BUTTONS_ON_IO())
+    {
+        DISP_POWER_KEY_OVER_IO_OFF();
+        DISP_SWITCH_KEY_OVER_IO_OFF();
+        //DISP_MENU_KEY_OVER_IO_OFF();
+    }
+    
     //display_enableBackupCameraInput(0);
 
     // disable display per default and read max voltage levels
@@ -268,9 +275,31 @@ void display_init(void)
 //------------------------------------------------------------------------------
 void display_ToggleKey(uint16_t keyVoltage)
 {
+    // in case if we want IO to emualte buttons, then do so
+    if (DISP_BUTTONS_ON_IO())
+    {
+        if (keyVoltage == g_DisplayState.dac_PowerKey)
+            DISP_POWER_KEY_OVER_IO_ON();
+        else if (keyVoltage == g_DisplayState.dac_SwitchKey)
+            DISP_SWITCH_KEY_OVER_IO_ON();
+        //else if (keyVoltage == g_DisplayState.dac_MenuKey)
+        //    DISP_MENU_KEY_OVER_IO_ON();
+    }
+    
     display_dac_setVoltage_fast(keyVoltage);
     _delay_ms(200);
     display_dac_setVoltage_fast(g_DisplayState.dac_idleVoltage);
+
+    if (DISP_BUTTONS_ON_IO())
+    {
+        if (keyVoltage == g_DisplayState.dac_PowerKey)
+            DISP_POWER_KEY_OVER_IO_OFF();
+        else if (keyVoltage == g_DisplayState.dac_SwitchKey)
+            DISP_SWITCH_KEY_OVER_IO_OFF();
+        //else if (keyVoltage == g_DisplayState.dac_MenuKey)
+        //    DISP_MENU_KEY_OVER_IO_OFF();
+    }
+
 }
 
 //------------------------------------------------------------------------------
@@ -282,7 +311,7 @@ void display_enableBackupCameraInput(uint8_t en)
     
     // VERSION - should be (1 << 4) for the openbm < HW2.0 (green pcbs)
     if (en)
-        val &= (OPENBM_HW_1 ? ~(1 << 4) : ~(1 << 3));
+        val &= (OPENBM_HW_1() ? ~(1 << 4) : ~(1 << 3));
     
     
     if (i2c_start(PORT_EXPANDER_ENC_BMBT + I2C_WRITE) == 0)
@@ -415,7 +444,7 @@ void display_powerOn(void)
     display_dac_setVoltage(g_DisplayState.dac_idleVoltage);
     DISP_MOSFET_ON;
     eeprom_update_byte(&g_eeprom_DisplayState.display_Power, g_DisplayState.display_Power);
-    g_display_NextResponseTime = tick_get() + TICKS_PER_SECOND - TICKS_PER_QUARTERSECOND;
+    g_display_NextResponseTime = tick_get() + TICKS_PER_SECOND - TICKS_PER_QUARTERSECOND;    
 }
 
 //------------------------------------------------------------------------------

@@ -47,7 +47,7 @@ int8_t g_enc_current[2];    // current rotary state of the encoders
 #define ENC_BMBT_KNOB (1 << 0)
 #define ENC_BMBT_OUT1 (1 << 1)
 #define ENC_BMBT_OUT2 (1 << 2)
-#define BMBT_EJECT    (OPENBM_HW_1 ? (1 << 3) : (1 << 4))
+#define BMBT_EJECT    (OPENBM_HW_1() ? (1 << 3) : (1 << 4))
 #define IGNITION_STATE (1 << 7)
 #define ENC_RADIO_OUT2 (1 << 0)
 #define ENC_RADIO_OUT1 (1 << 1)
@@ -246,7 +246,7 @@ void button_tick_encoder(void)
         else g_buttons &= ~(1L << BUTTON_EJECT);
 
         // from HW2.0 ignition state is available 
-        if (OPENBM_HW_1)
+        if (OPENBM_HW_1())
         {
             if (state & IGNITION_STATE) power_setHWIgnitionState(1);
             else power_setHWIgnitionState(0);

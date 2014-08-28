@@ -31,6 +31,16 @@ extern "C"
 #define DISP_MOSFET_OFF {PORTB &= ~(1 << 4);}
 #define DISP_MOSFET_ON  {PORTB |= (1 << 4);}
 
+// emualtion of buttons through IO (off is VCC, on is GND)
+#define DISP_POWER_KEY_OVER_IO_ON() PORTB &= ~(1 << (5+0))
+#define DISP_POWER_KEY_OVER_IO_OFF()  PORTB |= (1 << (5+0))
+
+#define DISP_SWITCH_KEY_OVER_IO_ON() PORTB &= ~(1 << (5+1))
+#define DISP_SWITCH_KEY_OVER_IO_OFF()  PORTB |= (1 << (5+1))
+
+#define DISP_MENU_KEY_OVER_IO_ON() PORTB &= ~(1 << (5+0))
+#define DISP_MENU_KEY_OVER_IO_OFF()  PORTB |= (1 << (5+0))
+    
 //------------------------------------------------------------------------------
 // Init display, by loading data from eeprom
 //------------------------------------------------------------------------------

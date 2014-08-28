@@ -29,7 +29,7 @@ extern "C"
 // Version
 #define VERSION_MAJOR 2
 #define VERSION_MINOR 6
-#define EE_CHECK_BYTE 'w'
+#define EE_CHECK_BYTE 'q'
 #define VERSION_ADD_STR "on " __DATE__ " at " __TIME__ " for " CUSTOMER
 
 #define DEVICE_CODING1 DEVID_11
@@ -37,7 +37,7 @@ extern "C"
 #define DEVICE_CODING3 DEVID_13
 #define HW_ID DEVID_1
     
-
+// Settings (DEVID_11)
 #define USE_BM_LEDS_BIT       (0b00000100)
 #define CARPC_INPUT_SET(a)    {g_deviceSettings.device_Settings1 &= 0b11100111; g_deviceSettings.device_Settings1 &= (a & 0x03);}
 #define SUPPORT_SPECIAL_BIT   (0b00100000)
@@ -49,20 +49,29 @@ extern "C"
 #define USE_PHOTOSENSOR()   (g_deviceSettings.device_Settings1 & 0b01000000)   // use photo sensor per default
 #define DISP_VLED_INV()     (g_deviceSettings.device_Settings1 & 0b10000000)   // the display LED is acting in inverse mode (default: VLED- = GND-> background light ON, inv: VLED- == GND -> background light OFF;)
 
+    
 // Settings (DEVID_12)
-#define EMULATE_MID         (1 << 0)
-#define RADIO_PROFESSIONAL  (1 << 1)
-#define DSP_AMPLIFIER       (1 << 2)
-#define EMULATE_BORDMONITOR (1 << 3)
-#define REW_FF_ONMID        (1 << 4)
-#define EMULATE_CDCHANGER   (1 << 5)
-#define HAS_BACKCAM_SWITCH  ((DEVID_12 & (1 << 6)) == (1 << 6))
-#define OPENBM_HW_1         ((DEVID_12 & (1 << 7)) == (1 << 7))
+#define EMULATE_MID_BIT         (1 << 0)
+#define RADIO_PROFESSIONAL_BIT  (1 << 1)
+#define DSP_AMPLIFIER_BIT       (1 << 2)
+#define EMULATE_BORDMONITOR_BIT (1 << 3)
+#define REW_FF_ONMID_BIT        (1 << 4)
+#define EMULATE_CDCHANGER_BIT   (1 << 5)
 
-    
-    
+#define EMULATE_MID()         (g_deviceSettings.device_Settings2 & EMULATE_BORDMONITOR_BIT)
+#define RADIO_PROFESSIONAL()  (g_deviceSettings.device_Settings2 & RADIO_PROFESSIONAL_BIT)
+#define DSP_AMPLIFIER()       (g_deviceSettings.device_Settings2 & DSP_AMPLIFIER_BIT)
+#define EMULATE_BORDMONITOR() (g_deviceSettings.device_Settings2 & EMULATE_BORDMONITOR_BIT)
+#define REW_FF_ONMID()        (g_deviceSettings.device_Settings2 & REW_FF_ONMID_BIT)
+#define EMULATE_CDCHANGER()   (g_deviceSettings.device_Settings2 & EMULATE_CDCHANGER_BIT)
+
+#define HAS_BACKCAM_SWITCH()  ((DEVID_12 & (1 << 6)) == (1 << 6))
+#define OPENBM_HW_1()         ((DEVID_12 & (1 << 7)) == (1 << 7))
+
+        
 // Additional Device Settings (DEVID_13)
-#define OBMS_AUT_CENTRALLOCK (1 << 0)
+#define OBMS_AUT_CENTRALLOCK() (g_deviceSettings.device_Settings3 & (1 << 0))
+#define DISP_BUTTONS_ON_IO()   (g_deviceSettings.device_Settings3 & (1 << 7))
     
 // -----------------------------------------------------------------------------
 typedef struct _DeviceSettings
@@ -72,6 +81,7 @@ typedef struct _DeviceSettings
     // --------------------------------------
     uint8_t device_Settings1;
     uint8_t device_Settings2;
+    uint8_t device_Settings3;
     
     // --------------------------------------
     // stuff

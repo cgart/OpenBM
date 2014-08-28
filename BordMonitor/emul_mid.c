@@ -568,7 +568,7 @@ void mid_tick(void)
                 uint8_t data[4] = {IBUS_MSG_MID_STATE_BUTTONS, 0x20, 0xB2, 0x00};
 
                 // if DSP, then include DSP bit to switch DSP on/off
-                if (g_deviceSettings.device_Settings2 & DSP_AMPLIFIER)
+                if (DSP_AMPLIFIER())
                     data[3] |= 0x20;
 
                 ibus_sendMessage(IBUS_DEV_MID, IBUS_DEV_LOC, data, 4, IBUS_TRANSMIT_TRIES);
@@ -608,7 +608,7 @@ void mid_tick(void)
         for (i=0; i < MID_MAP_SIZE; i++)
         {
             const void* addr = NULL;
-            if (g_deviceSettings.device_Settings2 & RADIO_PROFESSIONAL)
+            if (RADIO_PROFESSIONAL())
                 addr = &(_button_mapping_prof[i]);
             else
                 addr = &(_button_mapping_buis[i]);
@@ -623,11 +623,11 @@ void mid_tick(void)
             // REW and FF send only as MID button, if this has been set in our device settings
             else if ((bmap == BUTTON_REW || bmap == BUTTON_FF)
               //&& get_active_mode() != CARPC_INPUT()
-              && (g_deviceSettings.device_Settings2 & REW_FF_ONMID) != REW_FF_ONMID) continue;            
+              && !REW_FF_ONMID()) continue;            
 
             else if ((bmap == BUTTON_REW || bmap == BUTTON_FF)
               && get_active_mode() == CARPC_INPUT()
-              && (g_deviceSettings.device_Settings2 & REW_FF_ONMID) == REW_FF_ONMID) continue;
+              && REW_FF_ONMID()) continue;
 
             uint8_t bmask = pgm_read_byte(&(_button_mapping_dbyte1_mask[i]));
 
@@ -658,7 +658,7 @@ void mid_tick(void)
         {
             // find out the button index from which we map the buttons to MID instead of BMBT
             unsigned midButtonsFrom = 11;
-            if ((g_deviceSettings.device_Settings2 & REW_FF_ONMID) == REW_FF_ONMID)
+            if (REW_FF_ONMID())
                 midButtonsFrom = 9;
 
             // if we are not in the CarPC mode then send other codes for the MID buttons as usual
@@ -671,7 +671,7 @@ void mid_tick(void)
             
             if (!does_emulate_bmbt() && (bmap == BUTTON_REW || bmap == BUTTON_FF))
             {
-                if (get_active_mode() != CARPC_INPUT() && (g_deviceSettings.device_Settings2 & REW_FF_ONMID) == REW_FF_ONMID) continue;
+                if (get_active_mode() != CARPC_INPUT() && REW_FF_ONMID()) continue;
             }
 
             uint8_t src = IBUS_DEV_BMBT;

@@ -356,9 +356,9 @@ void photo_on_bus_msg(uint8_t src, uint8_t dst, uint8_t* msg, uint8_t msglen)
     }
 
     // what about the bg leds
-    if (OPENBM_HW_1)
+    if (OPENBM_HW_1())
     {
-        if (src == IBUS_DEV_LCM && dst == IBUS_DEV_GLO && msglen > 4 && msg[0] == IBUS_MSG_LAMP_STATE && OPENBM_HW_1)
+        if (src == IBUS_DEV_LCM && dst == IBUS_DEV_GLO && msglen > 4 && msg[0] == IBUS_MSG_LAMP_STATE)
             areLightsOn = (msg[1] & 0x01);
     }else
         areLightsOn = bit_is_clear(PINA,0);
