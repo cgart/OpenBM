@@ -1,0 +1,155 @@
+GAS LISTING /tmp/ccQKZDuw.s 			page 1
+
+
+   1               		.file	"reactivate.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  10               		.stabs	"/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/",100,0,2,.Ltext0
+  11               		.stabs	"reactivate.c",100,0,2,.Ltext0
+  12               		.text
+  13               	.Ltext0:
+  14               		.stabs	"gcc2_compiled.",60,0,0,0
+  15               		.stabs	"int:t(0,1)=r(0,1);-32768;32767;",128,0,1,0
+  16               		.stabs	"char:t(0,2)=@s8;r(0,2);0;255;",128,0,1,0
+  17               		.stabs	"long int:t(0,3)=@s32;r(0,3);020000000000;017777777777;",128,0,1,0
+  18               		.stabs	"unsigned int:t(0,4)=r(0,4);0;0177777;",128,0,1,0
+  19               		.stabs	"long unsigned int:t(0,5)=@s32;r(0,5);0;037777777777;",128,0,1,0
+  20               		.stabs	"long long int:t(0,6)=@s64;r(0,6);01000000000000000000000;0777777777777777777777;",128,0,1,
+  21               		.stabs	"long long unsigned int:t(0,7)=@s64;r(0,7);0;01777777777777777777777;",128,0,1,0
+  22               		.stabs	"short int:t(0,8)=r(0,8);-32768;32767;",128,0,1,0
+  23               		.stabs	"short unsigned int:t(0,9)=r(0,9);0;0177777;",128,0,1,0
+  24               		.stabs	"signed char:t(0,10)=@s8;r(0,10);-128;127;",128,0,1,0
+  25               		.stabs	"unsigned char:t(0,11)=@s8;r(0,11);0;255;",128,0,1,0
+  26               		.stabs	"float:t(0,12)=r(0,1);4;0;",128,0,1,0
+  27               		.stabs	"double:t(0,13)=r(0,1);4;0;",128,0,1,0
+  28               		.stabs	"long double:t(0,14)=r(0,1);4;0;",128,0,1,0
+  29               		.stabs	"void:t(0,15)=(0,15)",128,0,1,0
+  30               		.stabs	"./include/base.h",130,0,0,0
+  31               		.stabs	"/usr/lib/gcc/avr/4.3.4/../../../avr/include/avr/io.h",130,0,0,0
+  32               		.stabs	"/usr/lib/gcc/avr/4.3.4/../../../avr/include/avr/sfr_defs.h",130,0,0,0
+  33               		.stabs	"/usr/lib/gcc/avr/4.3.4/../../../avr/include/inttypes.h",130,0,0,0
+  34               		.stabs	"/usr/lib/gcc/avr/4.3.4/../../../avr/include/stdint.h",130,0,0,0
+  35               		.stabs	"int8_t:t(5,1)=(0,10)",128,0,121,0
+  36               		.stabs	"uint8_t:t(5,2)=(0,11)",128,0,122,0
+  37               		.stabs	"int16_t:t(5,3)=(0,1)",128,0,123,0
+  38               		.stabs	"uint16_t:t(5,4)=(0,4)",128,0,124,0
+  39               		.stabs	"int32_t:t(5,5)=(0,3)",128,0,125,0
+  40               		.stabs	"uint32_t:t(5,6)=(0,5)",128,0,126,0
+  41               		.stabs	"int64_t:t(5,7)=(0,6)",128,0,128,0
+  42               		.stabs	"uint64_t:t(5,8)=(0,7)",128,0,129,0
+  43               		.stabs	"intptr_t:t(5,9)=(5,3)",128,0,142,0
+  44               		.stabs	"uintptr_t:t(5,10)=(5,4)",128,0,147,0
+  45               		.stabs	"int_least8_t:t(5,11)=(5,1)",128,0,159,0
+  46               		.stabs	"uint_least8_t:t(5,12)=(5,2)",128,0,164,0
+  47               		.stabs	"int_least16_t:t(5,13)=(5,3)",128,0,169,0
+  48               		.stabs	"uint_least16_t:t(5,14)=(5,4)",128,0,174,0
+  49               		.stabs	"int_least32_t:t(5,15)=(5,5)",128,0,179,0
+  50               		.stabs	"uint_least32_t:t(5,16)=(5,6)",128,0,184,0
+  51               		.stabs	"int_least64_t:t(5,17)=(5,7)",128,0,192,0
+  52               		.stabs	"uint_least64_t:t(5,18)=(5,8)",128,0,199,0
+  53               		.stabs	"int_fast8_t:t(5,19)=(5,1)",128,0,213,0
+  54               		.stabs	"uint_fast8_t:t(5,20)=(5,2)",128,0,218,0
+  55               		.stabs	"int_fast16_t:t(5,21)=(5,3)",128,0,223,0
+  56               		.stabs	"uint_fast16_t:t(5,22)=(5,4)",128,0,228,0
+  57               		.stabs	"int_fast32_t:t(5,23)=(5,5)",128,0,233,0
+GAS LISTING /tmp/ccQKZDuw.s 			page 2
+
+
+  58               		.stabs	"uint_fast32_t:t(5,24)=(5,6)",128,0,238,0
+  59               		.stabs	"int_fast64_t:t(5,25)=(5,7)",128,0,246,0
+  60               		.stabs	"uint_fast64_t:t(5,26)=(5,8)",128,0,253,0
+  61               		.stabs	"intmax_t:t(5,27)=(5,7)",128,0,273,0
+  62               		.stabs	"uintmax_t:t(5,28)=(5,8)",128,0,278,0
+  63               		.stabn	162,0,0,0
+  64               		.stabs	"int_farptr_t:t(4,1)=(5,5)",128,0,77,0
+  65               		.stabs	"uint_farptr_t:t(4,2)=(5,6)",128,0,81,0
+  66               		.stabn	162,0,0,0
+  67               		.stabn	162,0,0,0
+  68               		.stabs	"/usr/lib/gcc/avr/4.3.4/../../../avr/include/avr/fuse.h",130,0,0,0
+  69               		.stabs	"__fuse_t:t(6,1)=(6,2)=s2low:(0,11),0,8;high:(0,11),8,8;;",128,0,247,0
+  70               		.stabn	162,0,0,0
+  71               		.stabn	162,0,0,0
+  72               		.stabs	"/usr/lib/gcc/avr/4.3.4/../../../avr/include/stdlib.h",130,0,0,0
+  73               		.stabs	"/usr/lib/gcc/avr/4.3.4/include/stddef.h",130,0,0,0
+  74               		.stabs	"size_t:t(8,1)=(0,4)",128,0,214,0
+  75               		.stabs	"wchar_t:t(8,2)=(0,1)",128,0,326,0
+  76               		.stabn	162,0,0,0
+  77               		.stabs	"div_t:t(7,1)=(7,2)=s4quot:(0,1),0,16;rem:(0,1),16,16;;",128,0,71,0
+  78               		.stabs	"ldiv_t:t(7,3)=(7,4)=s8quot:(0,3),0,32;rem:(0,3),32,32;;",128,0,77,0
+  79               		.stabs	"__compar_fn_t:t(7,5)=(7,6)=*(7,7)=f(0,1)",128,0,80,0
+  80               		.stabn	162,0,0,0
+  81               		.stabs	"/usr/lib/gcc/avr/4.3.4/../../../avr/include/avr/pgmspace.h",130,0,0,0
+  82               		.stabs	"prog_void:t(9,1)=(9,2)=(9,2)",128,0,211,0
+  83               		.stabs	"prog_char:t(9,3)=(9,4)=@s8;r(9,4);0;255;",128,0,212,0
+  84               		.stabs	"prog_uchar:t(9,5)=(9,4)",128,0,213,0
+  85               		.stabs	"prog_int8_t:t(9,6)=(9,7)=(0,10)",128,0,215,0
+  86               		.stabs	"prog_uint8_t:t(9,8)=(9,4)",128,0,216,0
+  87               		.stabs	"prog_int16_t:t(9,9)=(9,10)=(0,1)",128,0,217,0
+  88               		.stabs	"prog_uint16_t:t(9,11)=(9,12)=(0,4)",128,0,218,0
+  89               		.stabs	"prog_int32_t:t(9,13)=(9,14)=(0,3)",128,0,219,0
+  90               		.stabs	"prog_uint32_t:t(9,15)=(9,16)=(0,5)",128,0,220,0
+  91               		.stabs	"prog_int64_t:t(9,17)=(9,18)=(0,6)",128,0,222,0
+  92               		.stabs	"prog_uint64_t:t(9,19)=(9,20)=(0,7)",128,0,223,0
+  93               		.stabn	162,0,0,0
+  94               		.stabn	162,0,0,0
+  95               		.stabs	"main:F(0,1)",36,0,5,main
+  96               	.global	main
+  97               		.type	main, @function
+  98               	main:
+  99               		.stabd	46,0,0
+   0:reactivate.c  **** #include "base.h"
+   1:reactivate.c  **** #include <avr/delay.h>
+   2:reactivate.c  **** 
+   3:reactivate.c  **** int main()
+   4:reactivate.c  **** {
+ 100               		.stabn	68,0,5,.LM0-.LFBB1
+ 101               	.LM0:
+ 102               	.LFBB1:
+ 103               	/* prologue: function */
+ 104               	/* frame size = 0 */
+   5:reactivate.c  **** DDRD = 0xFF;
+ 105               		.stabn	68,0,6,.LM1-.LFBB1
+ 106               	.LM1:
+ 107 0000 8FEF      		ldi r24,lo8(-1)
+ 108 0002 81BB      		out 49-32,r24
+GAS LISTING /tmp/ccQKZDuw.s 			page 3
+
+
+ 109               	.L2:
+   6:reactivate.c  **** while (1)
+   7:reactivate.c  **** {
+   8:reactivate.c  **** PORTD = ~PIND;
+ 110               		.stabn	68,0,9,.LM2-.LFBB1
+ 111               	.LM2:
+ 112 0004 80B3      		in r24,48-32
+ 113 0006 8095      		com r24
+ 114 0008 82BB      		out 50-32,r24
+ 115 000a 00C0      		rjmp .L2
+ 116               		.size	main, .-main
+ 117               	.Lscope1:
+ 118               		.stabs	"",36,0,0,.Lscope1-.LFBB1
+ 119               		.stabd	78,0,0
+ 120               		.stabs	"",100,0,0,.Letext0
+ 121               	.Letext0:
+GAS LISTING /tmp/ccQKZDuw.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 reactivate.c
+     /tmp/ccQKZDuw.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccQKZDuw.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccQKZDuw.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccQKZDuw.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccQKZDuw.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccQKZDuw.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccQKZDuw.s:98     .text:00000000 main
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss

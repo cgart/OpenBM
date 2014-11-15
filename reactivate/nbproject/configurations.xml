@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="62">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/include/UartLib.h</itemPath>
+      <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/include/base.h</itemPath>
+      <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/include/i2cmaster.h</itemPath>
+      <itemPath>include/ibus.h</itemPath>
+      <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/include/uart.h</itemPath>
+      <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/include/uart0.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/ibus.cpp</itemPath>
+      <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/main.cpp</itemPath>
+      <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/twimaster.c</itemPath>
+      <itemPath>/media/sda6/home/tevs/src/psyBMW_trunk/avr/BordMonitor/uart0.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="1">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>AVR|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <incDir>
+            <pElem>./include</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>./include</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <linkerLibItems>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="Release" type="1">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>AVR|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+          <commandlineTool>avr-gcc</commandlineTool>
+          <incDir>
+            <pElem>./include</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+          <incDir>
+            <pElem>./include</pElem>
+          </incDir>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <linkerTool>
+          <linkerLibItems>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+    </conf>
+  </confs>
+</configurationDescriptor>
