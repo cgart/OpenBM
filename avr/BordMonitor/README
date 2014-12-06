@@ -1,0 +1,35 @@
+This is the firmware component of the OpenBM avr board.
+
+1. Required libraries
+----------------
+
+You would need to have avr build environment installed. On Ubuntu 14.04 you
+need to install following:
+
+sudo apt-get install avr-libc gcc-avr avrdude
+
+
+2. Compilation
+---------------
+
+To compile the project just execute the build.sh script with the according
+customer settings as specified in Customers.ini. This file contains all
+information about the used hardware and encodes default settings enbaled in
+the firmware. An example customer "user" is already defined, reflecting my
+own settings. Hence to build the project with settings "user" execute:
+
+./clean.sh
+./build.sh user
+
+this results in bmwMonitor.out file which need to be flashed on-to OpenBM.
+
+3. Installation
+------------------
+To install an avr programmer must be connected. Avrdude must installed.
+Change Makefile.custom to reflect programmer you use, i.e. change
+AVRDUDE_PROGRAMMERID line. In order to install execute:
+
+./install.sh user
+
+The firmware can also be installed with any other avr flashing tools.
+ 
