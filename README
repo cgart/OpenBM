@@ -1,0 +1,24 @@
+This is a full repository of the whole OpenBM project.
+
+1. Content
+---------------
+host:
+contains the I-Bus gateway and the client. These both do run on a
+host machine, i.e. the car pc. Gateway runs in the background and acts as a
+gateway between any host clients, connected over TCP/IP,  and the hardware
+i-bus, connected over serial connection.
+
+
+avr:
+source code of the OpenBM firmware running on an AVR 8-bit microcontroller
+at a custom made PCB.
+
+Android:
+simple implementation of i-bus connection on android. Messages can be
+received and sent from an android application.
+
+xbmc-plugin:
+required plugin for XBMC to have provide user interface to your BMW over
+XBMC.
+
+
