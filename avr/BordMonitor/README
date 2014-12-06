@@ -32,4 +32,16 @@ AVRDUDE_PROGRAMMERID line. In order to install execute:
 ./install.sh user
 
 The firmware can also be installed with any other avr flashing tools.
- 
+
+
+4. Important & ToDo
+------------------ 
+In order the firmware to run OpenBM hardware must be used. OpenBM has
+several hardware revisions (mainly old boards and new boards) which have
+slightly different behaviour. According information about the used revision
+must be set in Customers.ini
+
+Bootloader is not finished yet and is currentl not working. The idea was
+that the bootloader could be used for simple firmware uploading which could
+be done through any I-Bus interface, i.e. the firmware would be sent over
+I-Bus packages. Unfortunately it is not yet completly finished ;(
