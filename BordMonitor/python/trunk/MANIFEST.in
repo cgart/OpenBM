@@ -1,4 +1,0 @@
-include *.txt setup.py ez_setup.py Makefile
-include src/xtea.py
-
-
