@@ -1,10 +1,5 @@
-This is an Netbeans project. In order to execute Makefile without Netbeans,
-call:
+mkdir build
+cd build
+cmake ../
+make
 
-make CONF=Release 
-
-or 
-
-make CONF=Debug
-
-for the release or debug version.

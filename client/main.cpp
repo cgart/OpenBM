@@ -24,6 +24,10 @@ void onMessage(const IPCClient::IBusMessage& msg)
     unsigned char src = msg.src;
     unsigned char dst = msg.dst;
     const std::vector<unsigned char>& data = msg.data;
+
+    (void)src;
+    (void)dst;
+    (void)data;
 }
 
 /**
@@ -106,7 +110,7 @@ int main(int argc, char** argv)
         try {
             ibusMsg.src = boost::lexical_cast<HexTo<unsigned int> >(strs[0]);
             ibusMsg.dst = boost::lexical_cast<HexTo<unsigned int> >(strs[1]);
-            for (int i=2; i < strs.size(); i++)
+            for (size_t i=2; i < strs.size(); i++)
                 ibusMsg.data.push_back(boost::lexical_cast<HexTo<unsigned int> >(strs[i]));
         } catch(boost::bad_lexical_cast &) {
             std::cerr << "Cannot parse the given message. Please make sure that it has the right format: " << std::endl;

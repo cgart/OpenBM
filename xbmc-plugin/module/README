@@ -1,0 +1,8 @@
+To build the library do:
+
+mkdir build
+cd build
+cmake ../
+make 
+
+Copy the resulting openbm.so into the script.ibus.bmw/resources/lib folder

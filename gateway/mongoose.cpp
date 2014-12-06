@@ -1980,8 +1980,11 @@ static void MD5Final(unsigned char digest[16], MD5_CTX *ctx) {
   }
   byteReverse(ctx->in, 14);
 
-  ((uint32_t *) ctx->in)[14] = ctx->bits[0];
-  ((uint32_t *) ctx->in)[15] = ctx->bits[1];
+  memcpy(ctx->in + 14*sizeof(uint32_t), &ctx->bits[0], sizeof(uint32_t));
+  //((uint32_t *) ctx->in)[14] = ctx->bits[0];
+  
+  memcpy(ctx->in + 15*sizeof(uint32_t), &ctx->bits[1], sizeof(uint32_t));
+  //((uint32_t *) ctx->in)[15] = ctx->bits[1];
 
   MD5Transform(ctx->buf, (uint32_t *) ctx->in);
   byteReverse((unsigned char *) ctx->buf, 4);
@@ -2571,6 +2574,7 @@ static void handle_file_request(struct mg_connection *conn, const char *path,
 static void parse_http_headers(char **buf, struct mg_request_info *ri) {
   int i;
 
+  ri->num_headers = 0;
   for (i = 0; i < (int) ARRAY_SIZE(ri->http_headers); i++) {
     ri->http_headers[i].name = skip_quoted(buf, ":", " ", 0);
     ri->http_headers[i].value = skip(buf, "\r\n");
@@ -3696,6 +3700,7 @@ static void discard_current_request_from_buffer(struct mg_connection *conn) {
   int buffered_len, body_len;
 
   buffered = conn->buf + conn->request_len;
+  (void)buffered;
   buffered_len = conn->data_len - conn->request_len;
   assert(buffered_len >= 0);
 

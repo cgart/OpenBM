@@ -150,7 +150,10 @@ int main(int argc, char** argv)
             //firmwareData.resize(firmwareData.size()-1); // HACK, do not know why so???
 
             // read password
-            unsigned char pwd[4] = {firmwarePassword[0], firmwarePassword[1], firmwarePassword[2], firmwarePassword[3]};
+            unsigned char pwd[4] = {static_cast<unsigned char>(firmwarePassword[0]),
+                                    static_cast<unsigned char>(firmwarePassword[1]),
+                                    static_cast<unsigned char>(firmwarePassword[2]),
+                                    static_cast<unsigned char>(firmwarePassword[3])};
 
             // need to upload
             Application::g_app->uploadFirmware(firmwareData, pwd);
