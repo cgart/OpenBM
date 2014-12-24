@@ -26,6 +26,9 @@ extern "C"
 
 #include "customer.h"
 
+// ---------------------------------------------------
+// Configuration for coding of OpenBM 
+// ---------------------------------------------------
 // Version
 #define VERSION_MAJOR 2
 #define VERSION_MINOR 6
@@ -37,17 +40,16 @@ extern "C"
 #define DEVICE_CODING3 DEVID_13
 #define HW_ID DEVID_1
     
-// Settings (DEVID_11)
-#define USE_BM_LEDS_BIT       (0b00000100)
-#define CARPC_INPUT_SET(a)    {g_deviceSettings.device_Settings1 &= 0b11100111; g_deviceSettings.device_Settings1 &= (a & 0x03);}
-#define SUPPORT_SPECIAL_BIT   (0b00100000)
 
-#define BACKCAM_INPUT()     (g_deviceSettings.device_Settings1 & 0b00000011)
-#define USE_BM_LEDS()       (g_deviceSettings.device_Settings1 & 0b00000100)
-#define CARPC_INPUT()      ((g_deviceSettings.device_Settings1 & 0b00011000) >> 3) // 0=radio, 1=cdchanger, 2=tape, 3=AUX
-#define SUPPORT_SPECIAL()   (g_deviceSettings.device_Settings1 & 0b00100000)   // support for special features, like autom. close/open central lock
-#define USE_PHOTOSENSOR()   (g_deviceSettings.device_Settings1 & 0b01000000)   // use photo sensor per default
-#define DISP_VLED_INV()     (g_deviceSettings.device_Settings1 & 0b10000000)   // the display LED is acting in inverse mode (default: VLED- = GND-> background light ON, inv: VLED- == GND -> background light OFF;)
+// Settings (DEVID_11)
+#define CARPC_INPUT_CD_BIT      (1 << 3)
+#define CARPC_INPUT_TAPE_BIT    (1 << 4)
+#define CARPC_INPUT_AUX_BIT     (CARPC_INPUT_CD_BIT | CARPC_INPUT_TAPE_BIT)
+
+#define USE_BM_LEDS_BIT         (1 << 2)
+#define SUPPORT_SPECIAL_BIT     (1 << 5) // support for special features, like autom. close/open central lock
+#define USE_PHOTOSENSOR_BIT     (1 << 6) // use photo sensor per default
+#define DISP_VLED_INV_BIT       (1 << 7) // the display LED is acting in inverse mode (default: VLED- = GND-> background light ON, inv: VLED- == GND -> background light OFF;)
 
     
 // Settings (DEVID_12)
@@ -57,6 +59,26 @@ extern "C"
 #define EMULATE_BORDMONITOR_BIT (1 << 3)
 #define REW_FF_ONMID_BIT        (1 << 4)
 #define EMULATE_CDCHANGER_BIT   (1 << 5)
+#define HAS_BACKCAMSWITCH_BIT   (1 << 6)
+#define OPENBM_HW_1_REV_BIT     (1 << 7)  // @note - this only applies to first revision, green PCB
+
+
+// Settings (DEVID_13)
+#define OBMS_AUT_CENTRALLOCK_BIT (1 << 0) // lock/unlock centrallock automatically
+#define DISP_BUTTONS_ON_IO_BIT   (1 << 7) // display buttons are mapped to the IO outputs instead of internal
+
+
+
+
+// ---------------------------------------------------
+// supporting macros
+#define CARPC_INPUT()        ((g_deviceSettings.device_Settings1 &  0b00011000) >> 3) // 0=radio, 1=cdchanger, 2=tape, 3=AUX
+#define CARPC_INPUT_SET(a)    {g_deviceSettings.device_Settings1 &= 0b11100111; g_deviceSettings.device_Settings1 &= (a & 0x03);}
+#define BACKCAM_INPUT()     (g_deviceSettings.device_Settings1 & 0b00000011)  // 0,1,2,3 define as display output
+#define USE_BM_LEDS()       (g_deviceSettings.device_Settings1 & USE_BM_LEDS_BIT)
+#define SUPPORT_SPECIAL()   (g_deviceSettings.device_Settings1 & SUPPORT_SPECIAL_BIT)
+#define USE_PHOTOSENSOR()   (g_deviceSettings.device_Settings1 & USE_PHOTOSENSOR_BIT) 
+#define DISP_VLED_INV()     (g_deviceSettings.device_Settings1 & DISP_VLED_INV_BIT)   
 
 #define EMULATE_MID()         (g_deviceSettings.device_Settings2 & EMULATE_BORDMONITOR_BIT)
 #define RADIO_PROFESSIONAL()  (g_deviceSettings.device_Settings2 & RADIO_PROFESSIONAL_BIT)
@@ -64,9 +86,8 @@ extern "C"
 #define EMULATE_BORDMONITOR() (g_deviceSettings.device_Settings2 & EMULATE_BORDMONITOR_BIT)
 #define REW_FF_ONMID()        (g_deviceSettings.device_Settings2 & REW_FF_ONMID_BIT)
 #define EMULATE_CDCHANGER()   (g_deviceSettings.device_Settings2 & EMULATE_CDCHANGER_BIT)
-
-#define HAS_BACKCAM_SWITCH()  ((DEVID_12 & (1 << 6)) == (1 << 6))
-#define OPENBM_HW_1()         ((DEVID_12 & (1 << 7)) == (1 << 7))
+#define HAS_BACKCAM_SWITCH()  ((DEVID_12 & HAS_BACKCAMSWITCH_BIT) == HAS_BACKCAMSWITCH_BIT)
+#define OPENBM_HW_1()         ((DEVID_12 & OPENBM_HW_1_REV_BIT) == OPENBM_HW_1_REV_BIT)
 
         
 // Additional Device Settings (DEVID_13)
